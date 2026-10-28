@@ -14,3 +14,5 @@ RPG por turnos tipo Pokémon sobre microbiología. Diseño en `docs/gdd.txt`; de
 - Arte: píxel art según `docs/estilo.md`. Personaje de mapa en marco de 32×32 (4 direcciones × 3 fotogramas), Microo de combate 64×64, icono 32×32, tiles 16×16, pantalla 240×160. Los sprites de personajes del GDD están en `assets/reference/` y son la referencia de estilo.
 - Sprites: rejillas de texto con índices de paleta o generadores por código; un script los convierte a PNG. Revisar siempre con una captura antes de darlos por buenos.
 - Al terminar cada lote: actualizar `PROGRESO.md`, hacer commit y push.
+- Juego: `src/game/` (motor 2D propio). Construir con `bun run tools/build_game.ts` → `dist/index.html` (un único archivo con todo incrustado). Probar con `NODE_PATH=$(npm root -g) node tools/playtest.cjs <carpeta>`.
+- Arte: `python3 tools/art/species_art.py` (Microos), `tiles.py`, `font.py`, `char_atlas.py`; generan los atlas de `assets/atlas/`.

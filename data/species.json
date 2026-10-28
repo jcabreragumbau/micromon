@@ -25,20 +25,32 @@
     "move": "senal-quimica"
    },
    {
-    "level": 6,
+    "level": 5,
     "move": "parasitismo-tisular"
    },
    {
-    "level": 20,
+    "level": 7,
+    "move": "enriquecimiento-medio"
+   },
+   {
+    "level": 13,
     "move": "latigo-ciliar"
    },
    {
-    "level": 30,
+    "level": 21,
+    "move": "aplastamiento-colonia"
+   },
+   {
+    "level": 31,
     "move": "lluvia-de-cristales"
    },
    {
-    "level": 35,
-    "move": "enriquecimiento-medio"
+    "level": 42,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "fotosintesis-oxigenica"
    }
   ],
   "mo": [
@@ -71,12 +83,20 @@
     "move": "senal-quimica"
    },
    {
-    "level": 4,
+    "level": 7,
     "move": "sintesis-de-atp"
    },
    {
-    "level": 8,
+    "level": 9,
+    "move": "induccion-latencia"
+   },
+   {
+    "level": 15,
     "move": "parasitismo-tisular"
+   },
+   {
+    "level": 19,
+    "move": "latigo-ciliar"
    },
    {
     "level": 20,
@@ -87,16 +107,24 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 22,
-    "move": "latigo-ciliar"
+    "level": 28,
+    "move": "difusion-facilitada"
    },
    {
-    "level": 32,
+    "level": 36,
+    "move": "regulacion-alosterica"
+   },
+   {
+    "level": 38,
     "move": "lluvia-de-cristales"
    },
    {
-    "level": 37,
-    "move": "enriquecimiento-medio"
+    "level": 44,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
+    "move": "fotosintesis-oxigenica"
    }
   ],
   "mo": [
@@ -130,35 +158,51 @@
     "move": "senal-quimica"
    },
    {
-    "level": 10,
-    "move": "parasitismo-tisular"
-   },
-   {
-    "level": 13,
+    "level": 9,
     "move": "adhesion-matriz"
    },
    {
-    "level": 16,
-    "move": "vesicula-de-membrana-externa-omv"
+    "level": 11,
+    "move": "exopolisacarido-eps"
    },
    {
-    "level": 24,
+    "level": 13,
+    "move": "parasitismo-tisular"
+   },
+   {
+    "level": 17,
     "move": "latigo-ciliar"
    },
    {
-    "level": 25,
-    "move": "impacto-capsular"
+    "level": 23,
+    "move": "vesicula-de-membrana-externa-omv"
    },
    {
-    "level": 34,
+    "level": 25,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 30,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 35,
     "move": "lluvia-de-cristales"
    },
    {
-    "level": 39,
-    "move": "enriquecimiento-medio"
+    "level": 38,
+    "move": "encapsulacion"
    },
    {
     "level": 46,
+    "move": "impacto-capsular"
+   },
+   {
+    "level": 52,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 59,
     "move": "fotosintesis-oxigenica"
    }
   ],
@@ -193,20 +237,40 @@
     "move": "senal-quimica"
    },
    {
-    "level": 7,
-    "move": "secrecion-acida"
+    "level": 5,
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 12,
+    "level": 7,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 28,
+    "level": 9,
+    "move": "fermentacion-lactica"
+   },
+   {
+    "level": 17,
+    "move": "secrecion-acida"
+   },
+   {
+    "level": 21,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 31,
+    "move": "choque-termofilo"
+   },
+   {
+    "level": 36,
     "move": "corriente-ciliar"
    },
    {
-    "level": 34,
-    "move": "choque-termofilo"
+    "level": 48,
+    "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 55,
+    "move": "fase-exponencial"
    }
   ],
   "mo": []
@@ -237,36 +301,56 @@
     "move": "senal-quimica"
    },
    {
-    "level": 9,
-    "move": "secrecion-acida"
+    "level": 7,
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 14,
+    "level": 9,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 30,
+    "level": 11,
+    "move": "secrecion-acida"
+   },
+   {
+    "level": 15,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 21,
+    "move": "neurotoxina-botulinica"
+   },
+   {
+    "level": 23,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 28,
     "move": "enquistamiento-subterraneo"
    },
    {
     "level": 30,
+    "move": "choque-termofilo"
+   },
+   {
+    "level": 33,
     "move": "corriente-ciliar"
    },
    {
     "level": 36,
-    "move": "choque-termofilo"
-   },
-   {
-    "level": 37,
     "move": "turbidez-media"
    },
    {
     "level": 44,
+    "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 50,
     "move": "bomba-de-esporas"
    },
    {
-    "level": 47,
-    "move": "chorro-metano-ardiente"
+    "level": 57,
+    "move": "ruptura-de-pared"
    }
   ],
   "mo": [
@@ -300,39 +384,55 @@
     "move": "senal-quimica"
    },
    {
-    "level": 11,
-    "move": "secrecion-acida"
+    "level": 9,
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 16,
+    "level": 11,
+    "move": "reparacion-por-escision"
+   },
+   {
+    "level": 13,
+    "move": "fermentacion-lactica"
+   },
+   {
+    "level": 17,
+    "move": "ultracentrifuga"
+   },
+   {
+    "level": 23,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 26,
-    "move": "triada-enzimatica-catalasa-ox-ureasa"
+    "level": 25,
+    "move": "onda-choque-osmotico"
    },
    {
     "level": 30,
-    "move": "estres-acido"
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 32,
-    "move": "corriente-ciliar"
+    "level": 35,
+    "move": "choque-termofilo"
    },
    {
     "level": 38,
-    "move": "choque-termofilo"
+    "move": "criopreservacion"
    },
    {
     "level": 41,
     "move": "choque-osmotico-masivo"
    },
    {
-    "level": 49,
+    "level": 46,
+    "move": "corriente-ciliar"
+   },
+   {
+    "level": 52,
     "move": "chorro-metano-ardiente"
    },
    {
-    "level": 51,
+    "level": 59,
     "move": "fase-exponencial"
    }
   ],
@@ -367,24 +467,44 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 8,
+    "level": 5,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 14,
+    "level": 7,
     "move": "variacion-antigenica"
    },
    {
-    "level": 15,
-    "move": "mitosis-forzada"
+    "level": 9,
+    "move": "vacuola-contractil"
    },
    {
-    "level": 20,
+    "level": 13,
+    "move": "fagocitosis"
+   },
+   {
+    "level": 21,
     "move": "giro-sacacorchos"
    },
    {
     "level": 26,
     "move": "pseudopodo-pesado"
+   },
+   {
+    "level": 31,
+    "move": "corriente-ciliar"
+   },
+   {
+    "level": 42,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 48,
+    "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 55,
+    "move": "chorro-citoplasmatico"
    }
   ],
   "mo": [
@@ -417,19 +537,23 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 10,
+    "level": 7,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 16,
+    "level": 9,
     "move": "variacion-antigenica"
    },
    {
-    "level": 17,
-    "move": "mitosis-forzada"
+    "level": 11,
+    "move": "vacuola-contractil"
    },
    {
-    "level": 22,
+    "level": 15,
+    "move": "fagocitosis"
+   },
+   {
+    "level": 23,
     "move": "giro-sacacorchos"
    },
    {
@@ -437,8 +561,20 @@
     "move": "pseudopodo-pesado"
    },
    {
-    "level": 46,
+    "level": 33,
+    "move": "corriente-ciliar"
+   },
+   {
+    "level": 44,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 50,
     "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 57,
+    "move": "chorro-citoplasmatico"
    }
   ],
   "mo": [
@@ -471,43 +607,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 12,
-    "move": "adhesina-mucosa"
-   },
-   {
-    "level": 13,
+    "level": 9,
     "move": "adhesion-matriz"
    },
    {
-    "level": 18,
+    "level": 11,
     "move": "variacion-antigenica"
    },
    {
-    "level": 19,
-    "move": "mitosis-forzada"
+    "level": 13,
+    "move": "vacuola-contractil"
    },
    {
-    "level": 24,
-    "move": "giro-sacacorchos"
+    "level": 17,
+    "move": "fagocitosis"
    },
    {
-    "level": 25,
-    "move": "impacto-capsular"
-   },
-   {
-    "level": 28,
+    "level": 23,
     "move": "vesicula-de-membrana-externa-omv"
    },
    {
+    "level": 25,
+    "move": "resistencia-persister"
+   },
+   {
     "level": 30,
+    "move": "giro-sacacorchos"
+   },
+   {
+    "level": 35,
     "move": "pseudopodo-pesado"
    },
    {
-    "level": 48,
-    "move": "fagocitosis-nocturna"
+    "level": 38,
+    "move": "pigmento-piocianina"
    },
    {
-    "level": 50,
+    "level": 46,
+    "move": "impacto-capsular"
+   },
+   {
+    "level": 52,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 59,
     "move": "chorro-citoplasmatico"
    }
   ],
@@ -544,19 +688,47 @@
    },
    {
     "level": 5,
-    "move": "disparo-esporangio"
+    "move": "red-miceliar"
    },
    {
-    "level": 16,
+    "level": 7,
     "move": "micelio-drenante"
    },
    {
-    "level": 33,
-    "move": "espuma-de-fermentador"
+    "level": 9,
+    "move": "hifa-envolvente"
    },
    {
-    "level": 37,
+    "level": 17,
+    "move": "nutricion-saprofita"
+   },
+   {
+    "level": 19,
+    "move": "triptofano-fungico"
+   },
+   {
+    "level": 21,
+    "move": "disparo-esporangio"
+   },
+   {
+    "level": 31,
+    "move": "doble-hifa"
+   },
+   {
+    "level": 34,
     "move": "espora-fungica"
+   },
+   {
+    "level": 36,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 48,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 55,
+    "move": "tormenta-de-esporas"
    }
   ],
   "mo": [
@@ -591,19 +763,47 @@
    },
    {
     "level": 7,
-    "move": "disparo-esporangio"
+    "move": "red-miceliar"
    },
    {
-    "level": 18,
+    "level": 9,
     "move": "micelio-drenante"
    },
    {
-    "level": 35,
-    "move": "espuma-de-fermentador"
+    "level": 11,
+    "move": "hifa-envolvente"
    },
    {
-    "level": 39,
+    "level": 19,
+    "move": "nutricion-saprofita"
+   },
+   {
+    "level": 21,
+    "move": "triptofano-fungico"
+   },
+   {
+    "level": 23,
+    "move": "disparo-esporangio"
+   },
+   {
+    "level": 33,
+    "move": "doble-hifa"
+   },
+   {
+    "level": 36,
     "move": "espora-fungica"
+   },
+   {
+    "level": 38,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 50,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 57,
+    "move": "tormenta-de-esporas"
    }
   ],
   "mo": [
@@ -638,43 +838,55 @@
    },
    {
     "level": 9,
-    "move": "disparo-esporangio"
+    "move": "red-miceliar"
    },
    {
-    "level": 15,
-    "move": "corriente-laminar"
-   },
-   {
-    "level": 19,
+    "level": 11,
     "move": "centrifugacion"
    },
    {
-    "level": 20,
+    "level": 13,
+    "move": "nutricion-saprofita"
+   },
+   {
+    "level": 15,
+    "move": "disparo-esporangio"
+   },
+   {
+    "level": 17,
+    "move": "doble-hifa"
+   },
+   {
+    "level": 23,
     "move": "micelio-drenante"
    },
    {
-    "level": 26,
+    "level": 25,
+    "move": "corriente-laminar"
+   },
+   {
+    "level": 30,
+    "move": "frustula-de-silice"
+   },
+   {
+    "level": 35,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 38,
     "move": "triptofano-fungico"
    },
    {
-    "level": 37,
-    "move": "aerosol-cortante"
+    "level": 46,
+    "move": "vertigo-browniano"
    },
    {
-    "level": 37,
-    "move": "espuma-de-fermentador"
+    "level": 52,
+    "move": "marea-roja-saxitoxina"
    },
    {
-    "level": 41,
-    "move": "espora-fungica"
-   },
-   {
-    "level": 54,
+    "level": 59,
     "move": "tormenta-de-esporas"
-   },
-   {
-    "level": 57,
-    "move": "floracion-algal-bloom"
    }
   ],
   "mo": [
@@ -710,28 +922,52 @@
     "move": "resonancia-magnetica"
    },
    {
+    "level": 5,
+    "move": "red-miceliar"
+   },
+   {
     "level": 7,
-    "move": "disparo-esporangio"
+    "move": "triptofano-fungico"
    },
    {
     "level": 9,
-    "move": "doble-inyeccion"
+    "move": "nutricion-saprofita"
    },
    {
-    "level": 20,
+    "level": 13,
+    "move": "disparo-esporangio"
+   },
+   {
+    "level": 19,
     "move": "micelio-drenante"
    },
    {
-    "level": 22,
+    "level": 21,
+    "move": "corte-lisozima"
+   },
+   {
+    "level": 26,
+    "move": "furia-fagica"
+   },
+   {
+    "level": 31,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 34,
     "move": "espora-fungica"
    },
    {
-    "level": 32,
-    "move": "beta-lactamasa-penicilina"
+    "level": 42,
+    "move": "estres-oxidativo"
    },
    {
-    "level": 33,
-    "move": "furia-fagica"
+    "level": 48,
+    "move": "inyeccion-letal-fallida"
+   },
+   {
+    "level": 55,
+    "move": "lisis-osmotica"
    }
   ],
   "mo": [
@@ -766,28 +1002,52 @@
     "move": "resonancia-magnetica"
    },
    {
+    "level": 7,
+    "move": "red-miceliar"
+   },
+   {
     "level": 9,
-    "move": "disparo-esporangio"
+    "move": "triptofano-fungico"
    },
    {
     "level": 11,
-    "move": "doble-inyeccion"
+    "move": "nutricion-saprofita"
    },
    {
-    "level": 22,
+    "level": 15,
+    "move": "disparo-esporangio"
+   },
+   {
+    "level": 21,
     "move": "micelio-drenante"
    },
    {
-    "level": 24,
+    "level": 23,
+    "move": "corte-lisozima"
+   },
+   {
+    "level": 28,
+    "move": "furia-fagica"
+   },
+   {
+    "level": 33,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 36,
     "move": "espora-fungica"
    },
    {
-    "level": 34,
-    "move": "beta-lactamasa-penicilina"
+    "level": 44,
+    "move": "estres-oxidativo"
    },
    {
-    "level": 35,
-    "move": "furia-fagica"
+    "level": 50,
+    "move": "inyeccion-letal-fallida"
+   },
+   {
+    "level": 57,
+    "move": "lisis-osmotica"
    }
   ],
   "mo": [
@@ -822,8 +1082,12 @@
     "move": "resonancia-magnetica"
    },
    {
+    "level": 9,
+    "move": "red-miceliar"
+   },
+   {
     "level": 11,
-    "move": "disparo-esporangio"
+    "move": "triptofano-fungico"
    },
    {
     "level": 12,
@@ -831,35 +1095,51 @@
    },
    {
     "level": 13,
-    "move": "doble-inyeccion"
+    "move": "nutricion-saprofita"
    },
    {
-    "level": 24,
+    "level": 17,
+    "move": "disparo-esporangio"
+   },
+   {
+    "level": 23,
     "move": "micelio-drenante"
    },
    {
-    "level": 26,
-    "move": "espora-fungica"
+    "level": 25,
+    "move": "corte-lisozima"
+   },
+   {
+    "level": 29,
+    "move": "beta-lactamasa-penicilina"
+   },
+   {
+    "level": 30,
+    "move": "furia-fagica"
    },
    {
     "level": 31,
     "move": "corte-con-enzima-de-restriccion"
    },
    {
-    "level": 36,
-    "move": "beta-lactamasa-penicilina"
+    "level": 35,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 37,
-    "move": "furia-fagica"
+    "level": 38,
+    "move": "espora-fungica"
    },
    {
     "level": 46,
-    "move": "tormenta-de-esporas"
+    "move": "estres-oxidativo"
    },
    {
-    "level": 58,
+    "level": 52,
     "move": "inyeccion-letal-fallida"
+   },
+   {
+    "level": 59,
+    "move": "lisis-osmotica"
    }
   ],
   "mo": [
@@ -894,28 +1174,44 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 3,
-    "move": "fimbria-afilada"
+    "level": 5,
+    "move": "fision-binaria-doble"
    },
    {
-    "level": 9,
+    "level": 7,
     "move": "infeccion-oportunista"
    },
    {
-    "level": 17,
-    "move": "espuma-de-fermentador"
+    "level": 9,
+    "move": "ataque-multimerico"
    },
    {
-    "level": 28,
+    "level": 19,
+    "move": "mutacion-espontanea"
+   },
+   {
+    "level": 21,
+    "move": "contacto-celular"
+   },
+   {
+    "level": 31,
+    "move": "fimbria-afilada"
+   },
+   {
+    "level": 34,
+    "move": "gemacion-nutritiva"
+   },
+   {
+    "level": 36,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 48,
     "move": "choque-criogenico"
    },
    {
-    "level": 29,
-    "move": "lavado-con-solucion-salina"
-   },
-   {
-    "level": 35,
-    "move": "vertigo-browniano"
+    "level": 55,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -953,44 +1249,56 @@
     "move": "fermentacion-lactica"
    },
    {
-    "level": 5,
-    "move": "fimbria-afilada"
+    "level": 7,
+    "move": "fision-binaria-doble"
+   },
+   {
+    "level": 9,
+    "move": "infeccion-oportunista"
    },
    {
     "level": 11,
-    "move": "infeccion-oportunista"
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
     "level": 11,
     "move": "gas-de-fermentacion-co2"
    },
    {
-    "level": 19,
+    "level": 15,
+    "move": "secrecion-acida"
+   },
+   {
+    "level": 21,
+    "move": "mutacion-espontanea"
+   },
+   {
+    "level": 23,
+    "move": "fimbria-afilada"
+   },
+   {
+    "level": 28,
     "move": "espuma-de-fermentador"
    },
    {
-    "level": 29,
-    "move": "choque-termofilo"
+    "level": 33,
+    "move": "vertigo-browniano"
    },
    {
-    "level": 30,
+    "level": 36,
+    "move": "gemacion-nutritiva"
+   },
+   {
+    "level": 44,
     "move": "choque-criogenico"
    },
    {
-    "level": 31,
-    "move": "lavado-con-solucion-salina"
-   },
-   {
-    "level": 33,
-    "move": "nube-de-indol-y-escatol"
-   },
-   {
-    "level": 34,
+    "level": 50,
     "move": "crecimiento-descontrolado"
    },
    {
-    "level": 37,
-    "move": "vertigo-browniano"
+    "level": 57,
+    "move": "fase-exponencial"
    }
   ],
   "mo": [
@@ -1024,48 +1332,60 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 7,
-    "move": "fimbria-afilada"
+    "level": 9,
+    "move": "fision-binaria-doble"
    },
    {
     "level": 11,
-    "move": "sintesis-de-atp"
+    "move": "senal-quimica"
    },
    {
     "level": 13,
-    "move": "infeccion-oportunista"
+    "move": "gas-de-fermentacion-co2"
+   },
+   {
+    "level": 17,
+    "move": "sintesis-de-atp"
    },
    {
     "level": 17,
     "move": "mutacion-espontanea"
    },
    {
-    "level": 18,
-    "move": "transferencia-horizontal"
+    "level": 23,
+    "move": "infeccion-oportunista"
    },
    {
-    "level": 21,
-    "move": "espuma-de-fermentador"
+    "level": 25,
+    "move": "contacto-celular"
    },
    {
     "level": 27,
     "move": "gemacion-nutritiva"
    },
    {
-    "level": 32,
+    "level": 30,
+    "move": "difusion-facilitada"
+   },
+   {
+    "level": 35,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 38,
+    "move": "induccion-latencia"
+   },
+   {
+    "level": 46,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 52,
     "move": "choque-criogenico"
    },
    {
-    "level": 33,
-    "move": "lavado-con-solucion-salina"
-   },
-   {
-    "level": 36,
+    "level": 59,
     "move": "crecimiento-descontrolado"
-   },
-   {
-    "level": 39,
-    "move": "vertigo-browniano"
    }
   ],
   "mo": [
@@ -1100,28 +1420,48 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 9,
+    "level": 5,
+    "move": "bombardeo-de-cocos"
+   },
+   {
+    "level": 7,
     "move": "engrosamiento-mureina"
    },
    {
-    "level": 11,
+    "level": 9,
     "move": "rafaga-cocos"
+   },
+   {
+    "level": 13,
+    "move": "aplastamiento-colonia"
    },
    {
     "level": 19,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 22,
-    "move": "precipitado-mineral"
+    "level": 21,
+    "move": "espuma-de-fermentador"
    },
    {
     "level": 26,
+    "move": "choque-inclusion"
+   },
+   {
+    "level": 31,
+    "move": "lluvia-de-cristales"
+   },
+   {
+    "level": 42,
     "move": "presion-osmotica"
    },
    {
-    "level": 27,
-    "move": "aguja-pilus"
+    "level": 48,
+    "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 55,
+    "move": "autolisis-masiva"
    }
   ],
   "mo": [
@@ -1154,43 +1494,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 5,
-    "move": "adhesion-matriz"
+    "level": 7,
+    "move": "bombardeo-de-cocos"
    },
    {
-    "level": 11,
+    "level": 9,
     "move": "engrosamiento-mureina"
    },
    {
-    "level": 13,
+    "level": 11,
     "move": "rafaga-cocos"
    },
    {
+    "level": 15,
+    "move": "pinza-pili"
+   },
+   {
     "level": 21,
-    "move": "pared-de-peptidoglicano"
+    "move": "pigmento-piocianina"
    },
    {
-    "level": 22,
-    "move": "impacto-capsular"
-   },
-   {
-    "level": 24,
-    "move": "precipitado-mineral"
+    "level": 23,
+    "move": "aplastamiento-colonia"
    },
    {
     "level": 28,
-    "move": "presion-osmotica"
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 29,
-    "move": "ultracentrifuga"
+    "level": 33,
+    "move": "lluvia-de-cristales"
    },
    {
-    "level": 29,
-    "move": "encapsulacion"
+    "level": 36,
+    "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 46,
+    "level": 44,
+    "move": "impacto-capsular"
+   },
+   {
+    "level": 50,
+    "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 57,
     "move": "autolisis-masiva"
    }
   ],
@@ -1225,28 +1573,44 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 2,
-    "move": "corriente-laminar"
-   },
-   {
     "level": 5,
     "move": "vacuola-contractil"
    },
    {
-    "level": 17,
+    "level": 5,
+    "move": "valva-de-diatomea"
+   },
+   {
+    "level": 7,
     "move": "centrifugacion"
    },
    {
-    "level": 18,
+    "level": 9,
+    "move": "corriente-laminar"
+   },
+   {
+    "level": 17,
     "move": "frustula-de-silice"
    },
    {
     "level": 21,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 31,
     "move": "aerosol-cortante"
    },
    {
-    "level": 24,
+    "level": 36,
     "move": "presion-osmotica"
+   },
+   {
+    "level": 48,
+    "move": "marea-roja-saxitoxina"
+   },
+   {
+    "level": 55,
+    "move": "floracion-algal-bloom"
    }
   ],
   "mo": [
@@ -1281,43 +1645,51 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 4,
-    "move": "corriente-laminar"
-   },
-   {
-    "level": 11,
+    "level": 7,
     "move": "adhesion-matriz"
    },
    {
-    "level": 19,
-    "move": "centrifugacion"
+    "level": 9,
+    "move": "exopolisacarido-eps"
    },
    {
-    "level": 20,
+    "level": 11,
+    "move": "corriente-laminar"
+   },
+   {
+    "level": 15,
     "move": "frustula-de-silice"
    },
    {
+    "level": 21,
+    "move": "centrifugacion"
+   },
+   {
     "level": 23,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 28,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 33,
     "move": "aerosol-cortante"
    },
    {
-    "level": 25,
+    "level": 36,
+    "move": "vesicula-de-membrana-externa-omv"
+   },
+   {
+    "level": 44,
     "move": "impacto-capsular"
    },
    {
-    "level": 26,
+    "level": 50,
     "move": "presion-osmotica"
    },
    {
-    "level": 30,
-    "move": "pigmento-piocianina"
-   },
-   {
-    "level": 34,
-    "move": "marea-roja-saxitoxina"
-   },
-   {
-    "level": 54,
+    "level": 57,
     "move": "floracion-algal-bloom"
    }
   ],
@@ -1355,24 +1727,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 9,
+    "level": 5,
     "move": "aguijon-endotoxina"
    },
    {
-    "level": 16,
-    "move": "eflujo-multidrogas"
+    "level": 7,
+    "move": "choque-septico"
    },
    {
-    "level": 27,
+    "level": 9,
+    "move": "fimbrias-multiples"
+   },
+   {
+    "level": 13,
+    "move": "respuesta-sos"
+   },
+   {
+    "level": 19,
     "move": "exotoxina-letal"
    },
    {
+    "level": 21,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 26,
+    "move": "eflujo-multidrogas"
+   },
+   {
     "level": 31,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 34,
+    "move": "membrana-externa-lps"
+   },
+   {
+    "level": 42,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 48,
     "move": "corriente-ciliar"
    },
    {
-    "level": 41,
-    "move": "lipido-a-endotoxina"
+    "level": 55,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -1408,39 +1808,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 8,
+    "level": 7,
     "move": "adhesion-matriz"
    },
    {
-    "level": 11,
-    "move": "aguijon-endotoxina"
+    "level": 9,
+    "move": "pigmento-piocianina"
    },
    {
-    "level": 18,
+    "level": 11,
+    "move": "fimbrias-multiples"
+   },
+   {
+    "level": 15,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 21,
+    "move": "encapsulacion"
+   },
+   {
+    "level": 23,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 28,
     "move": "eflujo-multidrogas"
    },
    {
-    "level": 27,
-    "move": "impacto-capsular"
-   },
-   {
-    "level": 29,
-    "move": "exotoxina-letal"
-   },
-   {
     "level": 33,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 36,
+    "move": "limo-polimerico"
+   },
+   {
+    "level": 44,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 50,
     "move": "corriente-ciliar"
    },
    {
-    "level": 41,
-    "move": "vesicula-de-membrana-externa-omv"
-   },
-   {
-    "level": 43,
-    "move": "lipido-a-endotoxina"
-   },
-   {
-    "level": 56,
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -1477,28 +1889,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 1,
+    "level": 5,
     "move": "potencial-de-membrana"
    },
    {
-    "level": 10,
+    "level": 7,
     "move": "sonicacion"
    },
    {
-    "level": 12,
+    "level": 9,
     "move": "golpe-flagelar"
    },
    {
-    "level": 28,
-    "move": "bloqueo-de-canales-ionicos"
+    "level": 13,
+    "move": "giro-sacacorchos"
    },
    {
-    "level": 29,
+    "level": 19,
+    "move": "quimiotaxis-positiva"
+   },
+   {
+    "level": 21,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 26,
     "move": "choque-inclusion"
    },
    {
-    "level": 33,
+    "level": 31,
     "move": "descarga-ionofora"
+   },
+   {
+    "level": 34,
+    "move": "bloqueo-de-canales-ionicos"
+   },
+   {
+    "level": 42,
+    "move": "taladro-espiroqueta"
+   },
+   {
+    "level": 48,
+    "move": "nanocables-geobacter"
+   },
+   {
+    "level": 55,
+    "move": "pulso-electroporacion"
    }
   ],
   "mo": [
@@ -1533,48 +1969,48 @@
     "move": "senal-quimica"
    },
    {
-    "level": 1,
-    "move": "vacuola-contractil"
+    "level": 7,
+    "move": "adhesina-mucosa"
    },
    {
-    "level": 1,
-    "move": "potencial-de-membrana"
-   },
-   {
-    "level": 12,
+    "level": 9,
     "move": "sonicacion"
    },
    {
-    "level": 14,
-    "move": "golpe-flagelar"
+    "level": 11,
+    "move": "vacuola-contractil"
    },
    {
-    "level": 30,
-    "move": "bloqueo-de-canales-ionicos"
+    "level": 15,
+    "move": "giro-sacacorchos"
    },
    {
-    "level": 31,
+    "level": 21,
+    "move": "quimiotaxis-positiva"
+   },
+   {
+    "level": 23,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 28,
     "move": "choque-inclusion"
    },
    {
-    "level": 34,
-    "move": "corriente-ciliar"
-   },
-   {
-    "level": 35,
+    "level": 33,
     "move": "descarga-ionofora"
    },
    {
-    "level": 35,
-    "move": "variacion-antigenica"
+    "level": 36,
+    "move": "bloqueo-de-canales-ionicos"
    },
    {
-    "level": 41,
-    "move": "nanocables-geobacter"
+    "level": 44,
+    "move": "corriente-ciliar"
    },
    {
     "level": 50,
-    "move": "pulso-electroporacion"
+    "move": "fagocitosis-nocturna"
    },
    {
     "level": 57,
@@ -1613,28 +2049,48 @@
     "move": "senal-quimica"
    },
    {
-    "level": 4,
-    "move": "rafaga-cocos"
+    "level": 5,
+    "move": "bombardeo-de-cocos"
    },
    {
-    "level": 12,
-    "move": "precipitado-mineral"
-   },
-   {
-    "level": 23,
-    "move": "pinza-pili"
-   },
-   {
-    "level": 27,
-    "move": "presion-osmotica"
-   },
-   {
-    "level": 36,
+    "level": 7,
     "move": "engrosamiento-mureina"
    },
    {
-    "level": 38,
+    "level": 9,
+    "move": "rafaga-cocos"
+   },
+   {
+    "level": 13,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 19,
     "move": "pared-de-peptidoglicano"
+   },
+   {
+    "level": 21,
+    "move": "aplastamiento-colonia"
+   },
+   {
+    "level": 26,
+    "move": "choque-inclusion"
+   },
+   {
+    "level": 31,
+    "move": "lluvia-de-cristales"
+   },
+   {
+    "level": 42,
+    "move": "presion-osmotica"
+   },
+   {
+    "level": 48,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "autolisis-masiva"
    }
   ],
   "mo": [
@@ -1664,46 +2120,54 @@
    },
    {
     "level": 1,
-    "move": "adhesion-matriz"
-   },
-   {
-    "level": 1,
     "move": "senal-quimica"
    },
    {
-    "level": 6,
+    "level": 7,
+    "move": "adhesion-matriz"
+   },
+   {
+    "level": 9,
+    "move": "pigmento-piocianina"
+   },
+   {
+    "level": 11,
     "move": "rafaga-cocos"
    },
    {
-    "level": 14,
-    "move": "precipitado-mineral"
+    "level": 15,
+    "move": "pinza-pili"
    },
    {
-    "level": 22,
-    "move": "exopolisacarido-eps"
+    "level": 21,
+    "move": "encapsulacion"
    },
    {
-    "level": 25,
-    "move": "impacto-capsular"
-   },
-   {
-    "level": 25,
+    "level": 23,
     "move": "onda-choque-osmotico"
    },
    {
-    "level": 29,
-    "move": "presion-osmotica"
+    "level": 28,
+    "move": "aplastamiento-colonia"
    },
    {
-    "level": 38,
-    "move": "engrosamiento-mureina"
+    "level": 33,
+    "move": "lluvia-de-cristales"
    },
    {
-    "level": 40,
-    "move": "pared-de-peptidoglicano"
+    "level": 36,
+    "move": "limo-polimerico"
+   },
+   {
+    "level": 44,
+    "move": "hemolisis-beta"
    },
    {
     "level": 50,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
     "move": "autolisis-masiva"
    }
   ],
@@ -1738,24 +2202,44 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 9,
+    "level": 5,
+    "move": "doble-endospora"
+   },
+   {
+    "level": 7,
     "move": "turbidez-media"
+   },
+   {
+    "level": 9,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 17,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 19,
+    "move": "neurotoxina-botulinica"
    },
    {
     "level": 21,
     "move": "choque-inclusion"
    },
    {
-    "level": 23,
-    "move": "cristal-paraesporal-bt"
-   },
-   {
-    "level": 26,
-    "move": "neurotoxina-botulinica"
-   },
-   {
-    "level": 35,
+    "level": 31,
     "move": "enquistamiento-subterraneo"
+   },
+   {
+    "level": 36,
+    "move": "choque-osmotico-masivo"
+   },
+   {
+    "level": 48,
+    "move": "bomba-de-esporas"
+   },
+   {
+    "level": 55,
+    "move": "ruptura-de-pared"
    }
   ],
   "mo": [
@@ -1789,28 +2273,44 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 11,
+    "level": 7,
+    "move": "doble-endospora"
+   },
+   {
+    "level": 9,
     "move": "turbidez-media"
+   },
+   {
+    "level": 11,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 19,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 21,
+    "move": "neurotoxina-botulinica"
    },
    {
     "level": 23,
     "move": "choque-inclusion"
    },
    {
-    "level": 25,
-    "move": "cristal-paraesporal-bt"
+    "level": 33,
+    "move": "enquistamiento-subterraneo"
    },
    {
-    "level": 28,
-    "move": "neurotoxina-botulinica"
-   },
-   {
-    "level": 35,
+    "level": 38,
     "move": "choque-osmotico-masivo"
    },
    {
-    "level": 37,
-    "move": "enquistamiento-subterraneo"
+    "level": 50,
+    "move": "bomba-de-esporas"
+   },
+   {
+    "level": 57,
+    "move": "ruptura-de-pared"
    }
   ],
   "mo": [
@@ -1844,39 +2344,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 13,
-    "move": "turbidez-media"
-   },
-   {
-    "level": 15,
+    "level": 9,
     "move": "sintesis-de-atp"
    },
    {
+    "level": 11,
+    "move": "plasmido-espejo"
+   },
+   {
+    "level": 13,
+    "move": "doble-endospora"
+   },
+   {
+    "level": 17,
+    "move": "difusion-facilitada"
+   },
+   {
     "level": 23,
-    "move": "transferencia-horizontal"
+    "move": "turbidez-media"
    },
    {
     "level": 25,
-    "move": "choque-inclusion"
-   },
-   {
-    "level": 27,
-    "move": "cristal-paraesporal-bt"
+    "move": "vertigo-browniano"
    },
    {
     "level": 30,
-    "move": "neurotoxina-botulinica"
+    "move": "choque-inclusion"
    },
    {
-    "level": 37,
-    "move": "choque-osmotico-masivo"
-   },
-   {
-    "level": 39,
+    "level": 35,
     "move": "enquistamiento-subterraneo"
    },
    {
-    "level": 54,
+    "level": 38,
+    "move": "senal-quimica"
+   },
+   {
+    "level": 46,
+    "move": "choque-osmotico-masivo"
+   },
+   {
+    "level": 52,
+    "move": "bomba-de-esporas"
+   },
+   {
+    "level": 59,
     "move": "ruptura-de-pared"
    }
   ],
@@ -1916,28 +2428,48 @@
     "move": "golpe-peptidoglicano"
    },
    {
-    "level": 6,
+    "level": 5,
+    "move": "doble-endospora"
+   },
+   {
+    "level": 7,
     "move": "neurotoxina-botulinica"
+   },
+   {
+    "level": 9,
+    "move": "frustula-de-silice"
    },
    {
     "level": 10,
     "move": "rafaga-cocos"
    },
    {
-    "level": 19,
-    "move": "frustula-de-silice"
-   },
-   {
-    "level": 23,
+    "level": 17,
     "move": "cristal-paraesporal-bt"
    },
    {
-    "level": 26,
+    "level": 19,
+    "move": "turbidez-media"
+   },
+   {
+    "level": 21,
     "move": "enquistamiento-subterraneo"
    },
    {
     "level": 31,
-    "move": "turbidez-media"
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 36,
+    "move": "bomba-de-esporas"
+   },
+   {
+    "level": 48,
+    "move": "choque-osmotico-masivo"
+   },
+   {
+    "level": 55,
+    "move": "ruptura-de-pared"
    }
   ],
   "mo": [
@@ -1971,40 +2503,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 8,
-    "move": "neurotoxina-botulinica"
+    "level": 7,
+    "move": "bombardeo-de-cocos"
    },
    {
     "level": 9,
-    "move": "engrosamiento-mureina"
+    "move": "neurotoxina-botulinica"
    },
    {
-    "level": 12,
-    "move": "rafaga-cocos"
+    "level": 11,
+    "move": "precipitado-mineral"
    },
    {
-    "level": 21,
+    "level": 15,
     "move": "frustula-de-silice"
    },
    {
-    "level": 24,
-    "move": "lluvia-de-cristales"
+    "level": 21,
+    "move": "engrosamiento-mureina"
    },
    {
-    "level": 25,
+    "level": 23,
     "move": "cristal-paraesporal-bt"
    },
    {
     "level": 28,
-    "move": "enquistamiento-subterraneo"
+    "move": "lluvia-de-cristales"
    },
    {
     "level": 33,
+    "move": "hemolisis-beta"
+   },
+   {
+    "level": 36,
     "move": "turbidez-media"
    },
    {
-    "level": 42,
-    "move": "bomba-de-esporas"
+    "level": 44,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 50,
+    "move": "choque-osmotico-masivo"
+   },
+   {
+    "level": 57,
+    "move": "ruptura-de-pared"
    }
   ],
   "mo": [
@@ -2038,48 +2582,56 @@
     "move": "senal-quimica"
    },
    {
-    "level": 10,
-    "move": "neurotoxina-botulinica"
+    "level": 9,
+    "move": "bombardeo-de-cocos"
    },
    {
     "level": 11,
-    "move": "engrosamiento-mureina"
+    "move": "neurotoxina-botulinica"
    },
    {
-    "level": 14,
-    "move": "rafaga-cocos"
+    "level": 13,
+    "move": "precipitado-mineral"
    },
    {
-    "level": 23,
+    "level": 17,
     "move": "frustula-de-silice"
    },
    {
-    "level": 26,
-    "move": "lluvia-de-cristales"
+    "level": 23,
+    "move": "engrosamiento-mureina"
    },
    {
-    "level": 27,
+    "level": 25,
     "move": "cristal-paraesporal-bt"
    },
    {
     "level": 30,
-    "move": "enquistamiento-subterraneo"
+    "move": "lluvia-de-cristales"
    },
    {
     "level": 35,
-    "move": "turbidez-media"
+    "move": "hemolisis-beta"
    },
    {
     "level": 38,
-    "move": "choque-osmotico-masivo"
+    "move": "turbidez-media"
    },
    {
-    "level": 44,
+    "level": 46,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 48,
     "move": "bomba-de-esporas"
    },
    {
-    "level": 56,
+    "level": 52,
     "move": "autolisis-masiva"
+   },
+   {
+    "level": 52,
+    "move": "choque-osmotico-masivo"
    },
    {
     "level": 59,
@@ -2121,24 +2673,32 @@
     "move": "secrecion-acida"
    },
    {
-    "level": 9,
-    "move": "resonancia-magnetica"
-   },
-   {
-    "level": 11,
+    "level": 5,
     "move": "sintesis-de-atp"
    },
    {
-    "level": 18,
+    "level": 7,
+    "move": "resonancia-magnetica"
+   },
+   {
+    "level": 13,
     "move": "difusion-facilitada"
    },
    {
-    "level": 29,
+    "level": 19,
+    "move": "transferencia-horizontal"
+   },
+   {
+    "level": 26,
     "move": "ultracentrifuga"
    },
    {
-    "level": 33,
-    "move": "plasmido-espejo"
+    "level": 42,
+    "move": "impacto-capsular"
+   },
+   {
+    "level": 55,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -2171,24 +2731,32 @@
     "move": "senal-quimica"
    },
    {
-    "level": 11,
-    "move": "resonancia-magnetica"
-   },
-   {
-    "level": 13,
+    "level": 7,
     "move": "sintesis-de-atp"
    },
    {
-    "level": 20,
+    "level": 9,
+    "move": "resonancia-magnetica"
+   },
+   {
+    "level": 15,
     "move": "difusion-facilitada"
    },
    {
-    "level": 31,
+    "level": 21,
+    "move": "transferencia-horizontal"
+   },
+   {
+    "level": 28,
     "move": "ultracentrifuga"
    },
    {
-    "level": 35,
-    "move": "plasmido-espejo"
+    "level": 44,
+    "move": "impacto-capsular"
+   },
+   {
+    "level": 57,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -2221,24 +2789,40 @@
     "move": "senal-quimica"
    },
    {
-    "level": 11,
-    "move": "criopreservacion"
+    "level": 5,
+    "move": "frustula-de-silice"
    },
    {
-    "level": 16,
+    "level": 7,
+    "move": "reparacion-por-escision"
+   },
+   {
+    "level": 13,
     "move": "onda-choque-osmotico"
    },
    {
-    "level": 23,
-    "move": "deteccion-quorum"
+    "level": 19,
+    "move": "estres-acido"
    },
    {
-    "level": 27,
+    "level": 21,
+    "move": "ultracentrifuga"
+   },
+   {
+    "level": 31,
     "move": "choque-inclusion"
    },
    {
-    "level": 30,
+    "level": 34,
+    "move": "hipermutacion-dirigida"
+   },
+   {
+    "level": 42,
     "move": "triada-enzimatica-catalasa-ox-ureasa"
+   },
+   {
+    "level": 55,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -2272,51 +2856,51 @@
     "move": "senal-quimica"
    },
    {
-    "level": 9,
+    "level": 7,
     "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 12,
-    "move": "hipermutacion-dirigida"
-   },
-   {
-    "level": 13,
-    "move": "criopreservacion"
-   },
-   {
-    "level": 15,
+    "level": 9,
     "move": "reparacion-por-escision"
    },
    {
-    "level": 16,
-    "move": "nube-de-indol-y-escatol"
+    "level": 11,
+    "move": "secrecion-acida"
    },
    {
-    "level": 18,
+    "level": 15,
     "move": "onda-choque-osmotico"
    },
    {
-    "level": 25,
-    "move": "deteccion-quorum"
+    "level": 21,
+    "move": "estres-acido"
    },
    {
-    "level": 27,
-    "move": "choque-termofilo"
+    "level": 23,
+    "move": "ultracentrifuga"
    },
    {
-    "level": 29,
+    "level": 28,
     "move": "choque-inclusion"
    },
    {
-    "level": 32,
-    "move": "triada-enzimatica-catalasa-ox-ureasa"
+    "level": 33,
+    "move": "choque-termofilo"
    },
    {
-    "level": 40,
+    "level": 36,
+    "move": "hipermutacion-dirigida"
+   },
+   {
+    "level": 44,
     "move": "chorro-metano-ardiente"
    },
    {
-    "level": 54,
+    "level": 50,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
     "move": "fase-exponencial"
    }
   ],
@@ -2351,36 +2935,44 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 4,
+    "level": 5,
     "move": "fision-binaria-doble"
    },
    {
-    "level": 4,
-    "move": "sintesis-de-atp"
-   },
-   {
-    "level": 6,
+    "level": 7,
     "move": "transferencia-horizontal"
    },
    {
-    "level": 15,
-    "move": "plasmido-espejo"
-   },
-   {
-    "level": 17,
-    "move": "difusion-facilitada"
+    "level": 9,
+    "move": "sintesis-de-atp"
    },
    {
     "level": 19,
-    "move": "corte-con-enzima-de-restriccion"
+    "move": "mutacion-espontanea"
    },
    {
-    "level": 30,
-    "move": "vertigo-browniano"
+    "level": 21,
+    "move": "gas-de-fermentacion-co2"
    },
    {
     "level": 31,
-    "move": "infeccion-oportunista"
+    "move": "difusion-facilitada"
+   },
+   {
+    "level": 34,
+    "move": "senal-quimica"
+   },
+   {
+    "level": 36,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 48,
+    "move": "corte-con-enzima-de-restriccion"
+   },
+   {
+    "level": 55,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -2415,36 +3007,44 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 6,
+    "level": 7,
     "move": "fision-binaria-doble"
    },
    {
-    "level": 6,
-    "move": "sintesis-de-atp"
-   },
-   {
-    "level": 8,
+    "level": 9,
     "move": "transferencia-horizontal"
    },
    {
-    "level": 17,
-    "move": "plasmido-espejo"
-   },
-   {
-    "level": 19,
-    "move": "difusion-facilitada"
+    "level": 11,
+    "move": "sintesis-de-atp"
    },
    {
     "level": 21,
-    "move": "corte-con-enzima-de-restriccion"
+    "move": "mutacion-espontanea"
    },
    {
-    "level": 32,
-    "move": "vertigo-browniano"
+    "level": 23,
+    "move": "gas-de-fermentacion-co2"
    },
    {
     "level": 33,
-    "move": "infeccion-oportunista"
+    "move": "difusion-facilitada"
+   },
+   {
+    "level": 36,
+    "move": "senal-quimica"
+   },
+   {
+    "level": 38,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 50,
+    "move": "corte-con-enzima-de-restriccion"
+   },
+   {
+    "level": 57,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -2479,24 +3079,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 8,
+    "level": 5,
+    "move": "aguijon-endotoxina"
+   },
+   {
+    "level": 7,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 9,
     "move": "fimbrias-multiples"
    },
    {
-    "level": 12,
-    "move": "secrecion-mucopurulenta"
+    "level": 13,
+    "move": "respuesta-sos"
    },
    {
-    "level": 22,
-    "move": "fagocitosis"
-   },
-   {
-    "level": 28,
+    "level": 19,
     "move": "choque-septico"
    },
    {
-    "level": 36,
-    "move": "lipido-a-endotoxina"
+    "level": 21,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 26,
+    "move": "eflujo-multidrogas"
+   },
+   {
+    "level": 31,
+    "move": "fagocitosis"
+   },
+   {
+    "level": 34,
+    "move": "membrana-externa-lps"
+   },
+   {
+    "level": 42,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 48,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -2532,39 +3160,51 @@
     "move": "senal-quimica"
    },
    {
-    "level": 5,
-    "move": "doble-inyeccion"
+    "level": 7,
+    "move": "aguijon-endotoxina"
    },
    {
-    "level": 10,
-    "move": "fimbrias-multiples"
+    "level": 9,
+    "move": "exotoxina-letal"
    },
    {
-    "level": 14,
-    "move": "secrecion-mucopurulenta"
+    "level": 11,
+    "move": "respuesta-sos"
    },
    {
-    "level": 24,
-    "move": "fagocitosis"
+    "level": 15,
+    "move": "corte-lisozima"
    },
    {
-    "level": 25,
-    "move": "corte-con-enzima-de-restriccion"
-   },
-   {
-    "level": 30,
+    "level": 21,
     "move": "choque-septico"
    },
    {
-    "level": 38,
-    "move": "lipido-a-endotoxina"
+    "level": 23,
+    "move": "desestabilizacion-membrana"
    },
    {
-    "level": 51,
+    "level": 28,
+    "move": "fagocitosis"
+   },
+   {
+    "level": 33,
+    "move": "corte-con-enzima-de-restriccion"
+   },
+   {
+    "level": 36,
+    "move": "membrana-externa-lps"
+   },
+   {
+    "level": 44,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 50,
     "move": "inyeccion-letal-fallida"
    },
    {
-    "level": 55,
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -2601,11 +3241,7 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 2,
-    "move": "sintesis-de-atp"
-   },
-   {
-    "level": 3,
+    "level": 5,
     "move": "parasitismo-tisular"
    },
    {
@@ -2613,16 +3249,36 @@
     "move": "enriquecimiento-medio"
    },
    {
-    "level": 23,
-    "move": "pinza-pili"
+    "level": 13,
+    "move": "sintesis-de-atp"
    },
    {
-    "level": 23,
+    "level": 17,
     "move": "latigo-ciliar"
    },
    {
-    "level": 31,
-    "move": "regulacion-alosterica"
+    "level": 19,
+    "move": "transferencia-horizontal"
+   },
+   {
+    "level": 26,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 34,
+    "move": "induccion-latencia"
+   },
+   {
+    "level": 36,
+    "move": "difusion-facilitada"
+   },
+   {
+    "level": 42,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "fotosintesis-oxigenica"
    }
   ],
   "mo": [
@@ -2656,11 +3312,7 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 4,
-    "move": "sintesis-de-atp"
-   },
-   {
-    "level": 5,
+    "level": 7,
     "move": "parasitismo-tisular"
    },
    {
@@ -2668,16 +3320,36 @@
     "move": "enriquecimiento-medio"
    },
    {
-    "level": 25,
-    "move": "pinza-pili"
+    "level": 15,
+    "move": "sintesis-de-atp"
    },
    {
-    "level": 25,
+    "level": 19,
     "move": "latigo-ciliar"
    },
    {
-    "level": 33,
-    "move": "regulacion-alosterica"
+    "level": 21,
+    "move": "transferencia-horizontal"
+   },
+   {
+    "level": 28,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 36,
+    "move": "induccion-latencia"
+   },
+   {
+    "level": 38,
+    "move": "difusion-facilitada"
+   },
+   {
+    "level": 44,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
+    "move": "fotosintesis-oxigenica"
    }
   ],
   "mo": [
@@ -2711,7 +3383,7 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 7,
+    "level": 9,
     "move": "parasitismo-tisular"
    },
    {
@@ -2719,23 +3391,43 @@
     "move": "enriquecimiento-medio"
    },
    {
-    "level": 11,
+    "level": 13,
     "move": "propulsion-de-actina"
    },
    {
-    "level": 27,
+    "level": 17,
+    "move": "interferencia-de-arn-rnai"
+   },
+   {
+    "level": 23,
+    "move": "represion-lac"
+   },
+   {
+    "level": 25,
     "move": "pinza-pili"
    },
    {
-    "level": 27,
-    "move": "latigo-ciliar"
+    "level": 30,
+    "move": "pulso-prion"
    },
    {
-    "level": 42,
-    "move": "deformacion-citoesqueleto"
+    "level": 35,
+    "move": "onda-quimiotactica"
    },
    {
-    "level": 49,
+    "level": 38,
+    "move": "cambio-de-serotipo"
+   },
+   {
+    "level": 46,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 52,
+    "move": "salto-transposon"
+   },
+   {
+    "level": 59,
     "move": "fotosintesis-oxigenica"
    }
   ],
@@ -2770,20 +3462,48 @@
     "move": "senal-quimica"
    },
    {
-    "level": 7,
-    "move": "disparo-esporangio"
+    "level": 5,
+    "move": "red-miceliar"
    },
    {
-    "level": 17,
+    "level": 7,
     "move": "micelio-drenante"
    },
    {
-    "level": 25,
+    "level": 9,
+    "move": "hifa-envolvente"
+   },
+   {
+    "level": 17,
+    "move": "nutricion-saprofita"
+   },
+   {
+    "level": 19,
+    "move": "espora-fungica"
+   },
+   {
+    "level": 21,
+    "move": "disparo-esporangio"
+   },
+   {
+    "level": 31,
+    "move": "doble-hifa"
+   },
+   {
+    "level": 34,
+    "move": "triptofano-fungico"
+   },
+   {
+    "level": 36,
     "move": "sombra-prion"
    },
    {
-    "level": 30,
-    "move": "triptofano-fungico"
+    "level": 48,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 55,
+    "move": "tormenta-de-esporas"
    }
   ],
   "mo": [
@@ -2817,47 +3537,55 @@
     "move": "senal-quimica"
    },
    {
-    "level": 6,
-    "move": "doble-inyeccion"
+    "level": 7,
+    "move": "red-miceliar"
    },
    {
     "level": 9,
-    "move": "disparo-esporangio"
-   },
-   {
-    "level": 14,
-    "move": "corte-lisozima"
-   },
-   {
-    "level": 17,
-    "move": "espora-fungica"
-   },
-   {
-    "level": 19,
     "move": "micelio-drenante"
    },
    {
-    "level": 26,
-    "move": "estres-oxidativo"
+    "level": 11,
+    "move": "nutricion-saprofita"
+   },
+   {
+    "level": 15,
+    "move": "doble-hifa"
+   },
+   {
+    "level": 21,
+    "move": "espora-fungica"
+   },
+   {
+    "level": 23,
+    "move": "corte-lisozima"
    },
    {
     "level": 26,
     "move": "beta-lactamasa-penicilina"
    },
    {
-    "level": 27,
+    "level": 28,
     "move": "sombra-prion"
    },
    {
-    "level": 32,
+    "level": 33,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 36,
     "move": "triptofano-fungico"
    },
    {
-    "level": 50,
-    "move": "tormenta-de-esporas"
+    "level": 44,
+    "move": "estres-oxidativo"
    },
    {
-    "level": 56,
+    "level": 50,
+    "move": "inyeccion-letal-fallida"
+   },
+   {
+    "level": 57,
     "move": "lisis-osmotica"
    }
   ],
@@ -2893,20 +3621,48 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 4,
+    "level": 5,
     "move": "red-miceliar"
    },
    {
-    "level": 14,
+    "level": 7,
     "move": "triptofano-fungico"
    },
    {
+    "level": 9,
+    "move": "hifa-envolvente"
+   },
+   {
+    "level": 17,
+    "move": "nutricion-saprofita"
+   },
+   {
+    "level": 19,
+    "move": "espora-fungica"
+   },
+   {
     "level": 21,
+    "move": "disparo-esporangio"
+   },
+   {
+    "level": 31,
+    "move": "doble-hifa"
+   },
+   {
+    "level": 34,
+    "move": "micelio-drenante"
+   },
+   {
+    "level": 36,
     "move": "corte-con-enzima-de-restriccion"
    },
    {
-    "level": 24,
-    "move": "espora-fungica"
+    "level": 48,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "tormenta-de-esporas"
    }
   ],
   "mo": [
@@ -2940,24 +3696,24 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 6,
-    "move": "respuesta-sos"
-   },
-   {
-    "level": 6,
-    "move": "red-miceliar"
-   },
-   {
     "level": 7,
     "move": "nutricion-saprofita"
    },
    {
-    "level": 10,
+    "level": 7,
+    "move": "red-miceliar"
+   },
+   {
+    "level": 9,
+    "move": "triptofano-fungico"
+   },
+   {
+    "level": 11,
     "move": "aguijon-endotoxina"
    },
    {
-    "level": 16,
-    "move": "triptofano-fungico"
+    "level": 15,
+    "move": "respuesta-sos"
    },
    {
     "level": 19,
@@ -2969,18 +3725,30 @@
    },
    {
     "level": 23,
-    "move": "corte-con-enzima-de-restriccion"
+    "move": "disparo-esporangio"
    },
    {
-    "level": 26,
+    "level": 28,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 33,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 36,
     "move": "espora-fungica"
    },
    {
-    "level": 47,
-    "move": "tormenta-de-esporas"
+    "level": 44,
+    "move": "corte-con-enzima-de-restriccion"
    },
    {
-    "level": 53,
+    "level": 50,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -3019,27 +3787,51 @@
    },
    {
     "level": 5,
-    "move": "fermentacion-lactica"
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 11,
+    "level": 7,
     "move": "turbidez-media"
    },
    {
-    "level": 11,
+    "level": 9,
+    "move": "fermentacion-lactica"
+   },
+   {
+    "level": 13,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 19,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 24,
-    "move": "hemolisis-beta"
-   },
-   {
-    "level": 25,
-    "move": "enquistamiento-subterraneo"
+    "level": 21,
+    "move": "espuma-de-fermentador"
    },
    {
     "level": 26,
-    "move": "choque-termofilo"
+    "move": "enquistamiento-subterraneo"
+   },
+   {
+    "level": 31,
+    "move": "hemolisis-beta"
+   },
+   {
+    "level": 34,
+    "move": "neurotoxina-botulinica"
+   },
+   {
+    "level": 42,
+    "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 48,
+    "move": "bomba-de-esporas"
+   },
+   {
+    "level": 55,
+    "move": "ruptura-de-pared"
    }
   ],
   "mo": [
@@ -3074,39 +3866,51 @@
    },
    {
     "level": 7,
-    "move": "fermentacion-lactica"
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 13,
+    "level": 9,
     "move": "turbidez-media"
    },
    {
-    "level": 13,
+    "level": 11,
+    "move": "fermentacion-lactica"
+   },
+   {
+    "level": 15,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 21,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 26,
-    "move": "hemolisis-beta"
-   },
-   {
-    "level": 27,
-    "move": "enquistamiento-subterraneo"
+    "level": 23,
+    "move": "espuma-de-fermentador"
    },
    {
     "level": 28,
-    "move": "choque-termofilo"
+    "move": "enquistamiento-subterraneo"
    },
    {
-    "level": 45,
-    "move": "fase-exponencial"
+    "level": 33,
+    "move": "hemolisis-beta"
    },
    {
-    "level": 46,
-    "move": "ruptura-de-pared"
+    "level": 36,
+    "move": "neurotoxina-botulinica"
    },
    {
-    "level": 47,
+    "level": 44,
     "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 50,
+    "move": "bomba-de-esporas"
+   },
+   {
+    "level": 57,
+    "move": "ruptura-de-pared"
    }
   ],
   "mo": [
@@ -3140,28 +3944,44 @@
     "move": "deteccion-quorum"
    },
    {
+    "level": 5,
+    "move": "fision-binaria-doble"
+   },
+   {
     "level": 7,
     "move": "lavado-con-solucion-salina"
    },
    {
-    "level": 10,
-    "move": "golpe-peptidoglicano"
+    "level": 9,
+    "move": "ataque-multimerico"
    },
    {
-    "level": 13,
-    "move": "espuma-de-fermentador"
+    "level": 17,
+    "move": "gas-de-fermentacion-co2"
    },
    {
     "level": 19,
+    "move": "gemacion-nutritiva"
+   },
+   {
+    "level": 31,
+    "move": "golpe-peptidoglicano"
+   },
+   {
+    "level": 34,
+    "move": "infeccion-oportunista"
+   },
+   {
+    "level": 36,
     "move": "difusion-facilitada"
    },
    {
-    "level": 26,
+    "level": 48,
     "move": "vertigo-browniano"
    },
    {
-    "level": 33,
-    "move": "mutacion-espontanea"
+    "level": 55,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -3195,20 +4015,16 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 8,
-    "move": "adhesion-matriz"
+    "level": 7,
+    "move": "fision-binaria-doble"
    },
    {
     "level": 9,
     "move": "lavado-con-solucion-salina"
    },
    {
-    "level": 12,
-    "move": "golpe-peptidoglicano"
-   },
-   {
-    "level": 15,
-    "move": "espuma-de-fermentador"
+    "level": 11,
+    "move": "adhesion-matriz"
    },
    {
     "level": 16,
@@ -3219,31 +4035,39 @@
     "move": "gemacion-nutritiva"
    },
    {
+    "level": 19,
+    "move": "gas-de-fermentacion-co2"
+   },
+   {
     "level": 21,
-    "move": "difusion-facilitada"
+    "move": "limo-polimerico"
+   },
+   {
+    "level": 23,
+    "move": "golpe-peptidoglicano"
    },
    {
     "level": 28,
     "move": "presion-osmotica"
    },
    {
-    "level": 28,
+    "level": 33,
+    "move": "difusion-facilitada"
+   },
+   {
+    "level": 36,
+    "move": "encapsulacion"
+   },
+   {
+    "level": 38,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 50,
     "move": "vertigo-browniano"
    },
    {
-    "level": 29,
-    "move": "exopolisacarido-eps"
-   },
-   {
-    "level": 33,
-    "move": "impacto-capsular"
-   },
-   {
-    "level": 35,
-    "move": "mutacion-espontanea"
-   },
-   {
-    "level": 46,
+    "level": 57,
     "move": "crecimiento-descontrolado"
    }
   ],
@@ -3278,32 +4102,48 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 4,
+    "level": 5,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 6,
+    "level": 7,
     "move": "variacion-antigenica"
    },
    {
-    "level": 8,
-    "move": "parasitismo-tisular"
+    "level": 9,
+    "move": "vacuola-contractil"
    },
    {
-    "level": 11,
-    "move": "mitosis-forzada"
+    "level": 13,
+    "move": "latigo-ciliar"
    },
    {
-    "level": 30,
+    "level": 19,
+    "move": "enriquecimiento-medio"
+   },
+   {
+    "level": 21,
+    "move": "fagocitosis"
+   },
+   {
+    "level": 26,
     "move": "onda-choque-osmotico"
    },
    {
     "level": 31,
-    "move": "enriquecimiento-medio"
+    "move": "vertigo-browniano"
    },
    {
-    "level": 34,
+    "level": 42,
     "move": "corriente-ciliar"
+   },
+   {
+    "level": 48,
+    "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 55,
+    "move": "fotosintesis-oxigenica"
    }
   ],
   "mo": [
@@ -3337,43 +4177,47 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 6,
+    "level": 7,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 8,
+    "level": 9,
     "move": "variacion-antigenica"
    },
    {
-    "level": 10,
-    "move": "parasitismo-tisular"
+    "level": 11,
+    "move": "vacuola-contractil"
    },
    {
-    "level": 13,
-    "move": "mitosis-forzada"
+    "level": 15,
+    "move": "latigo-ciliar"
    },
    {
-    "level": 32,
+    "level": 21,
+    "move": "enriquecimiento-medio"
+   },
+   {
+    "level": 23,
+    "move": "fagocitosis"
+   },
+   {
+    "level": 28,
     "move": "onda-choque-osmotico"
    },
    {
     "level": 33,
-    "move": "enriquecimiento-medio"
+    "move": "vertigo-browniano"
    },
    {
-    "level": 36,
+    "level": 44,
     "move": "corriente-ciliar"
    },
    {
-    "level": 37,
+    "level": 50,
     "move": "fagocitosis-nocturna"
    },
    {
-    "level": 46,
-    "move": "chorro-citoplasmatico"
-   },
-   {
-    "level": 47,
+    "level": 57,
     "move": "fotosintesis-oxigenica"
    }
   ],
@@ -3408,20 +4252,40 @@
     "move": "senal-quimica"
    },
    {
+    "level": 5,
+    "move": "sulfuro-de-hidrogeno-h2s"
+   },
+   {
+    "level": 7,
+    "move": "nube-de-indol-y-escatol"
+   },
+   {
     "level": 9,
     "move": "fermentacion-lactica"
    },
    {
-    "level": 11,
-    "move": "nube-de-indol-y-escatol"
+    "level": 17,
+    "move": "secrecion-acida"
    },
    {
-    "level": 22,
+    "level": 21,
     "move": "fagocitosis"
    },
    {
-    "level": 35,
+    "level": 31,
     "move": "choque-termofilo"
+   },
+   {
+    "level": 36,
+    "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 48,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "fase-exponencial"
    }
   ],
   "mo": []
@@ -3456,44 +4320,44 @@
     "move": "secrecion-acida"
    },
    {
-    "level": 8,
-    "move": "doble-inyeccion"
+    "level": 7,
+    "move": "sulfuro-de-hidrogeno-h2s"
+   },
+   {
+    "level": 9,
+    "move": "nube-de-indol-y-escatol"
    },
    {
     "level": 11,
     "move": "fermentacion-lactica"
    },
    {
-    "level": 13,
-    "move": "nube-de-indol-y-escatol"
+    "level": 15,
+    "move": "corte-lisozima"
    },
    {
-    "level": 24,
+    "level": 23,
     "move": "fagocitosis"
    },
    {
-    "level": 27,
+    "level": 28,
+    "move": "corte-con-enzima-de-restriccion"
+   },
+   {
+    "level": 33,
     "move": "estres-oxidativo"
    },
    {
-    "level": 32,
-    "move": "beta-lactamasa-penicilina"
+    "level": 44,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 37,
-    "move": "choque-termofilo"
-   },
-   {
-    "level": 39,
-    "move": "chorro-metano-ardiente"
-   },
-   {
-    "level": 46,
-    "move": "inyeccion-letal-fallida"
-   },
-   {
-    "level": 52,
+    "level": 50,
     "move": "fase-exponencial"
+   },
+   {
+    "level": 57,
+    "move": "lisis-osmotica"
    }
   ],
   "mo": [
@@ -3527,40 +4391,56 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 2,
-    "move": "fimbrias-multiples"
+    "level": 5,
+    "move": "aguijon-endotoxina"
    },
    {
     "level": 7,
     "move": "membrana-externa-lps"
    },
    {
-    "level": 10,
+    "level": 9,
+    "move": "respuesta-sos"
+   },
+   {
+    "level": 13,
     "move": "vacuola-contractil"
    },
    {
-    "level": 18,
-    "move": "eflujo-multidrogas"
+    "level": 19,
+    "move": "choque-septico"
    },
    {
-    "level": 23,
-    "move": "exotoxina-letal"
+    "level": 21,
+    "move": "interferencia-de-arn-rnai"
    },
    {
-    "level": 25,
-    "move": "corriente-ciliar"
+    "level": 26,
+    "move": "mitosis-forzada"
    },
    {
-    "level": 29,
-    "move": "variacion-antigenica"
+    "level": 31,
+    "move": "secrecion-mucopurulenta"
    },
    {
     "level": 32,
     "move": "rayo-nitrogeno-liquido"
    },
    {
-    "level": 32,
-    "move": "interferencia-de-arn-rnai"
+    "level": 34,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 42,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 48,
+    "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 55,
+    "move": "inyector-tipo-iii"
    },
    {
     "level": 55,
@@ -3600,43 +4480,63 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 4,
-    "move": "fimbrias-multiples"
+    "level": 7,
+    "move": "aguijon-endotoxina"
    },
    {
     "level": 9,
     "move": "membrana-externa-lps"
    },
    {
+    "level": 11,
+    "move": "respuesta-sos"
+   },
+   {
     "level": 15,
     "move": "onda-choque-osmotico"
    },
    {
-    "level": 20,
-    "move": "eflujo-multidrogas"
+    "level": 15,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 21,
+    "move": "hipermutacion-dirigida"
+   },
+   {
+    "level": 23,
+    "move": "interferencia-de-arn-rnai"
    },
    {
     "level": 25,
     "move": "exotoxina-letal"
    },
    {
-    "level": 25,
-    "move": "triada-enzimatica-catalasa-ox-ureasa"
+    "level": 28,
+    "move": "ultracentrifuga"
    },
    {
-    "level": 34,
-    "move": "interferencia-de-arn-rnai"
+    "level": 33,
+    "move": "eflujo-multidrogas"
    },
    {
-    "level": 37,
-    "move": "criopreservacion"
+    "level": 36,
+    "move": "reparacion-por-escision"
    },
    {
     "level": 39,
     "move": "flagelo-polar"
    },
    {
-    "level": 48,
+    "level": 44,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 50,
+    "move": "triada-enzimatica-catalasa-ox-ureasa"
+   },
+   {
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -3673,24 +4573,44 @@
     "move": "senal-quimica"
    },
    {
-    "level": 6,
+    "level": 5,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 10,
-    "move": "mitosis-forzada"
-   },
-   {
-    "level": 24,
-    "move": "golpe-flagelar"
-   },
-   {
-    "level": 25,
+    "level": 7,
     "move": "variacion-antigenica"
    },
    {
-    "level": 25,
+    "level": 9,
+    "move": "vacuola-contractil"
+   },
+   {
+    "level": 13,
+    "move": "mitosis-forzada"
+   },
+   {
+    "level": 21,
+    "move": "golpe-flagelar"
+   },
+   {
+    "level": 26,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 31,
     "move": "corriente-ciliar"
+   },
+   {
+    "level": 42,
+    "move": "pseudopodo-pesado"
+   },
+   {
+    "level": 48,
+    "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 55,
+    "move": "chorro-citoplasmatico"
    }
   ],
   "mo": [
@@ -3723,28 +4643,44 @@
     "move": "senal-quimica"
    },
    {
-    "level": 8,
+    "level": 7,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 12,
-    "move": "mitosis-forzada"
-   },
-   {
-    "level": 26,
-    "move": "golpe-flagelar"
-   },
-   {
-    "level": 27,
+    "level": 9,
     "move": "variacion-antigenica"
    },
    {
-    "level": 27,
+    "level": 11,
+    "move": "vacuola-contractil"
+   },
+   {
+    "level": 15,
+    "move": "mitosis-forzada"
+   },
+   {
+    "level": 23,
+    "move": "golpe-flagelar"
+   },
+   {
+    "level": 28,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 33,
     "move": "corriente-ciliar"
    },
    {
-    "level": 38,
+    "level": 44,
+    "move": "pseudopodo-pesado"
+   },
+   {
+    "level": 50,
     "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 57,
+    "move": "chorro-citoplasmatico"
    }
   ],
   "mo": [
@@ -3777,39 +4713,51 @@
     "move": "senal-quimica"
    },
    {
-    "level": 7,
-    "move": "propulsion-de-actina"
-   },
-   {
-    "level": 10,
+    "level": 9,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 14,
-    "move": "mitosis-forzada"
+    "level": 11,
+    "move": "cambio-de-serotipo"
    },
    {
-    "level": 28,
+    "level": 13,
+    "move": "vacuola-contractil"
+   },
+   {
+    "level": 17,
+    "move": "pulso-prion"
+   },
+   {
+    "level": 23,
+    "move": "deformacion-citoesqueleto"
+   },
+   {
+    "level": 25,
+    "move": "fagocitosis"
+   },
+   {
+    "level": 30,
     "move": "golpe-flagelar"
    },
    {
-    "level": 29,
+    "level": 35,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 38,
     "move": "variacion-antigenica"
    },
    {
-    "level": 29,
-    "move": "corriente-ciliar"
-   },
-   {
-    "level": 40,
-    "move": "fagocitosis-nocturna"
-   },
-   {
-    "level": 45,
-    "move": "silenciamiento-epigenetico"
+    "level": 46,
+    "move": "pseudopodo-pesado"
    },
    {
     "level": 52,
+    "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 59,
     "move": "chorro-citoplasmatico"
    }
   ],
@@ -3844,24 +4792,48 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 7,
+    "level": 5,
     "move": "propulsion-de-actina"
    },
    {
-    "level": 16,
-    "move": "pulso-prion"
-   },
-   {
-    "level": 22,
-    "move": "pinza-pili"
-   },
-   {
-    "level": 22,
+    "level": 7,
     "move": "forma-l-pleomorfismo"
    },
    {
-    "level": 29,
+    "level": 9,
+    "move": "interferencia-de-arn-rnai"
+   },
+   {
+    "level": 17,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 19,
+    "move": "deformacion-citoesqueleto"
+   },
+   {
+    "level": 21,
+    "move": "pulso-prion"
+   },
+   {
+    "level": 31,
+    "move": "onda-quimiotactica"
+   },
+   {
+    "level": 34,
     "move": "represion-lac"
+   },
+   {
+    "level": 36,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 48,
+    "move": "secuestro-ribosomal"
+   },
+   {
+    "level": 55,
+    "move": "salto-transposon"
    }
   ],
   "mo": [
@@ -3894,27 +4866,47 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 9,
+    "level": 7,
     "move": "propulsion-de-actina"
    },
    {
-    "level": 18,
-    "move": "pulso-prion"
-   },
-   {
-    "level": 24,
-    "move": "pinza-pili"
-   },
-   {
-    "level": 24,
+    "level": 9,
     "move": "forma-l-pleomorfismo"
    },
    {
-    "level": 31,
+    "level": 11,
+    "move": "interferencia-de-arn-rnai"
+   },
+   {
+    "level": 19,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 21,
+    "move": "deformacion-citoesqueleto"
+   },
+   {
+    "level": 23,
+    "move": "pulso-prion"
+   },
+   {
+    "level": 33,
+    "move": "onda-quimiotactica"
+   },
+   {
+    "level": 36,
     "move": "represion-lac"
    },
    {
-    "level": 46,
+    "level": 38,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 50,
+    "move": "secuestro-ribosomal"
+   },
+   {
+    "level": 57,
     "move": "salto-transposon"
    }
   ],
@@ -3948,35 +4940,47 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 11,
+    "level": 9,
     "move": "propulsion-de-actina"
    },
    {
-    "level": 20,
-    "move": "interferencia-de-arn-rnai"
-   },
-   {
-    "level": 20,
-    "move": "pulso-prion"
-   },
-   {
-    "level": 26,
-    "move": "pinza-pili"
-   },
-   {
-    "level": 26,
+    "level": 11,
     "move": "forma-l-pleomorfismo"
    },
    {
-    "level": 33,
+    "level": 13,
+    "move": "interferencia-de-arn-rnai"
+   },
+   {
+    "level": 21,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 23,
+    "move": "deformacion-citoesqueleto"
+   },
+   {
+    "level": 25,
+    "move": "pulso-prion"
+   },
+   {
+    "level": 35,
+    "move": "onda-quimiotactica"
+   },
+   {
+    "level": 38,
     "move": "represion-lac"
    },
    {
-    "level": 45,
+    "level": 40,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 52,
     "move": "secuestro-ribosomal"
    },
    {
-    "level": 48,
+    "level": 59,
     "move": "salto-transposon"
    }
   ],
@@ -4007,43 +5011,55 @@
    },
    {
     "level": 1,
-    "move": "adhesion-matriz"
-   },
-   {
-    "level": 1,
     "move": "senal-quimica"
    },
    {
-    "level": 3,
-    "move": "bombardeo-de-cocos"
+    "level": 5,
+    "move": "adhesion-matriz"
    },
    {
-    "level": 6,
+    "level": 7,
     "move": "engrosamiento-mureina"
    },
    {
-    "level": 15,
-    "move": "encapsulacion"
+    "level": 9,
+    "move": "rafaga-cocos"
    },
    {
-    "level": 15,
-    "move": "pared-de-peptidoglicano"
+    "level": 13,
+    "move": "pinza-pili"
    },
    {
-    "level": 23,
-    "move": "aplastamiento-colonia"
+    "level": 19,
+    "move": "exopolisacarido-eps"
    },
    {
-    "level": 28,
-    "move": "choque-inclusion"
+    "level": 21,
+    "move": "aguja-pilus"
    },
    {
-    "level": 30,
+    "level": 26,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 31,
     "move": "cristal-paraesporal-bt"
    },
    {
-    "level": 35,
-    "move": "impacto-capsular"
+    "level": 34,
+    "move": "pigmento-piocianina"
+   },
+   {
+    "level": 42,
+    "move": "lluvia-de-cristales"
+   },
+   {
+    "level": 48,
+    "move": "hemolisis-beta"
+   },
+   {
+    "level": 55,
+    "move": "autolisis-masiva"
    }
   ],
   "mo": [
@@ -4077,36 +5093,48 @@
     "move": "senal-quimica"
    },
    {
-    "level": 5,
-    "move": "doble-inyeccion"
-   },
-   {
-    "level": 5,
+    "level": 7,
     "move": "bombardeo-de-cocos"
    },
    {
-    "level": 8,
+    "level": 9,
     "move": "engrosamiento-mureina"
    },
    {
-    "level": 17,
+    "level": 11,
+    "move": "corte-lisozima"
+   },
+   {
+    "level": 15,
+    "move": "desestabilizacion-membrana"
+   },
+   {
+    "level": 21,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 25,
-    "move": "aplastamiento-colonia"
+    "level": 23,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 30,
-    "move": "choque-inclusion"
-   },
-   {
-    "level": 32,
+    "level": 28,
     "move": "cristal-paraesporal-bt"
    },
    {
-    "level": 37,
-    "move": "corte-con-enzima-de-restriccion"
+    "level": 33,
+    "move": "choque-inclusion"
+   },
+   {
+    "level": 44,
+    "move": "estres-oxidativo"
+   },
+   {
+    "level": 50,
+    "move": "presion-osmotica"
+   },
+   {
+    "level": 57,
+    "move": "lisis-osmotica"
    }
   ],
   "mo": [
@@ -4140,56 +5168,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 7,
-    "move": "doble-inyeccion"
-   },
-   {
-    "level": 7,
+    "level": 9,
     "move": "bombardeo-de-cocos"
    },
    {
-    "level": 10,
+    "level": 11,
     "move": "engrosamiento-mureina"
    },
    {
-    "level": 19,
+    "level": 13,
+    "move": "corte-lisozima"
+   },
+   {
+    "level": 17,
+    "move": "desestabilizacion-membrana"
+   },
+   {
+    "level": 23,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 27,
-    "move": "aplastamiento-colonia"
+    "level": 25,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 28,
-    "move": "estres-oxidativo"
-   },
-   {
-    "level": 32,
-    "move": "choque-inclusion"
-   },
-   {
-    "level": 34,
+    "level": 30,
     "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 35,
+    "move": "choque-inclusion"
    },
    {
     "level": 35,
     "move": "hemolisis-beta"
    },
    {
-    "level": 37,
+    "level": 46,
+    "move": "estres-oxidativo"
+   },
+   {
+    "level": 52,
     "move": "presion-osmotica"
    },
    {
-    "level": 39,
-    "move": "corte-con-enzima-de-restriccion"
-   },
-   {
-    "level": 55,
-    "move": "autolisis-masiva"
-   },
-   {
     "level": 59,
-    "move": "inyeccion-letal-fallida"
+    "move": "lisis-osmotica"
    }
   ],
   "mo": [
@@ -4223,24 +5247,40 @@
     "move": "senal-quimica"
    },
    {
-    "level": 1,
+    "level": 5,
     "move": "valva-de-diatomea"
    },
    {
-    "level": 22,
+    "level": 7,
+    "move": "centrifugacion"
+   },
+   {
+    "level": 9,
+    "move": "corriente-laminar"
+   },
+   {
+    "level": 17,
     "move": "frustula-de-silice"
    },
    {
-    "level": 25,
+    "level": 21,
     "move": "furia-fagica"
    },
    {
-    "level": 29,
+    "level": 31,
     "move": "aerosol-cortante"
    },
    {
-    "level": 38,
-    "move": "centrifugacion"
+    "level": 36,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 48,
+    "move": "marea-roja-saxitoxina"
+   },
+   {
+    "level": 55,
+    "move": "floracion-algal-bloom"
    }
   ],
   "mo": [
@@ -4275,28 +5315,40 @@
     "move": "senal-quimica"
    },
    {
-    "level": 1,
+    "level": 7,
     "move": "valva-de-diatomea"
    },
    {
-    "level": 24,
-    "move": "frustula-de-silice"
-   },
-   {
-    "level": 27,
-    "move": "furia-fagica"
-   },
-   {
-    "level": 31,
-    "move": "aerosol-cortante"
-   },
-   {
-    "level": 40,
+    "level": 9,
     "move": "centrifugacion"
    },
    {
-    "level": 47,
+    "level": 11,
+    "move": "corriente-laminar"
+   },
+   {
+    "level": 19,
+    "move": "frustula-de-silice"
+   },
+   {
+    "level": 23,
+    "move": "furia-fagica"
+   },
+   {
+    "level": 33,
+    "move": "aerosol-cortante"
+   },
+   {
+    "level": 38,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 50,
     "move": "marea-roja-saxitoxina"
+   },
+   {
+    "level": 57,
+    "move": "floracion-algal-bloom"
    }
   ],
   "mo": [
@@ -4331,44 +5383,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 1,
-    "move": "valva-de-diatomea"
+    "level": 9,
+    "move": "aguijon-endotoxina"
    },
    {
-    "level": 6,
+    "level": 11,
+    "move": "choque-septico"
+   },
+   {
+    "level": 13,
+    "move": "respuesta-sos"
+   },
+   {
+    "level": 17,
     "move": "perforacion-bdellovibrio"
    },
    {
-    "level": 26,
+    "level": 23,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 25,
     "move": "frustula-de-silice"
    },
    {
-    "level": 29,
+    "level": 30,
     "move": "furia-fagica"
    },
    {
-    "level": 33,
-    "move": "aerosol-cortante"
+    "level": 35,
+    "move": "secrecion-mucopurulenta"
    },
    {
-    "level": 34,
-    "move": "membrana-externa-lps"
+    "level": 38,
+    "move": "lipido-a-endotoxina"
    },
    {
-    "level": 42,
-    "move": "centrifugacion"
+    "level": 46,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 47,
-    "move": "inyector-tipo-iii"
-   },
-   {
-    "level": 49,
+    "level": 52,
     "move": "marea-roja-saxitoxina"
    },
    {
-    "level": 51,
-    "move": "floracion-algal-bloom"
+    "level": 59,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -4405,36 +5465,52 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 3,
-    "move": "corriente-laminar"
-   },
-   {
-    "level": 3,
+    "level": 5,
     "move": "aguijon-endotoxina"
    },
    {
-    "level": 10,
+    "level": 7,
     "move": "choque-septico"
    },
    {
-    "level": 13,
-    "move": "eflujo-multidrogas"
+    "level": 9,
+    "move": "respuesta-sos"
    },
    {
-    "level": 15,
+    "level": 13,
+    "move": "valva-de-diatomea"
+   },
+   {
+    "level": 19,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 21,
+    "move": "doble-endospora"
+   },
+   {
+    "level": 26,
+    "move": "frustula-de-silice"
+   },
+   {
+    "level": 31,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 34,
     "move": "centrifugacion"
    },
    {
-    "level": 20,
-    "move": "aerosol-cortante"
+    "level": 42,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 22,
-    "move": "lipido-a-endotoxina"
+    "level": 48,
+    "move": "marea-roja-saxitoxina"
    },
    {
-    "level": 23,
-    "move": "doble-endospora"
+    "level": 55,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -4471,40 +5547,52 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 5,
+    "level": 7,
     "move": "aguijon-endotoxina"
    },
    {
-    "level": 11,
-    "move": "parasitismo-tisular"
-   },
-   {
-    "level": 12,
+    "level": 9,
     "move": "choque-septico"
    },
    {
+    "level": 11,
+    "move": "respuesta-sos"
+   },
+   {
     "level": 15,
-    "move": "eflujo-multidrogas"
+    "move": "perforacion-bdellovibrio"
    },
    {
-    "level": 24,
-    "move": "lipido-a-endotoxina"
+    "level": 21,
+    "move": "exotoxina-letal"
    },
    {
-    "level": 25,
+    "level": 23,
+    "move": "parasitismo-tisular"
+   },
+   {
+    "level": 28,
     "move": "doble-endospora"
    },
    {
-    "level": 37,
-    "move": "enriquecimiento-medio"
+    "level": 33,
+    "move": "eflujo-multidrogas"
    },
    {
-    "level": 49,
-    "move": "inyector-tipo-iii"
+    "level": 36,
+    "move": "membrana-externa-lps"
    },
    {
-    "level": 56,
+    "level": 44,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 50,
     "move": "fotosintesis-oxigenica"
+   },
+   {
+    "level": 57,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -4540,24 +5628,36 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 20,
+    "level": 5,
     "move": "fluorescencia-dapi"
    },
    {
-    "level": 27,
+    "level": 7,
+    "move": "acidos-micolicos"
+   },
+   {
+    "level": 13,
     "move": "choque-criogenico"
    },
    {
-    "level": 28,
-    "move": "estres-oxidativo"
-   },
-   {
-    "level": 40,
+    "level": 19,
     "move": "tampon-fosfato-pbs"
    },
    {
-    "level": 40,
-    "move": "acidos-micolicos"
+    "level": 21,
+    "move": "estres-oxidativo"
+   },
+   {
+    "level": 31,
+    "move": "rayo-nitrogeno-liquido"
+   },
+   {
+    "level": 42,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "tormenta-liofilizadora"
    }
   ],
   "mo": [
@@ -4590,28 +5690,36 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 22,
+    "level": 7,
     "move": "fluorescencia-dapi"
    },
    {
-    "level": 29,
-    "move": "choque-criogenico"
-   },
-   {
-    "level": 30,
-    "move": "estres-oxidativo"
-   },
-   {
-    "level": 42,
-    "move": "tampon-fosfato-pbs"
-   },
-   {
-    "level": 42,
+    "level": 9,
     "move": "acidos-micolicos"
    },
    {
-    "level": 46,
+    "level": 15,
+    "move": "choque-criogenico"
+   },
+   {
+    "level": 21,
+    "move": "tampon-fosfato-pbs"
+   },
+   {
+    "level": 23,
+    "move": "estres-oxidativo"
+   },
+   {
+    "level": 33,
     "move": "rayo-nitrogeno-liquido"
+   },
+   {
+    "level": 44,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
+    "move": "tormenta-liofilizadora"
    }
   ],
   "mo": [
@@ -4644,32 +5752,36 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 24,
+    "level": 9,
     "move": "fluorescencia-dapi"
    },
    {
-    "level": 31,
-    "move": "choque-criogenico"
-   },
-   {
-    "level": 32,
-    "move": "estres-oxidativo"
-   },
-   {
-    "level": 44,
-    "move": "tampon-fosfato-pbs"
-   },
-   {
-    "level": 44,
+    "level": 11,
     "move": "acidos-micolicos"
    },
    {
-    "level": 46,
-    "move": "tormenta-liofilizadora"
+    "level": 17,
+    "move": "choque-criogenico"
    },
    {
-    "level": 48,
+    "level": 23,
+    "move": "tampon-fosfato-pbs"
+   },
+   {
+    "level": 25,
+    "move": "estres-oxidativo"
+   },
+   {
+    "level": 35,
     "move": "rayo-nitrogeno-liquido"
+   },
+   {
+    "level": 46,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 59,
+    "move": "tormenta-liofilizadora"
    }
   ],
   "mo": [
@@ -4706,24 +5818,48 @@
     "move": "potencial-de-membrana"
    },
    {
-    "level": 12,
-    "move": "golpe-flagelar"
+    "level": 7,
+    "move": "sonicacion"
    },
    {
-    "level": 23,
+    "level": 9,
     "move": "corte-lisozima"
    },
    {
-    "level": 25,
-    "move": "taladro-espiroqueta"
+    "level": 13,
+    "move": "golpe-flagelar"
    },
    {
-    "level": 29,
+    "level": 19,
     "move": "bloqueo-de-canales-ionicos"
    },
    {
-    "level": 41,
+    "level": 21,
+    "move": "giro-sacacorchos"
+   },
+   {
+    "level": 26,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 31,
+    "move": "descarga-ionofora"
+   },
+   {
+    "level": 34,
     "move": "quimiotaxis-positiva"
+   },
+   {
+    "level": 42,
+    "move": "taladro-espiroqueta"
+   },
+   {
+    "level": 48,
+    "move": "nanocables-geobacter"
+   },
+   {
+    "level": 55,
+    "move": "pulso-electroporacion"
    }
   ],
   "mo": [
@@ -4762,31 +5898,47 @@
     "move": "potencial-de-membrana"
    },
    {
-    "level": 14,
-    "move": "golpe-flagelar"
+    "level": 9,
+    "move": "sonicacion"
    },
    {
-    "level": 25,
+    "level": 11,
     "move": "corte-lisozima"
    },
    {
-    "level": 27,
-    "move": "taladro-espiroqueta"
+    "level": 15,
+    "move": "golpe-flagelar"
    },
    {
-    "level": 31,
+    "level": 21,
     "move": "bloqueo-de-canales-ionicos"
    },
    {
-    "level": 38,
-    "move": "nanocables-geobacter"
+    "level": 23,
+    "move": "giro-sacacorchos"
    },
    {
-    "level": 43,
+    "level": 28,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 33,
+    "move": "descarga-ionofora"
+   },
+   {
+    "level": 36,
     "move": "quimiotaxis-positiva"
    },
    {
-    "level": 46,
+    "level": 44,
+    "move": "taladro-espiroqueta"
+   },
+   {
+    "level": 50,
+    "move": "nanocables-geobacter"
+   },
+   {
+    "level": 57,
     "move": "pulso-electroporacion"
    }
   ],
@@ -4823,35 +5975,51 @@
    },
    {
     "level": 5,
-    "move": "fimbrias-multiples"
-   },
-   {
-    "level": 10,
     "move": "adhesion-matriz"
    },
    {
-    "level": 10,
+    "level": 7,
+    "move": "exopolisacarido-eps"
+   },
+   {
+    "level": 9,
+    "move": "fimbrias-multiples"
+   },
+   {
+    "level": 13,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 19,
+    "move": "pigmento-piocianina"
+   },
+   {
+    "level": 21,
     "move": "eflujo-multidrogas"
    },
    {
-    "level": 20,
+    "level": 26,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 31,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 34,
+    "move": "lipido-a-endotoxina"
+   },
+   {
+    "level": 42,
     "move": "aplastamiento-colonia"
    },
    {
-    "level": 25,
-    "move": "limo-polimerico"
+    "level": 48,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 28,
-    "move": "impacto-capsular"
-   },
-   {
-    "level": 36,
-    "move": "membrana-externa-lps"
-   },
-   {
-    "level": 36,
-    "move": "choque-septico"
+    "level": 55,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -4888,38 +6056,50 @@
    },
    {
     "level": 7,
-    "move": "fimbrias-multiples"
-   },
-   {
-    "level": 12,
     "move": "adhesion-matriz"
    },
    {
-    "level": 12,
+    "level": 9,
+    "move": "exopolisacarido-eps"
+   },
+   {
+    "level": 11,
+    "move": "fimbrias-multiples"
+   },
+   {
+    "level": 15,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 21,
+    "move": "pigmento-piocianina"
+   },
+   {
+    "level": 23,
     "move": "eflujo-multidrogas"
    },
    {
-    "level": 22,
+    "level": 28,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 33,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 36,
+    "move": "lipido-a-endotoxina"
+   },
+   {
+    "level": 44,
     "move": "aplastamiento-colonia"
    },
    {
-    "level": 27,
-    "move": "limo-polimerico"
+    "level": 50,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 30,
-    "move": "impacto-capsular"
-   },
-   {
-    "level": 38,
-    "move": "membrana-externa-lps"
-   },
-   {
-    "level": 38,
-    "move": "choque-septico"
-   },
-   {
-    "level": 53,
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -4956,40 +6136,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 10,
-    "move": "potencial-de-membrana"
-   },
-   {
-    "level": 11,
+    "level": 5,
     "move": "adhesion-matriz"
    },
    {
-    "level": 15,
+    "level": 7,
+    "move": "pigmento-piocianina"
+   },
+   {
+    "level": 9,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 13,
     "move": "golpe-flagelar"
    },
    {
-    "level": 23,
-    "move": "pseudopodo-pesado"
+    "level": 19,
+    "move": "quimiotaxis-positiva"
    },
    {
-    "level": 27,
-    "move": "impacto-capsular"
+    "level": 21,
+    "move": "aguja-pilus"
    },
    {
-    "level": 27,
-    "move": "sonicacion"
+    "level": 26,
+    "move": "descarga-ionofora"
    },
    {
-    "level": 28,
+    "level": 31,
     "move": "taladro-espiroqueta"
    },
    {
-    "level": 36,
-    "move": "vesicula-de-membrana-externa-omv"
+    "level": 34,
+    "move": "sonicacion"
    },
    {
-    "level": 41,
-    "move": "bloqueo-de-canales-ionicos"
+    "level": 42,
+    "move": "pseudopodo-pesado"
+   },
+   {
+    "level": 48,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "pulso-electroporacion"
    }
   ],
   "mo": [
@@ -5026,47 +6218,51 @@
     "move": "senal-quimica"
    },
    {
-    "level": 12,
-    "move": "potencial-de-membrana"
-   },
-   {
-    "level": 13,
+    "level": 7,
     "move": "adhesion-matriz"
    },
    {
-    "level": 17,
+    "level": 9,
+    "move": "pigmento-piocianina"
+   },
+   {
+    "level": 11,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 15,
     "move": "golpe-flagelar"
    },
    {
-    "level": 25,
-    "move": "pseudopodo-pesado"
+    "level": 21,
+    "move": "quimiotaxis-positiva"
    },
    {
-    "level": 29,
-    "move": "impacto-capsular"
+    "level": 23,
+    "move": "aguja-pilus"
    },
    {
-    "level": 29,
-    "move": "sonicacion"
+    "level": 28,
+    "move": "descarga-ionofora"
    },
    {
-    "level": 30,
+    "level": 33,
     "move": "taladro-espiroqueta"
    },
    {
-    "level": 38,
-    "move": "vesicula-de-membrana-externa-omv"
+    "level": 36,
+    "move": "sonicacion"
    },
    {
-    "level": 43,
-    "move": "nanocables-geobacter"
+    "level": 44,
+    "move": "pseudopodo-pesado"
    },
    {
-    "level": 43,
-    "move": "bloqueo-de-canales-ionicos"
+    "level": 50,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 52,
+    "level": 57,
     "move": "pulso-electroporacion"
    }
   ],
@@ -5108,51 +6304,59 @@
     "move": "bombardeo-de-cocos"
    },
    {
+    "level": 7,
+    "move": "engrosamiento-mureina"
+   },
+   {
     "level": 8,
     "move": "respuesta-sos"
    },
    {
-    "level": 8,
-    "move": "engrosamiento-mureina"
+    "level": 9,
+    "move": "precipitado-mineral"
    },
    {
-    "level": 11,
-    "move": "criopreservacion"
+    "level": 13,
+    "move": "pinza-pili"
    },
    {
     "level": 13,
     "move": "reparacion-por-escision"
    },
    {
-    "level": 17,
-    "move": "hipermutacion-dirigida"
-   },
-   {
     "level": 18,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 22,
-    "move": "onda-choque-osmotico"
+    "level": 19,
+    "move": "criopreservacion"
    },
    {
-    "level": 23,
+    "level": 21,
     "move": "ultracentrifuga"
    },
    {
-    "level": 25,
-    "move": "pinza-pili"
+    "level": 26,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 25,
-    "move": "hemolisis-beta"
+    "level": 31,
+    "move": "choque-inclusion"
    },
    {
-    "level": 33,
+    "level": 34,
+    "move": "deteccion-quorum"
+   },
+   {
+    "level": 42,
+    "move": "lluvia-de-cristales"
+   },
+   {
+    "level": 48,
     "move": "triada-enzimatica-catalasa-ox-ureasa"
    },
    {
-    "level": 53,
+    "level": 55,
     "move": "autolisis-masiva"
    }
   ],
@@ -5187,36 +6391,52 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 6,
-    "move": "turbidez-media"
+    "level": 5,
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
     "level": 7,
+    "move": "turbidez-media"
+   },
+   {
+    "level": 9,
     "move": "fermentacion-lactica"
    },
    {
-    "level": 19,
-    "move": "doble-endospora"
-   },
-   {
-    "level": 22,
+    "level": 13,
     "move": "ultracentrifuga"
    },
    {
-    "level": 22,
+    "level": 19,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 28,
+    "level": 21,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 26,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 31,
     "move": "enquistamiento-subterraneo"
    },
    {
-    "level": 30,
-    "move": "choque-termofilo"
+    "level": 34,
+    "move": "neurotoxina-botulinica"
    },
    {
-    "level": 41,
-    "move": "neurotoxina-botulinica"
+    "level": 42,
+    "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 48,
+    "move": "choque-osmotico-masivo"
+   },
+   {
+    "level": 55,
+    "move": "ruptura-de-pared"
    }
   ],
   "mo": [
@@ -5250,48 +6470,52 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 8,
-    "move": "turbidez-media"
+    "level": 7,
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
     "level": 9,
+    "move": "turbidez-media"
+   },
+   {
+    "level": 11,
     "move": "fermentacion-lactica"
    },
    {
-    "level": 21,
-    "move": "doble-endospora"
-   },
-   {
-    "level": 24,
+    "level": 15,
     "move": "ultracentrifuga"
    },
    {
-    "level": 24,
+    "level": 21,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 30,
+    "level": 23,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 28,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 33,
     "move": "enquistamiento-subterraneo"
    },
    {
-    "level": 32,
-    "move": "choque-termofilo"
-   },
-   {
-    "level": 43,
+    "level": 36,
     "move": "neurotoxina-botulinica"
    },
    {
-    "level": 46,
+    "level": 44,
+    "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 50,
     "move": "choque-osmotico-masivo"
    },
    {
-    "level": 47,
+    "level": 57,
     "move": "ruptura-de-pared"
-   },
-   {
-    "level": 54,
-    "move": "fase-exponencial"
    }
   ],
   "mo": [
@@ -5325,24 +6549,36 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 21,
-    "move": "fluorescencia-dapi"
-   },
-   {
-    "level": 27,
-    "move": "choque-criogenico"
-   },
-   {
-    "level": 27,
+    "level": 5,
     "move": "doble-endospora"
    },
    {
-    "level": 39,
+    "level": 7,
     "move": "tampon-fosfato-pbs"
    },
    {
-    "level": 40,
+    "level": 13,
+    "move": "fluorescencia-dapi"
+   },
+   {
+    "level": 19,
     "move": "acidos-micolicos"
+   },
+   {
+    "level": 21,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 31,
+    "move": "choque-criogenico"
+   },
+   {
+    "level": 42,
+    "move": "rayo-nitrogeno-liquido"
+   },
+   {
+    "level": 55,
+    "move": "tormenta-liofilizadora"
    }
   ],
   "mo": [
@@ -5375,39 +6611,51 @@
     "move": "resonancia-magnetica"
    },
    {
+    "level": 7,
+    "move": "doble-endospora"
+   },
+   {
+    "level": 9,
+    "move": "deteccion-quorum"
+   },
+   {
+    "level": 11,
+    "move": "onda-choque-osmotico"
+   },
+   {
+    "level": 15,
+    "move": "ultracentrifuga"
+   },
+   {
+    "level": 21,
+    "move": "estres-acido"
+   },
+   {
     "level": 23,
     "move": "fluorescencia-dapi"
    },
    {
-    "level": 27,
-    "move": "triada-enzimatica-catalasa-ox-ureasa"
+    "level": 28,
+    "move": "vertigo-browniano"
    },
    {
-    "level": 29,
+    "level": 33,
     "move": "choque-criogenico"
    },
    {
-    "level": 29,
-    "move": "reparacion-por-escision"
+    "level": 36,
+    "move": "criopreservacion"
    },
    {
-    "level": 29,
-    "move": "doble-endospora"
+    "level": 44,
+    "move": "triada-enzimatica-catalasa-ox-ureasa"
    },
    {
-    "level": 34,
+    "level": 50,
     "move": "rayo-nitrogeno-liquido"
    },
    {
-    "level": 41,
-    "move": "tampon-fosfato-pbs"
-   },
-   {
-    "level": 42,
-    "move": "acidos-micolicos"
-   },
-   {
-    "level": 47,
+    "level": 57,
     "move": "tormenta-liofilizadora"
    }
   ],
@@ -5444,35 +6692,51 @@
    },
    {
     "level": 5,
-    "move": "sintesis-de-atp"
-   },
-   {
-    "level": 7,
     "move": "adhesion-matriz"
    },
    {
-    "level": 11,
+    "level": 7,
+    "move": "regulacion-alosterica"
+   },
+   {
+    "level": 9,
+    "move": "sintesis-de-atp"
+   },
+   {
+    "level": 13,
     "move": "pinza-pili"
    },
    {
-    "level": 12,
+    "level": 19,
     "move": "exopolisacarido-eps"
    },
    {
-    "level": 12,
+    "level": 21,
+    "move": "difusion-facilitada"
+   },
+   {
+    "level": 26,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 31,
+    "move": "desestabilizacion-membrana"
+   },
+   {
+    "level": 34,
     "move": "vesicula-de-membrana-externa-omv"
    },
    {
-    "level": 25,
+    "level": 42,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 48,
     "move": "impacto-capsular"
    },
    {
-    "level": 29,
-    "move": "transferencia-horizontal"
-   },
-   {
-    "level": 33,
-    "move": "desestabilizacion-membrana"
+    "level": 55,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -5507,32 +6771,32 @@
     "move": "senal-quimica"
    },
    {
-    "level": 6,
-    "move": "respuesta-sos"
+    "level": 7,
+    "move": "aguijon-endotoxina"
    },
    {
     "level": 9,
-    "move": "adhesion-matriz"
+    "move": "exopolisacarido-eps"
+   },
+   {
+    "level": 11,
+    "move": "fimbrias-multiples"
    },
    {
     "level": 12,
     "move": "pigmento-piocianina"
    },
    {
-    "level": 13,
-    "move": "pinza-pili"
+    "level": 15,
+    "move": "perforacion-bdellovibrio"
    },
    {
-    "level": 14,
-    "move": "exopolisacarido-eps"
-   },
-   {
-    "level": 14,
+    "level": 21,
     "move": "vesicula-de-membrana-externa-omv"
    },
    {
-    "level": 15,
-    "move": "lipido-a-endotoxina"
+    "level": 23,
+    "move": "eflujo-multidrogas"
    },
    {
     "level": 24,
@@ -5543,15 +6807,27 @@
     "move": "limo-polimerico"
    },
    {
-    "level": 27,
-    "move": "impacto-capsular"
+    "level": 28,
+    "move": "resistencia-persister"
    },
    {
-    "level": 35,
+    "level": 33,
     "move": "desestabilizacion-membrana"
    },
    {
+    "level": 36,
+    "move": "lipido-a-endotoxina"
+   },
+   {
     "level": 44,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 50,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -5588,24 +6864,44 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 8,
+    "level": 5,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 17,
-    "move": "fagocitosis"
+    "level": 7,
+    "move": "variacion-antigenica"
    },
    {
-    "level": 25,
-    "move": "pseudopodo-pesado"
+    "level": 9,
+    "move": "vacuola-contractil"
    },
    {
-    "level": 26,
+    "level": 13,
+    "move": "mitosis-forzada"
+   },
+   {
+    "level": 21,
     "move": "choque-inclusion"
    },
    {
+    "level": 26,
+    "move": "pseudopodo-pesado"
+   },
+   {
     "level": 31,
-    "move": "variacion-antigenica"
+    "move": "corriente-ciliar"
+   },
+   {
+    "level": 42,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 48,
+    "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 55,
+    "move": "chorro-citoplasmatico"
    }
   ],
   "mo": [
@@ -5638,43 +6934,51 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 8,
+    "level": 7,
     "move": "adhesion-matriz"
    },
    {
-    "level": 10,
-    "move": "adhesina-mucosa"
+    "level": 9,
+    "move": "pigmento-piocianina"
    },
    {
-    "level": 19,
+    "level": 11,
+    "move": "vacuola-contractil"
+   },
+   {
+    "level": 15,
+    "move": "mitosis-forzada"
+   },
+   {
+    "level": 21,
+    "move": "exopolisacarido-eps"
+   },
+   {
+    "level": 23,
     "move": "fagocitosis"
-   },
-   {
-    "level": 27,
-    "move": "pseudopodo-pesado"
    },
    {
     "level": 28,
     "move": "choque-inclusion"
    },
    {
-    "level": 29,
-    "move": "impacto-capsular"
+    "level": 33,
+    "move": "pseudopodo-pesado"
    },
    {
-    "level": 33,
+    "level": 36,
     "move": "variacion-antigenica"
    },
    {
-    "level": 43,
-    "move": "encapsulacion"
-   },
-   {
     "level": 44,
-    "move": "fagocitosis-nocturna"
+    "move": "impacto-capsular"
    },
    {
-    "level": 56,
+    "level": 50,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
     "move": "chorro-citoplasmatico"
    }
   ],
@@ -5710,24 +7014,36 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 4,
+    "level": 5,
     "move": "vortice-hidrotermal"
    },
    {
-    "level": 9,
+    "level": 7,
     "move": "vortice-agitador"
    },
    {
-    "level": 18,
+    "level": 13,
     "move": "sombra-prion"
    },
    {
-    "level": 25,
+    "level": 19,
+    "move": "envoltura-s-layer"
+   },
+   {
+    "level": 21,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 31,
     "move": "descarga-ionofora"
    },
    {
-    "level": 25,
-    "move": "envoltura-s-layer"
+    "level": 42,
+    "move": "nanocables-geobacter"
+   },
+   {
+    "level": 55,
+    "move": "explosion-metanogenica"
    }
   ],
   "mo": [
@@ -5760,24 +7076,36 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 6,
+    "level": 7,
     "move": "vortice-hidrotermal"
    },
    {
-    "level": 11,
+    "level": 9,
     "move": "vortice-agitador"
    },
    {
-    "level": 20,
+    "level": 15,
     "move": "sombra-prion"
    },
    {
-    "level": 27,
+    "level": 21,
+    "move": "envoltura-s-layer"
+   },
+   {
+    "level": 23,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 33,
     "move": "descarga-ionofora"
    },
    {
-    "level": 27,
-    "move": "envoltura-s-layer"
+    "level": 44,
+    "move": "nanocables-geobacter"
+   },
+   {
+    "level": 57,
+    "move": "explosion-metanogenica"
    }
   ],
   "mo": [
@@ -5810,39 +7138,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 8,
+    "level": 9,
     "move": "vortice-hidrotermal"
    },
    {
-    "level": 13,
+    "level": 11,
     "move": "vortice-agitador"
    },
    {
-    "level": 20,
-    "move": "ultracentrifuga"
+    "level": 13,
+    "move": "onda-choque-osmotico"
    },
    {
-    "level": 22,
+    "level": 21,
     "move": "sombra-prion"
    },
    {
-    "level": 29,
-    "move": "descarga-ionofora"
+    "level": 23,
+    "move": "estres-acido"
    },
    {
-    "level": 29,
+    "level": 25,
+    "move": "ultracentrifuga"
+   },
+   {
+    "level": 25,
     "move": "envoltura-s-layer"
    },
    {
-    "level": 39,
+    "level": 35,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 38,
+    "move": "criopreservacion"
+   },
+   {
+    "level": 40,
     "move": "triada-enzimatica-catalasa-ox-ureasa"
    },
    {
-    "level": 43,
-    "move": "hipermutacion-dirigida"
+    "level": 52,
+    "move": "nanocables-geobacter"
    },
    {
-    "level": 48,
+    "level": 59,
     "move": "explosion-metanogenica"
    }
   ],
@@ -5878,39 +7218,51 @@
     "move": "senal-quimica"
    },
    {
-    "level": 3,
+    "level": 5,
     "move": "adhesion-matriz"
    },
    {
-    "level": 8,
-    "move": "aguijon-endotoxina"
+    "level": 7,
+    "move": "encapsulacion"
    },
    {
-    "level": 17,
+    "level": 9,
+    "move": "fimbrias-multiples"
+   },
+   {
+    "level": 13,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 19,
+    "move": "exopolisacarido-eps"
+   },
+   {
+    "level": 21,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 26,
     "move": "eflujo-multidrogas"
    },
    {
-    "level": 24,
+    "level": 31,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 34,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 42,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 48,
     "move": "lluvia-de-cristales"
    },
    {
-    "level": 25,
-    "move": "impacto-capsular"
-   },
-   {
-    "level": 27,
-    "move": "choque-septico"
-   },
-   {
-    "level": 30,
-    "move": "lipido-a-endotoxina"
-   },
-   {
-    "level": 38,
-    "move": "limo-polimerico"
-   },
-   {
-    "level": 49,
+    "level": 55,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -5947,24 +7299,48 @@
     "move": "senal-quimica"
    },
    {
-    "level": 7,
+    "level": 5,
     "move": "propulsion-de-actina"
    },
    {
-    "level": 18,
+    "level": 7,
+    "move": "represion-lac"
+   },
+   {
+    "level": 9,
+    "move": "interferencia-de-arn-rnai"
+   },
+   {
+    "level": 17,
+    "move": "pulso-prion"
+   },
+   {
+    "level": 19,
     "move": "deformacion-citoesqueleto"
    },
    {
     "level": 21,
-    "move": "forma-l-pleomorfismo"
+    "move": "onda-quimiotactica"
    },
    {
-    "level": 22,
+    "level": 31,
     "move": "fluorescencia-dapi"
    },
    {
-    "level": 23,
-    "move": "interferencia-de-arn-rnai"
+    "level": 34,
+    "move": "silenciamiento-epigenetico"
+   },
+   {
+    "level": 36,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 48,
+    "move": "secuestro-ribosomal"
+   },
+   {
+    "level": 55,
+    "move": "salto-transposon"
    }
   ],
   "mo": [
@@ -5997,27 +7373,47 @@
     "move": "senal-quimica"
    },
    {
-    "level": 9,
+    "level": 7,
     "move": "propulsion-de-actina"
    },
    {
-    "level": 20,
+    "level": 9,
+    "move": "represion-lac"
+   },
+   {
+    "level": 11,
+    "move": "interferencia-de-arn-rnai"
+   },
+   {
+    "level": 19,
+    "move": "pulso-prion"
+   },
+   {
+    "level": 21,
     "move": "deformacion-citoesqueleto"
    },
    {
     "level": 23,
-    "move": "forma-l-pleomorfismo"
+    "move": "onda-quimiotactica"
    },
    {
-    "level": 24,
+    "level": 33,
     "move": "fluorescencia-dapi"
    },
    {
-    "level": 25,
-    "move": "interferencia-de-arn-rnai"
+    "level": 36,
+    "move": "silenciamiento-epigenetico"
    },
    {
-    "level": 39,
+    "level": 38,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 50,
+    "move": "secuestro-ribosomal"
+   },
+   {
+    "level": 57,
     "move": "salto-transposon"
    }
   ],
@@ -6055,24 +7451,44 @@
     "move": "vortice-hidrotermal"
    },
    {
-    "level": 18,
+    "level": 7,
+    "move": "reparacion-por-escision"
+   },
+   {
+    "level": 9,
     "move": "sombra-prion"
    },
    {
-    "level": 25,
-    "move": "triada-enzimatica-catalasa-ox-ureasa"
+    "level": 17,
+    "move": "ultracentrifuga"
    },
    {
-    "level": 28,
-    "move": "envoltura-s-layer"
+    "level": 19,
+    "move": "estres-acido"
    },
    {
-    "level": 29,
+    "level": 21,
+    "move": "onda-choque-osmotico"
+   },
+   {
+    "level": 31,
     "move": "resistencia-persister"
    },
    {
-    "level": 38,
-    "move": "vortice-agitador"
+    "level": 34,
+    "move": "hipermutacion-dirigida"
+   },
+   {
+    "level": 36,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 48,
+    "move": "triada-enzimatica-catalasa-ox-ureasa"
+   },
+   {
+    "level": 55,
+    "move": "explosion-metanogenica"
    }
   ],
   "mo": [
@@ -6111,36 +7527,44 @@
     "move": "vortice-hidrotermal"
    },
    {
-    "level": 13,
-    "move": "parasitismo-tisular"
-   },
-   {
-    "level": 20,
-    "move": "sombra-prion"
-   },
-   {
-    "level": 24,
+    "level": 9,
     "move": "enriquecimiento-medio"
    },
    {
-    "level": 30,
+    "level": 11,
+    "move": "parasitismo-tisular"
+   },
+   {
+    "level": 19,
+    "move": "latigo-ciliar"
+   },
+   {
+    "level": 21,
     "move": "envoltura-s-layer"
    },
    {
-    "level": 31,
+    "level": 23,
+    "move": "sombra-prion"
+   },
+   {
+    "level": 33,
     "move": "resistencia-persister"
    },
    {
-    "level": 40,
+    "level": 36,
     "move": "vortice-agitador"
    },
    {
-    "level": 50,
-    "move": "fotosintesis-oxigenica"
+    "level": 38,
+    "move": "vertigo-browniano"
    },
    {
-    "level": 53,
+    "level": 50,
     "move": "explosion-metanogenica"
+   },
+   {
+    "level": 57,
+    "move": "fotosintesis-oxigenica"
    }
   ],
   "mo": [
@@ -6174,24 +7598,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 2,
-    "move": "respuesta-sos"
+    "level": 5,
+    "move": "aguijon-endotoxina"
+   },
+   {
+    "level": 7,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 9,
+    "move": "fimbrias-multiples"
    },
    {
     "level": 13,
-    "move": "secrecion-mucopurulenta"
+    "move": "respuesta-sos"
    },
    {
-    "level": 27,
+    "level": 19,
     "move": "lipido-a-endotoxina"
    },
    {
-    "level": 30,
+    "level": 21,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 26,
+    "move": "eflujo-multidrogas"
+   },
+   {
+    "level": 31,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 34,
     "move": "choque-septico"
    },
    {
-    "level": 33,
+    "level": 42,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 48,
     "move": "descarga-ionofora"
+   },
+   {
+    "level": 55,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -6227,27 +7679,51 @@
     "move": "senal-quimica"
    },
    {
-    "level": 4,
-    "move": "respuesta-sos"
+    "level": 7,
+    "move": "aguijon-endotoxina"
+   },
+   {
+    "level": 9,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 11,
+    "move": "fimbrias-multiples"
    },
    {
     "level": 15,
-    "move": "secrecion-mucopurulenta"
+    "move": "respuesta-sos"
    },
    {
-    "level": 29,
+    "level": 21,
     "move": "lipido-a-endotoxina"
    },
    {
-    "level": 32,
+    "level": 23,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 28,
+    "move": "eflujo-multidrogas"
+   },
+   {
+    "level": 33,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 36,
     "move": "choque-septico"
    },
    {
-    "level": 35,
+    "level": 44,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 50,
     "move": "descarga-ionofora"
    },
    {
-    "level": 51,
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -6284,24 +7760,48 @@
     "move": "senal-quimica"
    },
    {
-    "level": 11,
-    "move": "espuma-de-fermentador"
+    "level": 5,
+    "move": "ataque-multimerico"
    },
    {
-    "level": 17,
+    "level": 7,
     "move": "mutacion-espontanea"
    },
    {
-    "level": 21,
+    "level": 9,
+    "move": "fision-binaria-doble"
+   },
+   {
+    "level": 17,
+    "move": "gas-de-fermentacion-co2"
+   },
+   {
+    "level": 19,
     "move": "infeccion-oportunista"
    },
    {
-    "level": 22,
+    "level": 21,
+    "move": "fimbria-afilada"
+   },
+   {
+    "level": 31,
+    "move": "contacto-celular"
+   },
+   {
+    "level": 34,
+    "move": "gemacion-nutritiva"
+   },
+   {
+    "level": 36,
     "move": "fluorescencia-dapi"
    },
    {
-    "level": 26,
+    "level": 48,
     "move": "vertigo-browniano"
+   },
+   {
+    "level": 55,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -6335,43 +7835,55 @@
     "move": "senal-quimica"
    },
    {
-    "level": 8,
-    "move": "adhesion-matriz"
+    "level": 7,
+    "move": "ataque-multimerico"
    },
    {
-    "level": 10,
-    "move": "limo-polimerico"
-   },
-   {
-    "level": 12,
+    "level": 9,
     "move": "encapsulacion"
    },
    {
-    "level": 13,
+    "level": 11,
+    "move": "fision-binaria-doble"
+   },
+   {
+    "level": 18,
     "move": "espuma-de-fermentador"
    },
    {
     "level": 19,
-    "move": "mutacion-espontanea"
+    "move": "gas-de-fermentacion-co2"
+   },
+   {
+    "level": 21,
+    "move": "limo-polimerico"
    },
    {
     "level": 23,
-    "move": "infeccion-oportunista"
+    "move": "contacto-celular"
    },
    {
-    "level": 24,
-    "move": "fluorescencia-dapi"
-   },
-   {
-    "level": 26,
+    "level": 25,
     "move": "impacto-capsular"
    },
    {
-    "level": 28,
+    "level": 33,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 36,
+    "move": "mutacion-espontanea"
+   },
+   {
+    "level": 38,
+    "move": "fluorescencia-dapi"
+   },
+   {
+    "level": 50,
     "move": "vertigo-browniano"
    },
    {
-    "level": 45,
+    "level": 57,
     "move": "crecimiento-descontrolado"
    }
   ],
@@ -6407,23 +7919,51 @@
    },
    {
     "level": 5,
+    "move": "aguijon-endotoxina"
+   },
+   {
+    "level": 7,
+    "move": "choque-septico"
+   },
+   {
+    "level": 9,
     "move": "fimbrias-multiples"
    },
    {
     "level": 13,
-    "move": "choque-septico"
+    "move": "respuesta-sos"
    },
    {
-    "level": 22,
+    "level": 19,
     "move": "lipido-a-endotoxina"
    },
    {
-    "level": 23,
+    "level": 21,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 26,
     "move": "eflujo-multidrogas"
    },
    {
-    "level": 33,
-    "move": "latigo-ciliar"
+    "level": 31,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 34,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 42,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 48,
+    "move": "cristal-paraesporal-bt"
+   },
+   {
+    "level": 55,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -6460,50 +8000,58 @@
    },
    {
     "level": 7,
-    "move": "fimbrias-multiples"
+    "move": "aguijon-endotoxina"
    },
    {
-    "level": 12,
-    "move": "doble-inyeccion"
+    "level": 9,
+    "move": "choque-septico"
+   },
+   {
+    "level": 11,
+    "move": "respuesta-sos"
    },
    {
     "level": 12,
     "move": "perforacion-bdellovibrio"
    },
    {
-    "level": 14,
-    "move": "corte-lisozima"
-   },
-   {
     "level": 15,
-    "move": "choque-septico"
+    "move": "corte-lisozima"
    },
    {
     "level": 16,
     "move": "quimiotaxis-positiva"
    },
    {
-    "level": 24,
+    "level": 21,
     "move": "lipido-a-endotoxina"
    },
    {
-    "level": 25,
-    "move": "eflujo-multidrogas"
+    "level": 23,
+    "move": "desestabilizacion-membrana"
    },
    {
-    "level": 32,
-    "move": "estres-oxidativo"
+    "level": 28,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 35,
-    "move": "latigo-ciliar"
+    "level": 33,
+    "move": "cristal-paraesporal-bt"
    },
    {
-    "level": 49,
-    "move": "lisis-osmotica"
+    "level": 36,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 44,
+    "move": "corte-con-enzima-de-restriccion"
    },
    {
     "level": 50,
+    "move": "inyeccion-letal-fallida"
+   },
+   {
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -6540,47 +8088,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 11,
+    "level": 5,
     "move": "doble-inyeccion"
    },
    {
-    "level": 12,
+    "level": 7,
     "move": "acidos-micolicos"
+   },
+   {
+    "level": 9,
+    "move": "precipitado-mineral"
+   },
+   {
+    "level": 13,
+    "move": "desestabilizacion-membrana"
    },
    {
     "level": 16,
     "move": "fluorescencia-dapi"
    },
    {
-    "level": 22,
-    "move": "beta-lactamasa-penicilina"
-   },
-   {
-    "level": 25,
-    "move": "estres-oxidativo"
-   },
-   {
-    "level": 28,
-    "move": "precipitado-mineral"
-   },
-   {
-    "level": 29,
+    "level": 19,
     "move": "tampon-fosfato-pbs"
    },
    {
-    "level": 31,
-    "move": "choque-criogenico"
+    "level": 21,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 34,
-    "move": "rayo-nitrogeno-liquido"
+    "level": 26,
+    "move": "corte-con-enzima-de-restriccion"
+   },
+   {
+    "level": 31,
+    "move": "beta-lactamasa-penicilina"
    },
    {
     "level": 42,
+    "move": "estres-oxidativo"
+   },
+   {
+    "level": 48,
     "move": "tormenta-liofilizadora"
    },
    {
-    "level": 46,
+    "level": 55,
     "move": "lisis-osmotica"
    }
   ],
@@ -6616,44 +8168,48 @@
     "move": "senal-quimica"
    },
    {
-    "level": 8,
+    "level": 5,
+    "move": "bombardeo-de-cocos"
+   },
+   {
+    "level": 7,
     "move": "engrosamiento-mureina"
    },
    {
     "level": 9,
-    "move": "bombardeo-de-cocos"
+    "move": "precipitado-mineral"
    },
    {
-    "level": 10,
-    "move": "doble-inyeccion"
+    "level": 13,
+    "move": "desestabilizacion-membrana"
    },
    {
-    "level": 12,
+    "level": 19,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 18,
-    "move": "aplastamiento-colonia"
-   },
-   {
-    "level": 18,
+    "level": 21,
     "move": "mitosis-forzada"
    },
    {
-    "level": 21,
-    "move": "hemolisis-beta"
+    "level": 26,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 34,
+    "level": 31,
+    "move": "choque-inclusion"
+   },
+   {
+    "level": 42,
     "move": "estres-oxidativo"
    },
    {
-    "level": 52,
-    "move": "inyeccion-letal-fallida"
+    "level": 48,
+    "move": "presion-osmotica"
    },
    {
-    "level": 53,
-    "move": "autolisis-masiva"
+    "level": 55,
+    "move": "lisis-osmotica"
    }
   ],
   "mo": [
@@ -6687,28 +8243,24 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 1,
-    "move": "perforacion-bdellovibrio"
+    "level": 5,
+    "move": "aguijon-endotoxina"
    },
    {
-    "level": 8,
+    "level": 7,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 9,
+    "move": "respuesta-sos"
+   },
+   {
+    "level": 13,
     "move": "vacuola-contractil"
    },
    {
-    "level": 12,
-    "move": "lipido-a-endotoxina"
-   },
-   {
-    "level": 16,
-    "move": "secrecion-mucopurulenta"
-   },
-   {
     "level": 19,
-    "move": "variacion-antigenica"
-   },
-   {
-    "level": 20,
-    "move": "pseudopodo-pesado"
+    "move": "lipido-a-endotoxina"
    },
    {
     "level": 21,
@@ -6719,24 +8271,32 @@
     "move": "transferencia-horizontal"
    },
    {
-    "level": 23,
-    "move": "onda-quimiotactica"
+    "level": 26,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 31,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 34,
+    "move": "variacion-antigenica"
    },
    {
     "level": 36,
     "move": "secuestro-ribosomal"
    },
    {
-    "level": 41,
-    "move": "choque-septico"
+    "level": 42,
+    "move": "onda-quimiotactica"
    },
    {
-    "level": 54,
+    "level": 48,
+    "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 55,
     "move": "inyector-tipo-iii"
-   },
-   {
-    "level": 54,
-    "move": "chorro-citoplasmatico"
    }
   ],
   "mo": [
@@ -6776,32 +8336,56 @@
     "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 3,
-    "move": "secrecion-acida"
-   },
-   {
-    "level": 10,
+    "level": 5,
     "move": "aguijon-endotoxina"
    },
    {
-    "level": 19,
+    "level": 7,
     "move": "nube-de-indol-y-escatol"
+   },
+   {
+    "level": 9,
+    "move": "respuesta-sos"
+   },
+   {
+    "level": 13,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 19,
+    "move": "choque-septico"
+   },
+   {
+    "level": 21,
+    "move": "secrecion-acida"
    },
    {
     "level": 22,
     "move": "fagocitosis"
    },
    {
-    "level": 27,
-    "move": "choque-termofilo"
+    "level": 26,
+    "move": "secrecion-mucopurulenta"
    },
    {
     "level": 31,
     "move": "beta-lactamasa-penicilina"
    },
    {
-    "level": 32,
-    "move": "membrana-externa-lps"
+    "level": 34,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 42,
+    "move": "chorro-metano-ardiente"
+   },
+   {
+    "level": 48,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -6837,39 +8421,51 @@
     "move": "senal-quimica"
    },
    {
-    "level": 4,
-    "move": "sulfuro-de-hidrogeno-h2s"
-   },
-   {
     "level": 7,
     "move": "adhesion-matriz"
    },
    {
-    "level": 21,
+    "level": 9,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 29,
+    "level": 11,
+    "move": "fermentacion-lactica"
+   },
+   {
+    "level": 15,
+    "move": "secrecion-acida"
+   },
+   {
+    "level": 21,
+    "move": "exopolisacarido-eps"
+   },
+   {
+    "level": 23,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 28,
     "move": "choque-termofilo"
    },
    {
     "level": 33,
-    "move": "beta-lactamasa-penicilina"
-   },
-   {
-    "level": 35,
-    "move": "encapsulacion"
-   },
-   {
-    "level": 36,
     "move": "impacto-capsular"
    },
    {
-    "level": 47,
-    "move": "chorro-metano-ardiente"
+    "level": 36,
+    "move": "limo-polimerico"
    },
    {
-    "level": 49,
+    "level": 44,
+    "move": "beta-lactamasa-penicilina"
+   },
+   {
+    "level": 50,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
     "move": "fase-exponencial"
    }
   ],
@@ -6904,28 +8500,48 @@
     "move": "deteccion-quorum"
    },
    {
+    "level": 5,
+    "move": "bombardeo-de-cocos"
+   },
+   {
     "level": 7,
-    "move": "rafaga-cocos"
-   },
-   {
-    "level": 15,
-    "move": "aplastamiento-colonia"
-   },
-   {
-    "level": 23,
-    "move": "pinza-pili"
-   },
-   {
-    "level": 24,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 25,
+    "level": 9,
+    "move": "rafaga-cocos"
+   },
+   {
+    "level": 13,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 19,
+    "move": "engrosamiento-mureina"
+   },
+   {
+    "level": 21,
+    "move": "aplastamiento-colonia"
+   },
+   {
+    "level": 26,
     "move": "choque-inclusion"
    },
    {
-    "level": 40,
-    "move": "engrosamiento-mureina"
+    "level": 31,
+    "move": "lluvia-de-cristales"
+   },
+   {
+    "level": 42,
+    "move": "presion-osmotica"
+   },
+   {
+    "level": 48,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "autolisis-masiva"
    }
   ],
   "mo": [
@@ -6958,47 +8574,55 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 10,
+    "level": 7,
     "move": "adhesion-matriz"
    },
    {
-    "level": 12,
-    "move": "perforacion-bdellovibrio"
+    "level": 9,
+    "move": "encapsulacion"
    },
    {
-    "level": 13,
-    "move": "limo-polimerico"
+    "level": 11,
+    "move": "fimbrias-multiples"
    },
    {
-    "level": 16,
-    "move": "eflujo-multidrogas"
-   },
-   {
-    "level": 22,
-    "move": "lipido-a-endotoxina"
-   },
-   {
-    "level": 22,
-    "move": "resistencia-persister"
-   },
-   {
-    "level": 25,
-    "move": "interferencia-de-arn-rnai"
-   },
-   {
-    "level": 25,
-    "move": "secrecion-mucopurulenta"
-   },
-   {
-    "level": 28,
+    "level": 14,
     "move": "membrana-externa-lps"
    },
    {
-    "level": 31,
-    "move": "impacto-capsular"
+    "level": 15,
+    "move": "perforacion-bdellovibrio"
    },
    {
-    "level": 45,
+    "level": 21,
+    "move": "limo-polimerico"
+   },
+   {
+    "level": 23,
+    "move": "interferencia-de-arn-rnai"
+   },
+   {
+    "level": 28,
+    "move": "eflujo-multidrogas"
+   },
+   {
+    "level": 33,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 36,
+    "move": "exopolisacarido-eps"
+   },
+   {
+    "level": 44,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 50,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -7035,36 +8659,44 @@
     "move": "senal-quimica"
    },
    {
-    "level": 2,
-    "move": "sintesis-de-atp"
-   },
-   {
-    "level": 8,
+    "level": 5,
     "move": "fision-binaria-doble"
    },
    {
+    "level": 7,
+    "move": "induccion-latencia"
+   },
+   {
+    "level": 9,
+    "move": "contacto-celular"
+   },
+   {
     "level": 17,
-    "move": "difusion-facilitada"
+    "move": "sintesis-de-atp"
    },
    {
-    "level": 20,
-    "move": "vertigo-browniano"
-   },
-   {
-    "level": 26,
-    "move": "aerosol-cortante"
+    "level": 19,
+    "move": "regulacion-alosterica"
    },
    {
     "level": 31,
-    "move": "infeccion-oportunista"
-   },
-   {
-    "level": 33,
-    "move": "plasmido-espejo"
+    "move": "difusion-facilitada"
    },
    {
     "level": 34,
-    "move": "transferencia-horizontal"
+    "move": "mutacion-espontanea"
+   },
+   {
+    "level": 36,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 48,
+    "move": "aerosol-cortante"
+   },
+   {
+    "level": 55,
+    "move": "crecimiento-descontrolado"
    }
   ],
   "mo": [
@@ -7099,27 +8731,31 @@
     "move": "senal-quimica"
    },
    {
-    "level": 3,
-    "move": "parasitismo-tisular"
-   },
-   {
-    "level": 8,
+    "level": 5,
     "move": "valva-de-diatomea"
    },
    {
-    "level": 9,
+    "level": 7,
     "move": "enriquecimiento-medio"
    },
    {
-    "level": 10,
-    "move": "frustula-de-silice"
+    "level": 9,
+    "move": "corriente-laminar"
    },
    {
-    "level": 16,
+    "level": 13,
+    "move": "latigo-ciliar"
+   },
+   {
+    "level": 19,
     "move": "centrifugacion"
    },
    {
-    "level": 30,
+    "level": 21,
+    "move": "frustula-de-silice"
+   },
+   {
+    "level": 26,
     "move": "onda-quimiotactica"
    },
    {
@@ -7127,16 +8763,16 @@
     "move": "aerosol-cortante"
    },
    {
-    "level": 39,
-    "move": "marea-roja-saxitoxina"
+    "level": 42,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 44,
-    "move": "floracion-algal-bloom"
-   },
-   {
-    "level": 54,
+    "level": 48,
     "move": "fotosintesis-oxigenica"
+   },
+   {
+    "level": 55,
+    "move": "floracion-algal-bloom"
    }
   ],
   "mo": [
@@ -7173,34 +8809,46 @@
    },
    {
     "level": 5,
+    "move": "adhesina-mucosa"
+   },
+   {
+    "level": 7,
+    "move": "transferencia-horizontal"
+   },
+   {
+    "level": 9,
     "move": "vacuola-contractil"
    },
    {
-    "level": 6,
-    "move": "sintesis-de-atp"
+    "level": 13,
+    "move": "mitosis-forzada"
    },
    {
-    "level": 11,
-    "move": "fagocitosis"
+    "level": 19,
+    "move": "senal-quimica"
    },
    {
-    "level": 22,
+    "level": 21,
+    "move": "difusion-facilitada"
+   },
+   {
+    "level": 26,
     "move": "desestabilizacion-membrana"
    },
    {
-    "level": 25,
-    "move": "corriente-ciliar"
+    "level": 31,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 28,
-    "move": "plasmido-espejo"
+    "level": 34,
+    "move": "regulacion-alosterica"
    },
    {
-    "level": 30,
-    "move": "variacion-antigenica"
+    "level": 42,
+    "move": "pseudopodo-pesado"
    },
    {
-    "level": 35,
+    "level": 48,
     "move": "fagocitosis-nocturna"
    },
    {
@@ -7240,23 +8888,51 @@
    },
    {
     "level": 5,
-    "move": "fimbrias-multiples"
+    "move": "aguijon-endotoxina"
    },
    {
     "level": 7,
     "move": "exotoxina-letal"
    },
    {
-    "level": 17,
-    "move": "eflujo-multidrogas"
+    "level": 9,
+    "move": "fimbrias-multiples"
    },
    {
-    "level": 17,
-    "move": "membrana-externa-lps"
+    "level": 13,
+    "move": "respuesta-sos"
+   },
+   {
+    "level": 19,
+    "move": "lipido-a-endotoxina"
    },
    {
     "level": 21,
+    "move": "perforacion-bdellovibrio"
+   },
+   {
+    "level": 26,
     "move": "precipitado-mineral"
+   },
+   {
+    "level": 31,
+    "move": "eflujo-multidrogas"
+   },
+   {
+    "level": 34,
+    "move": "choque-septico"
+   },
+   {
+    "level": 42,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 48,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 55,
+    "move": "inyector-tipo-iii"
    }
   ],
   "mo": [
@@ -7293,38 +8969,50 @@
    },
    {
     "level": 7,
-    "move": "fimbrias-multiples"
+    "move": "aguijon-endotoxina"
    },
    {
     "level": 9,
     "move": "exotoxina-letal"
    },
    {
-    "level": 10,
-    "move": "adhesion-matriz"
+    "level": 11,
+    "move": "fimbrias-multiples"
    },
    {
-    "level": 19,
-    "move": "eflujo-multidrogas"
+    "level": 15,
+    "move": "perforacion-bdellovibrio"
    },
    {
-    "level": 19,
-    "move": "membrana-externa-lps"
-   },
-   {
-    "level": 23,
-    "move": "impacto-capsular"
+    "level": 21,
+    "move": "lipido-a-endotoxina"
    },
    {
     "level": 23,
     "move": "precipitado-mineral"
    },
    {
-    "level": 38,
-    "move": "limo-polimerico"
+    "level": 28,
+    "move": "resistencia-persister"
    },
    {
-    "level": 49,
+    "level": 33,
+    "move": "eflujo-multidrogas"
+   },
+   {
+    "level": 36,
+    "move": "pigmento-piocianina"
+   },
+   {
+    "level": 44,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 50,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -7361,24 +9049,44 @@
     "move": "senal-quimica"
    },
    {
-    "level": 10,
+    "level": 5,
+    "move": "adhesina-mucosa"
+   },
+   {
+    "level": 7,
+    "move": "variacion-antigenica"
+   },
+   {
+    "level": 9,
     "move": "vacuola-contractil"
    },
    {
     "level": 13,
-    "move": "fagocitosis"
+    "move": "mitosis-forzada"
    },
    {
-    "level": 15,
-    "move": "variacion-antigenica"
-   },
-   {
-    "level": 22,
+    "level": 21,
     "move": "corriente-ciliar"
    },
    {
-    "level": 33,
+    "level": 26,
+    "move": "pseudopodo-pesado"
+   },
+   {
+    "level": 31,
     "move": "taladro-espiroqueta"
+   },
+   {
+    "level": 42,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 48,
+    "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 55,
+    "move": "chorro-citoplasmatico"
    }
   ],
   "mo": [
@@ -7411,47 +9119,51 @@
     "move": "senal-quimica"
    },
    {
-    "level": 1,
-    "move": "potencial-de-membrana"
+    "level": 7,
+    "move": "adhesina-mucosa"
    },
    {
-    "level": 12,
+    "level": 9,
+    "move": "variacion-antigenica"
+   },
+   {
+    "level": 11,
     "move": "vacuola-contractil"
    },
    {
     "level": 15,
-    "move": "fagocitosis"
+    "move": "golpe-flagelar"
    },
    {
-    "level": 17,
-    "move": "variacion-antigenica"
+    "level": 21,
+    "move": "sonicacion"
    },
    {
-    "level": 24,
-    "move": "corriente-ciliar"
-   },
-   {
-    "level": 26,
+    "level": 23,
     "move": "descarga-ionofora"
    },
    {
-    "level": 35,
-    "move": "espuma-de-fermentador"
+    "level": 28,
+    "move": "taladro-espiroqueta"
    },
    {
-    "level": 38,
-    "move": "bloqueo-de-canales-ionicos"
+    "level": 33,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 42,
+    "level": 36,
+    "move": "quimiotaxis-positiva"
+   },
+   {
+    "level": 44,
+    "move": "rayo-nitrogeno-liquido"
+   },
+   {
+    "level": 50,
     "move": "fagocitosis-nocturna"
    },
    {
-    "level": 47,
-    "move": "pulso-electroporacion"
-   },
-   {
-    "level": 53,
+    "level": 57,
     "move": "chorro-citoplasmatico"
    }
   ],
@@ -7487,36 +9199,48 @@
     "move": "senal-quimica"
    },
    {
-    "level": 1,
+    "level": 5,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 3,
-    "move": "corriente-laminar"
-   },
-   {
-    "level": 17,
+    "level": 7,
     "move": "variacion-antigenica"
    },
    {
-    "level": 20,
-    "move": "mitosis-forzada"
+    "level": 9,
+    "move": "vacuola-contractil"
    },
    {
-    "level": 25,
-    "move": "aerosol-cortante"
+    "level": 13,
+    "move": "frustula-de-silice"
    },
    {
-    "level": 28,
-    "move": "corriente-ciliar"
+    "level": 19,
+    "move": "centrifugacion"
    },
    {
-    "level": 30,
+    "level": 21,
+    "move": "fagocitosis"
+   },
+   {
+    "level": 26,
+    "move": "aplastamiento-colonia"
+   },
+   {
+    "level": 31,
     "move": "vertigo-browniano"
    },
    {
-    "level": 41,
-    "move": "centrifugacion"
+    "level": 42,
+    "move": "corriente-ciliar"
+   },
+   {
+    "level": 48,
+    "move": "marea-roja-saxitoxina"
+   },
+   {
+    "level": 55,
+    "move": "floracion-algal-bloom"
    }
   ],
   "mo": [
@@ -7551,11 +9275,15 @@
     "move": "senal-quimica"
    },
    {
-    "level": 1,
+    "level": 7,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 8,
+    "level": 9,
+    "move": "variacion-antigenica"
+   },
+   {
+    "level": 11,
     "move": "propulsion-de-actina"
    },
    {
@@ -7563,35 +9291,39 @@
     "move": "onda-quimiotactica"
    },
    {
-    "level": 19,
-    "move": "variacion-antigenica"
+    "level": 15,
+    "move": "frustula-de-silice"
    },
    {
     "level": 21,
     "move": "cambio-de-serotipo"
    },
    {
-    "level": 22,
+    "level": 23,
     "move": "mitosis-forzada"
    },
    {
     "level": 28,
+    "move": "fagocitosis"
+   },
+   {
+    "level": 33,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 36,
     "move": "deformacion-citoesqueleto"
    },
    {
-    "level": 30,
+    "level": 44,
     "move": "corriente-ciliar"
    },
    {
-    "level": 32,
-    "move": "frustula-de-silice"
-   },
-   {
-    "level": 39,
+    "level": 50,
     "move": "fagocitosis-nocturna"
    },
    {
-    "level": 46,
+    "level": 57,
     "move": "chorro-citoplasmatico"
    }
   ],
@@ -7630,32 +9362,48 @@
     "move": "propulsion-de-actina"
    },
    {
-    "level": 8,
+    "level": 7,
+    "move": "forma-l-pleomorfismo"
+   },
+   {
+    "level": 9,
     "move": "sintesis-de-atp"
    },
    {
-    "level": 10,
+    "level": 13,
     "move": "interferencia-de-arn-rnai"
    },
    {
-    "level": 10,
+    "level": 19,
     "move": "silenciamiento-epigenetico"
    },
    {
-    "level": 18,
+    "level": 21,
+    "move": "pulso-prion"
+   },
+   {
+    "level": 26,
     "move": "resistencia-persister"
    },
    {
-    "level": 24,
-    "move": "cambio-de-serotipo"
+    "level": 31,
+    "move": "onda-quimiotactica"
    },
    {
     "level": 34,
-    "move": "salto-transposon"
+    "move": "represion-lac"
    },
    {
-    "level": 35,
-    "move": "regulacion-alosterica"
+    "level": 42,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 48,
+    "move": "secuestro-ribosomal"
+   },
+   {
+    "level": 55,
+    "move": "salto-transposon"
    }
   ],
   "mo": [
@@ -7688,47 +9436,67 @@
     "move": "senal-quimica"
    },
    {
-    "level": 2,
+    "level": 5,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 4,
+    "level": 7,
+    "move": "forma-l-pleomorfismo"
+   },
+   {
+    "level": 9,
     "move": "propulsion-de-actina"
    },
    {
-    "level": 6,
-    "move": "forma-l-pleomorfismo"
+    "level": 13,
+    "move": "fagocitosis"
    },
    {
     "level": 13,
     "move": "mitosis-forzada"
    },
    {
-    "level": 24,
-    "move": "pseudopodo-pesado"
+    "level": 15,
+    "move": "variacion-antigenica"
+   },
+   {
+    "level": 19,
+    "move": "cambio-de-serotipo"
+   },
+   {
+    "level": 21,
+    "move": "pulso-prion"
+   },
+   {
+    "level": 26,
+    "move": "golpe-flagelar"
    },
    {
     "level": 26,
     "move": "hemolisis-beta"
    },
    {
-    "level": 30,
-    "move": "golpe-flagelar"
-   },
-   {
     "level": 31,
-    "move": "variacion-antigenica"
+    "move": "espuma-de-fermentador"
    },
    {
     "level": 32,
     "move": "secuestro-ribosomal"
    },
    {
-    "level": 32,
+    "level": 34,
+    "move": "silenciamiento-epigenetico"
+   },
+   {
+    "level": 42,
+    "move": "corriente-ciliar"
+   },
+   {
+    "level": 48,
     "move": "fagocitosis-nocturna"
    },
    {
-    "level": 53,
+    "level": 55,
     "move": "chorro-citoplasmatico"
    }
   ],
@@ -7763,11 +9531,11 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 3,
-    "move": "propulsion-de-actina"
+    "level": 5,
+    "move": "adhesina-mucosa"
    },
    {
-    "level": 6,
+    "level": 7,
     "move": "variacion-antigenica"
    },
    {
@@ -7776,26 +9544,38 @@
    },
    {
     "level": 13,
+    "move": "pulso-prion"
+   },
+   {
+    "level": 19,
+    "move": "silenciamiento-epigenetico"
+   },
+   {
+    "level": 21,
     "move": "fagocitosis"
    },
    {
-    "level": 23,
-    "move": "represion-lac"
-   },
-   {
     "level": 26,
-    "move": "corriente-ciliar"
-   },
-   {
-    "level": 28,
     "move": "difusion-facilitada"
    },
    {
-    "level": 39,
-    "move": "fagocitosis-nocturna"
+    "level": 31,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 34,
+    "move": "forma-l-pleomorfismo"
+   },
+   {
+    "level": 42,
+    "move": "corriente-ciliar"
    },
    {
     "level": 48,
+    "move": "fagocitosis-nocturna"
+   },
+   {
+    "level": 55,
     "move": "chorro-citoplasmatico"
    }
   ],
@@ -7830,43 +9610,51 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 8,
+    "level": 5,
     "move": "potencial-de-membrana"
    },
    {
-    "level": 20,
+    "level": 7,
+    "move": "hipermutacion-dirigida"
+   },
+   {
+    "level": 9,
+    "move": "ultracentrifuga"
+   },
+   {
+    "level": 13,
     "move": "giro-sacacorchos"
    },
    {
-    "level": 20,
-    "move": "triada-enzimatica-catalasa-ox-ureasa"
+    "level": 19,
+    "move": "reparacion-por-escision"
    },
    {
-    "level": 31,
+    "level": 21,
+    "move": "onda-choque-osmotico"
+   },
+   {
+    "level": 26,
     "move": "pulso-prion"
    },
    {
+    "level": 31,
+    "move": "espuma-de-fermentador"
+   },
+   {
     "level": 34,
-    "move": "taladro-espiroqueta"
+    "move": "estres-acido"
    },
    {
-    "level": 36,
-    "move": "quimiotaxis-positiva"
-   },
-   {
-    "level": 37,
-    "move": "sonicacion"
-   },
-   {
-    "level": 37,
-    "move": "nanocables-geobacter"
-   },
-   {
-    "level": 39,
-    "move": "deteccion-quorum"
+    "level": 42,
+    "move": "triada-enzimatica-catalasa-ox-ureasa"
    },
    {
     "level": 48,
+    "move": "nanocables-geobacter"
+   },
+   {
+    "level": 55,
     "move": "pulso-electroporacion"
    }
   ],
@@ -7904,44 +9692,52 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 2,
-    "move": "vortice-hidrotermal"
+    "level": 5,
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 8,
-    "move": "fermentacion-lactica"
-   },
-   {
-    "level": 10,
+    "level": 7,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 20,
-    "move": "sombra-prion"
+    "level": 9,
+    "move": "vortice-hidrotermal"
    },
    {
-    "level": 20,
+    "level": 13,
+    "move": "fermentacion-lactica"
+   },
+   {
+    "level": 19,
     "move": "envoltura-s-layer"
    },
    {
-    "level": 26,
-    "move": "choque-termofilo"
+    "level": 21,
+    "move": "sombra-prion"
    },
    {
     "level": 26,
-    "move": "doble-endospora"
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 31,
+    "move": "choque-termofilo"
    },
    {
     "level": 34,
     "move": "vortice-agitador"
    },
    {
-    "level": 43,
-    "move": "fase-exponencial"
+    "level": 42,
+    "move": "nanocables-geobacter"
    },
    {
-    "level": 53,
+    "level": 48,
     "move": "explosion-metanogenica"
+   },
+   {
+    "level": 55,
+    "move": "fase-exponencial"
    }
   ],
   "mo": [
@@ -7974,40 +9770,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 3,
-    "move": "doble-inyeccion"
+    "level": 5,
+    "move": "aguijon-endotoxina"
    },
    {
-    "level": 4,
+    "level": 7,
+    "move": "exotoxina-letal"
+   },
+   {
+    "level": 9,
     "move": "respuesta-sos"
    },
    {
-    "level": 22,
-    "move": "aerosol-cortante"
+    "level": 13,
+    "move": "corte-lisozima"
    },
    {
-    "level": 22,
-    "move": "secrecion-mucopurulenta"
-   },
-   {
-    "level": 24,
+    "level": 19,
     "move": "choque-septico"
    },
    {
-    "level": 27,
+    "level": 21,
+    "move": "eflujo-multidrogas"
+   },
+   {
+    "level": 26,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 31,
     "move": "corte-con-enzima-de-restriccion"
    },
    {
-    "level": 30,
+    "level": 34,
     "move": "lipido-a-endotoxina"
    },
    {
     "level": 42,
-    "move": "inyeccion-letal-fallida"
+    "move": "aerosol-cortante"
    },
    {
     "level": 48,
-    "move": "inyector-tipo-iii"
+    "move": "inyeccion-letal-fallida"
+   },
+   {
+    "level": 55,
+    "move": "lisis-osmotica"
    }
   ],
   "mo": [
@@ -8043,43 +9851,59 @@
     "move": "senal-quimica"
    },
    {
-    "level": 6,
+    "level": 5,
+    "move": "bombardeo-de-cocos"
+   },
+   {
+    "level": 7,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 10,
-    "move": "rafaga-cocos"
-   },
-   {
-    "level": 11,
+    "level": 9,
     "move": "propulsion-de-actina"
    },
    {
-    "level": 15,
-    "move": "precipitado-mineral"
+    "level": 13,
+    "move": "pulso-prion"
    },
    {
     "level": 19,
-    "move": "difusion-facilitada"
+    "move": "engrosamiento-mureina"
+   },
+   {
+    "level": 19,
+    "move": "cambio-de-serotipo"
    },
    {
     "level": 21,
-    "move": "silenciamiento-epigenetico"
+    "move": "difusion-facilitada"
    },
    {
-    "level": 24,
-    "move": "choque-inclusion"
+    "level": 26,
+    "move": "onda-quimiotactica"
    },
    {
-    "level": 32,
-    "move": "engrosamiento-mureina"
+    "level": 31,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 34,
+    "move": "deformacion-citoesqueleto"
    },
    {
     "level": 35,
     "move": "choque-criogenico"
    },
    {
-    "level": 53,
+    "level": 42,
+    "move": "lluvia-de-cristales"
+   },
+   {
+    "level": 48,
+    "move": "secuestro-ribosomal"
+   },
+   {
+    "level": 55,
     "move": "autolisis-masiva"
    }
   ],
@@ -8114,24 +9938,52 @@
     "move": "senal-quimica"
    },
    {
+    "level": 5,
+    "move": "espiculas-glicoproteicas"
+   },
+   {
     "level": 7,
     "move": "splicing-alternativo"
    },
    {
     "level": 9,
-    "move": "espiculas-glicoproteicas"
-   },
-   {
-    "level": 14,
     "move": "furia-fagica"
    },
    {
+    "level": 13,
+    "move": "vertigo-browniano"
+   },
+   {
     "level": 19,
+    "move": "transduccion-viral"
+   },
+   {
+    "level": 21,
+    "move": "enquistamiento-subterraneo"
+   },
+   {
+    "level": 26,
+    "move": "cabezazo-capside"
+   },
+   {
+    "level": 31,
+    "move": "ariete-bacteriofago"
+   },
+   {
+    "level": 34,
     "move": "mutagenesis-al-azar-uv"
    },
    {
-    "level": 24,
-    "move": "enquistamiento-subterraneo"
+    "level": 42,
+    "move": "estallido-litico"
+   },
+   {
+    "level": 48,
+    "move": "apoptosis-inducida"
+   },
+   {
+    "level": 55,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8164,27 +10016,27 @@
     "move": "senal-quimica"
    },
    {
+    "level": 7,
+    "move": "adhesion-matriz"
+   },
+   {
     "level": 9,
     "move": "splicing-alternativo"
    },
    {
     "level": 11,
-    "move": "espiculas-glicoproteicas"
-   },
-   {
-    "level": 12,
-    "move": "adhesion-matriz"
-   },
-   {
-    "level": 12,
-    "move": "exopolisacarido-eps"
+    "move": "pinza-pili"
    },
    {
     "level": 15,
     "move": "infeccion-latente"
    },
    {
-    "level": 16,
+    "level": 15,
+    "move": "resistencia-persister"
+   },
+   {
+    "level": 18,
     "move": "furia-fagica"
    },
    {
@@ -8193,15 +10045,35 @@
    },
    {
     "level": 21,
-    "move": "mutagenesis-al-azar-uv"
+    "move": "limo-polimerico"
    },
    {
     "level": 23,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 28,
     "move": "impacto-capsular"
    },
    {
-    "level": 26,
+    "level": 33,
     "move": "enquistamiento-subterraneo"
+   },
+   {
+    "level": 36,
+    "move": "exopolisacarido-eps"
+   },
+   {
+    "level": 44,
+    "move": "cabezazo-capside"
+   },
+   {
+    "level": 50,
+    "move": "estallido-litico"
+   },
+   {
+    "level": 57,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8235,48 +10107,56 @@
     "move": "senal-quimica"
    },
    {
+    "level": 9,
+    "move": "adhesion-matriz"
+   },
+   {
     "level": 11,
     "move": "splicing-alternativo"
    },
    {
     "level": 13,
-    "move": "espiculas-glicoproteicas"
+    "move": "pinza-pili"
    },
    {
-    "level": 14,
-    "move": "adhesion-matriz"
-   },
-   {
-    "level": 14,
-    "move": "exopolisacarido-eps"
-   },
-   {
-    "level": 18,
-    "move": "furia-fagica"
+    "level": 17,
+    "move": "resistencia-persister"
    },
    {
     "level": 23,
-    "move": "mutagenesis-al-azar-uv"
+    "move": "limo-polimerico"
    },
    {
     "level": 25,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 30,
     "move": "impacto-capsular"
    },
    {
-    "level": 28,
+    "level": 35,
     "move": "enquistamiento-subterraneo"
    },
    {
-    "level": 49,
-    "move": "estallido-litico"
+    "level": 38,
+    "move": "exopolisacarido-eps"
    },
    {
-    "level": 54,
+    "level": 46,
     "move": "cabezazo-capside"
    },
    {
-    "level": 57,
+    "level": 49,
     "move": "ariete-bacteriofago"
+   },
+   {
+    "level": 52,
+    "move": "estallido-litico"
+   },
+   {
+    "level": 59,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8310,24 +10190,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 3,
+    "level": 5,
     "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 13,
-    "move": "furia-fagica"
-   },
-   {
-    "level": 21,
-    "move": "aguja-pilus"
-   },
-   {
-    "level": 21,
+    "level": 7,
     "move": "infeccion-latente"
    },
    {
-    "level": 28,
+    "level": 9,
+    "move": "furia-fagica"
+   },
+   {
+    "level": 13,
+    "move": "aguja-pilus"
+   },
+   {
+    "level": 19,
     "move": "mutagenesis-al-azar-uv"
+   },
+   {
+    "level": 21,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 26,
+    "move": "cabezazo-capside"
+   },
+   {
+    "level": 31,
+    "move": "ariete-bacteriofago"
+   },
+   {
+    "level": 34,
+    "move": "splicing-alternativo"
+   },
+   {
+    "level": 42,
+    "move": "estallido-litico"
+   },
+   {
+    "level": 48,
+    "move": "apoptosis-inducida"
+   },
+   {
+    "level": 55,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8360,32 +10268,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 5,
+    "level": 7,
     "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 10,
-    "move": "propulsion-de-actina"
+    "level": 9,
+    "move": "deformacion-citoesqueleto"
+   },
+   {
+    "level": 11,
+    "move": "interferencia-de-arn-rnai"
    },
    {
     "level": 15,
     "move": "furia-fagica"
    },
    {
-    "level": 22,
-    "move": "forma-l-pleomorfismo"
+    "level": 21,
+    "move": "cambio-de-serotipo"
    },
    {
     "level": 23,
     "move": "aguja-pilus"
    },
    {
-    "level": 23,
-    "move": "infeccion-latente"
+    "level": 28,
+    "move": "secuestro-ribosomal"
    },
    {
-    "level": 30,
-    "move": "mutagenesis-al-azar-uv"
+    "level": 33,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 36,
+    "move": "represion-lac"
+   },
+   {
+    "level": 44,
+    "move": "cabezazo-capside"
+   },
+   {
+    "level": 50,
+    "move": "estallido-litico"
+   },
+   {
+    "level": 57,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8419,36 +10347,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 7,
+    "level": 9,
     "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 12,
-    "move": "propulsion-de-actina"
+    "level": 11,
+    "move": "deformacion-citoesqueleto"
+   },
+   {
+    "level": 13,
+    "move": "interferencia-de-arn-rnai"
    },
    {
     "level": 17,
     "move": "furia-fagica"
    },
    {
-    "level": 24,
-    "move": "forma-l-pleomorfismo"
+    "level": 23,
+    "move": "cambio-de-serotipo"
    },
    {
     "level": 25,
     "move": "aguja-pilus"
    },
    {
-    "level": 25,
-    "move": "infeccion-latente"
+    "level": 30,
+    "move": "secuestro-ribosomal"
    },
    {
-    "level": 32,
-    "move": "mutagenesis-al-azar-uv"
+    "level": 35,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 51,
+    "level": 38,
+    "move": "represion-lac"
+   },
+   {
+    "level": 46,
+    "move": "cabezazo-capside"
+   },
+   {
+    "level": 52,
     "move": "estallido-litico"
+   },
+   {
+    "level": 59,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8482,28 +10426,48 @@
     "move": "senal-quimica"
    },
    {
-    "level": 9,
+    "level": 5,
     "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 10,
-    "move": "transduccion-viral"
+    "level": 7,
+    "move": "splicing-alternativo"
    },
    {
-    "level": 11,
+    "level": 9,
     "move": "furia-fagica"
    },
    {
-    "level": 27,
+    "level": 13,
     "move": "resistencia-persister"
+   },
+   {
+    "level": 19,
+    "move": "transduccion-viral"
+   },
+   {
+    "level": 21,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 21,
+    "move": "latencia-lisogenica"
+   },
+   {
+    "level": 26,
+    "move": "cabezazo-capside"
+   },
+   {
+    "level": 31,
+    "move": "ariete-bacteriofago"
+   },
+   {
+    "level": 34,
+    "move": "mutagenesis-al-azar-uv"
    },
    {
     "level": 37,
     "move": "secuestro-ribosomal"
-   },
-   {
-    "level": 37,
-    "move": "latencia-lisogenica"
    },
    {
     "level": 42,
@@ -8511,7 +10475,11 @@
    },
    {
     "level": 48,
-    "move": "cabezazo-capside"
+    "move": "apoptosis-inducida"
+   },
+   {
+    "level": 55,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8544,40 +10512,52 @@
     "move": "senal-quimica"
    },
    {
+    "level": 7,
+    "move": "aguijon-endotoxina"
+   },
+   {
+    "level": 9,
+    "move": "exotoxina-letal"
+   },
+   {
     "level": 11,
     "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 12,
-    "move": "transduccion-viral"
-   },
-   {
-    "level": 13,
-    "move": "furia-fagica"
-   },
-   {
-    "level": 13,
-    "move": "respuesta-sos"
-   },
-   {
     "level": 15,
-    "move": "splicing-alternativo"
+    "move": "perforacion-bdellovibrio"
    },
    {
-    "level": 25,
-    "move": "exotoxina-letal"
+    "level": 21,
+    "move": "lipido-a-endotoxina"
    },
    {
-    "level": 29,
+    "level": 23,
+    "move": "eflujo-multidrogas"
+   },
+   {
+    "level": 28,
     "move": "resistencia-persister"
    },
    {
-    "level": 39,
-    "move": "latencia-lisogenica"
+    "level": 33,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 41,
-    "move": "membrana-externa-lps"
+    "level": 36,
+    "move": "splicing-alternativo"
+   },
+   {
+    "level": 44,
+    "move": "ariete-bacteriofago"
+   },
+   {
+    "level": 50,
+    "move": "inyector-tipo-iii"
+   },
+   {
+    "level": 57,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8613,40 +10593,52 @@
     "move": "senal-quimica"
    },
    {
+    "level": 9,
+    "move": "aguijon-endotoxina"
+   },
+   {
+    "level": 11,
+    "move": "exotoxina-letal"
+   },
+   {
     "level": 13,
     "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 14,
-    "move": "transduccion-viral"
+    "level": 17,
+    "move": "perforacion-bdellovibrio"
    },
    {
-    "level": 15,
-    "move": "furia-fagica"
+    "level": 23,
+    "move": "lipido-a-endotoxina"
    },
    {
-    "level": 15,
-    "move": "respuesta-sos"
+    "level": 25,
+    "move": "eflujo-multidrogas"
    },
    {
-    "level": 31,
+    "level": 30,
     "move": "resistencia-persister"
    },
    {
-    "level": 41,
-    "move": "latencia-lisogenica"
+    "level": 35,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 43,
-    "move": "membrana-externa-lps"
+    "level": 38,
+    "move": "splicing-alternativo"
+   },
+   {
+    "level": 46,
+    "move": "ariete-bacteriofago"
    },
    {
     "level": 52,
-    "move": "cabezazo-capside"
+    "move": "inyector-tipo-iii"
    },
    {
-    "level": 55,
-    "move": "inyector-tipo-iii"
+    "level": 59,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8682,24 +10674,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 8,
+    "level": 5,
     "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 12,
+    "level": 7,
+    "move": "infeccion-latente"
+   },
+   {
+    "level": 9,
     "move": "furia-fagica"
    },
    {
-    "level": 20,
+    "level": 13,
     "move": "choque-termofilo"
    },
    {
-    "level": 33,
+    "level": 19,
     "move": "mutagenesis-al-azar-uv"
    },
    {
-    "level": 36,
-    "move": "transduccion-viral"
+    "level": 21,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 26,
+    "move": "cabezazo-capside"
+   },
+   {
+    "level": 31,
+    "move": "ariete-bacteriofago"
+   },
+   {
+    "level": 34,
+    "move": "latencia-lisogenica"
+   },
+   {
+    "level": 42,
+    "move": "estallido-litico"
+   },
+   {
+    "level": 48,
+    "move": "apoptosis-inducida"
+   },
+   {
+    "level": 55,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8732,36 +10752,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 9,
-    "move": "variacion-antigenica"
+    "level": 7,
+    "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 10,
-    "move": "espiculas-glicoproteicas"
+    "level": 9,
+    "move": "variacion-antigenica"
    },
    {
     "level": 11,
     "move": "vacuola-contractil"
    },
    {
-    "level": 14,
-    "move": "furia-fagica"
+    "level": 15,
+    "move": "mitosis-forzada"
    },
    {
-    "level": 22,
+    "level": 21,
+    "move": "infeccion-latente"
+   },
+   {
+    "level": 23,
     "move": "choque-termofilo"
    },
    {
-    "level": 33,
-    "move": "pseudopodo-pesado"
+    "level": 28,
+    "move": "corriente-ciliar"
    },
    {
-    "level": 35,
+    "level": 33,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 36,
     "move": "mutagenesis-al-azar-uv"
    },
    {
-    "level": 38,
-    "move": "transduccion-viral"
+    "level": 44,
+    "move": "chorro-citoplasmatico"
+   },
+   {
+    "level": 50,
+    "move": "estallido-litico"
+   },
+   {
+    "level": 57,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8795,36 +10831,44 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 11,
-    "move": "variacion-antigenica"
+    "level": 9,
+    "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 12,
-    "move": "espiculas-glicoproteicas"
+    "level": 11,
+    "move": "variacion-antigenica"
    },
    {
     "level": 13,
     "move": "vacuola-contractil"
    },
    {
-    "level": 16,
+    "level": 17,
+    "move": "mitosis-forzada"
+   },
+   {
+    "level": 21,
     "move": "furia-fagica"
    },
    {
-    "level": 24,
+    "level": 23,
+    "move": "infeccion-latente"
+   },
+   {
+    "level": 25,
     "move": "choque-termofilo"
    },
    {
+    "level": 30,
+    "move": "corriente-ciliar"
+   },
+   {
     "level": 35,
-    "move": "pseudopodo-pesado"
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 37,
+    "level": 38,
     "move": "mutagenesis-al-azar-uv"
-   },
-   {
-    "level": 40,
-    "move": "transduccion-viral"
    },
    {
     "level": 43,
@@ -8843,12 +10887,16 @@
     "move": "apoptosis-inducida"
    },
    {
-    "level": 57,
+    "level": 52,
     "move": "estallido-litico"
    },
    {
     "level": 58,
     "move": "pulso-electroporacion"
+   },
+   {
+    "level": 59,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -8910,47 +10958,59 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 6,
-    "move": "sintesis-de-atp"
+    "level": 7,
+    "move": "aguijon-endotoxina"
    },
    {
-    "level": 8,
-    "move": "fimbrias-multiples"
-   },
-   {
-    "level": 13,
+    "level": 9,
     "move": "membrana-externa-lps"
    },
    {
-    "level": 13,
-    "move": "secrecion-mucopurulenta"
+    "level": 11,
+    "move": "fimbrias-multiples"
+   },
+   {
+    "level": 15,
+    "move": "perforacion-bdellovibrio"
    },
    {
     "level": 15,
     "move": "enriquecimiento-medio"
    },
    {
-    "level": 15,
-    "move": "difusion-facilitada"
+    "level": 21,
+    "move": "exotoxina-letal"
    },
    {
-    "level": 24,
-    "move": "fagocitosis"
+    "level": 23,
+    "move": "sintesis-de-atp"
+   },
+   {
+    "level": 28,
+    "move": "difusion-facilitada"
    },
    {
     "level": 31,
     "move": "choque-inclusion"
    },
    {
-    "level": 32,
-    "move": "lipido-a-endotoxina"
+    "level": 33,
+    "move": "fagocitosis"
    },
    {
-    "level": 40,
-    "move": "regulacion-alosterica"
+    "level": 36,
+    "move": "senal-quimica"
    },
    {
-    "level": 51,
+    "level": 44,
+    "move": "secrecion-mucopurulenta"
+   },
+   {
+    "level": 50,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 57,
     "move": "inyector-tipo-iii"
    }
   ],
@@ -8987,43 +11047,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 9,
-    "move": "corriente-laminar"
+    "level": 5,
+    "move": "valva-de-diatomea"
    },
    {
-    "level": 10,
+    "level": 7,
+    "move": "tampon-fosfato-pbs"
+   },
+   {
+    "level": 9,
     "move": "frustula-de-silice"
    },
    {
-    "level": 25,
+    "level": 13,
+    "move": "fluorescencia-dapi"
+   },
+   {
+    "level": 19,
     "move": "acidos-micolicos"
    },
    {
-    "level": 27,
-    "move": "estres-oxidativo"
+    "level": 21,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 28,
+    "level": 26,
     "move": "choque-criogenico"
    },
    {
-    "level": 28,
+    "level": 31,
+    "move": "estres-oxidativo"
+   },
+   {
+    "level": 34,
     "move": "centrifugacion"
    },
    {
-    "level": 32,
-    "move": "aerosol-cortante"
+    "level": 42,
+    "move": "rayo-nitrogeno-liquido"
    },
    {
-    "level": 44,
+    "level": 48,
     "move": "tormenta-liofilizadora"
    },
    {
-    "level": 45,
-    "move": "marea-roja-saxitoxina"
-   },
-   {
-    "level": 53,
+    "level": 55,
     "move": "floracion-algal-bloom"
    }
   ],
@@ -9083,28 +11151,44 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 6,
+    "level": 5,
+    "move": "fision-binaria-doble"
+   },
+   {
+    "level": 7,
     "move": "gemacion-nutritiva"
    },
    {
-    "level": 10,
+    "level": 9,
+    "move": "ataque-multimerico"
+   },
+   {
+    "level": 17,
+    "move": "gas-de-fermentacion-co2"
+   },
+   {
+    "level": 19,
+    "move": "infeccion-oportunista"
+   },
+   {
+    "level": 21,
     "move": "golpe-peptidoglicano"
    },
    {
-    "level": 20,
-    "move": "fagocitosis"
-   },
-   {
-    "level": 23,
-    "move": "espuma-de-fermentador"
-   },
-   {
-    "level": 26,
-    "move": "lavado-con-solucion-salina"
-   },
-   {
     "level": 34,
+    "move": "mutacion-espontanea"
+   },
+   {
+    "level": 36,
     "move": "vertigo-browniano"
+   },
+   {
+    "level": 48,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
+    "move": "rayo-nitrogeno-liquido"
    }
   ],
   "mo": [
@@ -9138,36 +11222,48 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 8,
+    "level": 7,
     "move": "adhesina-mucosa"
    },
    {
-    "level": 13,
-    "move": "hipermutacion-dirigida"
+    "level": 9,
+    "move": "reparacion-por-escision"
    },
    {
-    "level": 17,
+    "level": 11,
+    "move": "ultracentrifuga"
+   },
+   {
+    "level": 15,
     "move": "fagocitosis"
    },
    {
-    "level": 22,
-    "move": "pinza-pili"
+    "level": 21,
+    "move": "estres-acido"
    },
    {
-    "level": 26,
+    "level": 23,
+    "move": "onda-choque-osmotico"
+   },
+   {
+    "level": 28,
+    "move": "corriente-ciliar"
+   },
+   {
+    "level": 33,
     "move": "triada-enzimatica-catalasa-ox-ureasa"
    },
    {
-    "level": 29,
-    "move": "variacion-antigenica"
+    "level": 36,
+    "move": "hipermutacion-dirigida"
    },
    {
-    "level": 30,
-    "move": "pseudopodo-pesado"
+    "level": 44,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 42,
-    "move": "fagocitosis-nocturna"
+    "level": 50,
+    "move": "rayo-nitrogeno-liquido"
    },
    {
     "level": 57,
@@ -9206,35 +11302,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 5,
+    "level": 7,
     "move": "potencial-de-membrana"
    },
    {
-    "level": 8,
+    "level": 9,
     "move": "quimiotaxis-positiva"
    },
    {
-    "level": 17,
+    "level": 11,
     "move": "giro-sacacorchos"
    },
    {
-    "level": 22,
-    "move": "fagocitosis"
+    "level": 15,
+    "move": "golpe-flagelar"
    },
    {
-    "level": 30,
-    "move": "bloqueo-de-canales-ionicos"
+    "level": 21,
+    "move": "sonicacion"
    },
    {
-    "level": 35,
+    "level": 23,
     "move": "descarga-ionofora"
    },
    {
-    "level": 37,
+    "level": 28,
+    "move": "taladro-espiroqueta"
+   },
+   {
+    "level": 33,
     "move": "nanocables-geobacter"
    },
    {
-    "level": 54,
+    "level": 36,
+    "move": "bloqueo-de-canales-ionicos"
+   },
+   {
+    "level": 44,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 50,
+    "move": "rayo-nitrogeno-liquido"
+   },
+   {
+    "level": 57,
     "move": "pulso-electroporacion"
    }
   ],
@@ -9270,35 +11382,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 12,
-    "move": "secrecion-acida"
+    "level": 7,
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 13,
-    "move": "hipermutacion-dirigida"
+    "level": 9,
+    "move": "reparacion-por-escision"
    },
    {
-    "level": 22,
-    "move": "fagocitosis"
+    "level": 11,
+    "move": "fermentacion-lactica"
    },
    {
-    "level": 25,
-    "move": "nube-de-indol-y-escatol"
+    "level": 15,
+    "move": "ultracentrifuga"
    },
    {
-    "level": 26,
-    "move": "triada-enzimatica-catalasa-ox-ureasa"
+    "level": 21,
+    "move": "estres-acido"
    },
    {
-    "level": 36,
+    "level": 23,
+    "move": "onda-choque-osmotico"
+   },
+   {
+    "level": 28,
     "move": "choque-termofilo"
    },
    {
-    "level": 41,
+    "level": 33,
     "move": "chorro-metano-ardiente"
    },
    {
-    "level": 53,
+    "level": 36,
+    "move": "hipermutacion-dirigida"
+   },
+   {
+    "level": 44,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 50,
+    "move": "rayo-nitrogeno-liquido"
+   },
+   {
+    "level": 57,
     "move": "fase-exponencial"
    }
   ],
@@ -9333,36 +11461,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 3,
-    "move": "parasitismo-tisular"
+    "level": 5,
+    "move": "bombardeo-de-cocos"
    },
    {
-    "level": 8,
-    "move": "rafaga-cocos"
-   },
-   {
-    "level": 8,
+    "level": 7,
     "move": "engrosamiento-mureina"
    },
    {
-    "level": 16,
-    "move": "aplastamiento-colonia"
+    "level": 9,
+    "move": "parasitismo-tisular"
+   },
+   {
+    "level": 13,
+    "move": "precipitado-mineral"
    },
    {
     "level": 19,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 25,
-    "move": "hemolisis-beta"
-   },
-   {
-    "level": 28,
+    "level": 21,
     "move": "onda-choque-osmotico"
    },
    {
-    "level": 32,
+    "level": 26,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 31,
+    "move": "choque-inclusion"
+   },
+   {
+    "level": 34,
     "move": "enriquecimiento-medio"
+   },
+   {
+    "level": 42,
+    "move": "lluvia-de-cristales"
+   },
+   {
+    "level": 48,
+    "move": "presion-osmotica"
+   },
+   {
+    "level": 55,
+    "move": "fotosintesis-oxigenica"
    }
   ],
   "mo": [
@@ -9396,44 +11540,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 5,
-    "move": "parasitismo-tisular"
+    "level": 7,
+    "move": "bombardeo-de-cocos"
    },
    {
-    "level": 10,
-    "move": "rafaga-cocos"
-   },
-   {
-    "level": 10,
+    "level": 9,
     "move": "engrosamiento-mureina"
    },
    {
-    "level": 18,
-    "move": "aplastamiento-colonia"
+    "level": 11,
+    "move": "parasitismo-tisular"
+   },
+   {
+    "level": 15,
+    "move": "precipitado-mineral"
    },
    {
     "level": 21,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 27,
-    "move": "hemolisis-beta"
-   },
-   {
-    "level": 30,
+    "level": 23,
     "move": "onda-choque-osmotico"
    },
    {
-    "level": 34,
+    "level": 28,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 33,
+    "move": "choque-inclusion"
+   },
+   {
+    "level": 36,
     "move": "enriquecimiento-medio"
    },
    {
-    "level": 53,
-    "move": "fotosintesis-oxigenica"
+    "level": 44,
+    "move": "lluvia-de-cristales"
    },
    {
-    "level": 54,
-    "move": "autolisis-masiva"
+    "level": 50,
+    "move": "presion-osmotica"
+   },
+   {
+    "level": 57,
+    "move": "fotosintesis-oxigenica"
    }
   ],
   "mo": [
@@ -9467,36 +11619,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 9,
+    "level": 5,
     "move": "bombardeo-de-cocos"
    },
    {
-    "level": 15,
+    "level": 7,
+    "move": "turbidez-media"
+   },
+   {
+    "level": 9,
     "move": "precipitado-mineral"
+   },
+   {
+    "level": 13,
+    "move": "aplastamiento-colonia"
    },
    {
     "level": 19,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 23,
-    "move": "enquistamiento-subterraneo"
+    "level": 21,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 29,
-    "move": "neurotoxina-botulinica"
+    "level": 26,
+    "move": "lluvia-de-cristales"
    },
    {
     "level": 31,
-    "move": "corriente-ciliar"
+    "move": "hemolisis-beta"
    },
    {
     "level": 34,
-    "move": "choque-inclusion"
+    "move": "neurotoxina-botulinica"
    },
    {
-    "level": 41,
-    "move": "engrosamiento-mureina"
+    "level": 42,
+    "move": "corriente-ciliar"
+   },
+   {
+    "level": 48,
+    "move": "bomba-de-esporas"
+   },
+   {
+    "level": 55,
+    "move": "ruptura-de-pared"
    }
   ],
   "mo": [
@@ -9530,44 +11698,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 11,
+    "level": 7,
     "move": "bombardeo-de-cocos"
    },
    {
-    "level": 17,
+    "level": 9,
+    "move": "turbidez-media"
+   },
+   {
+    "level": 11,
     "move": "precipitado-mineral"
+   },
+   {
+    "level": 15,
+    "move": "aplastamiento-colonia"
    },
    {
     "level": 21,
     "move": "pared-de-peptidoglicano"
    },
    {
-    "level": 25,
-    "move": "enquistamiento-subterraneo"
+    "level": 23,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 31,
-    "move": "neurotoxina-botulinica"
+    "level": 28,
+    "move": "lluvia-de-cristales"
    },
    {
     "level": 33,
-    "move": "corriente-ciliar"
+    "move": "hemolisis-beta"
    },
    {
     "level": 36,
-    "move": "choque-inclusion"
+    "move": "neurotoxina-botulinica"
    },
    {
-    "level": 43,
-    "move": "engrosamiento-mureina"
+    "level": 44,
+    "move": "corriente-ciliar"
    },
    {
-    "level": 47,
+    "level": 50,
+    "move": "bomba-de-esporas"
+   },
+   {
+    "level": 57,
     "move": "ruptura-de-pared"
-   },
-   {
-    "level": 51,
-    "move": "autolisis-masiva"
    }
   ],
   "mo": [
@@ -9601,7 +11777,7 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 2,
+    "level": 5,
     "move": "vortice-hidrotermal"
    },
    {
@@ -9609,27 +11785,35 @@
     "move": "envoltura-s-layer"
    },
    {
-    "level": 8,
-    "move": "induccion-latencia"
-   },
-   {
-    "level": 9,
+    "level": 13,
     "move": "sintesis-de-atp"
    },
    {
+    "level": 17,
+    "move": "difusion-facilitada"
+   },
+   {
     "level": 19,
+    "move": "induccion-latencia"
+   },
+   {
+    "level": 26,
     "move": "sombra-prion"
    },
    {
-    "level": 22,
-    "move": "vortice-agitador"
+    "level": 34,
+    "move": "regulacion-alosterica"
    },
    {
-    "level": 31,
+    "level": 36,
     "move": "golpe-flagelar"
    },
    {
-    "level": 47,
+    "level": 42,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 55,
     "move": "explosion-metanogenica"
    }
   ],
@@ -9663,24 +11847,40 @@
     "move": "senal-quimica"
    },
    {
-    "level": 19,
+    "level": 5,
     "move": "onda-choque-osmotico"
    },
    {
-    "level": 28,
-    "move": "triada-enzimatica-catalasa-ox-ureasa"
+    "level": 7,
+    "move": "deteccion-quorum"
    },
    {
-    "level": 30,
+    "level": 13,
+    "move": "ultracentrifuga"
+   },
+   {
+    "level": 19,
+    "move": "hipermutacion-dirigida"
+   },
+   {
+    "level": 21,
     "move": "giro-sacacorchos"
    },
    {
-    "level": 34,
-    "move": "reparacion-por-escision"
+    "level": 31,
+    "move": "espuma-de-fermentador"
    },
    {
     "level": 34,
     "move": "criopreservacion"
+   },
+   {
+    "level": 42,
+    "move": "choque-termofilo"
+   },
+   {
+    "level": 55,
+    "move": "triada-enzimatica-catalasa-ox-ureasa"
    }
   ],
   "mo": [
@@ -9714,24 +11914,24 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 6,
+    "level": 5,
     "move": "propulsion-de-actina"
    },
    {
-    "level": 11,
-    "move": "tampon-fosfato-pbs"
+    "level": 7,
+    "move": "silenciamiento-epigenetico"
    },
    {
-    "level": 15,
-    "move": "acidos-micolicos"
-   },
-   {
-    "level": 17,
+    "level": 9,
     "move": "pulso-prion"
    },
    {
-    "level": 20,
-    "move": "silenciamiento-epigenetico"
+    "level": 13,
+    "move": "onda-quimiotactica"
+   },
+   {
+    "level": 19,
+    "move": "tampon-fosfato-pbs"
    },
    {
     "level": 21,
@@ -9742,23 +11942,27 @@
     "move": "sombra-prion"
    },
    {
-    "level": 25,
+    "level": 26,
     "move": "impacto-capsular"
    },
    {
     "level": 31,
-    "move": "deformacion-citoesqueleto"
-   },
-   {
-    "level": 32,
-    "move": "choque-criogenico"
-   },
-   {
-    "level": 41,
     "move": "rayo-nitrogeno-liquido"
    },
    {
-    "level": 50,
+    "level": 34,
+    "move": "represion-lac"
+   },
+   {
+    "level": 42,
+    "move": "crecimiento-descontrolado"
+   },
+   {
+    "level": 48,
+    "move": "salto-transposon"
+   },
+   {
+    "level": 55,
     "move": "tormenta-liofilizadora"
    }
   ],
@@ -9793,48 +11997,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 1,
+    "level": 5,
     "move": "parasitismo-tisular"
    },
    {
-    "level": 8,
+    "level": 7,
     "move": "quimiotaxis-positiva"
    },
    {
-    "level": 10,
-    "move": "potencial-de-membrana"
+    "level": 9,
+    "move": "latigo-ciliar"
    },
    {
-    "level": 12,
-    "move": "bloqueo-de-canales-ionicos"
-   },
-   {
-    "level": 14,
+    "level": 13,
     "move": "golpe-flagelar"
    },
    {
-    "level": 20,
+    "level": 19,
+    "move": "bloqueo-de-canales-ionicos"
+   },
+   {
+    "level": 21,
+    "move": "giro-sacacorchos"
+   },
+   {
+    "level": 26,
     "move": "onda-choque-osmotico"
    },
    {
-    "level": 30,
+    "level": 31,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 34,
     "move": "enriquecimiento-medio"
    },
    {
-    "level": 35,
-    "move": "descarga-ionofora"
+    "level": 42,
+    "move": "taladro-espiroqueta"
    },
    {
-    "level": 38,
-    "move": "nanocables-geobacter"
-   },
-   {
-    "level": 51,
-    "move": "fotosintesis-oxigenica"
+    "level": 48,
+    "move": "pulso-electroporacion"
    },
    {
     "level": 55,
-    "move": "pulso-electroporacion"
+    "move": "fotosintesis-oxigenica"
    }
   ],
   "mo": [
@@ -9870,40 +12078,52 @@
     "move": "senal-quimica"
    },
    {
-    "level": 4,
+    "level": 5,
     "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 6,
-    "move": "sulfuro-de-hidrogeno-h2s"
+    "level": 7,
+    "move": "splicing-alternativo"
    },
    {
-    "level": 16,
+    "level": 9,
+    "move": "secrecion-acida"
+   },
+   {
+    "level": 13,
+    "move": "furia-fagica"
+   },
+   {
+    "level": 19,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 23,
-    "move": "choque-termofilo"
-   },
-   {
-    "level": 30,
+    "level": 21,
     "move": "golpe-flagelar"
    },
    {
-    "level": 34,
+    "level": 26,
     "move": "chorro-metano-ardiente"
    },
    {
-    "level": 34,
-    "move": "infeccion-latente"
+    "level": 31,
+    "move": "crecimiento-descontrolado"
    },
    {
-    "level": 45,
-    "move": "lisis-celular-total"
+    "level": 34,
+    "move": "mutagenesis-al-azar-uv"
+   },
+   {
+    "level": 42,
+    "move": "cabezazo-capside"
+   },
+   {
+    "level": 48,
+    "move": "estallido-litico"
    },
    {
     "level": 55,
-    "move": "fase-exponencial"
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -9936,36 +12156,52 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 10,
+    "level": 5,
     "move": "adhesion-matriz"
    },
    {
-    "level": 20,
+    "level": 7,
+    "move": "pigmento-piocianina"
+   },
+   {
+    "level": 9,
+    "move": "pinza-pili"
+   },
+   {
+    "level": 13,
     "move": "ultracentrifuga"
    },
    {
-    "level": 20,
-    "move": "reparacion-por-escision"
+    "level": 19,
+    "move": "hipermutacion-dirigida"
    },
    {
-    "level": 25,
-    "move": "encapsulacion"
+    "level": 21,
+    "move": "resistencia-persister"
    },
    {
-    "level": 25,
-    "move": "triada-enzimatica-catalasa-ox-ureasa"
-   },
-   {
-    "level": 27,
+    "level": 26,
     "move": "difusion-facilitada"
    },
    {
-    "level": 33,
-    "move": "deteccion-quorum"
+    "level": 31,
+    "move": "aguja-pilus"
    },
    {
     "level": 34,
+    "move": "reparacion-por-escision"
+   },
+   {
+    "level": 42,
+    "move": "vertigo-browniano"
+   },
+   {
+    "level": 48,
     "move": "impacto-capsular"
+   },
+   {
+    "level": 55,
+    "move": "triada-enzimatica-catalasa-ox-ureasa"
    }
   ],
   "mo": [
@@ -9999,43 +12235,51 @@
     "move": "resonancia-magnetica"
    },
    {
-    "level": 3,
-    "move": "secrecion-acida"
+    "level": 5,
+    "move": "sulfuro-de-hidrogeno-h2s"
    },
    {
-    "level": 4,
-    "move": "vortice-hidrotermal"
-   },
-   {
-    "level": 14,
+    "level": 7,
     "move": "envoltura-s-layer"
    },
    {
-    "level": 15,
+    "level": 9,
+    "move": "vortice-hidrotermal"
+   },
+   {
+    "level": 13,
+    "move": "secrecion-acida"
+   },
+   {
+    "level": 19,
     "move": "vortice-agitador"
    },
    {
-    "level": 16,
+    "level": 21,
     "move": "sombra-prion"
    },
    {
-    "level": 33,
+    "level": 26,
     "move": "difusion-facilitada"
    },
    {
-    "level": 35,
-    "move": "choque-termofilo"
+    "level": 31,
+    "move": "espuma-de-fermentador"
    },
    {
-    "level": 40,
+    "level": 34,
     "move": "nube-de-indol-y-escatol"
    },
    {
-    "level": 44,
+    "level": 42,
+    "move": "choque-termofilo"
+   },
+   {
+    "level": 48,
     "move": "explosion-metanogenica"
    },
    {
-    "level": 50,
+    "level": 55,
     "move": "fase-exponencial"
    }
   ],
@@ -10069,40 +12313,52 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 3,
-    "move": "respuesta-sos"
+    "level": 5,
+    "move": "aguijon-endotoxina"
    },
    {
     "level": 7,
     "move": "choque-septico"
    },
    {
-    "level": 11,
+    "level": 9,
     "move": "espiculas-glicoproteicas"
    },
    {
-    "level": 16,
-    "move": "membrana-externa-lps"
+    "level": 13,
+    "move": "perforacion-bdellovibrio"
    },
    {
-    "level": 18,
-    "move": "eflujo-multidrogas"
+    "level": 19,
+    "move": "infeccion-latente"
    },
    {
-    "level": 23,
+    "level": 21,
+    "move": "furia-fagica"
+   },
+   {
+    "level": 26,
+    "move": "espuma-de-fermentador"
+   },
+   {
+    "level": 31,
     "move": "descarga-ionofora"
    },
    {
-    "level": 28,
-    "move": "latencia-lisogenica"
+    "level": 34,
+    "move": "transduccion-viral"
    },
    {
-    "level": 47,
-    "move": "inyector-tipo-iii"
+    "level": 42,
+    "move": "ariete-bacteriofago"
    },
    {
     "level": 48,
-    "move": "ariete-bacteriofago"
+    "move": "inyector-tipo-iii"
+   },
+   {
+    "level": 55,
+    "move": "lisis-celular-total"
    }
   ],
   "mo": [
@@ -10138,35 +12394,51 @@
     "move": "deteccion-quorum"
    },
    {
-    "level": 3,
-    "move": "propulsion-de-actina"
+    "level": 5,
+    "move": "aguijon-endotoxina"
    },
    {
-    "level": 6,
+    "level": 7,
+    "move": "silenciamiento-epigenetico"
+   },
+   {
+    "level": 9,
     "move": "respuesta-sos"
    },
    {
-    "level": 18,
-    "move": "exotoxina-letal"
+    "level": 13,
+    "move": "propulsion-de-actina"
    },
    {
-    "level": 23,
-    "move": "eflujo-multidrogas"
+    "level": 19,
+    "move": "deformacion-citoesqueleto"
    },
    {
-    "level": 25,
-    "move": "aerosol-cortante"
+    "level": 21,
+    "move": "pulso-prion"
    },
    {
-    "level": 28,
-    "move": "cambio-de-serotipo"
+    "level": 26,
+    "move": "secrecion-mucopurulenta"
    },
    {
-    "level": 38,
-    "move": "choque-septico"
+    "level": 31,
+    "move": "vertigo-browniano"
    },
    {
-    "level": 52,
+    "level": 34,
+    "move": "forma-l-pleomorfismo"
+   },
+   {
+    "level": 42,
+    "move": "secuestro-ribosomal"
+   },
+   {
+    "level": 48,
+    "move": "nanocables-geobacter"
+   },
+   {
+    "level": 55,
     "move": "inyector-tipo-iii"
    }
   ],

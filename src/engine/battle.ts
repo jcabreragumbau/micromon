@@ -90,7 +90,7 @@ export class Battle {
     const mk = (party: Microo[], name: string): Side => ({
       party, active: Array(n).fill(null), reflect: 0, lightScreen: 0, mist: 0, name, itemsUsed: 0, participants: new Map(),
     });
-    this.sides = [mk(o.player, o.playerName ?? "Tú"), mk(o.foe, o.foeName ?? (this.wild ? "" : "El rival"))];
+    this.sides = [mk(o.player, o.playerName ?? "Tú"), mk(o.foe, o.foeName ?? (this.wild ? "" : "tu rival"))];
     for (const s of [0, 1] as const) {
       let slot = 0;
       for (let i = 0; i < this.sides[s].party.length && slot < n; i++) {
@@ -522,7 +522,7 @@ export class Battle {
       total += dealt; landed++;
       if (move.orig === "payday") this.payDay += 5 * b.mon.level;
     }
-    if (hits > 1) this.emit("msg", `¡Ha golpeado ${landed} veces!`);
+    if (hits > 1) this.emit("msg", landed === 1 ? "¡Ha golpeado 1 vez!" : `¡Ha golpeado ${landed} veces!`);
     if (eff > 1) this.emit("effective", "¡Es muy eficaz!");
     else if (eff < 1 && eff > 0) this.emit("effective", "No es muy eficaz...");
     // Drenaje y retroceso

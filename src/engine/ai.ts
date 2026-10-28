@@ -78,7 +78,10 @@ function statusScore(battle: Battle, b: NonNullable<ReturnType<Battle["battler"]
   if (mv.boosts) {
     const self = mv.target === "self";
     const tgt = self ? b : t;
-    const total = Object.entries(mv.boosts).reduce((a, [k, v]) => a + (tgt.boosts[k as keyof typeof tgt.boosts] * Math.sign(v as number) >= 4 ? 0 : Math.abs(v as number)), 0);
+    const total = Object.entries(mv.boosts).reduce((a, [k, v]) => {
+      const cur = tgt.boosts[k as keyof typeof tgt.boosts] * Math.sign(v as number);
+      return a + (cur >= 2 ? 0 : Math.abs(v as number) * (cur >= 1 ? 0.4 : 1));
+    }, 0);
     return total * (self ? (b.mon.hp > b.mon.stats.hp * 0.6 ? 12 : 3) : 8);
   }
   if (mv.special === "splash") return 0;

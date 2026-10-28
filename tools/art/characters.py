@@ -158,7 +158,20 @@ PALETTES = {
              "s": "#e8b890", "S": "#c48e6a", "e": "#20182a", "w": "#ecebe4", "W": "#aab0b8",
              "g": "#3c8ad8", "p": "#5c4a3a", "P": "#3e3024", "k": "#2a2428", "b": "#9aa0a8", "B": "#6e747c"},
 }
-CHARACTERS = {"protagonista": "gorra", "becario": "melena"}
+def _v(base, **kw):
+    d = dict(PALETTES[base]); d.update(kw); return d
+PALETTES.update({
+ "rival": _v("becario", h="#c83c1c", H="#7a2010", c="#2a2a3a", C="#14141e", p="#2a3a6a", P="#1a2448", g="#f0c040", b="#c83c3c", B="#7a2020"),
+ "profesora": _v("becario", h="#c8c8d0", H="#8a8a96", c="#6a3a9a", C="#3a1c5a", g="#f0c040", s="#f0c8a8", p="#4a4a5a", P="#2e2e3a"),
+ "madre": _v("becario", h="#8a4a2a", H="#5a2e18", c="#e87090", C="#a84060", w="#e87090", W="#a84060", p="#4a6aa8", P="#2e4a7a", g="#ffffff"),
+ "enfermera": _v("protagonista", c="#f4a6c8", C="#d06a9a", h="#e8b860", H="#a87a30", g="#c83c3c", b="#f4f4f8", B="#c8ccd4", p="#f4f4f8", P="#c8ccd4", k="#c8ccd4"),
+ "dependiente": _v("protagonista", c="#3a6ac8", C="#1c3a7a", h="#2a2228", H="#141014", g="#ffffff", b="#3a6ac8", B="#1c3a7a"),
+ "chico": _v("protagonista", c="#f0c040", C="#a88420", h="#2a2228", H="#141014", w="#5cb060", W="#3e8a48", b="#3a6ac8", B="#1c3a7a"),
+ "chica": _v("becario", h="#e8b860", H="#a87a30", c="#ffffff", C="#c8ccd4", w="#f05050", W="#a83030", p="#3a6ac8", P="#1c3a7a"),
+ "estudiante": _v("becario", h="#5a3a24", H="#3a2416", c="#5cb060", C="#3e8a48"),
+})
+CHARACTERS = {"protagonista": "gorra", "becario": "melena", "rival": "melena", "profesora": "melena", "madre": "melena",
+              "enfermera": "gorra", "dependiente": "gorra", "chico": "gorra", "chica": "melena", "estudiante": "melena"}
 
 def hex2rgba(h): return tuple(int(h[i:i + 2], 16) for i in (1, 3, 5)) + (255,)
 

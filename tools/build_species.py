@@ -152,26 +152,32 @@ def learnset(i, doc_moves):
     chosen[pick([mv[x] for x in STARTER_HIT], seed, 1)[0]["id"]] = 1
     chosen[pick([mv[x] for x in STARTER_DEBUFF], seed + "d", 1)[0]["id"]] = 1
     types = m["types"]
-    # Hasta qué nivel llega esta fase de forma natural
-    final = (s == d)
-    max_tier = 5 if final or d == 1 else (3 if s == 1 else 4)
-    for ti, t in enumerate(types):
-        dmg = [x for x in POOL if x["type"] == t and x["category"] != "status"]
-        for tr in range(1, max_tier + 1):
-            cand = [x for x in dmg if tier(x) == tr]
-            if not cand: continue
-            if ti == 1 and tr % 2 == 0 and len(types) > 1:   # el tipo secundario aporta menos
-                continue
-            x = pick(cand, seed + t, 1)[0]
-            lo, hi = TIER_LV[tr]
-            chosen.setdefault(x["id"], lo + int(h(seed, x["num"]) * (hi - lo)))
-        st = [x for x in POOL if x["type"] == t and x["category"] == "status"]
-        for x in pick(st, seed + t + "s", 1 if ti else 2):
-            chosen.setdefault(x["id"], 6 + int(h(seed + "s", x["num"]) * 36))
-    # Un movimiento de cobertura de otro tipo
-    cov = [x for x in POOL if x["type"] not in types and x["category"] != "status" and tier(x) in (2, 3)]
-    x = pick(cov, seed + "c", 1)[0]
-    chosen.setdefault(x["id"], 18 + int(h(seed, 77) * 16))
+    # Progresión de daño: un movimiento de daño nuevo cada ~5-6 niveles, de menos a más potencia.
+    SLOTS = [5, 9, 13, 17, 21, 26, 31, 36, 42, 48, 55]
+    def pw(x): return 160 if x.get("ohko") else (x["power"] or 60)
+    stab = [x for x in POOL if x["type"] in types and x["category"] != "status"]
+    stab = sorted(pick(stab, seed + "stab", len(stab)), key=pw)
+    # nunca más de 7 de STAB; repartidos por potencia
+    if len(stab) > 7:
+        idx = sorted({round(k * (len(stab) - 1) / 6) for k in range(7)})
+        stab = [stab[k] for k in idx]
+    fill = [x for x in POOL if x["type"] == "Levadura" and x["category"] != "status" and x["id"] not in chosen]
+    cov = [x for x in POOL if x["type"] not in types and x["type"] != "Levadura" and x["category"] != "status" and 50 <= pw(x) <= 90]
+    seq = list(stab)
+    seq += pick([x for x in fill if 50 <= pw(x) <= 90], seed + "f", 1)
+    seq += pick(cov, seed + "c", 2 if len(stab) < 4 else 1)
+    seq = sorted({x["id"]: x for x in seq}.values(), key=pw)
+    slots = SLOTS[: len(seq)] if len(seq) <= len(SLOTS) else SLOTS
+    # repartir: si hay pocos movimientos, se espacian más
+    if len(seq) < len(SLOTS):
+        step = (len(SLOTS) - 1) / max(1, len(seq) - 1)
+        slots = [SLOTS[min(len(SLOTS) - 1, round(k * step))] for k in range(len(seq))]
+    for x, lv in zip(seq, slots):
+        chosen.setdefault(x["id"], lv)
+    # Movimientos de estado de sus tipos
+    st = [x for x in POOL if x["type"] in types and x["category"] == "status"]
+    for k, x in enumerate(pick(st, seed + "s", 3)):
+        chosen.setdefault(x["id"], [7, 19, 34][k])
     # Movimientos que el GDD asigna a este Microo en algún equipo
     for x in doc_moves:
         if x in mv and x not in chosen:

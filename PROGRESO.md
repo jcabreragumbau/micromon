@@ -6,8 +6,8 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 | --- | --- |
 | 0 · Auditoría del GDD | Hecha y aprobada (162 Microos; ver `docs/auditoria.md`) |
 | 1 · Datos y motor de combate | Hecha: 180 tests en verde, 2000 combates simulados sin errores |
-| 2 · Biblia de estilo y prototipo de arte | Hecha, pendiente de aprobación del usuario (`docs/prototipo_estilo.png`) |
-| 3 · Primer tramo jugable | Pendiente |
+| 2 · Biblia de estilo y prototipo de arte | Aprobada, con el compromiso de mejorar la calidad de los sprites en la fase 4 |
+| 3 · Primer tramo jugable | Jugable de Pueblo Plaqueta a la medalla de Ciudad Petri (`dist/index.html`) |
 | 4 · Resto del mundo y arte en lote | Pendiente |
 | 5 · Trama, Liga y equilibrio | Pendiente |
 | 6 · Pulido y publicación | Pendiente |
@@ -24,12 +24,23 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Movimientos característicos del GDD fuera de los 165: «Tormenta Verotoxina» (E. coli O157:H7) e «Inyector Tipo III que ignora la defensa» (Salmonella). Sin definir.
 - Modo RandomLocke, Level Cap y modo Torneo: reglas de partida, se implementan con la capa de juego (fase 3).
 
-## Fase 2 (hecha, falta aprobación)
+## Fase 2 (aprobada)
+- El usuario aprueba el estilo a condición de subir la calidad de los sprites más adelante (fase 4: Microos diseñados a mano por especie, retratos limpios, fotogramas de paso).
 - `docs/estilo.md`: tamaños, reglas de dibujo y herramientas.
 - 5 Microos de muestra generados por código (Synechoc, Butyricum, Paramec, T4-Titan, Pilobolus): frontal, trasera e icono.
 - 15 personajes del GDD convertidos automáticamente (mapa en 4 direcciones, retrato de combate y busto).
 - Protagonista y becario genérico dibujados en rejilla con animación de paso.
 - Maqueta de combate 240×160 (`assets/mock_combate.png`).
 
+## Fase 3 (jugable)
+- Motor 2D propio sin dependencias (`src/game/`): bucle a 60 fps, lienzo 240×160, teclado y mando táctil, escenas y capas de diálogo/menú, fundidos.
+- Fuente de píxeles propia con tildes, ñ, ü, ¿ y ¡ (`tools/art/font.py`); tileset de 88 tiles (`tools/art/tiles.py`); atlas de personajes y de los 162 Microos (sprites provisionales por familia morfológica, `tools/art/families.py`).
+- Mapas: Pueblo Plaqueta, casa, casa vecina, laboratorio, Ruta 1, Ciudad Viral (Incubadora, tienda, Academia, casa), Bosque Viral, Ciudad Petri (Incubadora, tienda, casa) y Gimnasio de Ciudad Petri. Test de alcanzabilidad de salidas, PNJ y objetos (`tests/maps.test.ts`).
+- Historia: presentación de la Profesora Fanny Hesse, nombre y dificultad, elección de inicial, rival Koch (laboratorio y Bosque Viral), Microscopio Óptico y Criobolas, Academia de Infección, entrenadores con línea de visión, Dr. Solé y Medalla Probiótico.
+- Combate con interfaz completa: menús, barras de PS y experiencia, captura con sacudidas, aprendizaje de movimientos, evolución con opción de cancelar, cambio de Microo, objetos, huida y derrota con vuelta a la Incubadora.
+- Menús: equipo, resumen, mochila por bolsillos, Microdex, ficha, opciones (velocidad del texto y dificultad), tienda con cantidades. Guardado en el navegador.
+- Movimientos por nivel rehechos para que cada línea reciba un ataque nuevo cada 4–6 niveles.
+- Pruebas: `bun test` (motor y mapas) y partida automática con Chromium (`tools/playtest.cjs`) que recorre el tramo entero y guarda capturas.
+
 ## Siguiente tarea
-Tras la aprobación del estilo: fase 3, primer tramo jugable (Pueblo Plaqueta → Ciudad Petri) con motor 2D propio sobre Canvas, fuente de píxeles propia y unos 40 Microos.
+Fase 4: Monte Micelio en adelante (gimnasios 2–8 y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
