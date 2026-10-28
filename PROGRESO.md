@@ -6,7 +6,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 | --- | --- |
 | 0 · Auditoría del GDD | Hecha y aprobada (162 Microos; ver `docs/auditoria.md`) |
 | 1 · Datos y motor de combate | Hecha: 180 tests en verde, 2000 combates simulados sin errores |
-| 2 · Biblia de estilo y prototipo de arte | Pendiente |
+| 2 · Biblia de estilo y prototipo de arte | Hecha, pendiente de aprobación del usuario (`docs/prototipo_estilo.png`) |
 | 3 · Primer tramo jugable | Pendiente |
 | 4 · Resto del mundo y arte en lote | Pendiente |
 | 5 · Trama, Liga y equilibrio | Pendiente |
@@ -24,5 +24,12 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Movimientos característicos del GDD fuera de los 165: «Tormenta Verotoxina» (E. coli O157:H7) e «Inyector Tipo III que ignora la defensa» (Salmonella). Sin definir.
 - Modo RandomLocke, Level Cap y modo Torneo: reglas de partida, se implementan con la capa de juego (fase 3).
 
+## Fase 2 (hecha, falta aprobación)
+- `docs/estilo.md`: tamaños, reglas de dibujo y herramientas.
+- 5 Microos de muestra generados por código (Synechoc, Butyricum, Paramec, T4-Titan, Pilobolus): frontal, trasera e icono.
+- 15 personajes del GDD convertidos automáticamente (mapa en 4 direcciones, retrato de combate y busto).
+- Protagonista y becario genérico dibujados en rejilla con animación de paso.
+- Maqueta de combate 240×160 (`assets/mock_combate.png`).
+
 ## Siguiente tarea
-Fase 2: biblia de estilo y prototipo de arte (paletas, generadores de sprites, 5 Microos y 3 personajes de muestra) para que el usuario apruebe el estilo.
+Tras la aprobación del estilo: fase 3, primer tramo jugable (Pueblo Plaqueta → Ciudad Petri) con motor 2D propio sobre Canvas, fuente de píxeles propia y unos 40 Microos.

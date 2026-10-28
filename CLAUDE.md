@@ -11,6 +11,6 @@ RPG por turnos tipo Pokémon sobre microbiología. Diseño en `docs/gdd.txt`; de
 - Los datos se referencian siempre por `id` (slug), nunca por número de Microdex.
 - Los datos de `data/` se generan con los scripts de `tools/`; no editar los JSON a mano sin actualizar el script.
 - Antes de cerrar un trabajo: `python3 tools/validate.py` sin errores.
-- Arte: píxel art. Mapa 16×24 px (4 direcciones × 3 fotogramas), combate de Microo 64×64 px, tiles 16×16 px. Los sprites de personajes del GDD están en `assets/reference/` y son la referencia de estilo.
+- Arte: píxel art según `docs/estilo.md`. Personaje de mapa en marco de 32×32 (4 direcciones × 3 fotogramas), Microo de combate 64×64, icono 32×32, tiles 16×16, pantalla 240×160. Los sprites de personajes del GDD están en `assets/reference/` y son la referencia de estilo.
 - Sprites: rejillas de texto con índices de paleta o generadores por código; un script los convierte a PNG. Revisar siempre con una captura antes de darlos por buenos.
 - Al terminar cada lote: actualizar `PROGRESO.md`, hacer commit y push.
