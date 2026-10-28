@@ -30,6 +30,24 @@ for t in trs:
             ev = m["evolution"]
             if ev and ev["method"] == "level" and s["level"] < ev["level"]:
                 warn.append(f"{t['id']}: {m['id']} Nv.{s['level']} < nivel de evolución {ev['level']}")
+moves = json.load(open(R/"moves.json", encoding="utf-8"))
+species = json.load(open(R/"species.json", encoding="utf-8"))
+mids = {m["id"] for m in moves}
+if len(moves) != 165 or len(mids) != 165: err.append("moves.json debe tener 165 movimientos únicos")
+for m in moves:
+    if m["type"] not in tnames: err.append(f"movimiento {m['id']}: tipo {m['type']}")
+    if m["category"] not in ("physical", "special", "status"): err.append(f"movimiento {m['id']}: categoría")
+sp = {s["id"]: s for s in species}
+if set(sp) != set(by): err.append("species.json no coincide con microdex.json")
+for s in species:
+    if sum(s["baseStats"].values()) != s["bst"]: err.append(f"{s['id']}: suma de estadísticas != bst")
+    if not s["learnset"]: err.append(f"{s['id']}: sin movimientos")
+    for e in s["learnset"]:
+        if e["move"] not in mids: err.append(f"{s['id']}: aprende {e['move']} que no existe")
+for t in trs:
+    for s_ in t["team"]:
+        for mm in s_.get("moves", []):
+            if mm not in mids: err.append(f"{t['id']}: movimiento {mm} no existe")
 n = len(types["chart_attacker_by_defender"])
 if n != 18 or any(len(r) != 18 for r in types["chart_attacker_by_defender"]): err.append("tabla de tipos no es 18x18")
 print(f"Microos: {len(dex)} | Entrenadores: {len(trs)} | líneas evolutivas: {sum(1 for m in dex if not m['evolves_from'] and any(x['evolves_from']==m['id'] for x in dex))}")

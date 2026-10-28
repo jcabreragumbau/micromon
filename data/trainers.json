@@ -7,15 +7,30 @@
   "team": [
    {
     "species": "casei",
-    "level": 12
+    "level": 12,
+    "moves": [
+     "contacto-celular",
+     "senal-quimica",
+     "secrecion-acida"
+    ]
    },
    {
     "species": "cereus",
-    "level": 12
+    "level": 12,
+    "moves": [
+     "turbidez-media",
+     "rafaga-cocos",
+     "golpe-peptidoglicano"
+    ]
    },
    {
     "species": "listeria",
-    "level": 14
+    "level": 14,
+    "moves": [
+     "propulsion-de-actina",
+     "choque-criogenico",
+     "engrosamiento-mureina"
+    ]
    }
   ]
  },
@@ -27,15 +42,30 @@
   "team": [
    {
     "species": "navicula",
-    "level": 18
+    "level": 18,
+    "moves": [
+     "frustula-de-silice",
+     "vacuola-contractil",
+     "corriente-laminar"
+    ]
    },
    {
     "species": "desulfovib",
-    "level": 19
+    "level": 19,
+    "moves": [
+     "sulfuro-de-hidrogeno-h2s",
+     "secrecion-acida",
+     "fagocitosis"
+    ]
    },
    {
     "species": "anabaen",
-    "level": 21
+    "level": 21,
+    "moves": [
+     "latigo-ciliar",
+     "parasitismo-tisular",
+     "lipido-a-endotoxina"
+    ]
    }
   ]
  },
@@ -47,15 +77,30 @@
   "team": [
    {
     "species": "pilobolus",
-    "level": 24
+    "level": 24,
+    "moves": [
+     "disparo-esporangio",
+     "corriente-laminar",
+     "triptofano-fungico"
+    ]
    },
    {
     "species": "flavus",
-    "level": 25
+    "level": 25,
+    "moves": [
+     "aguijon-endotoxina",
+     "micelio-drenante",
+     "nutricion-saprofita"
+    ]
    },
    {
     "species": "chrysogenum",
-    "level": 27
+    "level": 27,
+    "moves": [
+     "beta-lactamasa-penicilina",
+     "espora-fungica",
+     "corte-lisozima"
+    ]
    }
   ]
  },
@@ -67,15 +112,30 @@
   "team": [
    {
     "species": "pastorian",
-    "level": 29
+    "level": 29,
+    "moves": [
+     "gas-de-fermentacion-co2",
+     "fermentacion-lactica",
+     "crecimiento-descontrolado"
+    ]
    },
    {
     "species": "neoformans",
-    "level": 30
+    "level": 30,
+    "moves": [
+     "impacto-capsular",
+     "encapsulacion",
+     "espuma-de-fermentador"
+    ]
    },
    {
     "species": "auris",
-    "level": 32
+    "level": 32,
+    "moves": [
+     "eflujo-multidrogas",
+     "gemacion-nutritiva",
+     "presion-osmotica"
+    ]
    }
   ]
  },
@@ -87,19 +147,39 @@
   "team": [
    {
     "species": "mobilis",
-    "level": 35
+    "level": 35,
+    "moves": [
+     "fase-exponencial",
+     "estres-oxidativo",
+     "secrecion-acida"
+    ]
    },
    {
     "species": "acetobuty",
-    "level": 36
+    "level": 36,
+    "moves": [
+     "chorro-metano-ardiente",
+     "bomba-de-esporas",
+     "choque-termofilo"
+    ]
    },
    {
     "species": "avermitil",
-    "level": 38
+    "level": 38,
+    "moves": [
+     "corte-con-enzima-de-restriccion",
+     "beta-lactamasa-penicilina",
+     "sintesis-de-atp"
+    ]
    },
    {
     "species": "coli-bl21",
-    "level": 40
+    "level": 40,
+    "moves": [
+     "enriquecimiento-medio",
+     "difusion-facilitada",
+     "choque-inclusion"
+    ]
    }
   ]
  },
@@ -111,19 +191,39 @@
   "team": [
    {
     "species": "pneumoniae",
-    "level": 41
+    "level": 41,
+    "moves": [
+     "secuestro-ribosomal",
+     "forma-l-pleomorfismo",
+     "interferencia-de-arn-rnai"
+    ]
    },
    {
     "species": "aquaticus",
-    "level": 42
+    "level": 42,
+    "moves": [
+     "hipermutacion-dirigida",
+     "chorro-metano-ardiente",
+     "reparacion-por-escision"
+    ]
    },
    {
     "species": "radiolaria",
-    "level": 43
+    "level": 43,
+    "moves": [
+     "onda-quimiotactica",
+     "cambio-de-serotipo",
+     "chorro-citoplasmatico"
+    ]
    },
    {
     "species": "pyrolobus",
-    "level": 45
+    "level": 45,
+    "moves": [
+     "explosion-metanogenica",
+     "envoltura-s-layer",
+     "ultracentrifuga"
+    ]
    }
   ]
  },
@@ -135,19 +235,40 @@
   "team": [
    {
     "species": "nocardia",
-    "level": 45
+    "level": 45,
+    "moves": [
+     "acidos-micolicos",
+     "fluorescencia-dapi",
+     "estres-oxidativo"
+    ]
    },
    {
     "species": "aeruginosa",
-    "level": 46
+    "level": 46,
+    "moves": [
+     "pigmento-piocianina",
+     "limo-polimerico",
+     "secrecion-mucopurulenta"
+    ]
    },
    {
     "species": "baumannii",
-    "level": 47
+    "level": 47,
+    "moves": [
+     "resistencia-persister",
+     "membrana-externa-lps",
+     "eflujo-multidrogas"
+    ]
    },
    {
     "species": "tuberculos",
-    "level": 49
+    "level": 49,
+    "moves": [
+     "tormenta-liofilizadora",
+     "rayo-nitrogeno-liquido",
+     "acidos-micolicos",
+     "tampon-fosfato-pbs"
+    ]
    }
   ]
  },
@@ -159,19 +280,40 @@
   "team": [
    {
     "species": "lambda-v",
-    "level": 49
+    "level": 49,
+    "moves": [
+     "latencia-lisogenica",
+     "infeccion-latente",
+     "furia-fagica"
+    ]
    },
    {
     "species": "bacteriovor",
-    "level": 50
+    "level": 50,
+    "moves": [
+     "perforacion-bdellovibrio",
+     "corte-lisozima",
+     "quimiotaxis-positiva"
+    ]
    },
    {
     "species": "marburg-v",
-    "level": 51
+    "level": 51,
+    "moves": [
+     "espiculas-glicoproteicas",
+     "exotoxina-letal",
+     "splicing-alternativo"
+    ]
    },
    {
     "species": "t4-titan",
-    "level": 53
+    "level": 53,
+    "moves": [
+     "ariete-bacteriofago",
+     "estallido-litico",
+     "cabezazo-capside",
+     "adhesion-matriz"
+    ]
    }
   ]
  },
@@ -199,7 +341,13 @@
    },
    {
     "species": "plasmodium",
-    "level": 56
+    "level": 56,
+    "moves": [
+     "mitosis-forzada",
+     "secuestro-ribosomal",
+     "hemolisis-beta",
+     "variacion-antigenica"
+    ]
    }
   ]
  },
@@ -227,7 +375,13 @@
    },
    {
     "species": "prion-sc",
-    "level": 58
+    "level": 58,
+    "moves": [
+     "pulso-prion",
+     "sombra-prion",
+     "silenciamiento-epigenetico",
+     "rayo-nitrogeno-liquido"
+    ]
    }
   ]
  },
@@ -255,7 +409,13 @@
    },
    {
     "species": "radiodurans",
-    "level": 60
+    "level": 60,
+    "moves": [
+     "respuesta-sos",
+     "reparacion-por-escision",
+     "ultracentrifuga",
+     "pared-de-peptidoglicano"
+    ]
    }
   ]
  },
@@ -283,7 +443,13 @@
    },
    {
     "species": "pandoravir",
-    "level": 62
+    "level": 62,
+    "moves": [
+     "estallido-litico",
+     "furia-fagica",
+     "choque-osmotico-masivo",
+     "nanocables-geobacter"
+    ]
    }
   ]
  },
@@ -295,27 +461,61 @@
   "team": [
    {
     "species": "pichiamax",
-    "level": 63
+    "level": 63,
+    "moves": [
+     "espuma-de-fermentador",
+     "gemacion-nutritiva",
+     "sintesis-de-atp",
+     "mutacion-espontanea"
+    ]
    },
    {
     "species": "thermocel",
-    "level": 63
+    "level": 63,
+    "moves": [
+     "fase-exponencial",
+     "chorro-metano-ardiente",
+     "choque-osmotico-masivo"
+    ]
    },
    {
     "species": "agalactiae",
-    "level": 64
+    "level": 64,
+    "moves": [
+     "presion-osmotica",
+     "estres-oxidativo",
+     "hemolisis-beta",
+     "pared-de-peptidoglicano"
+    ]
    },
    {
     "species": "cholerae",
-    "level": 64
+    "level": 64,
+    "moves": [
+     "chorro-citoplasmatico",
+     "exotoxina-letal",
+     "rayo-nitrogeno-liquido"
+    ]
    },
    {
     "species": "anthracis",
-    "level": 65
+    "level": 65,
+    "moves": [
+     "choque-osmotico-masivo",
+     "autolisis-masiva",
+     "lluvia-de-cristales",
+     "bomba-de-esporas"
+    ]
    },
    {
     "species": "lyssavir",
-    "level": 67
+    "level": 67,
+    "moves": [
+     "estallido-litico",
+     "secuestro-ribosomal",
+     "cabezazo-capside",
+     "latencia-lisogenica"
+    ]
    }
   ]
  },
@@ -327,23 +527,46 @@
   "team": [
    {
     "species": "parahaemolyticus",
-    "level": 52
+    "level": 52,
+    "moves": [
+     "flagelo-polar",
+     "exotoxina-letal",
+     "onda-choque-osmotico"
+    ]
    },
    {
     "species": "vulnificus",
-    "level": 53
+    "level": 53,
+    "moves": [
+     "transferencia-horizontal",
+     "fagocitosis",
+     "secuestro-ribosomal"
+    ]
    },
    {
     "species": "tuberculos",
-    "level": 54
+    "level": 54,
+    "moves": [
+     "acidos-micolicos",
+     "tormenta-liofilizadora"
+    ]
    },
    {
     "species": "t4-titan",
-    "level": 55
+    "level": 55,
+    "moves": [
+     "estallido-litico",
+     "ariete-bacteriofago"
+    ]
    },
    {
     "species": "pandoravir",
-    "level": 57
+    "level": 57,
+    "moves": [
+     "furia-fagica",
+     "apoptosis-inducida",
+     "pulso-electroporacion"
+    ]
    }
   ]
  }

@@ -19,6 +19,47 @@ T = [
  ("champion","Dr. Louis Pasteur","Campeón · La UAB",None,[("pichiamax",63),("thermocel",63),("agalactiae",64),("cholerae",64),("anthracis",65),("lyssavir",67)]),
  ("villain","Dr. Jaime Martínez-Urtaza","Líder de la Unidad de Genética · Isla Conjugada",None,[("parahaemolyticus",52),("vulnificus",53),("tuberculos",54),("t4-titan",55),("pandoravir",57)]),
 ]
-out = [{"id":i,"name":n,"role":r,"badge":b,"team":[{"species":s,"level":l} for s,l in team]} for i,n,r,b,team in T]
+import re, difflib
+gdd = (ROOT/"docs"/"gdd.txt").read_text(encoding="utf-8").splitlines()
+dex = {m["id"]: m for m in json.load(open(ROOT/"data"/"microdex.json", encoding="utf-8"))}
+mvs = json.load(open(ROOT/"data"/"moves.json", encoding="utf-8"))
+names = {m["name"]: m["id"] for m in mvs}
+HEAD = {"gym1":"Gimnasio 1: Ciudad Petri","gym2":"Gimnasio 2: Ciudad Cultivo","gym3":"Gimnasio 3: Ciudad Gram",
+        "gym4":"Gimnasio 4: Ciudad Aerobia","gym5":"Gimnasio 5: Ciudad Agar","gym6":"Gimnasio 6:",
+        "gym7":"Gimnasio 7: Ciudad Pili","gym8":"Gimnasio 8: Isla Conjugada","elite1":"Alto Mando 1:",
+        "elite2":"Alto Mando 2:","elite3":"Alto Mando 3:","elite4":"Alto Mando 4:",
+        "champion":"El Campeón de la Liga","villain":"5. Equipo Definitivo"}
+ALIAS = {"cholerae": "Cholerae"}
+unmatched = []
+def section(tid):
+    st = next(i for i, l in enumerate(gdd) if l.startswith(HEAD[tid]))
+    return gdd[st:st + 40]
+def moves_for(tid, sp, lv):
+    disp = dex[sp]["name"]
+    for l in section(tid):
+        if disp in l and re.search(rf"Nv\.\s*{lv}\b", l):
+            if "|" in l: txt = l.split("|")[-1]
+            elif "] —" in l: txt = l.split("] —")[-1]
+            elif tid not in ("champion", "villain"): return []
+            else: txt = re.split(r"\.\s+(?=[A-ZÁÉÍÓÚ][^.]*,)", l.strip())[-1]
+            res = []
+            for tok in [t.strip(" .") for t in txt.split(",")]:
+                tok = re.sub(r"\s*\(.*?\)", "", tok).replace("H₂S", "").strip()
+                if not tok: continue
+                c = difflib.get_close_matches(tok, names.keys(), n=1, cutoff=0.6) or [n for n in names if n.startswith(tok)]
+                if c: res.append(names[c[0]])
+                else: unmatched.append((tid, sp, tok))
+            return res[:4]
+    return []
+out = []
+for i,n,r,b,team in T:
+    tm = []
+    for s_,l in team:
+        e = {"species": s_, "level": l}
+        mm = moves_for(i, s_, l)
+        if mm: e["moves"] = mm
+        tm.append(e)
+    out.append({"id":i,"name":n,"role":r,"badge":b,"team":tm})
+if unmatched: print("Sin coincidencia:", unmatched)
 (ROOT/"data"/"trainers.json").write_text(json.dumps(out,ensure_ascii=False,indent=1),encoding="utf-8")
 print(len(out),"entrenadores")

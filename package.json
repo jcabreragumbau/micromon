@@ -1,0 +1,11 @@
+{
+  "name": "micromon",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "data": "python3 tools/build_microdex.py && python3 tools/build_types.py && python3 tools/build_moves.py && python3 tools/build_trainers.py && python3 tools/build_species.py && python3 tools/build_items.py && python3 tools/validate.py",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit -p .",
+    "sim": "bun run tools/simulate.ts"
+  }
+}
