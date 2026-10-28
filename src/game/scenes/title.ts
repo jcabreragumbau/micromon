@@ -60,10 +60,7 @@ async function newGame(game: Game) {
   await say("Yo dedico mi vida a cultivarlos y estudiarlos. Pero antes… háblame de ti.");
   const n = await game.choose(["Ana", "Leo", "Iris", "Escribir…"], { prompt: "¿Cómo te llamas?", x: 160, y: 20, cancel: 999 });
   let name = ["Ana", "Leo", "Iris"][n] ?? "Ana";
-  if (n === 3) {
-    const typed = typeof prompt === "function" ? prompt("Escribe tu nombre (máx. 10 letras):", "") : "";
-    if (typed && typed.trim()) name = typed.trim().slice(0, 10);
-  }
+  if (n === 3) { const typed = await game.run<string>(new NameEntry()); if (typed.trim()) name = typed.trim(); }
   game.state.name = name;
   await say(`¡Así que te llamas ${name}! Encantada.`);
   const d = await game.choose(["Fácil · Medio Rico", "Normal · Medio Selectivo", "Difícil · Presión Antibiótica"], { prompt: "¿Qué condiciones de incubación prefieres? (Dificultad)", x: 60, y: 30, cancel: 999 });
@@ -80,4 +77,33 @@ export async function enterWorld(game: Game, map: string, x: number, y: number, 
   game.scene = w;
   await game.fade(false, 12);
   void runScript;
+}
+
+/** Teclado en pantalla para escribir el nombre (los diálogos del navegador no funcionan en todas partes). */
+class NameEntry {
+  rows = ["ABCDEFGHIJ", "KLMNÑOPQRS", "TUVWXYZÁÉÍ", "ÓÚabcdefgh", "ijklmnñopq", "rstuvwxyz-"];
+  x = 0; y = 0; result = "";
+  update(game: Game) {
+    const i = game.input;
+    if (i.repeat("right")) this.x = (this.x + 1) % 10;
+    if (i.repeat("left")) this.x = (this.x + 9) % 10;
+    if (i.repeat("down")) this.y = (this.y + 1) % 7;
+    if (i.repeat("up")) this.y = (this.y + 6) % 7;
+    if (i.pressed("b")) this.result = this.result.slice(0, -1);
+    if (i.pressed("start")) return this.result.length > 0;
+    if (i.pressed("a")) {
+      if (this.y === 6) { if (this.x < 5) this.result = this.result.slice(0, -1); else if (this.result.length) return true; }
+      else if (this.result.length < 10) this.result += [...this.rows[this.y]][this.x];
+    }
+    return false;
+  }
+  draw(g: Gfx) {
+    g.clear("#283048");
+    g.frame(40, 6, 160, 22, "info");
+    g.text(this.result + "_", 50, 12);
+    g.frame(10, 32, 220, 124, "menu");
+    this.rows.forEach((r, j) => [...r].forEach((ch, k) => g.text(ch, 30 + k * 19, 40 + j * 15, this.y === j && this.x === k ? "red" : "dark")));
+    g.text("BORRAR", 40, 132, this.y === 6 && this.x < 5 ? "red" : "dark");
+    g.text("ACEPTAR", 140, 132, this.y === 6 && this.x >= 5 ? "red" : "dark");
+  }
 }

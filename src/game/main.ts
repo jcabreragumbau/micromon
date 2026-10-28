@@ -18,8 +18,8 @@ async function boot() {
   (window as unknown as { micromon: Game }).micromon = game;   // para pruebas automáticas
   (window as unknown as { micromonDebug: unknown }).micromonDebug = { runScript, wildBattle, enterWorld, MAPS, engine };
   const fit = () => {
-    const s = Math.max(1, Math.floor(Math.min(window.innerWidth / 240, (window.innerHeight - (pad && getComputedStyle(pad).display !== "none" ? 170 : 0)) / 160)));
-    canvas.style.width = `${240 * s}px`; canvas.style.height = `${160 * s}px`;
+    const s = Math.max(1, Math.floor(Math.min((window.innerWidth - 32) / 240, (window.innerHeight - (pad && getComputedStyle(pad).display !== "none" ? 170 : 0)) / 160)));
+    canvas.style.width = `${240 * s}px`; canvas.style.height = `${160 * s}px`; canvas.style.maxWidth = "100%";
   };
   window.addEventListener("resize", fit); fit();
 }

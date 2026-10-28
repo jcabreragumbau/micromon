@@ -41,3 +41,35 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;box
 mkdirSync(join(ROOT, "dist"), { recursive: true });
 writeFileSync(join(ROOT, "dist/index.html"), html);
 console.log("dist/index.html:", (html.length / 1024).toFixed(0), "KB");
+
+// Versión para publicar como página de Claude: sin esqueleto propio, márgenes seguros y aspecto oscuro único.
+const page = `<title>Micromón</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Consola portátil: pantalla centrada sobre fondo de carcasa, mando táctil debajo en móviles */
+:root{--carcasa:#14161e;--texto:#c8ccd8;--boton:#2a2e3e;--boton-on:#4a5170;--borde:#454b63;--marco:#000;color-scheme:dark}
+html,body{height:100%}
+body{margin:0;background:var(--carcasa);color:var(--texto);font-family:system-ui,sans-serif;overflow:hidden;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-sizing:border-box;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:8px}
+canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:var(--marco);box-shadow:0 0 0 4px var(--marco),0 8px 30px #0008;max-width:100%;height:auto}
+#ayuda{font-size:12px;opacity:.75;text-align:center}
+#mando{display:none;width:100%;max-width:520px;justify-content:space-between;align-items:center;user-select:none;-webkit-user-select:none;position:relative;padding-bottom:40px}
+#cruz{display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(3,48px);gap:2px}
+#mando button{background:var(--boton);color:var(--texto);border:2px solid var(--borde);border-radius:10px;font-size:18px;font-weight:700;touch-action:none}
+#mando button.on{background:var(--boton-on)}
+#mando button:focus-visible{outline:2px solid var(--texto)}
+#ab{display:flex;gap:14px;align-items:center}
+#ab .r{width:64px;height:64px;border-radius:50%}
+#start{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:84px;height:30px;border-radius:15px!important;font-size:12px!important}
+@media (pointer:coarse){#mando{display:flex}#ayuda{display:none}}
+</style>
+<canvas id="pantalla" width="240" height="160" aria-label="Pantalla del juego Micromón"></canvas>
+<div id="ayuda">Flechas: moverse · Z o Espacio: A · X o Esc: B (mantén para correr) · Intro: menú · La partida se guarda en este navegador desde el menú</div>
+<div id="mando">
+ <div id="cruz"><span></span><button id="b-arriba" data-key="up" aria-label="Arriba">▲</button><span></span><button id="b-izq" data-key="left" aria-label="Izquierda">◀</button><span></span><button id="b-der" data-key="right" aria-label="Derecha">▶</button><span></span><button id="b-abajo" data-key="down" aria-label="Abajo">▼</button><span></span></div>
+ <button id="start" data-key="start">START</button>
+ <div id="ab"><button id="b-b" class="r" data-key="b">B</button><button id="b-a" class="r" data-key="a">A</button></div>
+</div>
+<script>${js.replaceAll("</script", "<\\/script")}</script>
+`;
+writeFileSync(join(ROOT, "dist/micromon.html"), page);
+console.log("dist/micromon.html:", (page.length / 1024).toFixed(0), "KB");
