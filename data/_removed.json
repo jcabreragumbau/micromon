@@ -1,20 +1,6 @@
 {
- "retirados_por_cupo": [
-  "Aureus",
-  "Bifidum",
-  "Epidermi",
-  "Klebsi",
-  "Longum",
-  "Micrococ",
-  "Mirabilis",
-  "Pelagibac",
-  "Pneumonia-K",
-  "Prochloron",
-  "Sarcina",
-  "Vulgaris"
- ],
+ "retirados_por_cupo": [],
  "sustituidos_por_lore": [
-  "Cholerae",
   "Fischeri",
   "Helicobac"
  ]

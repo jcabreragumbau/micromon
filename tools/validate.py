@@ -9,9 +9,9 @@ trs = json.load(open(R/"trainers.json", encoding="utf-8"))
 err, warn = [], []
 tnames = {t["name"] for t in types["types"]}
 ids = [m["id"] for m in dex]
-if len(dex) != 150: err.append(f"{len(dex)} Microos (esperados 150)")
+if len(dex) != 162: err.append(f"{len(dex)} Microos (esperados 162)")
 if len(set(ids)) != len(ids): err.append("ids duplicados")
-if [m["dex"] for m in dex] != list(range(1,151)): err.append("numeración dex no consecutiva")
+if [m["dex"] for m in dex] != list(range(1,163)): err.append("numeración dex no consecutiva")
 by = {m["id"]: m for m in dex}
 for m in dex:
     for t in m["types"]:

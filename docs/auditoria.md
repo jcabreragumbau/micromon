@@ -1,24 +1,21 @@
 # Auditoría del GDD (Fase 0)
 
-Resultado: `data/microdex.json` (150 Microos únicos), `data/types.json` (18×18 coherente) y `data/trainers.json` (14 equipos) validados con `python3 tools/validate.py`.
-Todo se regenera con `tools/build_microdex.py`, `tools/build_types.py` y `tools/build_trainers.py`. Las decisiones de abajo están pendientes de aprobación.
+Resultado: `data/microdex.json` (162 Microos únicos), `data/types.json` (18×18 coherente) y `data/trainers.json` (14 equipos) validados con `python3 tools/validate.py`.
+Todo se regenera con `tools/build_microdex.py`, `tools/build_types.py` y `tools/build_trainers.py`. Decisiones aprobadas por el usuario.
 
 ## 1. Microdex: el GDD describe 162 Microos, no 150
 
 El primer listado ocupa #001–#150 sin virus. El «cierre» redefine #116–#127 como las 4 líneas de Virus (12 Microos) sin retirar nada, mientras que los equipos del Alto Mando, el Gimnasio 6 y el Campeón siguen usando la numeración antigua para esos mismos números (por ejemplo #123 es a la vez *Plasmodium* y *Marburg-V*; #127, *Yersinia* y *Pandoravir*). Además #128 (*Listeria*) aparece dos veces y el apartado de Vibrio sustituye #058–#059 y #108.
 
-Decisión propuesta:
+Decisión aprobada: la Microdex tiene **162 Microos**.
 
 | Cambio | Detalle |
 | --- | --- |
+| Se conservan todos | Ningún Microo se retira para hacer sitio |
 | Se añaden las 4 líneas de Virus | 12 Microos: Phage-X174, Lambda-V, T4-Titan, Rous-V, Lentivir, Retrovir-X, Lyssavir, Marburg-V, Filovir-Z, Poxvir, Mimivir, Pandoravir |
-| Se retiran 12 Microos sin uso en ningún equipo | Epidermi, Aureus, Mirabilis, Vulgaris, Micrococ, Sarcina, Klebsi, Pneumonia-K, Pelagibac, Prochloron, Bifidum, Longum (se quitan líneas enteras para no dejar evoluciones huérfanas) |
-| Vibrio, según el lore | Fischeri y Cholerae pasan a Paracholerae y Parahaemolyticus; Helicobac pasa a Vulnificus |
-| El Campeón usa Paracholerae | donde el GDD decía «#059 Cholerae» |
-| Flavus | evoluciona a Nv. 25 (el GDD decía 31 pero el Gimnasio 3 lo usa a Nv. 25) |
-| Numeración | consecutiva 1–150 por orden de la Microdex; el campo `gdd_ref` conserva el número original. Todo el código usa ids (`lambda-v`), nunca números |
-
-Alternativa: si prefieres conservar otros Microos, dime cuáles y los cambio por cualquiera de la lista de retirados.
+| Vibrio | Se elimina Fischeri; Cholerae se conserva y evoluciona a Parahaemolyticus con Plásmido Vir; Helicobac pasa a Vulnificus |
+| Flavus | Evoluciona a Nv. 25 (el GDD decía 31 pero el Gimnasio 3 lo usa a Nv. 25) |
+| Numeración | Consecutiva 1–162 por orden de la Microdex; el campo `gdd_ref` conserva el número original. Todo el código usa ids (`lambda-v`), nunca números |
 
 ## 2. Tabla de tipos: 28 incoherencias entre columnas
 

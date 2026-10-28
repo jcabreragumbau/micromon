@@ -16,7 +16,7 @@ T = [
  ("elite2","Dr. Joaquim Martí","Alto Mando 2 · La UAB",None,[("treponema",55),("tetani",56),("alexandrium",56),("meningitid",57),("prion-sc",58)]),
  ("elite3","Dr. Jordi Barbé","Alto Mando 3 · La UAB",None,[("agrobacter",57),("sulfolobus",58),("shewanella",58),("pyrococcus",59),("radiodurans",60)]),
  ("elite4","Dra. Montserrat Llagostera","Alto Mando 4 · La UAB",None,[("yersinia",59),("anthracis",60),("retrovir-x",60),("filovir-z",61),("pandoravir",62)]),
- ("champion","Dr. Louis Pasteur","Campeón · La UAB",None,[("pichiamax",63),("thermocel",63),("agalactiae",64),("paracholerae",64),("anthracis",65),("lyssavir",67)]),
+ ("champion","Dr. Louis Pasteur","Campeón · La UAB",None,[("pichiamax",63),("thermocel",63),("agalactiae",64),("cholerae",64),("anthracis",65),("lyssavir",67)]),
  ("villain","Dr. Jaime Martínez-Urtaza","Líder de la Unidad de Genética · Isla Conjugada",None,[("parahaemolyticus",52),("vulnificus",53),("tuberculos",54),("t4-titan",55),("pandoravir",57)]),
 ]
 out = [{"id":i,"name":n,"role":r,"badge":b,"team":[{"species":s,"level":l} for s,l in team]} for i,n,r,b,team in T]

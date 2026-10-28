@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Construye data/microdex.json (150 Microos canónicos) a partir de docs/gdd.txt.
+"""Construye data/microdex.json (162 Microos canónicos) a partir de docs/gdd.txt.
 
 Decisiones de canonización (ver docs/auditoria.md):
   - Se mantiene la numeración original del GDD solo como referencia (gdd_ref).
-  - Las 4 líneas de Virus (12 Microos) se añaden; para mantener 150 se retiran
-    12 Microos de líneas sin uso en equipos de entrenadores.
-  - Fischeri/Cholerae -> Paracholerae/Parahaemolyticus; Helicobac -> Vulnificus
-    (según el apartado de lore de Vibrio del GDD).
+  - Se conservan todos los Microos del GDD y se añaden las 4 líneas de Virus
+    (12 Microos): 162 en total.
+  - Fischeri se elimina; Cholerae se conserva y evoluciona a Parahaemolyticus.
+    Helicobac -> Vulnificus (según el apartado de lore de Vibrio del GDD).
 """
 import json, re, sys, unicodedata
 from pathlib import Path
@@ -18,9 +18,8 @@ START = next(i for i, l in enumerate(txt) if l.startswith("3. Lista Completa de 
 END = next(i for i, l in enumerate(txt) if l.startswith("4. Los 165 Movimientos"))
 region = txt[START:END]
 
-CUT = {"Epidermi", "Aureus", "Mirabilis", "Vulgaris", "Micrococ", "Sarcina",
-       "Klebsi", "Pneumonia-K", "Pelagibac", "Prochloron", "Bifidum", "Longum"}
-REPLACED = {"Fischeri", "Cholerae", "Helicobac"}
+CUT = set()  # el usuario decidió conservar todos los Microos del GDD
+REPLACED = {"Fischeri", "Helicobac"}
 VIRUS_LINES = [  # (nombres) de las 4 líneas de virus
     ("Phage-X174", "Lambda-V", "T4-Titan"),
     ("Rous-V", "Lentivir", "Retrovir-X"),
@@ -91,10 +90,8 @@ for line in region:
 
 # --- Entradas añadidas por el apartado de lore de Vibrio -------------------
 extra = {
-    "Paracholerae": dict(note="Vibrio paracholerae", types=["Gram-", "Protozoo"], gdd_ref=[58],
-                         section="Lore Vibrio", prev=None, evo_from_prev=None),
     "Parahaemolyticus": dict(note="Vibrio parahaemolyticus", types=["Gram-", "Extremófilo"], gdd_ref=[59],
-                             section="Lore Vibrio", prev="Paracholerae",
+                             section="Lore Vibrio", prev="Cholerae",
                              evo_from_prev={"method": "item", "item": "Plásmido Vir"}),
     "Vulnificus": dict(note="Vibrio vulnificus", types=["Gram-", "Protozoo"], gdd_ref=[108],
                        section="Lore Vibrio", prev=None, evo_from_prev=None),
@@ -143,8 +140,8 @@ for line in VIRUS_LINES:
 
 seen["Flavus"]["evo_from_prev"] = {"method": "level", "level": 25}  # el GDD usa Flavus Nv.25 en el Gimnasio 3
 canon.sort(key=lambda r: sort_key[r["name"]])
-if len(canon) != 150:
-    sys.exit(f"ERROR: {len(canon)} Microos canónicos, se esperaban 150")
+if len(canon) != 162:
+    sys.exit(f"ERROR: {len(canon)} Microos canónicos, se esperaban 162")
 
 ID_OVERRIDE = {"Escherichia coli O157:H7": "ecoli-o157",
                "Salmonella enterica Typhimurium": "salmonella-typhimurium"}
@@ -160,7 +157,7 @@ for i, r in enumerate(canon, 1):
         "gdd_section": r["section"],
     })
 ids = [o["id"] for o in out]
-assert len(set(ids)) == 150, "ids duplicados"
+assert len(set(ids)) == 162, "ids duplicados"
 
 (ROOT / "data").mkdir(exist_ok=True)
 (ROOT / "data" / "microdex.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")

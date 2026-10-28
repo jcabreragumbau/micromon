@@ -318,6 +318,40 @@
  },
  {
   "dex": 19,
+  "id": "epidermi",
+  "name": "Epidermi",
+  "organism": "S. epidermidis",
+  "types": [
+   "Gram+"
+  ],
+  "gdd_ref": [
+   19
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 20,
+  "id": "aureus",
+  "name": "Aureus",
+  "organism": "S. aureus",
+  "types": [
+   "Gram+",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   20
+  ],
+  "evolves_from": "epidermi",
+  "evolution": {
+   "method": "level",
+   "level": 20
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 21,
   "id": "navicula",
   "name": "Navicula",
   "organism": "",
@@ -332,7 +366,7 @@
   "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
  },
  {
-  "dex": 20,
+  "dex": 22,
   "id": "pinnularia",
   "name": "Pinnularia",
   "organism": "",
@@ -351,7 +385,41 @@
   "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
  },
  {
-  "dex": 21,
+  "dex": 23,
+  "id": "mirabilis",
+  "name": "Mirabilis",
+  "organism": "Proteus",
+  "types": [
+   "Gram-"
+  ],
+  "gdd_ref": [
+   23
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 24,
+  "id": "vulgaris",
+  "name": "Vulgaris",
+  "organism": "",
+  "types": [
+   "Gram-",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   24
+  ],
+  "evolves_from": "mirabilis",
+  "evolution": {
+   "method": "level",
+   "level": 22
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 25,
   "id": "leptospir",
   "name": "Leptospir",
   "organism": "",
@@ -366,7 +434,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 22,
+  "dex": 26,
   "id": "interrogan",
   "name": "Interrogan",
   "organism": "",
@@ -385,7 +453,41 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 23,
+  "dex": 27,
+  "id": "micrococ",
+  "name": "Micrococ",
+  "organism": "M. luteus",
+  "types": [
+   "Gram+"
+  ],
+  "gdd_ref": [
+   27
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 28,
+  "id": "sarcina",
+  "name": "Sarcina",
+  "organism": "Paquetes cúbicos blindados",
+  "types": [
+   "Gram+",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   28
+  ],
+  "evolves_from": "micrococ",
+  "evolution": {
+   "method": "level",
+   "level": 22
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 29,
   "id": "subtilis",
   "name": "Subtilis",
   "organism": "",
@@ -400,7 +502,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 24,
+  "dex": 30,
   "id": "lichenifor",
   "name": "Lichenifor",
   "organism": "",
@@ -418,7 +520,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 25,
+  "dex": 31,
   "id": "thuringien",
   "name": "Thuringien",
   "organism": "B. thuringiensis insecticida",
@@ -437,7 +539,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 26,
+  "dex": 32,
   "id": "cereus",
   "name": "Cereus",
   "organism": "",
@@ -452,7 +554,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 27,
+  "dex": 33,
   "id": "mycoides",
   "name": "Mycoides",
   "organism": "",
@@ -471,7 +573,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 28,
+  "dex": 34,
   "id": "anthracis",
   "name": "Anthracis",
   "organism": "",
@@ -490,7 +592,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 29,
+  "dex": 35,
   "id": "casei",
   "name": "Casei",
   "organism": "Lactobacillus",
@@ -505,7 +607,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 30,
+  "dex": 36,
   "id": "acidophilus",
   "name": "Acidophilus",
   "organism": "",
@@ -523,7 +625,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 31,
+  "dex": 37,
   "id": "thermus",
   "name": "Thermus",
   "organism": "",
@@ -538,7 +640,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 32,
+  "dex": 38,
   "id": "aquaticus",
   "name": "Aquaticus",
   "organism": "Productor de Taq Polimerasa",
@@ -557,7 +659,42 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 33,
+  "dex": 39,
+  "id": "bifidum",
+  "name": "Bifidum",
+  "organism": "",
+  "types": [
+   "Simbionte",
+   "Levadura"
+  ],
+  "gdd_ref": [
+   39
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 40,
+  "id": "longum",
+  "name": "Longum",
+  "organism": "",
+  "types": [
+   "Simbionte",
+   "Levadura"
+  ],
+  "gdd_ref": [
+   40
+  ],
+  "evolves_from": "bifidum",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido F"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 41,
   "id": "serratia",
   "name": "Serratia",
   "organism": "",
@@ -572,7 +709,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 34,
+  "dex": 42,
   "id": "marcescens",
   "name": "Marcescens",
   "organism": "Pigmento rojo prodigiosina",
@@ -591,7 +728,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 35,
+  "dex": 43,
   "id": "rhizobi",
   "name": "Rhizobi",
   "organism": "",
@@ -607,7 +744,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 36,
+  "dex": 44,
   "id": "meliloti",
   "name": "Meliloti",
   "organism": "",
@@ -626,7 +763,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 37,
+  "dex": 45,
   "id": "agrobacter",
   "name": "Agrobacter",
   "organism": "A. tumefaciens ingeniero genético",
@@ -645,7 +782,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 38,
+  "dex": 46,
   "id": "roqueforti",
   "name": "Roqueforti",
   "organism": "",
@@ -660,7 +797,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 39,
+  "dex": 47,
   "id": "chrysogenum",
   "name": "Chrysogenum",
   "organism": "Penicillium",
@@ -679,7 +816,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 40,
+  "dex": 48,
   "id": "niger",
   "name": "Niger",
   "organism": "Aspergillus",
@@ -694,7 +831,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 41,
+  "dex": 49,
   "id": "flavus",
   "name": "Flavus",
   "organism": "Aflatoxinas",
@@ -713,7 +850,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 42,
+  "dex": 50,
   "id": "bacteroid",
   "name": "Bacteroid",
   "organism": "",
@@ -729,7 +866,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 43,
+  "dex": 51,
   "id": "fragilis",
   "name": "Fragilis",
   "organism": "",
@@ -748,7 +885,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 44,
+  "dex": 52,
   "id": "albicans",
   "name": "Albicans",
   "organism": "Candida",
@@ -763,7 +900,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 45,
+  "dex": 53,
   "id": "auris",
   "name": "Auris",
   "organism": "",
@@ -782,7 +919,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 46,
+  "dex": 54,
   "id": "euglena",
   "name": "Euglena",
   "organism": "",
@@ -798,7 +935,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 47,
+  "dex": 55,
   "id": "volvox",
   "name": "Volvox",
   "organism": "Colonia esférica coordinada",
@@ -817,7 +954,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 48,
+  "dex": 56,
   "id": "zymomonas",
   "name": "Zymomonas",
   "organism": "",
@@ -832,7 +969,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 49,
+  "dex": 57,
   "id": "mobilis",
   "name": "Mobilis",
   "organism": "",
@@ -851,23 +988,23 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 50,
-  "id": "paracholerae",
-  "name": "Paracholerae",
-  "organism": "Vibrio paracholerae",
+  "dex": 58,
+  "id": "cholerae",
+  "name": "Cholerae",
+  "organism": "",
   "types": [
    "Gram-",
    "Protozoo"
   ],
   "gdd_ref": [
-   58
+   59
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Lore Vibrio"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 51,
+  "dex": 59,
   "id": "parahaemolyticus",
   "name": "Parahaemolyticus",
   "organism": "Vibrio parahaemolyticus",
@@ -878,7 +1015,7 @@
   "gdd_ref": [
    59
   ],
-  "evolves_from": "paracholerae",
+  "evolves_from": "cholerae",
   "evolution": {
    "method": "item",
    "item": "Plásmido Vir"
@@ -886,7 +1023,7 @@
   "gdd_section": "Lore Vibrio"
  },
  {
-  "dex": 52,
+  "dex": 60,
   "id": "proteus-am",
   "name": "Proteus-Am",
   "organism": "Amoeba",
@@ -901,7 +1038,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 53,
+  "dex": 61,
   "id": "entamoeba",
   "name": "Entamoeba",
   "organism": "",
@@ -919,7 +1056,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 54,
+  "dex": 62,
   "id": "naegleria",
   "name": "Naegleria",
   "organism": "Ameba comecerebros",
@@ -938,7 +1075,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 55,
+  "dex": 63,
   "id": "mycoplas",
   "name": "Mycoplas",
   "organism": "",
@@ -953,7 +1090,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 56,
+  "dex": 64,
   "id": "genitalium",
   "name": "Genitalium",
   "organism": "",
@@ -971,7 +1108,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 57,
+  "dex": 65,
   "id": "pneumoniae",
   "name": "Pneumoniae",
   "organism": "",
@@ -988,7 +1125,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 58,
+  "dex": 66,
   "id": "mutans",
   "name": "Mutans",
   "organism": "Placa dental",
@@ -1004,7 +1141,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 59,
+  "dex": 67,
   "id": "pyogenes",
   "name": "Pyogenes",
   "organism": "",
@@ -1023,7 +1160,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 60,
+  "dex": 68,
   "id": "agalactiae",
   "name": "Agalactiae",
   "organism": "",
@@ -1041,7 +1178,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 61,
+  "dex": 69,
   "id": "noctiluca",
   "name": "Noctiluca",
   "organism": "Chispas de mar",
@@ -1056,7 +1193,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 62,
+  "dex": 70,
   "id": "ceratium",
   "name": "Ceratium",
   "organism": "",
@@ -1074,7 +1211,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 63,
+  "dex": 71,
   "id": "alexandrium",
   "name": "Alexandrium",
   "organism": "Marea roja neurotóxica",
@@ -1093,7 +1230,42 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 64,
+  "dex": 72,
+  "id": "pelagibac",
+  "name": "Pelagibac",
+  "organism": "SAR11",
+  "types": [
+   "Gram-",
+   "Alga"
+  ],
+  "gdd_ref": [
+   72
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 73,
+  "id": "prochloron",
+  "name": "Prochloron",
+  "organism": "",
+  "types": [
+   "Gram-",
+   "Fotótrofo"
+  ],
+  "gdd_ref": [
+   73
+  ],
+  "evolves_from": "pelagibac",
+  "evolution": {
+   "method": "level",
+   "level": 30
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 74,
   "id": "smegmatis",
   "name": "Smegmatis",
   "organism": "",
@@ -1108,7 +1280,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 65,
+  "dex": 75,
   "id": "bovis",
   "name": "Bovis",
   "organism": "Cepa vacunal BCG",
@@ -1126,7 +1298,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 66,
+  "dex": 76,
   "id": "tuberculos",
   "name": "Tuberculos",
   "organism": "M. tuberculosis",
@@ -1143,7 +1315,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 67,
+  "dex": 77,
   "id": "borrelia",
   "name": "Borrelia",
   "organism": "",
@@ -1158,7 +1330,7 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 68,
+  "dex": 78,
   "id": "treponema",
   "name": "Treponema",
   "organism": "",
@@ -1176,7 +1348,42 @@
   "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
  },
  {
-  "dex": 69,
+  "dex": 79,
+  "id": "klebsi",
+  "name": "Klebsi",
+  "organism": "",
+  "types": [
+   "Gram-",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   79
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 80,
+  "id": "pneumonia-k",
+  "name": "Pneumonia-K",
+  "organism": "K. pneumoniae hiperviscosa",
+  "types": [
+   "Gram-",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   80
+  ],
+  "evolves_from": "klebsi",
+  "evolution": {
+   "method": "level",
+   "level": 37
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 81,
   "id": "geobacter",
   "name": "Geobacter",
   "organism": "",
@@ -1192,7 +1399,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 70,
+  "dex": 82,
   "id": "sulfurreduc",
   "name": "Sulfurreduc",
   "organism": "Produce nanocables conductores",
@@ -1211,7 +1418,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 71,
+  "dex": 83,
   "id": "radiodurans",
   "name": "Radiodurans",
   "organism": "Deinococcus radiodurans, aguanta radiación nuclear",
@@ -1227,7 +1434,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 72,
+  "dex": 84,
   "id": "perfringens",
   "name": "Perfringens",
   "organism": "",
@@ -1243,7 +1450,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 73,
+  "dex": 85,
   "id": "tetani",
   "name": "Tetani",
   "organism": "Raqueta de tambor",
@@ -1262,7 +1469,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 74,
+  "dex": 86,
   "id": "psychrobac",
   "name": "Psychrobac",
   "organism": "",
@@ -1277,7 +1484,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 75,
+  "dex": 87,
   "id": "colwellia",
   "name": "Colwellia",
   "organism": "Vive en hielo marino a -20°C",
@@ -1296,7 +1503,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 76,
+  "dex": 88,
   "id": "putida",
   "name": "Putida",
   "organism": "Pseudomonas biorremediadora",
@@ -1312,7 +1519,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 77,
+  "dex": 89,
   "id": "aeruginosa",
   "name": "Aeruginosa",
   "organism": "",
@@ -1331,7 +1538,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 78,
+  "dex": 90,
   "id": "giardia",
   "name": "Giardia",
   "organism": "",
@@ -1346,7 +1553,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 79,
+  "dex": 91,
   "id": "cryptospor",
   "name": "Cryptospor",
   "organism": "Quiste blindado resistente al cloro",
@@ -1365,7 +1572,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 80,
+  "dex": 92,
   "id": "methanococ",
   "name": "Methanococ",
   "organism": "",
@@ -1380,7 +1587,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 81,
+  "dex": 93,
   "id": "methanosar",
   "name": "Methanosar",
   "organism": "",
@@ -1398,7 +1605,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 82,
+  "dex": 94,
   "id": "pyrolobus",
   "name": "Pyrolobus",
   "organism": "P. fumarii, vive a 113 °C en chimeneas abisales",
@@ -1416,7 +1623,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 83,
+  "dex": 95,
   "id": "magnetospir",
   "name": "Magnetospir",
   "organism": "Magnetospirillum, cadena interna de cristales de magnetita",
@@ -1432,7 +1639,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 84,
+  "dex": 96,
   "id": "rickettsia",
   "name": "Rickettsia",
   "organism": "",
@@ -1447,7 +1654,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 85,
+  "dex": 97,
   "id": "prowazekii",
   "name": "Prowazekii",
   "organism": "",
@@ -1465,7 +1672,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 86,
+  "dex": 98,
   "id": "halobacter",
   "name": "Halobacter",
   "organism": "",
@@ -1481,7 +1688,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 87,
+  "dex": 99,
   "id": "salinarum",
   "name": "Salinarum",
   "organism": "Bacteriorrodopsina púrpura",
@@ -1500,7 +1707,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 88,
+  "dex": 100,
   "id": "neisseria",
   "name": "Neisseria",
   "organism": "",
@@ -1515,7 +1722,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 89,
+  "dex": 101,
   "id": "meningitid",
   "name": "Meningitid",
   "organism": "",
@@ -1533,7 +1740,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 90,
+  "dex": 102,
   "id": "cryptococ",
   "name": "Cryptococ",
   "organism": "",
@@ -1548,7 +1755,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 91,
+  "dex": 103,
   "id": "neoformans",
   "name": "Neoformans",
   "organism": "",
@@ -1567,7 +1774,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 92,
+  "dex": 104,
   "id": "bdellovib",
   "name": "Bdellovib",
   "organism": "",
@@ -1582,7 +1789,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 93,
+  "dex": 105,
   "id": "bacteriovor",
   "name": "Bacteriovor",
   "organism": "Bdellovibrio bacteriovorus, perfora otras Gram-",
@@ -1601,7 +1808,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 94,
+  "dex": 106,
   "id": "nocardia",
   "name": "Nocardia",
   "organism": "",
@@ -1617,7 +1824,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 95,
+  "dex": 107,
   "id": "actinomyces",
   "name": "Actinomyces",
   "organism": "",
@@ -1633,7 +1840,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 96,
+  "dex": 108,
   "id": "vulnificus",
   "name": "Vulnificus",
   "organism": "Vibrio vulnificus",
@@ -1649,7 +1856,7 @@
   "gdd_section": "Lore Vibrio"
  },
  {
-  "dex": 97,
+  "dex": 109,
   "id": "desulfovib",
   "name": "Desulfovib",
   "organism": "",
@@ -1665,7 +1872,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 98,
+  "dex": 110,
   "id": "thiomargar",
   "name": "Thiomargar",
   "organism": "Thiomargarita magnifica, bacteria visible a simple vista",
@@ -1684,7 +1891,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 99,
+  "dex": 111,
   "id": "baylyi",
   "name": "Baylyi",
   "organism": "",
@@ -1699,7 +1906,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 100,
+  "dex": 112,
   "id": "baumannii",
   "name": "Baumannii",
   "organism": "Acorazado de UCI",
@@ -1718,7 +1925,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 101,
+  "dex": 113,
   "id": "kefirgran",
   "name": "Kefirgran",
   "organism": "Consorcio simbiótico del kéfir, curandero en La Incubadora",
@@ -1734,7 +1941,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 102,
+  "dex": 114,
   "id": "spirogyra",
   "name": "Spirogyra",
   "organism": "Alga filamentosa con cloroplastos en espiral",
@@ -1750,7 +1957,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 103,
+  "dex": 115,
   "id": "mixotricha",
   "name": "Mixotricha",
   "organism": "Mixotricha paradoxa, protozoo con 4 simbiontes espiroquetas acoplados como motores",
@@ -1766,7 +1973,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 104,
+  "dex": 116,
   "id": "caulobac",
   "name": "Caulobac",
   "organism": "",
@@ -1781,7 +1988,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 105,
+  "dex": 117,
   "id": "crescentus",
   "name": "Crescentus",
   "organism": "Con pedúnculo adhesivo ultra-fuerte",
@@ -1800,7 +2007,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 106,
+  "dex": 118,
   "id": "leishmania",
   "name": "Leishmania",
   "organism": "",
@@ -1815,7 +2022,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 107,
+  "dex": 119,
   "id": "trypanosom",
   "name": "Trypanosom",
   "organism": "Membrana ondulante",
@@ -1834,7 +2041,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 108,
+  "dex": 120,
   "id": "acantharia",
   "name": "Acantharia",
   "organism": "",
@@ -1850,7 +2057,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 109,
+  "dex": 121,
   "id": "radiolaria",
   "name": "Radiolaria",
   "organism": "Esqueleto geométrico de cristal de sílice",
@@ -1869,7 +2076,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 110,
+  "dex": 122,
   "id": "chlamydia",
   "name": "Chlamydia",
   "organism": "C. trachomatis, alterna cuerpo elemental y reticulado",
@@ -1885,7 +2092,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 111,
+  "dex": 123,
   "id": "plasmodium",
   "name": "Plasmodium",
   "organism": "P. falciparum, atacante veloz intraeritrocitario",
@@ -1901,7 +2108,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 112,
+  "dex": 124,
   "id": "toxoplasma",
   "name": "Toxoplasma",
   "organism": "T. gondii, altera el comportamiento del rival",
@@ -1917,7 +2124,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 113,
+  "dex": 125,
   "id": "shewanella",
   "name": "Shewanella",
   "organism": "S. oneidensis, respirador de metales pesados",
@@ -1933,7 +2140,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 114,
+  "dex": 126,
   "id": "sulfolobus",
   "name": "Sulfolobus",
   "organism": "S. solfataricus, arquea termoacidófila volcánica a pH 2 y 80 °C",
@@ -1949,7 +2156,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 115,
+  "dex": 127,
   "id": "yersinia",
   "name": "Yersinia",
   "organism": "Y. pestis, letalidad física extrema",
@@ -1965,7 +2172,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 116,
+  "dex": 128,
   "id": "listeria",
   "name": "Listeria",
   "organism": "L. monocytogenes, se propulsa con colas de actina cual cometa",
@@ -1981,7 +2188,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 117,
+  "dex": 129,
   "id": "phage-x174",
   "name": "Phage-X174",
   "organism": "",
@@ -1996,7 +2203,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 118,
+  "dex": 130,
   "id": "lambda-v",
   "name": "Lambda-V",
   "organism": "",
@@ -2015,7 +2222,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 119,
+  "dex": 131,
   "id": "t4-titan",
   "name": "T4-Titan",
   "organism": "Bacteriófago T4",
@@ -2034,7 +2241,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 120,
+  "dex": 132,
   "id": "rous-v",
   "name": "Rous-V",
   "organism": "",
@@ -2049,7 +2256,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 121,
+  "dex": 133,
   "id": "lentivir",
   "name": "Lentivir",
   "organism": "",
@@ -2068,7 +2275,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 122,
+  "dex": 134,
   "id": "retrovir-x",
   "name": "Retrovir-X",
   "organism": "",
@@ -2087,7 +2294,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 123,
+  "dex": 135,
   "id": "lyssavir",
   "name": "Lyssavir",
   "organism": "",
@@ -2102,7 +2309,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 124,
+  "dex": 136,
   "id": "marburg-v",
   "name": "Marburg-V",
   "organism": "",
@@ -2121,7 +2328,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 125,
+  "dex": 137,
   "id": "filovir-z",
   "name": "Filovir-Z",
   "organism": "Ébola",
@@ -2140,7 +2347,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 126,
+  "dex": 138,
   "id": "poxvir",
   "name": "Poxvir",
   "organism": "",
@@ -2155,7 +2362,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 127,
+  "dex": 139,
   "id": "mimivir",
   "name": "Mimivir",
   "organism": "",
@@ -2174,7 +2381,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 128,
+  "dex": 140,
   "id": "pandoravir",
   "name": "Pandoravir",
   "organism": "Virus Gigante pseudo-legendario de 600 BST",
@@ -2193,7 +2400,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 129,
+  "dex": 141,
   "id": "coli-k12",
   "name": "Coli-K12",
   "organism": "E. coli K-12 de laboratorio, inofensiva, solo conoce Turbidez",
@@ -2208,7 +2415,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 130,
+  "dex": 142,
   "id": "coli-bl21",
   "name": "Coli-BL21",
   "organism": "Superfactoría biotecnológica de expresión proteica masiva",
@@ -2227,7 +2434,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 131,
+  "dex": 143,
   "id": "diatomax",
   "name": "Diatomax",
   "organism": "Diatomea gigante acorazada para navegar con Flagelo Polar",
@@ -2243,7 +2450,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 132,
+  "dex": 144,
   "id": "myxococcus",
   "name": "Myxococcus",
   "organism": "M. xanthus, bacteria social lobo que imita formas de cuerpos fructíferos",
@@ -2258,7 +2465,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 133,
+  "dex": 145,
   "id": "pleomorph",
   "name": "Pleomorph",
   "organism": "Bacteria L-form sin pared fija",
@@ -2273,7 +2480,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 134,
+  "dex": 146,
   "id": "halomorph",
   "name": "Halomorph",
   "organism": "",
@@ -2292,7 +2499,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 135,
+  "dex": 147,
   "id": "electromorph",
   "name": "Electromorph",
   "organism": "",
@@ -2310,7 +2517,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 136,
+  "dex": 148,
   "id": "pyromorph",
   "name": "Pyromorph",
   "organism": "",
@@ -2329,7 +2536,7 @@
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
  },
  {
-  "dex": 137,
+  "dex": 149,
   "id": "stromatol",
   "name": "Stromatol",
   "organism": "",
@@ -2345,7 +2552,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 138,
+  "dex": 150,
   "id": "cyanofossil",
   "name": "Cyanofossil",
   "organism": "",
@@ -2364,7 +2571,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 139,
+  "dex": 151,
   "id": "amberspor",
   "name": "Amberspor",
   "organism": "",
@@ -2380,7 +2587,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 140,
+  "dex": 152,
   "id": "palaeobacil",
   "name": "Palaeobacil",
   "organism": "",
@@ -2399,7 +2606,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 141,
+  "dex": 153,
   "id": "lokiarca",
   "name": "Lokiarca",
   "organism": "Lokiarchaeota, eslabón eucariota ancestral revivido del sedimento marino en el Instituto Carlos III",
@@ -2415,7 +2622,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 142,
+  "dex": 154,
   "id": "tardigrad",
   "name": "Tardigrad",
   "organism": "El tanque microscópico invitado, equivalente a Snorlax bloqueando el paso hacia Ciudad Pili",
@@ -2430,7 +2637,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 143,
+  "dex": 155,
   "id": "prion-sc",
   "name": "Prion-Sc",
   "organism": "PrPSc en la cima de la Torre Prión",
@@ -2446,7 +2653,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 144,
+  "dex": 156,
   "id": "viroid-cad",
   "name": "Viroid-Cad",
   "organism": "Viroide del Cadang-Cadang en la Central Metabólica",
@@ -2462,7 +2669,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 145,
+  "dex": 157,
   "id": "sputnik-v",
   "name": "Sputnik-V",
   "organism": "Virofago Sputnik en las Islas Esporuladas, devorador de virus gigantes",
@@ -2478,7 +2685,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 146,
+  "dex": 158,
   "id": "deinococ",
   "name": "Deinococ",
   "organism": "D. radiodurans",
@@ -2494,7 +2701,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 147,
+  "dex": 159,
   "id": "pyrococcus",
   "name": "Pyrococcus",
   "organism": "P. furiosus",
@@ -2510,7 +2717,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 148,
+  "dex": 160,
   "id": "ecoli-o157",
   "name": "Escherichia coli O157:H7",
   "organism": "Mascota de Micromón Escherichia",
@@ -2526,7 +2733,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 149,
+  "dex": 161,
   "id": "salmonella-typhimurium",
   "name": "Salmonella enterica Typhimurium",
   "organism": "Mascota de Micromón Salmonella",
@@ -2542,7 +2749,7 @@
   "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
  },
  {
-  "dex": 150,
+  "dex": 162,
   "id": "luca",
   "name": "LUCA",
   "organism": "Last Universal Common Ancestor",
