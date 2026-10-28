@@ -1,0 +1,33 @@
+{
+ "incoherencias_columnas": [
+  "Levadura fuerte vs Simbionte, pero Simbionte no figura débil a Levadura",
+  "Fotótrofo fuerte vs Alga, pero Alga no figura débil a Fotótrofo",
+  "Protozoo fuerte vs Gram+, pero Gram+ no figura débil a Protozoo",
+  "Protozoo fuerte vs Levadura, pero Levadura no figura débil a Protozoo",
+  "Espiroqueta fuerte vs Biofilm, pero Biofilm no figura débil a Espiroqueta",
+  "Gram+ fuerte vs Anaerobio, pero Anaerobio no figura débil a Gram+",
+  "Gram+ fuerte vs Espiroqueta, pero Espiroqueta no figura débil a Gram+",
+  "Gram- fuerte vs Fotótrofo, pero Fotótrofo no figura débil a Gram-",
+  "Gram- fuerte vs Levadura, pero Levadura no figura débil a Gram-",
+  "Antibiótico fuerte vs Gram-, pero Gram- no figura débil a Antibiótico",
+  "Esporulado fuerte vs Antibiótico, pero Antibiótico no figura débil a Esporulado",
+  "Alga fuerte vs Antibiótico, pero Antibiótico no figura débil a Alga",
+  "Intracelular fuerte vs Protozoo, pero Protozoo no figura débil a Intracelular",
+  "Ácido-Alc. fuerte vs Fotótrofo, pero Fotótrofo no figura débil a Ácido-Alc.",
+  "Archaea fuerte vs Archaea, pero Archaea no figura débil a Archaea",
+  "Archaea fuerte vs Extremófilo, pero Extremófilo no figura débil a Archaea",
+  "Archaea fuerte vs Intracelular, pero Intracelular no figura débil a Archaea",
+  "Biofilm fuerte vs Antibiótico, pero Antibiótico no figura débil a Biofilm",
+  "Extremófilo fuerte vs Anaerobio, pero Anaerobio no figura débil a Extremófilo",
+  "Anaerobio figura débil a Alga, pero Alga no figura fuerte vs Anaerobio",
+  "Protozoo figura débil a Antibiótico, pero Antibiótico no figura fuerte vs Protozoo",
+  "Antibiótico figura débil a Hongo, pero Hongo no figura fuerte vs Antibiótico",
+  "Alga figura débil a Gram+, pero Gram+ no figura fuerte vs Alga",
+  "Intracelular figura débil a Intracelular, pero Intracelular no figura fuerte vs Intracelular",
+  "Archaea figura débil a Virus, pero Virus no figura fuerte vs Archaea",
+  "Biofilm figura débil a Antibiótico, pero Antibiótico no figura fuerte vs Biofilm",
+  "Biofilm figura débil a Esporulado, pero Esporulado no figura fuerte vs Biofilm",
+  "Extremófilo figura débil a Antibiótico, pero Antibiótico no figura fuerte vs Extremófilo"
+ ],
+ "total": 28
+}

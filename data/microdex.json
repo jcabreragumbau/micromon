@@ -1,0 +1,2560 @@
+[
+ {
+  "dex": 1,
+  "id": "synechoc",
+  "name": "Synechoc",
+  "organism": "",
+  "types": [
+   "Fotótrofo"
+  ],
+  "gdd_ref": [
+   1
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 2,
+  "id": "anabaen",
+  "name": "Anabaen",
+  "organism": "",
+  "types": [
+   "Fotótrofo",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   2
+  ],
+  "evolves_from": "synechoc",
+  "evolution": {
+   "method": "level",
+   "level": 16
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 3,
+  "id": "spirulmax",
+  "name": "Spirulmax",
+  "organism": "Arthrospira",
+  "types": [
+   "Fotótrofo",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   3
+  ],
+  "evolves_from": "anabaen",
+  "evolution": {
+   "method": "level",
+   "level": 32
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 4,
+  "id": "butyricum",
+  "name": "Butyricum",
+  "organism": "",
+  "types": [
+   "Anaerobio"
+  ],
+  "gdd_ref": [
+   4
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 5,
+  "id": "acetobuty",
+  "name": "Acetobuty",
+  "organism": "",
+  "types": [
+   "Anaerobio",
+   "Esporulado"
+  ],
+  "gdd_ref": [
+   5
+  ],
+  "evolves_from": "butyricum",
+  "evolution": {
+   "method": "level",
+   "level": 16
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 6,
+  "id": "thermocel",
+  "name": "Thermocel",
+  "organism": "Clostridium industrial",
+  "types": [
+   "Anaerobio",
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   6
+  ],
+  "evolves_from": "acetobuty",
+  "evolution": {
+   "method": "level",
+   "level": 36
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 7,
+  "id": "paramec",
+  "name": "Paramec",
+  "organism": "",
+  "types": [
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   7
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 8,
+  "id": "vorticel",
+  "name": "Vorticel",
+  "organism": "",
+  "types": [
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   8
+  ],
+  "evolves_from": "paramec",
+  "evolution": {
+   "method": "level",
+   "level": 16
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 9,
+  "id": "stentorox",
+  "name": "Stentorox",
+  "organism": "Stentor coeruleus",
+  "types": [
+   "Protozoo",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   9
+  ],
+  "evolves_from": "vorticel",
+  "evolution": {
+   "method": "level",
+   "level": 36
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 10,
+  "id": "mucorin",
+  "name": "Mucorín",
+  "organism": "",
+  "types": [
+   "Hongo"
+  ],
+  "gdd_ref": [
+   10
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 11,
+  "id": "rhizopupa",
+  "name": "Rhizopupa",
+  "organism": "",
+  "types": [
+   "Hongo"
+  ],
+  "gdd_ref": [
+   11
+  ],
+  "evolves_from": "mucorin",
+  "evolution": {
+   "method": "level",
+   "level": 7
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 12,
+  "id": "pilobolus",
+  "name": "Pilobolus",
+  "organism": "Dispara esporas a gran velocidad",
+  "types": [
+   "Hongo",
+   "Alga"
+  ],
+  "gdd_ref": [
+   12
+  ],
+  "evolves_from": "rhizopupa",
+  "evolution": {
+   "method": "level",
+   "level": 10
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 13,
+  "id": "griseus",
+  "name": "Griseus",
+  "organism": "",
+  "types": [
+   "Hongo",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   13
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 14,
+  "id": "coelicol",
+  "name": "Coelicol",
+  "organism": "",
+  "types": [
+   "Hongo",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   14
+  ],
+  "evolves_from": "griseus",
+  "evolution": {
+   "method": "level",
+   "level": 7
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 15,
+  "id": "avermitil",
+  "name": "Avermitil",
+  "organism": "Streptomyces",
+  "types": [
+   "Hongo",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   15
+  ],
+  "evolves_from": "coelicol",
+  "evolution": {
+   "method": "level",
+   "level": 10
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 16,
+  "id": "sacchari",
+  "name": "Sacchari",
+  "organism": "S. cerevisiae",
+  "types": [
+   "Levadura"
+  ],
+  "gdd_ref": [
+   16
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 17,
+  "id": "pastorian",
+  "name": "Pastorian",
+  "organism": "",
+  "types": [
+   "Levadura",
+   "Anaerobio"
+  ],
+  "gdd_ref": [
+   17
+  ],
+  "evolves_from": "sacchari",
+  "evolution": {
+   "method": "level",
+   "level": 18
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 18,
+  "id": "pichiamax",
+  "name": "Pichiamax",
+  "organism": "Pichia pastoris biotecnológica",
+  "types": [
+   "Levadura",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   18
+  ],
+  "evolves_from": "pastorian",
+  "evolution": {
+   "method": "level",
+   "level": 36
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 19,
+  "id": "navicula",
+  "name": "Navicula",
+  "organism": "",
+  "types": [
+   "Alga"
+  ],
+  "gdd_ref": [
+   21
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 20,
+  "id": "pinnularia",
+  "name": "Pinnularia",
+  "organism": "",
+  "types": [
+   "Alga",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   22
+  ],
+  "evolves_from": "navicula",
+  "evolution": {
+   "method": "level",
+   "level": 20
+  },
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+ },
+ {
+  "dex": 21,
+  "id": "leptospir",
+  "name": "Leptospir",
+  "organism": "",
+  "types": [
+   "Espiroqueta"
+  ],
+  "gdd_ref": [
+   25
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 22,
+  "id": "interrogan",
+  "name": "Interrogan",
+  "organism": "",
+  "types": [
+   "Espiroqueta",
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   26
+  ],
+  "evolves_from": "leptospir",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Vir"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 23,
+  "id": "subtilis",
+  "name": "Subtilis",
+  "organism": "",
+  "types": [
+   "Esporulado"
+  ],
+  "gdd_ref": [
+   29
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 24,
+  "id": "lichenifor",
+  "name": "Lichenifor",
+  "organism": "",
+  "types": [
+   "Esporulado"
+  ],
+  "gdd_ref": [
+   30
+  ],
+  "evolves_from": "subtilis",
+  "evolution": {
+   "method": "level",
+   "level": 16
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 25,
+  "id": "thuringien",
+  "name": "Thuringien",
+  "organism": "B. thuringiensis insecticida",
+  "types": [
+   "Esporulado",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   31
+  ],
+  "evolves_from": "lichenifor",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Ti"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 26,
+  "id": "cereus",
+  "name": "Cereus",
+  "organism": "",
+  "types": [
+   "Esporulado"
+  ],
+  "gdd_ref": [
+   32
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 27,
+  "id": "mycoides",
+  "name": "Mycoides",
+  "organism": "",
+  "types": [
+   "Esporulado",
+   "Gram+"
+  ],
+  "gdd_ref": [
+   33
+  ],
+  "evolves_from": "cereus",
+  "evolution": {
+   "method": "level",
+   "level": 16
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 28,
+  "id": "anthracis",
+  "name": "Anthracis",
+  "organism": "",
+  "types": [
+   "Esporulado",
+   "Gram+"
+  ],
+  "gdd_ref": [
+   34
+  ],
+  "evolves_from": "mycoides",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Vir"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 29,
+  "id": "casei",
+  "name": "Casei",
+  "organism": "Lactobacillus",
+  "types": [
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   35
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 30,
+  "id": "acidophilus",
+  "name": "Acidophilus",
+  "organism": "",
+  "types": [
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   36
+  ],
+  "evolves_from": "casei",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido F"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 31,
+  "id": "thermus",
+  "name": "Thermus",
+  "organism": "",
+  "types": [
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   37
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 32,
+  "id": "aquaticus",
+  "name": "Aquaticus",
+  "organism": "Productor de Taq Polimerasa",
+  "types": [
+   "Extremófilo",
+   "Anaerobio"
+  ],
+  "gdd_ref": [
+   38
+  ],
+  "evolves_from": "thermus",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido R"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 33,
+  "id": "serratia",
+  "name": "Serratia",
+  "organism": "",
+  "types": [
+   "Gram-"
+  ],
+  "gdd_ref": [
+   41
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 34,
+  "id": "marcescens",
+  "name": "Marcescens",
+  "organism": "Pigmento rojo prodigiosina",
+  "types": [
+   "Gram-",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   42
+  ],
+  "evolves_from": "serratia",
+  "evolution": {
+   "method": "level",
+   "level": 22
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 35,
+  "id": "rhizobi",
+  "name": "Rhizobi",
+  "organism": "",
+  "types": [
+   "Fotótrofo",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   43
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 36,
+  "id": "meliloti",
+  "name": "Meliloti",
+  "organism": "",
+  "types": [
+   "Fotótrofo",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   44
+  ],
+  "evolves_from": "rhizobi",
+  "evolution": {
+   "method": "level",
+   "level": 21
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 37,
+  "id": "agrobacter",
+  "name": "Agrobacter",
+  "organism": "A. tumefaciens ingeniero genético",
+  "types": [
+   "Fotótrofo",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   45
+  ],
+  "evolves_from": "meliloti",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Ti"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 38,
+  "id": "roqueforti",
+  "name": "Roqueforti",
+  "organism": "",
+  "types": [
+   "Hongo"
+  ],
+  "gdd_ref": [
+   46
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 39,
+  "id": "chrysogenum",
+  "name": "Chrysogenum",
+  "organism": "Penicillium",
+  "types": [
+   "Hongo",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   47
+  ],
+  "evolves_from": "roqueforti",
+  "evolution": {
+   "method": "level",
+   "level": 24
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 40,
+  "id": "niger",
+  "name": "Niger",
+  "organism": "Aspergillus",
+  "types": [
+   "Hongo"
+  ],
+  "gdd_ref": [
+   48
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 41,
+  "id": "flavus",
+  "name": "Flavus",
+  "organism": "Aflatoxinas",
+  "types": [
+   "Hongo",
+   "Gram-"
+  ],
+  "gdd_ref": [
+   49
+  ],
+  "evolves_from": "niger",
+  "evolution": {
+   "method": "level",
+   "level": 25
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 42,
+  "id": "bacteroid",
+  "name": "Bacteroid",
+  "organism": "",
+  "types": [
+   "Anaerobio",
+   "Esporulado"
+  ],
+  "gdd_ref": [
+   50
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 43,
+  "id": "fragilis",
+  "name": "Fragilis",
+  "organism": "",
+  "types": [
+   "Anaerobio",
+   "Esporulado"
+  ],
+  "gdd_ref": [
+   51
+  ],
+  "evolves_from": "bacteroid",
+  "evolution": {
+   "method": "level",
+   "level": 26
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 44,
+  "id": "albicans",
+  "name": "Albicans",
+  "organism": "Candida",
+  "types": [
+   "Levadura"
+  ],
+  "gdd_ref": [
+   52
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 45,
+  "id": "auris",
+  "name": "Auris",
+  "organism": "",
+  "types": [
+   "Levadura",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   53
+  ],
+  "evolves_from": "albicans",
+  "evolution": {
+   "method": "level",
+   "level": 28
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 46,
+  "id": "euglena",
+  "name": "Euglena",
+  "organism": "",
+  "types": [
+   "Protozoo",
+   "Fotótrofo"
+  ],
+  "gdd_ref": [
+   54
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 47,
+  "id": "volvox",
+  "name": "Volvox",
+  "organism": "Colonia esférica coordinada",
+  "types": [
+   "Protozoo",
+   "Fotótrofo"
+  ],
+  "gdd_ref": [
+   55
+  ],
+  "evolves_from": "euglena",
+  "evolution": {
+   "method": "level",
+   "level": 33
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 48,
+  "id": "zymomonas",
+  "name": "Zymomonas",
+  "organism": "",
+  "types": [
+   "Anaerobio"
+  ],
+  "gdd_ref": [
+   56
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 49,
+  "id": "mobilis",
+  "name": "Mobilis",
+  "organism": "",
+  "types": [
+   "Anaerobio",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   57
+  ],
+  "evolves_from": "zymomonas",
+  "evolution": {
+   "method": "level",
+   "level": 28
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 50,
+  "id": "paracholerae",
+  "name": "Paracholerae",
+  "organism": "Vibrio paracholerae",
+  "types": [
+   "Gram-",
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   58
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Lore Vibrio"
+ },
+ {
+  "dex": 51,
+  "id": "parahaemolyticus",
+  "name": "Parahaemolyticus",
+  "organism": "Vibrio parahaemolyticus",
+  "types": [
+   "Gram-",
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   59
+  ],
+  "evolves_from": "paracholerae",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Vir"
+  },
+  "gdd_section": "Lore Vibrio"
+ },
+ {
+  "dex": 52,
+  "id": "proteus-am",
+  "name": "Proteus-Am",
+  "organism": "Amoeba",
+  "types": [
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   60
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 53,
+  "id": "entamoeba",
+  "name": "Entamoeba",
+  "organism": "",
+  "types": [
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   61
+  ],
+  "evolves_from": "proteus-am",
+  "evolution": {
+   "method": "level",
+   "level": 25
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 54,
+  "id": "naegleria",
+  "name": "Naegleria",
+  "organism": "Ameba comecerebros",
+  "types": [
+   "Protozoo",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   62
+  ],
+  "evolves_from": "entamoeba",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Vir"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 55,
+  "id": "mycoplas",
+  "name": "Mycoplas",
+  "organism": "",
+  "types": [
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   63
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 56,
+  "id": "genitalium",
+  "name": "Genitalium",
+  "organism": "",
+  "types": [
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   64
+  ],
+  "evolves_from": "mycoplas",
+  "evolution": {
+   "method": "level",
+   "level": 16
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 57,
+  "id": "pneumoniae",
+  "name": "Pneumoniae",
+  "organism": "",
+  "types": [
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   65
+  ],
+  "evolves_from": "genitalium",
+  "evolution": {
+   "method": "conjugation"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 58,
+  "id": "mutans",
+  "name": "Mutans",
+  "organism": "Placa dental",
+  "types": [
+   "Gram+",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   66
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 59,
+  "id": "pyogenes",
+  "name": "Pyogenes",
+  "organism": "",
+  "types": [
+   "Gram+",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   67
+  ],
+  "evolves_from": "mutans",
+  "evolution": {
+   "method": "level",
+   "level": 28
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 60,
+  "id": "agalactiae",
+  "name": "Agalactiae",
+  "organism": "",
+  "types": [
+   "Gram+",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   68
+  ],
+  "evolves_from": "pyogenes",
+  "evolution": {
+   "method": "conjugation"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 61,
+  "id": "noctiluca",
+  "name": "Noctiluca",
+  "organism": "Chispas de mar",
+  "types": [
+   "Alga"
+  ],
+  "gdd_ref": [
+   69
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 62,
+  "id": "ceratium",
+  "name": "Ceratium",
+  "organism": "",
+  "types": [
+   "Alga"
+  ],
+  "gdd_ref": [
+   70
+  ],
+  "evolves_from": "noctiluca",
+  "evolution": {
+   "method": "level",
+   "level": 21
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 63,
+  "id": "alexandrium",
+  "name": "Alexandrium",
+  "organism": "Marea roja neurotóxica",
+  "types": [
+   "Alga",
+   "Gram-"
+  ],
+  "gdd_ref": [
+   71
+  ],
+  "evolves_from": "ceratium",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Vir"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 64,
+  "id": "smegmatis",
+  "name": "Smegmatis",
+  "organism": "",
+  "types": [
+   "Ácido-Alc."
+  ],
+  "gdd_ref": [
+   74
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 65,
+  "id": "bovis",
+  "name": "Bovis",
+  "organism": "Cepa vacunal BCG",
+  "types": [
+   "Ácido-Alc."
+  ],
+  "gdd_ref": [
+   75
+  ],
+  "evolves_from": "smegmatis",
+  "evolution": {
+   "method": "level",
+   "level": 25
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 66,
+  "id": "tuberculos",
+  "name": "Tuberculos",
+  "organism": "M. tuberculosis",
+  "types": [
+   "Ácido-Alc."
+  ],
+  "gdd_ref": [
+   76
+  ],
+  "evolves_from": "bovis",
+  "evolution": {
+   "method": "conjugation"
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 67,
+  "id": "borrelia",
+  "name": "Borrelia",
+  "organism": "",
+  "types": [
+   "Espiroqueta"
+  ],
+  "gdd_ref": [
+   77
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 68,
+  "id": "treponema",
+  "name": "Treponema",
+  "organism": "",
+  "types": [
+   "Espiroqueta"
+  ],
+  "gdd_ref": [
+   78
+  ],
+  "evolves_from": "borrelia",
+  "evolution": {
+   "method": "level",
+   "level": 40
+  },
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+ },
+ {
+  "dex": 69,
+  "id": "geobacter",
+  "name": "Geobacter",
+  "organism": "",
+  "types": [
+   "Espiroqueta",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   81
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 70,
+  "id": "sulfurreduc",
+  "name": "Sulfurreduc",
+  "organism": "Produce nanocables conductores",
+  "types": [
+   "Espiroqueta",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   82
+  ],
+  "evolves_from": "geobacter",
+  "evolution": {
+   "method": "level",
+   "level": 30
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 71,
+  "id": "radiodurans",
+  "name": "Radiodurans",
+  "organism": "Deinococcus radiodurans, aguanta radiación nuclear",
+  "types": [
+   "Extremófilo",
+   "Gram+"
+  ],
+  "gdd_ref": [
+   83
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 72,
+  "id": "perfringens",
+  "name": "Perfringens",
+  "organism": "",
+  "types": [
+   "Esporulado",
+   "Anaerobio"
+  ],
+  "gdd_ref": [
+   84
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 73,
+  "id": "tetani",
+  "name": "Tetani",
+  "organism": "Raqueta de tambor",
+  "types": [
+   "Esporulado",
+   "Anaerobio"
+  ],
+  "gdd_ref": [
+   85
+  ],
+  "evolves_from": "perfringens",
+  "evolution": {
+   "method": "level",
+   "level": 31
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 74,
+  "id": "psychrobac",
+  "name": "Psychrobac",
+  "organism": "",
+  "types": [
+   "Ácido-Alc."
+  ],
+  "gdd_ref": [
+   86
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 75,
+  "id": "colwellia",
+  "name": "Colwellia",
+  "organism": "Vive en hielo marino a -20°C",
+  "types": [
+   "Ácido-Alc.",
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   87
+  ],
+  "evolves_from": "psychrobac",
+  "evolution": {
+   "method": "level",
+   "level": 34
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 76,
+  "id": "putida",
+  "name": "Putida",
+  "organism": "Pseudomonas biorremediadora",
+  "types": [
+   "Biofilm",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   88
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 77,
+  "id": "aeruginosa",
+  "name": "Aeruginosa",
+  "organism": "",
+  "types": [
+   "Biofilm",
+   "Gram-"
+  ],
+  "gdd_ref": [
+   89
+  ],
+  "evolves_from": "putida",
+  "evolution": {
+   "method": "level",
+   "level": 38
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 78,
+  "id": "giardia",
+  "name": "Giardia",
+  "organism": "",
+  "types": [
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   90
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 79,
+  "id": "cryptospor",
+  "name": "Cryptospor",
+  "organism": "Quiste blindado resistente al cloro",
+  "types": [
+   "Protozoo",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   91
+  ],
+  "evolves_from": "giardia",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Col"
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 80,
+  "id": "methanococ",
+  "name": "Methanococ",
+  "organism": "",
+  "types": [
+   "Archaea"
+  ],
+  "gdd_ref": [
+   92
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 81,
+  "id": "methanosar",
+  "name": "Methanosar",
+  "organism": "",
+  "types": [
+   "Archaea"
+  ],
+  "gdd_ref": [
+   93
+  ],
+  "evolves_from": "methanococ",
+  "evolution": {
+   "method": "level",
+   "level": 25
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 82,
+  "id": "pyrolobus",
+  "name": "Pyrolobus",
+  "organism": "P. fumarii, vive a 113 °C en chimeneas abisales",
+  "types": [
+   "Archaea",
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   94
+  ],
+  "evolves_from": "methanosar",
+  "evolution": {
+   "method": "conjugation"
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 83,
+  "id": "magnetospir",
+  "name": "Magnetospir",
+  "organism": "Magnetospirillum, cadena interna de cristales de magnetita",
+  "types": [
+   "Gram-",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   95
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 84,
+  "id": "rickettsia",
+  "name": "Rickettsia",
+  "organism": "",
+  "types": [
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   96
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 85,
+  "id": "prowazekii",
+  "name": "Prowazekii",
+  "organism": "",
+  "types": [
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   97
+  ],
+  "evolves_from": "rickettsia",
+  "evolution": {
+   "method": "level",
+   "level": 26
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 86,
+  "id": "halobacter",
+  "name": "Halobacter",
+  "organism": "",
+  "types": [
+   "Archaea",
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   98
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 87,
+  "id": "salinarum",
+  "name": "Salinarum",
+  "organism": "Bacteriorrodopsina púrpura",
+  "types": [
+   "Archaea",
+   "Fotótrofo"
+  ],
+  "gdd_ref": [
+   99
+  ],
+  "evolves_from": "halobacter",
+  "evolution": {
+   "method": "level",
+   "level": 28
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 88,
+  "id": "neisseria",
+  "name": "Neisseria",
+  "organism": "",
+  "types": [
+   "Gram-"
+  ],
+  "gdd_ref": [
+   100
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 89,
+  "id": "meningitid",
+  "name": "Meningitid",
+  "organism": "",
+  "types": [
+   "Gram-"
+  ],
+  "gdd_ref": [
+   101
+  ],
+  "evolves_from": "neisseria",
+  "evolution": {
+   "method": "level",
+   "level": 30
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 90,
+  "id": "cryptococ",
+  "name": "Cryptococ",
+  "organism": "",
+  "types": [
+   "Levadura"
+  ],
+  "gdd_ref": [
+   102
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 91,
+  "id": "neoformans",
+  "name": "Neoformans",
+  "organism": "",
+  "types": [
+   "Levadura",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   103
+  ],
+  "evolves_from": "cryptococ",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Vir"
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 92,
+  "id": "bdellovib",
+  "name": "Bdellovib",
+  "organism": "",
+  "types": [
+   "Gram-"
+  ],
+  "gdd_ref": [
+   104
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 93,
+  "id": "bacteriovor",
+  "name": "Bacteriovor",
+  "organism": "Bdellovibrio bacteriovorus, perfora otras Gram-",
+  "types": [
+   "Gram-",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   105
+  ],
+  "evolves_from": "bdellovib",
+  "evolution": {
+   "method": "level",
+   "level": 28
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 94,
+  "id": "nocardia",
+  "name": "Nocardia",
+  "organism": "",
+  "types": [
+   "Ácido-Alc.",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   106
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 95,
+  "id": "actinomyces",
+  "name": "Actinomyces",
+  "organism": "",
+  "types": [
+   "Gram+",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   107
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 96,
+  "id": "vulnificus",
+  "name": "Vulnificus",
+  "organism": "Vibrio vulnificus",
+  "types": [
+   "Gram-",
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   108
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Lore Vibrio"
+ },
+ {
+  "dex": 97,
+  "id": "desulfovib",
+  "name": "Desulfovib",
+  "organism": "",
+  "types": [
+   "Anaerobio",
+   "Gram-"
+  ],
+  "gdd_ref": [
+   109
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 98,
+  "id": "thiomargar",
+  "name": "Thiomargar",
+  "organism": "Thiomargarita magnifica, bacteria visible a simple vista",
+  "types": [
+   "Anaerobio",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   110
+  ],
+  "evolves_from": "desulfovib",
+  "evolution": {
+   "method": "level",
+   "level": 35
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 99,
+  "id": "baylyi",
+  "name": "Baylyi",
+  "organism": "",
+  "types": [
+   "Gram+"
+  ],
+  "gdd_ref": [
+   111
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 100,
+  "id": "baumannii",
+  "name": "Baumannii",
+  "organism": "Acorazado de UCI",
+  "types": [
+   "Gram-",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   112
+  ],
+  "evolves_from": "baylyi",
+  "evolution": {
+   "method": "level",
+   "level": 42
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 101,
+  "id": "kefirgran",
+  "name": "Kefirgran",
+  "organism": "Consorcio simbiótico del kéfir, curandero en La Incubadora",
+  "types": [
+   "Simbionte",
+   "Levadura"
+  ],
+  "gdd_ref": [
+   113
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 102,
+  "id": "spirogyra",
+  "name": "Spirogyra",
+  "organism": "Alga filamentosa con cloroplastos en espiral",
+  "types": [
+   "Alga",
+   "Fotótrofo"
+  ],
+  "gdd_ref": [
+   114
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 103,
+  "id": "mixotricha",
+  "name": "Mixotricha",
+  "organism": "Mixotricha paradoxa, protozoo con 4 simbiontes espiroquetas acoplados como motores",
+  "types": [
+   "Protozoo",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   115
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 104,
+  "id": "caulobac",
+  "name": "Caulobac",
+  "organism": "",
+  "types": [
+   "Gram-"
+  ],
+  "gdd_ref": [
+   116
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 105,
+  "id": "crescentus",
+  "name": "Crescentus",
+  "organism": "Con pedúnculo adhesivo ultra-fuerte",
+  "types": [
+   "Gram-",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   117
+  ],
+  "evolves_from": "caulobac",
+  "evolution": {
+   "method": "level",
+   "level": 32
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 106,
+  "id": "leishmania",
+  "name": "Leishmania",
+  "organism": "",
+  "types": [
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   118
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 107,
+  "id": "trypanosom",
+  "name": "Trypanosom",
+  "organism": "Membrana ondulante",
+  "types": [
+   "Protozoo",
+   "Espiroqueta"
+  ],
+  "gdd_ref": [
+   119
+  ],
+  "evolves_from": "leishmania",
+  "evolution": {
+   "method": "level",
+   "level": 33
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 108,
+  "id": "acantharia",
+  "name": "Acantharia",
+  "organism": "",
+  "types": [
+   "Protozoo",
+   "Alga"
+  ],
+  "gdd_ref": [
+   120
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 109,
+  "id": "radiolaria",
+  "name": "Radiolaria",
+  "organism": "Esqueleto geométrico de cristal de sílice",
+  "types": [
+   "Protozoo",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   121
+  ],
+  "evolves_from": "acantharia",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Col"
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 110,
+  "id": "chlamydia",
+  "name": "Chlamydia",
+  "organism": "C. trachomatis, alterna cuerpo elemental y reticulado",
+  "types": [
+   "Intracelular",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   122
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 111,
+  "id": "plasmodium",
+  "name": "Plasmodium",
+  "organism": "P. falciparum, atacante veloz intraeritrocitario",
+  "types": [
+   "Protozoo",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   123
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 112,
+  "id": "toxoplasma",
+  "name": "Toxoplasma",
+  "organism": "T. gondii, altera el comportamiento del rival",
+  "types": [
+   "Protozoo",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   124
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 113,
+  "id": "shewanella",
+  "name": "Shewanella",
+  "organism": "S. oneidensis, respirador de metales pesados",
+  "types": [
+   "Espiroqueta",
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   125
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 114,
+  "id": "sulfolobus",
+  "name": "Sulfolobus",
+  "organism": "S. solfataricus, arquea termoacidófila volcánica a pH 2 y 80 °C",
+  "types": [
+   "Archaea",
+   "Anaerobio"
+  ],
+  "gdd_ref": [
+   126
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 115,
+  "id": "yersinia",
+  "name": "Yersinia",
+  "organism": "Y. pestis, letalidad física extrema",
+  "types": [
+   "Gram-",
+   "Antibiótico"
+  ],
+  "gdd_ref": [
+   127
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 116,
+  "id": "listeria",
+  "name": "Listeria",
+  "organism": "L. monocytogenes, se propulsa con colas de actina cual cometa",
+  "types": [
+   "Gram+",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   128
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 117,
+  "id": "phage-x174",
+  "name": "Phage-X174",
+  "organism": "",
+  "types": [
+   "Virus"
+  ],
+  "gdd_ref": [
+   116
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 118,
+  "id": "lambda-v",
+  "name": "Lambda-V",
+  "organism": "",
+  "types": [
+   "Virus",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   117
+  ],
+  "evolves_from": "phage-x174",
+  "evolution": {
+   "method": "level",
+   "level": 28
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 119,
+  "id": "t4-titan",
+  "name": "T4-Titan",
+  "organism": "Bacteriófago T4",
+  "types": [
+   "Virus",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   118
+  ],
+  "evolves_from": "lambda-v",
+  "evolution": {
+   "method": "level",
+   "level": 48
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 120,
+  "id": "rous-v",
+  "name": "Rous-V",
+  "organism": "",
+  "types": [
+   "Virus"
+  ],
+  "gdd_ref": [
+   119
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 121,
+  "id": "lentivir",
+  "name": "Lentivir",
+  "organism": "",
+  "types": [
+   "Virus",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   120
+  ],
+  "evolves_from": "rous-v",
+  "evolution": {
+   "method": "level",
+   "level": 30
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 122,
+  "id": "retrovir-x",
+  "name": "Retrovir-X",
+  "organism": "",
+  "types": [
+   "Virus",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   121
+  ],
+  "evolves_from": "lentivir",
+  "evolution": {
+   "method": "level",
+   "level": 50
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 123,
+  "id": "lyssavir",
+  "name": "Lyssavir",
+  "organism": "",
+  "types": [
+   "Virus"
+  ],
+  "gdd_ref": [
+   122
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 124,
+  "id": "marburg-v",
+  "name": "Marburg-V",
+  "organism": "",
+  "types": [
+   "Virus",
+   "Gram-"
+  ],
+  "gdd_ref": [
+   123
+  ],
+  "evolves_from": "lyssavir",
+  "evolution": {
+   "method": "level",
+   "level": 32
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 125,
+  "id": "filovir-z",
+  "name": "Filovir-Z",
+  "organism": "Ébola",
+  "types": [
+   "Virus",
+   "Gram-"
+  ],
+  "gdd_ref": [
+   124
+  ],
+  "evolves_from": "marburg-v",
+  "evolution": {
+   "method": "level",
+   "level": 52
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 126,
+  "id": "poxvir",
+  "name": "Poxvir",
+  "organism": "",
+  "types": [
+   "Virus"
+  ],
+  "gdd_ref": [
+   125
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 127,
+  "id": "mimivir",
+  "name": "Mimivir",
+  "organism": "",
+  "types": [
+   "Virus",
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   126
+  ],
+  "evolves_from": "poxvir",
+  "evolution": {
+   "method": "level",
+   "level": 35
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 128,
+  "id": "pandoravir",
+  "name": "Pandoravir",
+  "organism": "Virus Gigante pseudo-legendario de 600 BST",
+  "types": [
+   "Virus",
+   "Protozoo"
+  ],
+  "gdd_ref": [
+   127
+  ],
+  "evolves_from": "mimivir",
+  "evolution": {
+   "method": "level",
+   "level": 55
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 129,
+  "id": "coli-k12",
+  "name": "Coli-K12",
+  "organism": "E. coli K-12 de laboratorio, inofensiva, solo conoce Turbidez",
+  "types": [
+   "Gram-"
+  ],
+  "gdd_ref": [
+   129
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 130,
+  "id": "coli-bl21",
+  "name": "Coli-BL21",
+  "organism": "Superfactoría biotecnológica de expresión proteica masiva",
+  "types": [
+   "Gram-",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   130
+  ],
+  "evolves_from": "coli-k12",
+  "evolution": {
+   "method": "level",
+   "level": 20
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 131,
+  "id": "diatomax",
+  "name": "Diatomax",
+  "organism": "Diatomea gigante acorazada para navegar con Flagelo Polar",
+  "types": [
+   "Alga",
+   "Ácido-Alc."
+  ],
+  "gdd_ref": [
+   131
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 132,
+  "id": "myxococcus",
+  "name": "Myxococcus",
+  "organism": "M. xanthus, bacteria social lobo que imita formas de cuerpos fructíferos",
+  "types": [
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   132
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 133,
+  "id": "pleomorph",
+  "name": "Pleomorph",
+  "organism": "Bacteria L-form sin pared fija",
+  "types": [
+   "Levadura"
+  ],
+  "gdd_ref": [
+   133
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 134,
+  "id": "halomorph",
+  "name": "Halomorph",
+  "organism": "",
+  "types": [
+   "Protozoo",
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   134
+  ],
+  "evolves_from": "pleomorph",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido Col"
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 135,
+  "id": "electromorph",
+  "name": "Electromorph",
+  "organism": "",
+  "types": [
+   "Espiroqueta"
+  ],
+  "gdd_ref": [
+   135
+  ],
+  "evolves_from": "pleomorph",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido F"
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 136,
+  "id": "pyromorph",
+  "name": "Pyromorph",
+  "organism": "",
+  "types": [
+   "Anaerobio",
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   136
+  ],
+  "evolves_from": "pleomorph",
+  "evolution": {
+   "method": "item",
+   "item": "Plásmido R"
+  },
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+ },
+ {
+  "dex": 137,
+  "id": "stromatol",
+  "name": "Stromatol",
+  "organism": "",
+  "types": [
+   "Gram+",
+   "Fotótrofo"
+  ],
+  "gdd_ref": [
+   137
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 138,
+  "id": "cyanofossil",
+  "name": "Cyanofossil",
+  "organism": "",
+  "types": [
+   "Gram+",
+   "Fotótrofo"
+  ],
+  "gdd_ref": [
+   138
+  ],
+  "evolves_from": "stromatol",
+  "evolution": {
+   "method": "level",
+   "level": 40
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 139,
+  "id": "amberspor",
+  "name": "Amberspor",
+  "organism": "",
+  "types": [
+   "Gram+",
+   "Esporulado"
+  ],
+  "gdd_ref": [
+   139
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 140,
+  "id": "palaeobacil",
+  "name": "Palaeobacil",
+  "organism": "",
+  "types": [
+   "Gram+",
+   "Esporulado"
+  ],
+  "gdd_ref": [
+   140
+  ],
+  "evolves_from": "amberspor",
+  "evolution": {
+   "method": "level",
+   "level": 40
+  },
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 141,
+  "id": "lokiarca",
+  "name": "Lokiarca",
+  "organism": "Lokiarchaeota, eslabón eucariota ancestral revivido del sedimento marino en el Instituto Carlos III",
+  "types": [
+   "Archaea",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   141
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 142,
+  "id": "tardigrad",
+  "name": "Tardigrad",
+  "organism": "El tanque microscópico invitado, equivalente a Snorlax bloqueando el paso hacia Ciudad Pili",
+  "types": [
+   "Extremófilo"
+  ],
+  "gdd_ref": [
+   142
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 143,
+  "id": "prion-sc",
+  "name": "Prion-Sc",
+  "organism": "PrPSc en la cima de la Torre Prión",
+  "types": [
+   "Ácido-Alc.",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   143
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 144,
+  "id": "viroid-cad",
+  "name": "Viroid-Cad",
+  "organism": "Viroide del Cadang-Cadang en la Central Metabólica",
+  "types": [
+   "Espiroqueta",
+   "Fotótrofo"
+  ],
+  "gdd_ref": [
+   144
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 145,
+  "id": "sputnik-v",
+  "name": "Sputnik-V",
+  "organism": "Virofago Sputnik en las Islas Esporuladas, devorador de virus gigantes",
+  "types": [
+   "Anaerobio",
+   "Virus"
+  ],
+  "gdd_ref": [
+   145
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 146,
+  "id": "deinococ",
+  "name": "Deinococ",
+  "organism": "D. radiodurans",
+  "types": [
+   "Extremófilo",
+   "Biofilm"
+  ],
+  "gdd_ref": [
+   146
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 147,
+  "id": "pyrococcus",
+  "name": "Pyrococcus",
+  "organism": "P. furiosus",
+  "types": [
+   "Archaea",
+   "Anaerobio"
+  ],
+  "gdd_ref": [
+   147
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 148,
+  "id": "ecoli-o157",
+  "name": "Escherichia coli O157:H7",
+  "organism": "Mascota de Micromón Escherichia",
+  "types": [
+   "Gram-",
+   "Virus"
+  ],
+  "gdd_ref": [
+   148
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 149,
+  "id": "salmonella-typhimurium",
+  "name": "Salmonella enterica Typhimurium",
+  "organism": "Mascota de Micromón Salmonella",
+  "types": [
+   "Gram-",
+   "Intracelular"
+  ],
+  "gdd_ref": [
+   149
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ },
+ {
+  "dex": 150,
+  "id": "luca",
+  "name": "LUCA",
+  "organism": "Last Universal Common Ancestor",
+  "types": [
+   "Archaea",
+   "Simbionte"
+  ],
+  "gdd_ref": [
+   150
+  ],
+  "evolves_from": null,
+  "evolution": null,
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+ }
+]

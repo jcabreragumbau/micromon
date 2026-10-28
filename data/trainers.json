@@ -1,0 +1,350 @@
+[
+ {
+  "id": "gym1",
+  "name": "Dr. Antoni Solé",
+  "role": "Gimnasio Alimento · Ciudad Petri",
+  "badge": "Medalla Probiótico",
+  "team": [
+   {
+    "species": "casei",
+    "level": 12
+   },
+   {
+    "species": "cereus",
+    "level": 12
+   },
+   {
+    "species": "listeria",
+    "level": 14
+   }
+  ]
+ },
+ {
+  "id": "gym2",
+  "name": "Dra. Núria Gajú",
+  "role": "Gimnasio Ambiental · Ciudad Cultivo",
+  "badge": "Medalla Tapete",
+  "team": [
+   {
+    "species": "navicula",
+    "level": 18
+   },
+   {
+    "species": "desulfovib",
+    "level": 19
+   },
+   {
+    "species": "anabaen",
+    "level": 21
+   }
+  ]
+ },
+ {
+  "id": "gym3",
+  "name": "Dra. Laia Guàrdia",
+  "role": "Gimnasio Hongo · Ciudad Gram",
+  "badge": "Medalla Micelio",
+  "team": [
+   {
+    "species": "pilobolus",
+    "level": 24
+   },
+   {
+    "species": "flavus",
+    "level": 25
+   },
+   {
+    "species": "chrysogenum",
+    "level": 27
+   }
+  ]
+ },
+ {
+  "id": "gym4",
+  "name": "Dr. Daniel Yero",
+  "role": "Gimnasio Levadura · Ciudad Aerobia",
+  "badge": "Medalla Gemación",
+  "team": [
+   {
+    "species": "pastorian",
+    "level": 29
+   },
+   {
+    "species": "neoformans",
+    "level": 30
+   },
+   {
+    "species": "auris",
+    "level": 32
+   }
+  ]
+ },
+ {
+  "id": "gym5",
+  "name": "Dr. Jordi Mas",
+  "role": "Gimnasio Industrial · Ciudad Agar",
+  "badge": "Medalla Quimiostato",
+  "team": [
+   {
+    "species": "mobilis",
+    "level": 35
+   },
+   {
+    "species": "acetobuty",
+    "level": 36
+   },
+   {
+    "species": "avermitil",
+    "level": 38
+   },
+   {
+    "species": "coli-bl21",
+    "level": 40
+   }
+  ]
+ },
+ {
+  "id": "gym6",
+  "name": "Dr. Òscar Conchillo",
+  "role": "Gimnasio Bioinfo · Instituto de Biotecnología",
+  "badge": "Medalla Algoritmo",
+  "team": [
+   {
+    "species": "pneumoniae",
+    "level": 41
+   },
+   {
+    "species": "aquaticus",
+    "level": 42
+   },
+   {
+    "species": "radiolaria",
+    "level": 43
+   },
+   {
+    "species": "pyrolobus",
+    "level": 45
+   }
+  ]
+ },
+ {
+  "id": "gym7",
+  "name": "Dra. Marina Luquin",
+  "role": "Gimnasio Clínico · Ciudad Pili",
+  "badge": "Medalla Ziehl-Neelsen",
+  "team": [
+   {
+    "species": "nocardia",
+    "level": 45
+   },
+   {
+    "species": "aeruginosa",
+    "level": 46
+   },
+   {
+    "species": "baumannii",
+    "level": 47
+   },
+   {
+    "species": "tuberculos",
+    "level": 49
+   }
+  ]
+ },
+ {
+  "id": "gym8",
+  "name": "Dra. Susana Campoy",
+  "role": "Gimnasio Fago · Isla Conjugada",
+  "badge": "Medalla Lisogenia",
+  "team": [
+   {
+    "species": "lambda-v",
+    "level": 49
+   },
+   {
+    "species": "bacteriovor",
+    "level": 50
+   },
+   {
+    "species": "marburg-v",
+    "level": 51
+   },
+   {
+    "species": "t4-titan",
+    "level": 53
+   }
+  ]
+ },
+ {
+  "id": "elite1",
+  "name": "Dra. Laura Tusell",
+  "role": "Alto Mando 1 · La UAB",
+  "badge": null,
+  "team": [
+   {
+    "species": "chlamydia",
+    "level": 53
+   },
+   {
+    "species": "trypanosom",
+    "level": 54
+   },
+   {
+    "species": "toxoplasma",
+    "level": 54
+   },
+   {
+    "species": "naegleria",
+    "level": 55
+   },
+   {
+    "species": "plasmodium",
+    "level": 56
+   }
+  ]
+ },
+ {
+  "id": "elite2",
+  "name": "Dr. Joaquim Martí",
+  "role": "Alto Mando 2 · La UAB",
+  "badge": null,
+  "team": [
+   {
+    "species": "treponema",
+    "level": 55
+   },
+   {
+    "species": "tetani",
+    "level": 56
+   },
+   {
+    "species": "alexandrium",
+    "level": 56
+   },
+   {
+    "species": "meningitid",
+    "level": 57
+   },
+   {
+    "species": "prion-sc",
+    "level": 58
+   }
+  ]
+ },
+ {
+  "id": "elite3",
+  "name": "Dr. Jordi Barbé",
+  "role": "Alto Mando 3 · La UAB",
+  "badge": null,
+  "team": [
+   {
+    "species": "agrobacter",
+    "level": 57
+   },
+   {
+    "species": "sulfolobus",
+    "level": 58
+   },
+   {
+    "species": "shewanella",
+    "level": 58
+   },
+   {
+    "species": "pyrococcus",
+    "level": 59
+   },
+   {
+    "species": "radiodurans",
+    "level": 60
+   }
+  ]
+ },
+ {
+  "id": "elite4",
+  "name": "Dra. Montserrat Llagostera",
+  "role": "Alto Mando 4 · La UAB",
+  "badge": null,
+  "team": [
+   {
+    "species": "yersinia",
+    "level": 59
+   },
+   {
+    "species": "anthracis",
+    "level": 60
+   },
+   {
+    "species": "retrovir-x",
+    "level": 60
+   },
+   {
+    "species": "filovir-z",
+    "level": 61
+   },
+   {
+    "species": "pandoravir",
+    "level": 62
+   }
+  ]
+ },
+ {
+  "id": "champion",
+  "name": "Dr. Louis Pasteur",
+  "role": "Campeón · La UAB",
+  "badge": null,
+  "team": [
+   {
+    "species": "pichiamax",
+    "level": 63
+   },
+   {
+    "species": "thermocel",
+    "level": 63
+   },
+   {
+    "species": "agalactiae",
+    "level": 64
+   },
+   {
+    "species": "paracholerae",
+    "level": 64
+   },
+   {
+    "species": "anthracis",
+    "level": 65
+   },
+   {
+    "species": "lyssavir",
+    "level": 67
+   }
+  ]
+ },
+ {
+  "id": "villain",
+  "name": "Dr. Jaime Martínez-Urtaza",
+  "role": "Líder de la Unidad de Genética · Isla Conjugada",
+  "badge": null,
+  "team": [
+   {
+    "species": "parahaemolyticus",
+    "level": 52
+   },
+   {
+    "species": "vulnificus",
+    "level": 53
+   },
+   {
+    "species": "tuberculos",
+    "level": 54
+   },
+   {
+    "species": "t4-titan",
+    "level": 55
+   },
+   {
+    "species": "pandoravir",
+    "level": 57
+   }
+  ]
+ }
+]

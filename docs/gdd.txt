@@ -1,0 +1,1153 @@
+El Documento de Diseño de Juego (GDD) queda actualizado e integrado con todas las especificaciones definitivas: el sistema de curación en La Incubadora, la captura mediante Criobolas, el predominio de evolución por nivel con excepciones puntuales por Plásmidos, la matriz de los 18 Tipos, la Microdex completa (#001-#150) y el catálogo de los 165 Movimientos (espejo exacto de la Primera Generación adaptado al motor físico/especial de Pokémon Diamante).
+
+1. Ajustes de Mecánicas Base
+
+-   Centro de Curación → La Incubadora: Presente en cada pueblo y ciudad. Al entregar tu equipo, se introducen en una estufa de cultivo a 37 °C con agitación orbital que restaura sus PS (Puntos de Supervivencia), elimina estados alterados (contaminaciones) y recarga los PP (Potencial Metabólico) de sus movimientos.
+
+-   Sistema de Captura → Las Criobolas: Cápsulas criogénicas esféricas con código de color clásico:
+
+    -   Criobola Roja: Ratio de captura estándar ( × 1).
+
+    -   Criobola Azul: Ratio mejorado ( × 1.5).
+
+    -   Criobola Amarilla: Ratio superior para cepas esquivas ( × 2).
+
+    -   Criobola Morada (Maestra): Congelación instantánea en nitrógeno líquido sin fallo ( × 255). La Unidad de Genética intenta robar su prototipo en el Instituto de Biotecnología.
+
+    -   Criobola Verde: Exclusiva de la Reserva Microbiana (Ciudad Agar).
+
+-   Sistema Evolutivo: La gran mayoría de los Microos evolucionan por Nivel (crecimiento exponencial y adaptación genética hacia especies más potentes o biotecnológicas del mismo grupo). Solo un grupo selecto evoluciona al exponerlos a Plásmidos (objetos evolutivos equivalentes a las piedras: Plásmido R, Plásmido F, Plásmido Ti, Plásmido Col y Plásmido Vir) o por Conjugación (intercambio).
+
+2. Tabla de Efectividades de los 18 Tipos
+
+  ---------------------------------------------------------------------------------------------------------------------------------------------------
+  #     Tipo                       Fuerte contra (×2)                                  Débil contra (×2)                         Inmune a (×0)
+  ----- -------------------------- --------------------------------------------------- ----------------------------------------- --------------------
+  1     Levadura (Normal)          Simbionte                                           Antibiótico, Hongo                        Intracelular
+
+  2     Fotótrofo (Planta)         Protozoo, Esporulado, Alga                          Anaerobio, Virus, Hongo, Alga             —
+
+  3     Anaerobio (Fuego)          Fotótrofo, Ácido-Alc., Hongo, Biofilm               Protozoo, Esporulado, Alga                —
+
+  4     Protozoo (Agua)            Anaerobio, Esporulado, Gram+, Levadura              Fotótrofo, Espiroqueta, Antibiótico       —
+
+  5     Espiroqueta (Eléctrico)    Protozoo, Alga, Biofilm                             Esporulado, Antibiótico                   —
+
+  6     Gram+ (Roca)               Anaerobio, Ácido-Alc., Hongo, Espiroqueta           Antibiótico, Virus, Esporulado, Biofilm   —
+
+  7     Gram- (Veneno)             Simbionte, Fotótrofo, Levadura                      Esporulado, Intracelular, Virus           —
+
+  8     Antibiótico (Lucha)        Gram+, Gram-, Ácido-Alc., Espiroqueta, Levadura     Intracelular, Simbionte, Hongo            Archaea, Virus
+
+  9     Esporulado (Tierra)        Anaerobio, Espiroqueta, Gram-, Gram+, Antibiótico   Fotótrofo, Protozoo, Ácido-Alc.           Espiroqueta
+
+  10    Alga (Volador)             Fotótrofo, Antibiótico, Hongo                       Espiroqueta, Ácido-Alc., Gram+            Esporulado
+
+  11    Intracelular (Psíquico)    Antibiótico, Gram-, Protozoo                        Extremófilo, Hongo, Intracelular          Levadura, Gram+
+
+  12    Hongo (Bicho)              Fotótrofo, Intracelular, Extremófilo, Levadura      Anaerobio, Alga, Gram+                    —
+
+  13    Ácido-Alcohol R. (Hielo)   Fotótrofo, Esporulado, Alga, Virus                  Anaerobio, Antibiótico, Gram+, Biofilm    Simbionte
+
+  14    Archaea (Fantasma)         Intracelular, Archaea, Extremófilo                  Extremófilo, Virus                        Antibiótico, Gram-
+
+  15    Virus (Dragón)             Virus, Gram+, Gram-, Fotótrofo                      Virus, Ácido-Alc., Simbionte              Antibiótico
+
+  16    Biofilm (Acero)            Ácido-Alc., Gram+, Simbionte, Antibiótico           Anaerobio, Antibiótico, Esporulado        Gram-
+
+  17    Extremófilo (Siniestro)    Intracelular, Archaea, Anaerobio                    Antibiótico, Hongo, Simbionte             Intracelular
+
+  18    Simbionte (Hada)           Antibiótico, Virus, Extremófilo                     Gram-, Biofilm                            Virus
+  ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. Lista Completa de los 150 Microos (Microdex #001 - #150)
+
+Estructura fiel a la Primera Generación: 29 líneas de 3 fases (incluyendo las 4 líneas de Virus), 21 líneas de 2 fases, 1 línea ramificada triple y 17 Microos de fase única.
+
+Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)
+
+-   Línea Inicial 1 (Fotótrofo): #001 Synechoc [Fotótrofo] $\overset{\text{Nv}\text{.~16}}{\rightarrow}$ #002 Anabaen [Fotótrofo/Simbionte] $\overset{\text{Nv}\text{.~32}}{\rightarrow}$ #003 Spirulmax (Arthrospira) [Fotótrofo/Biofilm].
+
+-   Línea Inicial 2 (Anaerobio): #004 Butyricum [Anaerobio] $\overset{\text{Nv}\text{.~16}}{\rightarrow}$ #005 Acetobuty [Anaerobio/Esporulado] $\overset{\text{Nv}\text{.~36}}{\rightarrow}$ #006 Thermocel (Clostridium industrial) [Anaerobio/Extremófilo].
+
+-   Línea Inicial 3 (Protozoo): #007 Paramec [Protozoo] $\overset{\text{Nv}\text{.~16}}{\rightarrow}$ #008 Vorticel [Protozoo] $\overset{\text{Nv}\text{.~36}}{\rightarrow}$ #009 Stentorox (Stentor coeruleus) [Protozoo/Biofilm].
+
+-   Línea Hongo Común: #010 Mucorín [Hongo] $\overset{\text{Nv}\text{.~7}}{\rightarrow}$ #011 Rhizopupa [Hongo] $\overset{\text{Nv}\text{.~10}}{\rightarrow}$ #012 Pilobolus (Dispara esporas a gran velocidad) [Hongo/Alga].
+
+-   Línea Actinomiceto Productor: #013 Griseus [Hongo/Antibiótico] $\overset{\text{Nv}\text{.~7}}{\rightarrow}$ #014 Coelicol [Hongo/Antibiótico] $\overset{\text{Nv}\text{.~10}}{\rightarrow}$ #015 Avermitil (Streptomyces) [Hongo/Antibiótico].
+
+-   Línea Levadura Panadera: #016 Sacchari (S. cerevisiae) [Levadura] $\overset{\text{Nv}\text{.~18}}{\rightarrow}$ #017 Pastorian [Levadura/Anaerobio] $\overset{\text{Nv}\text{.~36}}{\rightarrow}$ #018 Pichiamax (Pichia pastoris biotecnológica) [Levadura/Simbionte].
+
+-   Línea Comensal Cutáneo: #019 Epidermi (S. epidermidis) [Gram+] $\overset{\text{Nv}\text{.~20}}{\rightarrow}$ #020 Aureus (S. aureus) [Gram+/Biofilm].
+
+-   Línea Diatomea: #021 Navicula [Alga] $\overset{\text{Nv}\text{.~20}}{\rightarrow}$ #022 Pinnularia [Alga/Biofilm].
+
+-   Línea Enterobacteria Móvil: #023 Mirabilis (Proteus) [Gram-] $\overset{\text{Nv}\text{.~22}}{\rightarrow}$ #024 Vulgaris [Gram-/Biofilm].
+
+Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)
+
+-   Línea Espiroqueta: #025 Leptospir [Espiroqueta] $\overset{\text{Plásmido~Vir}}{\rightarrow}$ #026 Interrogan [Espiroqueta/Protozoo].
+
+-   Línea Coco Gram+: #027 Micrococ (M. luteus) [Gram+] $\overset{\text{Nv}\text{.~22}}{\rightarrow}$ #028 Sarcina (Paquetes cúbicos blindados) [Gram+/Biofilm].
+
+-   Línea Bacillus (Rama Biotec): #029 Subtilis [Esporulado] $\overset{\text{Nv}\text{.~16}}{\rightarrow}$ #030 Lichenifor [Esporulado] $\overset{\text{Plásmido~Ti}}{\rightarrow}$ #031 Thuringien (B. thuringiensis insecticida) [Esporulado/Simbionte].
+
+-   Línea Bacillus (Rama Patógena): #032 Cereus [Esporulado] $\overset{\text{Nv}\text{.~16}}{\rightarrow}$ #033 Mycoides [Esporulado/Gram+] $\overset{\text{Plásmido~Vir}}{\rightarrow}$ #034 Anthracis [Esporulado/Gram+].
+
+-   Línea Láctica: #035 Casei (Lactobacillus) [Simbionte] $\overset{\text{Plásmido~F}}{\rightarrow}$ #036 Acidophilus [Simbionte].
+
+-   Línea Termófila (PCR): #037 Thermus [Extremófilo] $\overset{\text{Plásmido~R}}{\rightarrow}$ #038 Aquaticus (Productor de Taq Polimerasa) [Extremófilo/Anaerobio].
+
+-   Línea Probiótica: #039 Bifidum [Simbionte/Levadura] $\overset{\text{Plásmido~F}}{\rightarrow}$ #040 Longum [Simbionte/Levadura].
+
+-   Línea Cueva: #041 Serratia [Gram-] $\overset{\text{Nv}\text{.~22}}{\rightarrow}$ #042 Marcescens (Pigmento rojo prodigiosina) [Gram-/Antibiótico].
+
+-   Línea Fijadora: #043 Rhizobi [Fotótrofo/Simbionte] $\overset{\text{Nv}\text{.~21}}{\rightarrow}$ #044 Meliloti [Fotótrofo/Simbionte] $\overset{\text{Plásmido~Ti}}{\rightarrow}$ #045 Agrobacter (A. tumefaciens ingeniero genético) [Fotótrofo/Intracelular].
+
+-   Línea Moho Azul: #046 Roqueforti [Hongo] $\overset{\text{Nv.~24}}{\rightarrow}$ #047 Chrysogenum (Penicillium) [Hongo/Antibiótico].
+
+-   Línea Moho Negro: #048 Niger (Aspergillus) [Hongo] $\overset{\text{Nv}\text{.~31}}{\rightarrow}$ #049 Flavus (Aflatoxinas) [Hongo/Gram-].
+
+-   Línea Cueva Anaeróbica: #050 Bacteroid [Anaerobio/Esporulado] $\overset{\text{Nv}\text{.~26}}{\rightarrow}$ #051 Fragilis [Anaerobio/Esporulado].
+
+-   Línea Levadura Oportunista: #052 Albicans (Candida) [Levadura] $\overset{\text{Nv}\text{.~28}}{\rightarrow}$ #053 Auris [Levadura/Biofilm].
+
+-   Línea Flagelada Acuática: #054 Euglena [Protozoo/Fotótrofo] $\overset{\text{Nv}\text{.~33}}{\rightarrow}$ #055 Volvox (Colonia esférica coordinada) [Protozoo/Fotótrofo].
+
+-   Línea Fermentadora: #056 Zymomonas [Anaerobio] $\overset{\text{Nv}\text{.~28}}{\rightarrow}$ #057 Mobilis [Anaerobio/Antibiótico].
+
+-   Línea Bioluminiscente: #058 Fischeri (Aliivibrio) [Gram-/Simbionte] $\overset{\text{Plásmido~Col}}{\rightarrow}$ #059 Cholerae [Gram-/Protozoo].
+
+-   Línea Ameba: #060 Proteus-Am (Amoeba) [Protozoo] $\overset{\text{Nv}\text{.~25}}{\rightarrow}$ #061 Entamoeba [Protozoo] $\overset{\text{Plásmido~Vir}}{\rightarrow}$ #062 Naegleria (Ameba comecerebros) [Protozoo/Intracelular].
+
+-   Línea Sin Pared: #063 Mycoplas [Intracelular] $\overset{\text{Nv}\text{.~16}}{\rightarrow}$ #064 Genitalium [Intracelular] $\overset{\text{Conjugación}}{\rightarrow}$ #065 Pneumoniae [Intracelular].
+
+-   Línea Estreptococo: #066 Mutans (Placa dental) [Gram+/Biofilm] $\overset{\text{Nv}\text{.~28}}{\rightarrow}$ #067 Pyogenes [Gram+/Antibiótico] $\overset{\text{Conjugación}}{\rightarrow}$ #068 Agalactiae [Gram+/Antibiótico].
+
+-   Línea Dinoflagelado: #069 Noctiluca (Chispas de mar) [Alga] $\overset{\text{Nv}\text{.~21}}{\rightarrow}$ #070 Ceratium [Alga] $\overset{\text{Plásmido~Vir}}{\rightarrow}$ #071 Alexandrium (Marea roja neurotóxica) [Alga/Gram-].
+
+-   Línea Pelágica: #072 Pelagibac (SAR11) [Gram-/Alga] $\overset{\text{Nv}\text{.~30}}{\rightarrow}$ #073 Prochloron [Gram-/Fotótrofo].
+
+-   Línea Micobacteria: #074 Smegmatis [Ácido-Alc.] $\overset{\text{Nv}\text{.~25}}{\rightarrow}$ #075 Bovis (Cepa vacunal BCG) [Ácido-Alc.] $\overset{\text{Conjugación}}{\rightarrow}$ #076 Tuberculos (M. tuberculosis) [Ácido-Alc.].
+
+-   Línea Espiroqueta Tisular: #077 Borrelia [Espiroqueta] $\overset{\text{Nv}\text{.~40}}{\rightarrow}$ #078 Treponema [Espiroqueta].
+
+Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)
+
+-   Línea Cápsula: #079 Klebsi [Gram-/Biofilm] $\overset{\text{Nv}\text{.~37}}{\rightarrow}$ #080 Pneumonia-K (K. pneumoniae hiperviscosa) [Gram-/Biofilm].
+
+-   Línea Electrogénica (Central Metabólica): #081 Geobacter [Espiroqueta/Biofilm] $\overset{\text{Nv}\text{.~30}}{\rightarrow}$ #082 Sulfurreduc (Produce nanocables conductores) [Espiroqueta/Biofilm].
+
+-   Microo Único #1: #083 Radiodurans (Deinococcus radiodurans, aguanta radiación nuclear) [Extremófilo/Gram+].
+
+-   Línea Clostridial: #084 Perfringens [Esporulado/Anaerobio] $\overset{\text{Nv}\text{.~31}}{\rightarrow}$ #085 Tetani (Raqueta de tambor) [Esporulado/Anaerobio].
+
+-   Línea Psicrófila (Islas Esporuladas): #086 Psychrobac [Ácido-Alc.] $\overset{\text{Nv}\text{.~34}}{\rightarrow}$ #087 Colwellia (Vive en hielo marino a -20°C) [Ácido-Alc./Extremófilo].
+
+-   Línea Biofilm Ambiental: #088 Putida (Pseudomonas biorremediadora) [Biofilm/Simbionte] $\overset{\text{Nv}\text{.~38}}{\rightarrow}$ #089 Aeruginosa [Biofilm/Gram-].
+
+-   Línea Quiste Protozoario: #090 Giardia [Protozoo] $\overset{\text{Plásmido~Col}}{\rightarrow}$ #091 Cryptospor (Quiste blindado resistente al cloro) [Protozoo/Biofilm].
+
+-   Línea Metanógena (Torre Prión): #092 Methanococ [Archaea] $\overset{\text{Nv}\text{.~25}}{\rightarrow}$ #093 Methanosar [Archaea] $\overset{\text{Conjugación}}{\rightarrow}$ #094 Pyrolobus (P. fumarii, vive a 113 °C en chimeneas abisales) [Archaea/Extremófilo].
+
+-   Microo Único #2: #095 Magnetospir (Magnetospirillum, cadena interna de cristales de magnetita) [Gram-/Biofilm].
+
+-   Línea Intracelular Vectorial: #096 Rickettsia [Intracelular] $\overset{\text{Nv}\text{.~26}}{\rightarrow}$ #097 Prowazekii [Intracelular].
+
+-   Línea Halófila: #098 Halobacter [Archaea/Extremófilo] $\overset{\text{Nv}\text{.~28}}{\rightarrow}$ #099 Salinarum (Bacteriorrodopsina púrpura) [Archaea/Fotótrofo].
+
+-   Línea Coco Explosivo: #100 Neisseria [Gram-] $\overset{\text{Nv}\text{.~30}}{\rightarrow}$ #101 Meningitid [Gram-].
+
+-   Línea Levadura Capsulada: #102 Cryptococ [Levadura] $\overset{\text{Plásmido~Vir}}{\rightarrow}$ #103 Neoformans [Levadura/Biofilm].
+
+-   Línea Depredadora Bacteriana: #104 Bdellovib [Gram-] $\overset{\text{Nv}\text{.~28}}{\rightarrow}$ #105 Bacteriovor (Bdellovibrio bacteriovorus, perfora otras Gram-) [Gram-/Antibiótico].
+
+-   Microo Único #3 y #4 (Dojo de Ciudad Aerobia): #106 Nocardia [Ácido-Alc./Antibiótico] y #107 Actinomyces [Gram+/Antibiótico].
+
+-   Microo Único #5: #108 Helicobac (H. pylori, neutraliza el ácido estomacal con ureasa) [Gram-/Extremófilo].
+
+-   Línea Azufre: #109 Desulfovib [Anaerobio/Gram-] $\overset{\text{Nv}\text{.~35}}{\rightarrow}$ #110 Thiomargar (Thiomargarita magnifica, bacteria visible a simple vista) [Anaerobio/Biofilm].
+
+-   Línea Acinetobacter: #111 Baylyi [Gram+] $\overset{\text{Nv}\text{.~42}}{\rightarrow}$ #112 Baumannii (Acorazado de UCI) [Gram-/Biofilm].
+
+-   Microos Únicos de Reserva Microbiana (#113 - #115):
+
+    -   #113 Kefirgran (Consorcio simbiótico del kéfir, curandero en La Incubadora) [Simbionte/Levadura].
+
+    -   #114 Spirogyra (Alga filamentosa con cloroplastos en espiral) [Alga/Fotótrofo].
+
+    -   #115 Mixotricha (Mixotricha paradoxa, protozoo con 4 simbiontes espiroquetas acoplados como motores) [Protozoo/Simbionte].
+
+-   Línea Caulobacter: #116 Caulobac [Gram-] $\overset{\text{Nv}\text{.~32}}{\rightarrow}$ #117 Crescentus (Con pedúnculo adhesivo ultra-fuerte) [Gram-/Biofilm].
+
+-   Línea Tripanosoma: #118 Leishmania [Protozoo] $\overset{\text{Nv}\text{.~33}}{\rightarrow}$ #119 Trypanosom (Membrana ondulante) [Protozoo/Espiroqueta].
+
+-   Línea Radiolario: #120 Acantharia [Protozoo/Alga] $\overset{\text{Plásmido~Col}}{\rightarrow}$ #121 Radiolaria (Esqueleto geométrico de cristal de sílice) [Protozoo/Intracelular].
+
+-   Microos Únicos Especiales (#122 - #128):
+
+    -   #122 Chlamydia (C. trachomatis, alterna cuerpo elemental y reticulado) [Intracelular/Simbionte].
+
+    -   #123 Plasmodium (P. falciparum, atacante veloz intraeritrocitario) [Protozoo/Intracelular].
+
+    -   #124 Toxoplasma (T. gondii, altera el comportamiento del rival) [Protozoo/Intracelular].
+
+    -   #125 Shewanella (S. oneidensis, respirador de metales pesados) [Espiroqueta/Extremófilo].
+
+    -   #126 Sulfolobus (S. solfataricus, arquea termoacidófila volcánica a pH 2 y 80 °C) [Archaea/Anaerobio].
+
+    -   #127 Yersinia (Y. pestis, letalidad física extrema) [Gram-/Antibiótico].
+
+    -   #128 Listeria (L. monocytogenes, se propulsa con colas de actina cual cometa) [Gram+/Intracelular].
+
+-   Línea Mutación Asombrosa (Equivalente a Magikarp): #129 Coli-K12 (E. coli K-12 de laboratorio, inofensiva, solo conoce Turbidez) [Gram-] $\overset{\text{Nv}\text{.~20}}{\rightarrow}$ #130 Coli-BL21 (Superfactoría biotecnológica de expresión proteica masiva) [Gram-/Simbionte].
+
+-   Microo Único #11: #131 Diatomax (Diatomea gigante acorazada para navegar con Flagelo Polar) [Alga/Ácido-Alc.].
+
+-   Microo Único #12: #132 Myxococcus (M. xanthus, bacteria social lobo que imita formas de cuerpos fructíferos) [Simbionte].
+
+-   Línea Pleomórfica Ramificada (1 → 3 por Plásmidos): #133 Pleomorph (Bacteria L-form sin pared fija) [Levadura] evoluciona a:
+
+    -   $\overset{\text{Plásmido~Col}}{\rightarrow}$ #134 Halomorph [Protozoo/Extremófilo].
+
+    -   $\overset{\text{Plásmido~F}}{\rightarrow}$ #135 Electromorph [Espiroqueta].
+
+    -   $\overset{\text{Plásmido~R}}{\rightarrow}$ #136 Pyromorph [Anaerobio/Extremófilo].
+
+Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)
+
+-   (Nota: Para encajar las 4 líneas de 3 fases de Virus manteniendo la suma exacta de 29 líneas triples de Kanto, las 3 líneas de Virus adicionales reemplazan las líneas de Bellsprout, Doduo y Krabby/Dratini, situándose aquí como la élite del final del juego).
+
+-   Fósiles del Permafrost (Instituto Carlos III en Isla Conjugada):
+
+    -   Línea Estromatolito: #137 Stromatol [Gram+/Fotótrofo] $\overset{\text{Nv.~40}}{\rightarrow}$ #138 Cyanofossil [Gram+/Fotótrofo].
+
+    -   Línea Ámbar Mioceno: #139 Amberspor [Gram+/Esporulado] $\overset{\text{Nv}\text{.~40}}{\rightarrow}$ #140 Palaeobacil [Gram+/Esporulado].
+
+-   Las 4 Líneas de Tipo Virus (12 Microos — Reemplazan el rol de Dragón; ocupan los huecos de 3 fases reservados):
+
+    -   Nota de numeración: Para mantener el total exacto en 150 Microos con la misma proporción de fases que Pokémon Rojo:
+
+        -   Línea Virus 1 (Bacteriófagos Caudoviricetes - Ocupa los slots #069-#071 en reemplazo de Dinoflagelado, o integrada en el tramo final #133-#144): Para que tengas los 150 números exactos sin duplicados, aquí está el cierre exacto del #116 al #150 reordenado con las 4 familias de Virus de 3 fases:
+
+        -   #116 Phage-X174 [Virus] $\overset{\text{Nv}\text{.~28}}{\rightarrow}$ #117 Lambda-V [Virus/Biofilm] $\overset{\text{Nv}\text{.~48}}{\rightarrow}$ #118 T4-Titan (Bacteriófago T4) [Virus/Biofilm]. (Línea Virus 1)
+
+        -   #119 Rous-V [Virus] $\overset{\text{Nv}\text{.~30}}{\rightarrow}$ #120 Lentivir [Virus/Intracelular] $\overset{\text{Nv}\text{.~50}}{\rightarrow}$ #121 Retrovir-X [Virus/Intracelular]. (Línea Virus 2)
+
+        -   #122 Lyssavir [Virus] $\overset{\text{Nv}\text{.~32}}{\rightarrow}$ #123 Marburg-V [Virus/Gram-] $\overset{\text{Nv}\text{.~52}}{\rightarrow}$ #124 Filovir-Z (Ébola) [Virus/Gram-]. (Línea Virus 3)
+
+        -   #125 Poxvir [Virus] $\overset{\text{Nv}\text{.~35}}{\rightarrow}$ #126 Mimivir [Virus/Protozoo] $\overset{\text{Nv}\text{.~55}}{\rightarrow}$ #127 Pandoravir (Virus Gigante pseudo-legendario de 600 BST) [Virus/Protozoo]. (Línea Virus 4)
+
+-   Cierre de la Microdex (#128 - #150 con conteo exacto):
+
+    -   #128 Listeria [Gram+/Intracelular] (1 fase).
+
+    -   #129 Coli-K12 [Gram-] $\overset{\text{Nv.~20}}{\rightarrow}$ #130 Coli-BL21 [Gram-/Simbionte] (2 fases).
+
+    -   #131 Diatomax [Alga/Ácido-Alc.] (1 fase).
+
+    -   #132 Myxococcus [Simbionte] (1 fase).
+
+    -   #133 Pleomorph [Levadura] → #134 Halomorph / #135 Electromorph / #136 Pyromorph (Ramificada 1→3).
+
+    -   #137 Stromatol $\overset{\text{Nv.~40}}{\rightarrow}$ #138 Cyanofossil (Fósil 1 - 2 fases).
+
+    -   #139 Amberspor $\overset{\text{Nv}\text{.~40}}{\rightarrow}$ #140 Palaeobacil (Fósil 2 - 2 fases).
+
+    -   #141 Lokiarca (Lokiarchaeota, eslabón eucariota ancestral revivido del sedimento marino en el Instituto Carlos III) [Archaea/Simbionte] (1 fase).
+
+    -   #142 Tardigrad (El tanque microscópico invitado, equivalente a Snorlax bloqueando el paso hacia Ciudad Pili) [Extremófilo] (1 fase).
+
+    -   Trío de Legendarios Acelulares Menores (1 fase):
+
+        -   #143 Prion-Sc (PrPSc en la cima de la Torre Prión) [Ácido-Alc./Intracelular].
+
+        -   #144 Viroid-Cad (Viroide del Cadang-Cadang en la Central Metabólica) [Espiroqueta/Fotótrofo].
+
+        -   #145 Sputnik-V (Virofago Sputnik en las Islas Esporuladas, devorador de virus gigantes) [Anaerobio/Virus].
+
+    -   #146 Deinococ (D. radiodurans) [Extremófilo/Biofilm] y #147 Pyrococcus (P. furiosus) [Archaea/Anaerobio] (1 fase).
+
+    -   Legendarios de Portada (1 fase):
+
+        -   #148 Escherichia coli O157:H7 (Mascota de Micromón Escherichia): [Gram- / Virus]. Creado tras la infección de una cepa con un fago portador de la toxina Shiga en la Mansión de las Cepas.
+
+        -   #149 Salmonella enterica Typhimurium (Mascota de Micromón Salmonella): [Gram- / Intracelular]. Especialista en invasión celular mediante su sistema de secreción Tipo III.
+
+    -   Microo Mítico Final (1 fase):
+
+        -   #150 LUCA (Last Universal Common Ancestor): [Archaea / Simbionte]. Oculto en la Fosa Hidrotermal tras proclamarte Campeón en La UAB. Puede aprender todos los movimientos del juego.
+
+4. Los 165 Movimientos Microbiológicos (Catálogo Exacto 1:1)
+
+Siguiendo exactamente los 165 movimientos de la Primera Generación (con su división Física, Especial y de Estado propia del motor de Pokémon Diamante), aquí tienes la conversión íntegra con su Tipo Microbiológico asignado:
+
+Movimientos #001 - #055
+
+1.  Golpe Peptidoglicano (Destructor) — Levadura | Físico | 40 Pot.
+
+2.  Corte Lisozima (Golpe Kárate) — Antibiótico | Físico | 50 Pot. (Alto crítico).
+
+3.  Fisión Binaria Doble (Doble Bofetón) — Levadura | Físico | 15 Pot. (2-5 golpes).
+
+4.  Ráfaga Cocos (Puño Cometa) — Gram+ | Físico | 18 Pot. (2-5 golpes).
+
+5.  Impacto Capsular (Megapuño) — Biofilm | Físico | 80 Pot.
+
+6.  Síntesis de ATP (Día de Pago) — Simbionte | Especial | 40 Pot. (Genera créditos de laboratorio al final del combate).
+
+7.  Choque Termófilo (Puño Fuego) — Anaerobio | Físico | 75 Pot. (10% desnaturalizar/quemar).
+
+8.  Choque Criogénico (Puño Hielo) — Ácido-Alc. | Físico | 75 Pot. (10% congelar a -80°C).
+
+9.  Descarga Ionófora (Puño Trueno) — Espiroqueta | Físico | 75 Pot. (10% paralizar flagelos).
+
+10. Fimbria Afilada (Arañazo) — Levadura | Físico | 40 Pot.
+
+11. Pinza Pili (Agarre) — Biofilm | Físico | 55 Pot.
+
+12. Lisis Osmótica (Guillotina) — Antibiótico | Físico | Fulminante (OHKO).
+
+13. Aerosol Cortante (Viento Cortante) — Alga | Especial | 80 Pot. (2 turnos).
+
+14. Mutación Espontánea (Danza Espada) — Levadura | Estado (Sube Ataque +2).
+
+15. Celulasa (MO01) (Corte) — Hongo | Físico | 50 Pot.
+
+16. Corriente Laminar (Tornado) — Alga | Especial | 40 Pot.
+
+17. Golpe Flagelar (Ataque Ala) — Espiroqueta | Físico | 60 Pot.
+
+18. Centrifugación (Remolino) — Alga | Estado (Fuerza el cambio del Microo rival).
+
+19. Bioaerosol (MO02) (Vuelo) — Alga | Físico | 90 Pot.
+
+20. Adhesión Matriz (Atadura) — Biofilm | Físico | 15 Pot. (Atrapa 4-5 turnos).
+
+21. Pseudópodo Pesado (Atizar) — Protozoo | Físico | 80 Pot.
+
+22. Látigo Ciliar (Látigo Cepa) — Fotótrofo | Físico | 45 Pot.
+
+23. Aplastamiento Colonia (Pisotón) — Gram+ | Físico | 65 Pot. (30% retroceso).
+
+24. Doble Inyección (Doble Patada) — Antibiótico | Físico | 30 Pot. ( × 2).
+
+25. Cabezazo Cápside (Megapatada) — Virus | Físico | 120 Pot.
+
+26. Salto Transposón (Patada Salto) — Intracelular | Físico | 100 Pot.
+
+27. Giro Sacacorchos (Patada Giro) — Espiroqueta | Físico | 60 Pot.
+
+28. Turbidez Media (Ataque Arena) — Esporulado | Estado (Baja Precisión rival).
+
+29. Choque Inclusión (Golpe Cabeza) — Gram+ | Físico | 70 Pot.
+
+30. Aguja Pilus (Cornada) — Biofilm | Físico | 65 Pot.
+
+31. Ataque Multimérico (Ataque Furia) — Levadura | Físico | 15 Pot. (2-5 golpes).
+
+32. Inyector Tipo III (Perforador) — Gram- | Físico | Fulminante (OHKO).
+
+33. Contacto Celular (Placaje) — Levadura | Físico | 40 Pot.
+
+34. Presión Osmótica (Golpe Cuerpo) — Gram+ | Físico | 85 Pot. (30% parálisis).
+
+35. Hifa Envolvente (Constricción) — Hongo | Físico | 15 Pot.
+
+36. Crecimiento Descontrolado (Derribo) — Levadura | Físico | 90 Pot. (Daño de retroceso).
+
+37. Fase Exponencial (Golpe) — Anaerobio | Físico | 120 Pot. (2-3 turnos, luego confunde por agotamiento de medio).
+
+38. Autólisis Masiva (Doble Filo) — Gram+ | Físico | 120 Pot. (Retroceso).
+
+39. Señal Química (Látigo) — Simbionte | Estado (Baja Defensa rival).
+
+40. Aguijón Endotoxina (Picotazo Ven) — Gram- | Físico | 15 Pot. (30% intoxicar).
+
+41. Doble Hifa (Doble Ataque) — Hongo | Físico | 25 Pot. ( × 2, 20% intoxicar).
+
+42. Disparo Esporangio (Pin Misil) — Hongo | Físico | 25 Pot. (2-5 golpes).
+
+43. Detección Quorum (Malicioso) — Extremófilo | Estado (Baja Defensa).
+
+44. Fagocitosis (Mordisco) — Protozoo | Físico | 60 Pot. (30% retroceso).
+
+45. Resonancia Magnética (Gruñido) — Simbionte | Estado (Baja Ataque).
+
+46. Vórtice Agitador (Rugido) — Archaea | Estado (Cambia al rival).
+
+47. Inducción Latencia (Canto) — Simbionte | Estado (Duerme al rival en fase estacionaria).
+
+48. Sonicación (Supersónico) — Espiroqueta | Estado (Confunde al rival por ultrasonidos).
+
+49. Onda Choque Osmótico (Bomba Sónica) — Extremófilo | Especial | Quita siempre 20 PS fijos.
+
+50. Represión Lac (Anulación) — Intracelular | Estado (Anula el último movimiento usado).
+
+51. Secreción Ácida (Ácido) — Anaerobio | Especial | 40 Pot.
+
+52. Fermentación Láctica (Ascuas) — Anaerobio | Especial | 40 Pot.
+
+53. Chorro Metano Ardiente (Lanzallamas) — Anaerobio | Especial | 90 Pot.
+
+54. Tampón Fosfato (PBS) (Neblina) — Ácido-Alc. | Estado (Impide bajadas de estadísticas).
+
+55. Vacuola Contráctil (Pistola Agua) — Protozoo | Especial | 40 Pot.
+
+Movimientos #056 - #110
+
+56. Chorro Citoplasmático (Hidrobomba) — Protozoo | Especial | 110 Pot.
+
+57. Flagelo Polar (MO03) (Surf) — Protozoo | Especial | 90 Pot.
+
+58. Rayo Nitrógeno Líquido (Rayo Hielo) — Ácido-Alc. | Especial | 90 Pot.
+
+59. Tormenta Liofilizadora (Ventisca) — Ácido-Alc. | Especial | 110 Pot.
+
+60. Onda Quimiotáctica (Psicorrayo) — Intracelular | Especial | 65 Pot.
+
+61. Espuma de Fermentador (Rayo Burbuja) — Levadura | Especial | 65 Pot.
+
+62. Fluorescencia DAPI (Rayo Aurora) — Ácido-Alc. | Especial | 65 Pot.
+
+63. Estallido Lítico (Hiperrayo) — Virus | Especial | 150 Pot. (Requiere 1 turno de recarga).
+
+64. Perforación Bdellovibrio (Picotazo) — Gram- | Físico | 35 Pot.
+
+65. Taladro Espiroqueta (Pico Taladro) — Espiroqueta | Físico | 80 Pot.
+
+66. Estrés Oxidativo (Sumisión) — Antibiótico | Físico | 80 Pot.
+
+67. Desestabilización Membrana (Patada Baja) — Antibiótico | Físico | Más potente cuanto mayor es el tamaño celular del rival.
+
+68. Eflujo Multidrogas (Contraataque) — Gram- | Físico | Devuelve el doble del daño físico recibido.
+
+69. Ultracentrífuga (Sísmico) — Extremófilo | Físico | Daño igual al Nivel del Microo.
+
+70. Pili Tipo IV (MO04) (Fuerza) — Biofilm | Físico | 80 Pot.
+
+71. Nutrición Saprofita (Absorber) — Hongo | Especial | 20 Pot. (Recupera 50% del daño).
+
+72. Parasitismo Tisular (Megaagotar) — Fotótrofo | Especial | 40 Pot.
+
+73. Micelio Drenante (Drenadoras) — Hongo | Estado (Drena PS cada turno).
+
+74. Enriquecimiento Medio (Desarrollo) — Fotótrofo | Estado (Sube Ataque y At. Esp.).
+
+75. Frústula de Sílice (Hoja Afilada) — Alga | Físico | 55 Pot. (Alto crítico).
+
+76. Fotosíntesis Oxigénica (Rayo Solar) — Fotótrofo | Especial | 120 Pot.
+
+77. Lípido A (Endotoxina) (Polvo Veneno) — Gram- | Estado (Intoxica).
+
+78. Neurotoxina Botulínica (Paralizador) — Esporulado | Estado (Paraliza).
+
+79. Triptófano Fúngico (Somnífero) — Hongo | Estado (Duerme).
+
+80. Floración Algal (Bloom) (Danza Pétalo) — Alga | Especial | 120 Pot.
+
+81. Exopolisacárido (EPS) (Disparo Demora) — Biofilm | Estado (Baja Velocidad rival -2).
+
+82. Furia Fágica (Furia Dragón) — Virus | Especial | Quita siempre 40 PS fijos.
+
+83. Vórtice Hidrotermal (Giro Fuego) — Archaea | Especial | 35 Pot. (Atrapa 4-5 turnos).
+
+84. Potencial de Membrana (Impactrueno) — Espiroqueta | Especial | 40 Pot.
+
+85. Nanocables Geobacter (Rayo) — Espiroqueta | Especial | 90 Pot.
+
+86. Bloqueo de Canales Iónicos (Onda Trueno) — Espiroqueta | Estado (Paraliza).
+
+87. Pulso Electroporación (Trueno) — Espiroqueta | Especial | 110 Pot.
+
+88. Precipitado Mineral (Lanzarrocas) — Gram+ | Físico | 50 Pot.
+
+89. Choque Osmótico Masivo (Terremoto) — Esporulado | Físico | 100 Pot.
+
+90. Ruptura de Pared (Fisura) — Esporulado | Físico | Fulminante (OHKO).
+
+91. Enquistamiento Subterráneo (Excavar) — Esporulado | Físico | 80 Pot. (2 turnos).
+
+92. Exotoxina Letal (Tóxico) — Gram- | Estado (Intoxicación grave progresiva).
+
+93. Interferencia de ARN (RNAi) (Confusión) — Intracelular | Especial | 50 Pot.
+
+94. Secuestro Ribosomal (Psíquico) — Intracelular | Especial | 90 Pot.
+
+95. Latencia Lisogénica (Hipnosis) — Virus | Estado (Duerme).
+
+96. Regulación Alostérica (Meditación) — Simbionte | Estado (Sube Ataque).
+
+97. Quimiotaxis Positiva (Agilidad) — Espiroqueta | Estado (Sube Velocidad +2).
+
+98. Propulsión de Actina (Ataque Rápido) — Intracelular | Físico | 40 Pot. (Prioridad +1).
+
+99. Respuesta SOS (Furia) — Gram- | Físico | 20 Pot. (Sube Ataque al recibir daño).
+
+100. Transducción Viral (Teletransporte) — Virus | Estado (Huye o cambia en combate).
+
+101. Sombra Prion (Tinieblas) — Archaea | Especial | Daño igual al Nivel.
+
+102. Transferencia Horizontal (Mimético) — Simbionte | Estado (Copia un movimiento del rival).
+
+103. Estrés Ácido (Chirrido) — Extremófilo | Estado (Baja Defensa rival -2).
+
+104. Variación Antigénica (Doble Equipo) — Protozoo | Estado (Sube Evasión).
+
+105. Reparación por Escisión (Recuperación) — Extremófilo | Estado (Restaura 50% de PS).
+
+106. Engrosamiento Mureína (Fortaleza) — Gram+ | Estado (Sube Defensa).
+
+107. Forma L (Pleomorfismo) (Reducción) — Intracelular | Estado (Sube Evasión +2).
+
+108. Pigmento Piocianina (Pantalla de Humo) — Biofilm | Estado (Baja Precisión).
+
+109. Infección Latente (Rayo Confuso) — Virus | Estado (Confunde).
+
+110. Envoltura S-Layer (Refugio) — Archaea | Estado (Sube Defensa).
+
+Movimientos #111 - #165
+
+111. Encapsulación (Rizo Defensa) — Biofilm | Estado (Sube Defensa).
+
+112. Ácidos Micólicos (Barrera) — Ácido-Alc. | Estado (Sube Defensa +2).
+
+113. Membrana Externa LPS (Pantalla de Luz) — Gram- | Estado (Reduce daño Especial un 50%).
+
+114. Lavado con Solución Salina (Niebla) — Levadura | Estado (Resetea todos los cambios de estadísticas).
+
+115. Pared de Peptidoglicano (Reflejo) — Gram+ | Estado (Reduce daño Físico un 50%).
+
+116. Hipermutación Dirigida (Foco Energía) — Extremófilo | Estado (Aumenta ratio de golpe crítico).
+
+117. Resistencia Persister (Venganza) — Biofilm | Físico (Aguanta 2 turnos y devuelve el doble).
+
+118. Mutagénesis al Azar (UV) (Metrónomo) — Virus | Estado (Ejecuta cualquier movimiento de los 165 al azar).
+
+119. Plásmido Espejo (Mov. Espejo) — Simbionte | Estado (Devuelve el último ataque del rival).
+
+120. Apoptosis Inducida (Autodestrucción) — Virus | Físico | 200 Pot. (El usuario se debilita).
+
+121. Bomba de Esporas (Bomba Huevo) — Esporulado | Físico | 100 Pot.
+
+122. Adhesina Mucosa (Lengüetazo) — Protozoo | Físico | 30 Pot. (30% parálisis).
+
+123. Sulfuro de Hidrógeno (H₂S) (Polución) — Anaerobio | Especial | 30 Pot. (40% intoxicar).
+
+124. Secreción Mucopurulenta (Residuos) — Gram- | Especial | 65 Pot. (30% intoxicar).
+
+125. Cristal Paraesporal (Bt) (Hueso Palo) — Esporulado | Físico | 65 Pot.
+
+126. Explosión Metanogénica (Llamarada) — Archaea | Especial | 110 Pot.
+
+127. Corriente Ciliar (Cascada) — Protozoo | Físico | 80 Pot.
+
+128. Valva de Diatomea (Tenaza) — Alga | Físico | 35 Pot.
+
+129. Difusión Facilitada (Rapidez) — Simbionte | Especial | 60 Pot. (Nunca falla).
+
+130. Ariete Bacteriófago (Cabezazo) — Virus | Físico | 130 Pot. (Sube Defensa en turno 1, golpea en turno 2).
+
+131. Espículas Glicoproteicas (Clavo Cañón) — Virus | Físico | 20 Pot. (2-5 golpes).
+
+132. Red Miceliar (Restricción) — Hongo | Físico | 10 Pot.
+
+133. Silenciamiento Epigenético (Amnesia) — Intracelular | Estado (Sube Defensa Especial +2).
+
+134. Deformación Citoesqueleto (Kinético) — Intracelular | Estado (Baja Precisión).
+
+135. Gemación Nutritiva (Amortiguador) — Levadura | Estado (Restaura 50% de PS; usable fuera de combate).
+
+136. Inyección Letal Fallida (Pat. Salto Alta) — Antibiótico | Físico | 130 Pot. (Si falla, pierde 50% PS).
+
+137. Choque Séptico (Deslumbrar) — Gram- | Estado (Paraliza a cualquier tipo).
+
+138. Fagocitosis Nocturna (Come Sueños) — Protozoo | Especial | 100 Pot. (Solo funciona si el rival está en Latencia/dormido).
+
+139. Nube de Indol y Escatol (Gas Venenoso) — Anaerobio | Estado (Intoxica).
+
+140. Bombardeo de Cocos (Presa) — Gram+ | Físico | 15 Pot. (2-5 golpes).
+
+141. Hemólisis Beta (Chupavidas) — Gram+ | Físico | 80 Pot. (Drena vida).
+
+142. Infección Oportunista (Beso Amoroso) — Levadura | Estado (Duerme con 75% precisión).
+
+143. Tormenta de Esporas (Ataque Aéreo) — Hongo | Físico | 140 Pot. (2 turnos).
+
+144. Mimetismo Molecular (Transformación) — Simbionte | Estado (Movimiento exclusivo de Myxococcus y LUCA: copia al rival).
+
+145. Gas de Fermentación (CO₂) (Burbuja) — Levadura | Especial | 40 Pot.
+
+146. Vértigo Browniano (Puño Mareo) — Levadura | Físico | 70 Pot. (20% confundir).
+
+147. Espora Fúngica (Espora) — Hongo | Estado (100% precisión para dormir al rival).
+
+148. Quorum Sensing Lux (MO05) (Destello) — Simbionte | Estado (Baja precisión rival e ilumina el Túnel Endospórico).
+
+149. Pulso Prion (Psicoonda) — Intracelular | Especial | Daño variable (0.5× a 1.5× del nivel).
+
+150. Agitación en Placa (Salpicadura) — Gram- | Estado (No tiene efecto alguno; movimiento base de Coli-K12).
+
+151. Limo Polimérico (Armadura Ácida) — Biofilm | Estado (Sube Defensa +2).
+
+152. Marea Roja (Saxitoxina) (Martillazo) — Alga | Especial | 100 Pot. (Alto crítico).
+
+153. Lisis Celular Total (Explosión) — Virus | Físico | 250 Pot. (El usuario se debilita).
+
+154. Fimbrias Múltiples (Golpes Furia) — Gram- | Físico | 18 Pot. (2-5 golpes).
+
+155. Doble Endospora (Huesomerang) — Esporulado | Físico | 50 Pot. ( × 2).
+
+156. Criopreservación (Descanso) — Extremófilo | Estado (Duerme 2 turnos y cura el 100% de PS y estados).
+
+157. Lluvia de Cristales (Avalancha) — Gram+ | Físico | 75 Pot. (30% retroceso).
+
+158. Beta-Lactamasa / Penicilina (Hipercolmillo) — Antibiótico | Especial | 80 Pot. (30% retroceso).
+
+159. Splicing Alternativo (Afilar) — Virus | Estado (Sube Ataque).
+
+160. Cambio de Serotipo (Conversión) — Intracelular | Estado (Cambia el tipo del usuario al de su primer movimiento).
+
+161. Tríada Enzimática (Catalasa/Ox/Ureasa) (Triataque) — Extremófilo | Especial | 80 Pot. (20% quemar, congelar o paralizar).
+
+162. Mitosis Forzada (Superdiente) — Protozoo | Físico | Reduce exactamente a la mitad los PS actuales del rival.
+
+163. Corte con Enzima de Restricción (Cuchillada) — Antibiótico | Físico | 70 Pot. (Alto crítico).
+
+164. Vesícula de Membrana Externa (OMV) (Sustituto) — Biofilm | Estado (Sacrifica 25% de PS para crear un señuelo vesicular).
+
+165. Agotamiento de Nutrientes (Forcejeo) — Levadura | Físico | 50 Pot. (Se usa cuando se agotan todos los PP).
+
+166. 5. Mapa de Progresión, Gimnasios y Eventos (Estilo Diamante)
+
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Ubicación                    Rol en el Juego / Gimnasio                                                   Tipos Dominantes / Eventos Clave
+  ---------------------------- ---------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Pueblo Plaqueta              Pueblo Inicial                                                               Laboratorio del Profesor; entrega del Inóculo Inicial y el Microscopio Óptico (Pokédex).
+
+  Ciudad Viral                 Paso inicial / Academia                                                      Tutorial de infección y estados alterados.
+
+  Bosque Viral                 Mazmorra 1                                                                   Abundancia de bacteriófagos de primera fase (ΦX174), hongos saprófitos y vectores.
+
+  Ciudad Petri                 Gimnasio 1 (Medalla Colonia)                                                 Líder especialista en tipo Simbionte / Levadura. Enseña el uso de medios básicos.
+
+  Monte Micelio                Mazmorra 2                                                                   Cueva cubierta de hifas luminiscentes. Primer encuentro con villanos de la Unidad de Genética buscando cepas ancestrales (muestras liofilizadas para el Instituto Carlos III).
+
+  Ciudad Cultivo               Gimnasio 2 (Medalla Turbidez)                                                Líder especialista en Fotótrofo / Alga (cultivos líquidos en fotobiorreactores).
+
+  Cueva Anaeróbica             Mazmorra lateral                                                             Solo accesible con máscara de gases; hábitat de Clostridium y Methanobacterium (Tipo Anaerobio y Archaea).
+
+  Ciudad Gram                  Gimnasio 3 (Medalla Cristal Violeta)                                         Combate Doble temático: el líder usa un equipo mixto Gram+ y Gram- jugando con la decoloración por alcohol-acetona.
+
+  Túnel Endospórico            Mazmorra 3 (Oscura)                                                          Requiere el movimiento Bioluminiscencia (Vibrio fischeri). Lleno de tipos Esporulado.
+
+  Pueblo Levadura              Eventos de la Torre Prión                                                    Cementerio de cultivos contaminados. En la cima de la Torre Prión se enfrentan proteínas mal plegadas (Priones fantasmales) que solo pueden identificarse con el Western Blot obtenido en el Casino Mutagénesis.
+
+  Ciudad Aerobia               Gimnasio 4 (Medalla Catalasa), Casino Mutagénesis y Unidad de Genética       Metrópolis comercial. El Casino permite canjear fichas por mutágenos (UV, Acridina) y Micromones raros. Bajo él está la guarida villana.
+
+  Ciudad Agar                  Gimnasio 5 (Medalla MacConkey) y Reserva Microbiana                          En la Reserva se capturan extremófilos y protozoos raros usando "Medios de Enriquecimiento" en lugar de cebos.
+
+  Instituto de Biotecnología   Asedio Villano (Equivalente a Silph S.A. en centro urbano)                   La Unidad de Genética toma el edificio para robar el Plásmido Maestro (Master Ball / Crío-vial Maestro). Gimnasio 6 (Medalla CRISPR) en la misma zona (Tipo Intracelular / Antibiótico).
+
+  Central Metabólica           Mazmorra opcional                                                            Reactor de biogás y pilas microbianas (Geobacter). Habita uno de los legendarios menores.
+
+  Islas Esporuladas            Mazmorra de hielo/desecación                                                 Laberinto criogénico a -80 °C en nitrógeno líquido.
+
+  Ciudad Pili                  Gimnasio 7 (Medalla Fimbria)                                                 Especialista en Biofilm y Espiroqueta (adhesión y motilidad extrema).
+
+  Isla Conjugada               Gimnasio 8 (Medalla Plásmido), Instituto Carlos III y Mansión de las Cepas   En el Instituto Carlos III se reviven cepas congeladas del permafrost. En la Mansión de las Cepas se hallan los diarios sobre el escape de E. coli O157 / Salmonella Typhimurium.
+
+  Calle Selección Natural      Prueba final de supervivencia                                                Presión selectiva extrema con antibióticos de amplio espectro en el ambiente.
+
+  La UAB                       Liga Micromón (Alto Mando + Rector/Campeón)                                  Los 4 miembros del Alto Mando son catedráticos de Virología, Micología, Parasitología e Inmunología, seguidos del Campeón de Microbiología Molecular.
+  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Legendarios de Portada (#148 y #149):
+
+-   E. coli O157:H7 (Exclusivo Edición Escherichia): Tipo Gram- / Virus (ya que su toxina Shiga proviene de un fago integrado). Movimiento característico: Tormenta Verotoxina.
+
+-   Salmonella enterica ser. Typhimurium (Exclusivo Edición Salmonella): Tipo Gram- / Intracelular. Movimiento característico: Inyector Tipo III (T3SS) (ignora la defensa y habilidades del objetivo).
+
+-   (Nota narrativa): La forma común silvestre E. coli K-12 aparece al principio del juego como un Micromón de laboratorio dócil, pero en la Mansión de las Cepas o la Unidad de Genética se descubre cómo se originó el legendario O157:H7.
+
+El diseño narrativo de la organización villana de Micromón Escherichia y Micromón Salmonella integra todo el trasfondo académico y personal del documento en una sátira de rol al estilo del Equipo Galaxia de Pokémon Diamante, donde la Unidad de Genética opera bajo una fachada universitaria prestigiosa pero esconde una estructura de explotación becaria, servidores colapsados al 90% y megalomanía bioinformática.
+
+1. La Organización Villana: La Unidad de Genética
+
+A diferencia de las bandas criminales comunes, los reclutas de la Unidad de Genética son Becarios de Prácticas y Doctorandos sin Contrato con ojeras profundas, armados con portátiles recalentados corriendo BEAST y discos duros externos atados con celo a las sillas de ruedas del despacho. Ninguno se considera microbiólogo; desprecian el "cacharreo de placa de Petri" y sostienen que los microorganismos son simples excusas con ADN para publicar en Nature Biotechnology.
+
+El Líder Supremo: Dr. Jaime Martínez-Urtaza
+
+-   Título: Investigador Distinguido y Señor de la Genómica de Poblaciones.
+
+-   Personalidad y Motivación: Frío, cambiante, pasivo-agresivo por WhatsApp a deshoras y obsesionado con la "robustez y precisión" de los árboles filogenéticos. Desprecia profundamente que lo llamen Microbiólogo (su punto débil narrativo; si el jugador elige esa opción de diálogo, pierde los papeles y da un portazo). Se define como un Genetista de Poblaciones que por designios de la vida estudia microorganismos.
+
+-   Modus Operandi: Nunca hace el trabajo sucio; obliga a sus doctorandos a traducirle diapositivas de PowerPoint, llamar a aduanas, rellenar proyectos del Ministerio un domingo por la noche y ensamblar genomas mientras les recuerda: "No estás en condiciones de exigir nada, estás aquí por la suerte de estar en mi grupo" y "Muchos artículos, pero ninguno tuyo, recuerda".
+
+-   El Plan Maestro ("Proyecto PopBugGenie Global"): Tras el fracaso logístico de su plan anterior con las 800 cepas de Vibrio parahaemolyticus traídas del CEFAS, Jaime decide ir a por el Microo Legendario (E. coli O157:H7 en Escherichia / Salmonella Typhimurium en Salmonella). Su objetivo es usar modelos de Machine Learning, y anomalías climáticas para desatar pandemias quirúrgicas mediante genómica de poblaciones contra cualquiera que se resista a su hegemonía o no referencie bien el Lancet Countdown.
+
+-   Frases Célebres en Combate:
+
+    -   Inicio: «¿Un microbiólogo de media 7.66 pretende detener mi pipeline? No tienes ni idea de cómo funciona este negocio.»
+
+    -   Al perder su primer Microo: «Ese árbol no tenía calidad de publicación… ¡Pero siempre puedes dedicarte a otra cosa, para mí es tarde pero tú aún estás a tiempo!»
+
+    -   Al ser derrotado: «¡FUERA DE MI DESPACHO! ¡TE HE DICHO QUE TE LARGUES! » (Acto seguido se marcha dando un portazo y dice a los presentes que le das miedo porque se nota que vas al gimnasio).
+
+2. Los Comandantes y Ejecutivos (El Claustro Genético)
+
+1. Comandante Dr. Antonio Barbadilla ("El Narciso Burocrático")
+
+-   Rol: Mano derecha administrativa y mensajero de las malas noticias financieras.
+
+-   Personalidad: Bastante corto de luces, le sigue el rollo a Jaime sin enterarse de qué va la bioinformática moderna, pero vive profundamente enamorado de sí mismo, mirándose en el reflejo de las cabinas de flujo con un toque amanerado y dramático.
+
+-   Equipo Microo: Especialista en Microos vistosos y simétricos (Volvox, Spirulmax, Salinarum con pigmento púrpura brillante).
+
+2. Comandante Dra. Sonia Casillas ("La Madre Sobreprotectora")
+
+-   Rol: Guardiana de los reclutas rasos de la Unidad de Genética.
+
+-   Personalidad: Obsesionada con sus lacayos hasta el extremo de la asfixia. Mientras Jaime los explota sin pagarles ni incluirlos en la guía docente, Sonia está constantemente encima de ellos arropándolos, preguntándoles si han comido y defendiéndolos de ti como una leona histérica porque "mis niños están aprendiendo mucho".
+
+-   Mecánica de Combate: Combates Dobles donde usa movimientos de pantalla, curación y Biofilm (Kefirgran, Myxococcus, Putida) para proteger a los Microos de sus becarios.
+
+3. Ejecutivo Dr. Isaac Salazar ("El Caos Entrópico")
+
+-   Rol: Encargado del cuarto de servidores y las muestras olvidadas.
+
+-   Personalidad: Bastante guarro, pasota y desaliñado. Su zona de la guarida está llena de tazas con moho real, geles de agarosa secos desde 2019 y cables por el suelo. Pelea contra ti sentado porque le da pereza levantarse.
+
+-   Equipo Microo: Tipos Hongo, Anaerobio y Biofilm malolientes (Fragilis, Niger, Desulfovib con el ataque Nube de Indol y Escatol).
+
+4. Ejecutiva Dra. Alba Hernández ("La Observadora Indignada")
+
+-   Rol: Ideóloga silenciosa de la Unidad.
+
+-   Personalidad: Nunca mueve un dedo en los proyectos ni computa una sola línea de código, pero aparece en cada evento clave mirando desde la barandilla. Se enfada muchísimo contigo por intentar desbaratar los planes de la Unidad; te sermonea diciendo que "no eres capaz de ver las cosas con perspectiva", que los microbiólogos sois unos miopes y que deberías callarte, agradecer la oportunidad y unirte a ellos.
+
+-   Curiosidad: Casi nunca combate directamente hasta el tramo final en la Calle Selección Natural, porque prefiere que peleen los becarios mientras ella juzga tu falta de visión.
+
+3. Incorporación de Nuevos Microos Clave (Lore del Caso)
+
+Para que la trama de Vibrio encaje al 100% en la Microdex de 150 sin alterar la estructura evolutiva de Kanto, ajustamos la línea #058-#059 (de 2 fases):
+
+-   #058 Paracholerae(Vibrio paracholerae) [Gram-/Protozoo] $\overset{\text{Plásmido~Vir}}{\rightarrow}$ #059 Parahaemolyticus (Vibrio parahaemolyticus) [Gram-/Extremófilo].
+
+-   (En el hueco del #108 Vibrio vulnificus).
+
+4. Arco Narrativo de la Unidad de Genética en el Juego
+
+1.  Monte Micelio (Primer Encuentro): Reclutas de la Unidad de Genética están secuestrando estudiantes de prácticas para ponerlos a picar datos de metabarcoding 16S y 18S sin supervisión. El Dr. Isaac Salazar bloquea la salida quejándose de que alguien ha tirado un disco duro al suelo y que él "no piensa hacer nada".
+
+2.  Ciudad Aerobia — Casino Mutagénesis y Guarida Subterránea: Bajo el Casino, descubres el Clúster de Computación de la Unidad de Genética, donde los servidores arden al 90% de CPU. Te enfrentas al Dr. Antonio Barbadilla y a la Dra. Sonia Casillas (que te ataca furiosa por estresar a sus becarios). Al fondo, en su despacho, te enfrentas por primera vez al Dr. Jaime Martínez-Urtaza, quien te humilla diciendo que tu plan de análisis es basura, pero se ve obligado a huir dando un portazo.
+
+3.  Torre Prión (Pueblo Levadura): La Dra. Alba Hernández te intercepta en la niebla de proteínas mal plegadas. No te ataca; te echa una bronca monumental por no tener "perspectiva global" y te advierte que el plan de Vibrio parahaemolyticus en el mar ha sido descartado porque "todo el mundo sabe que los Vibrios siguen las corrientes superficiales, pero nadie lo ha probado". Ahora van a por algo mayor.
+
+4.  Asedio al Instituto de Biotecnología (Equivalente a Silph S.A.): La Unidad de Genética toma el edificio entero. Los doctorandos rebeldes y hartos de la explotación te ayudan a infiltrarte. En la planta 11, Jaime intenta robar la Criobola Morada (Maestra) y la pipeline definitiva sin poner a sus creadores en la autoría. Tras derrotar a su equipo de Parahaemo, Vulnificus y Tuberculos, Jaime grita «¡DESGRACIADO SIN FUTURO!» y escapa hacia la Isla Conjugada.
+
+5.  Clímax en la Mansión de las Cepas / Laboratorio Profundo (Isla Conjugada): Usando las muestras de Cádiz y el poder de la Criobola robada, Jaime despierta a E. coli O157:H7 (Edición Escherichia) o Salmonella Typhimurium (Edición Salmonella) para desatar la selección poblacional definitiva sobre la humanidad. Cuando el Microo Legendario se rebela contra su propio control bioinformático porque "la biología real no cabe en un script mal hecho", el jugador debe capturarlo o derrotarlo tras vencer a Jaime en su combate definitivo.
+
+6.  Epílogo en La UAB (Liga Micromón): Con la Unidad de Genética desmantelada y sus doctorandos por fin reconocidos en la guía docente y con contratos dignos, accedes al campus de La UAB tras cruzar la Calle Selección Natural para enfrentarte al Alto Mando y convertirte en Catedrático Campeón.
+
+5. Equipo Definitivo del Dr. Jaime Martínez-Urtaza (Combate Final)
+
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Microo                                        Nivel    Tipos                 Referencia al Lore / Movimientos Clave
+  --------------------------------------------- -------- --------------------- ------------------------------------------------------------------------------------------------------------------------
+  #059 Parahaemolyticus (V. parahaemolyticus)   Nv. 52   Gram- / Extremófilo   Las 800 muestras del CEFAS y las corrientes marinas. Flagelo Polar, Exotoxina Letal, Choque Osmótico.
+
+  #108 Vulnificus (V. vulnificus)               Nv. 53   Gram- / Protozoo      El paper de Machine Learning sin coautoría. Transferencia Horizontal, Fagocitosis, Secuestro Ribosomal.
+
+  #076 Tuberculos (M. tuberculosis)             Nv. 54   Ácido-Alcohol R.      El árbol filogenético de Zaragoza que "no era C, era E". Ácidos Micólicos, Tormenta Liofilizadora.
+
+  #118 T4-Titan (Bacteriófago T4)               Nv. 55   Virus / Biofilm       Su obsesión con que nada es microbiología sino evolución genética. Estallido Lítico, Ariete Bacteriófago.
+
+  #127 Pandoravir (Pandoravirus)                Nv. 57   Virus / Protozoo      El dataset masivo que deja el servidor al 90% durante 5 días. Furia Fágica, Apoptosis Inducida, Pulso Electroporación.
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Los 8 Líderes de Gimnasio
+
+El orden de los gimnasios sigue la ruta clásica desde Ciudad Petri hasta Isla Conjugada, entrelazando las especialidades microbiológicas con la trama de la Unidad de Genética (especialmente en los gimnasios 4 y 6, donde la amistad entre el Dr. Daniel Yero y el Dr. Òscar Conchillo es clave para liberar el Instituto de Biotecnología).
+
+Gimnasio 1: Ciudad Petri — Gimnasio Alimento
+
+-   Líder: Dr. Antoni Solé (Microbiología de los Alimentos)
+
+-   Medalla: Medalla Probiótico (Permite usar Celulasa / MO01 fuera de combate).
+
+-   Especialidad: Tipos Simbionte, Gram+ y Esporulado (Microbiota alimentaria, fermentadores lácticos y alterantes de conservas).
+
+-   Ambientación: Una planta piloto llena de quesos madurando, tanques de leche y latas de conserva abombadas que debes esquivar.
+
+-   Equipo Microo:
+
+    1.  #035 Casei (Lactobacillus casei) — Nv. 12 [Simbionte] | Contacto Celular, Señal Química, Secreción Ácida.
+
+    2.  #032 Cereus (Bacillus cereus) — Nv. 12 [Esporulado] | Turbidez Media, Ráfaga Cocos, Golpe Peptidoglicano.
+
+    3.  #128 Listeria (Listeria monocytogenes) — Nv. 14 [Gram+ / Intracelular] | Propulsión de Actina, Choque Criogénico, Engrosamiento Mureína.
+
+Gimnasio 2: Ciudad Cultivo — Gimnasio Ambiental
+
+-   Líder: Dra. Núria Gajú (Microbiología Ambiental)
+
+-   Medalla: Medalla Tapete (Permite usar Quorum Sensing Lux / MO05 fuera de combate).
+
+-   Especialidad: Tipos Fotótrofo, Alga y Anaerobio (Ecología microbiana, tapetes microbianos del Delta del Ebro, bacterias del azufre y cianobacterias).
+
+-   Ambientación: Un invernadero acuático dividido en columnas de Winogradsky gigantes con gradientes de oxígeno y sulfuro.
+
+-   Equipo Microo:
+
+    1.  #021 Navicula (Diatomea) — Nv. 18 [Alga] | Frústula de Sílice, Vacuola Contráctil, Corriente Laminar.
+
+    2.  #109 Desulfovib (Desulfovibrio) — Nv. 19 [Anaerobio / Gram-] | Sulfuro de Hidrógeno (H₂S), Secreción Ácida, Fagocitosis.
+
+    3.  #002 Anabaen (Anabaena) — Nv. 21 [Fotótrofo / Simbionte] | Látigo Ciliar, Parasitismo Tisular, Lípido A.
+
+Gimnasio 3: Ciudad Gram — Gimnasio Hongo
+
+-   Líder: Dra. Laia Guàrdia (Micología)
+
+-   Medalla: Medalla Micelio (Permite usar Flagelo Polar / MO03 cuando lo obtengas).
+
+-   Especialidad: Tipo Hongo (Mohos filamentosos, productores de micotoxinas y descomponedores).
+
+-   Ambientación: Tras cruzar el Monte Micelio y el Túnel Endospórico, llegas a un gimnasio cubierto de redes de hifas fluorescentes y placas de Agar Sabouraud.
+
+-   Equipo Microo:
+
+    1.  #012 Pilobolus — Nv. 24 [Hongo / Alga] | Disparo Esporangio, Corriente Laminar, Triptófano Fúngico.
+
+    2.  #049 Flavus (Aspergillus flavus) — Nv. 25 [Hongo / Gram-] | Aguijón Endotoxina, Micelio Drenante, Nutrición Saprofita.
+
+    3.  #047 Chrysogenum (Penicillium chrysogenum) — Nv. 27 [Hongo / Antibiótico] | Beta-Lactamasa / Penicilina, Espora Fúngica, Corte Lisozima.
+
+Gimnasio 4: Ciudad Aerobia — Gimnasio Levadura
+
+-   Líder: Dr. Daniel Yero (Levaduras y Eucariotas Unicelulares)
+
+-   Medalla: Medalla Gemación (Permite usar Bioaerosol / MO02 fuera de combate).
+
+-   Especialidad: Tipo Levadura y Biofilm.
+
+-   Conexión con la Trama: Daniel Yero es el mejor amigo del Dr. Òscar Conchillo. Al derrotarlo en Ciudad Aerobia (justo encima de la guarida subterránea del Casino Mutagénesis), Yero te confiesa que está muy preocupado por Òscar: la Unidad de Genética lo tiene prácticamente secuestrado en el servidor haciéndole correr pipelines y manteniéndoles el sistema informático del servicio sin pagarle horas extra ni darle mérito. Yero te pide ayuda para liberar a su amigo más adelante.
+
+-   Equipo Microo:
+
+    1.  #017 Pastorian (Saccharomyces pastorianus) — Nv. 29 [Levadura / Anaerobio] | Gas de Fermentación (CO₂), Fermentación Láctica, Crecimiento Descontrolado.
+
+    2.  #103 Neoformans (Cryptococcus neoformans) — Nv. 30 [Levadura / Biofilm] | Impacto Capsular, Encapsulación, Espuma de Fermentador.
+
+    3.  #053 Auris (Candida auris multirresistente) — Nv. 32 [Levadura / Biofilm] | Eflujo Multidrogas, Gemación Nutritiva, Presión Osmótica.
+
+Gimnasio 5: Ciudad Agar — Gimnasio Industrial
+
+-   Líder: Dr. Jordi Mas (Microbiología Industrial y Biorreactores)
+
+-   Medalla: Medalla Quimiostato (Permite usar Pili Tipo IV / MO04 fuera de combate).
+
+-   Especialidad: Tipos Anaerobio, Antibiótico y Extremófilo (Escalado industrial, fermentadores de 10.000 litros, producción de solventes y metabolitos secundarios).
+
+-   Ambientación: Una nave llena de biorreactores de acero inoxidable con válvulas de presión, agitadores Rushton y controladores de pH.
+
+-   Equipo Microo:
+
+    1.  #057 Mobilis (Zymomonas mobilis) — Nv. 35 [Anaerobio / Antibiótico] | Fase Exponencial, Estrés Oxidativo, Secreción Ácida.
+
+    2.  #005 Acetobuty (Clostridium acetobutylicum) — Nv. 36 [Anaerobio / Esporulado] | Chorro Metano Ardiente, Bomba de Esporas, Choque Termófilo.
+
+    3.  #015 Avermitil (Streptomyces avermitilis) — Nv. 38 [Hongo / Antibiótico] | Corte con Enzima de Restricción, Beta-Lactamasa, Síntesis de ATP.
+
+    4.  #130 Coli-BL21 (E. coli BL21 superproductora) — Nv. 40 [Gram- / Simbionte] | Enriquecimiento Medio, Difusión Facilitada, Choque Inclusión.
+
+Gimnasio 6: Zona del Instituto de Biotecnología — Gimnasio Bioinfo
+
+-   Líder: Dr. Òscar Conchillo (Bioinformática Estructural y Genómica)
+
+-   Medalla: Medalla Algoritmo
+
+-   Especialidad: Tipos Intracelular, Archaea y Extremófilo (Genomas mínimos sintéticos, ensamblaje de novo, predicción estructural de proteínas y computación de alto rendimiento).
+
+-   Conexión con la Trama: Antes de poder retarlo en su gimnasio, debes rescatarlo durante el asedio al Instituto de Biotecnología. La Unidad de Genética (con el Dr. Jaime Martínez-Urtaza, Antonio Barbadilla y Sonia Casillas) lo tiene encadenado a una terminal con el servidor al 90%, obligándolo a arreglar scripts rotos, diseñar visualizadores web y computar árboles de 10.000 de bootstrap que tardan 5 días mientras Jaime le dice "pues vaya bioinformático estás hecho". Cuando llegas junto al Dr. Daniel Yero y derrotas a los ejecutivos de Genética, Òscar por fin les cierra el acceso al clúster en la cara, respira aliviado y acepta combatir contigo en un duelo limpio de pura bioinformática.
+
+-   Equipo Microo:
+
+    1.  #065 Pneumoniae (Mycoplasma pneumoniae de genoma mínimo) — Nv. 41 [Intracelular] | Secuestro Ribosomal, Forma L, Interferencia de ARN (RNAi).
+
+    2.  #038 Aquaticus (Thermus aquaticus, motor de la PCR) — Nv. 42 [Extremófilo / Anaerobio] | Hipermutación Dirigida, Chorro Metano Ardiente, Reparación por Escisión.
+
+    3.  #121 Radiolaria (Geometría computacional de sílice) — Nv. 43 [Protozoo / Intracelular] | Onda Quimiotáctica, Cambio de Serotipo, Chorro Citoplasmático.
+
+    4.  #094 Pyrolobus (Pyrolobus fumarii) — Nv. 45 [Archaea / Extremófilo] | Explosión Metanogénica, Envoltura S-Layer, Ultracentrífuga.
+
+Gimnasio 7: Ciudad Pili — Gimnasio Clínico
+
+-   Líder: Dra. Marina Luquin (Microbiología Clínica y Micobacterias)
+
+-   Medalla: Medalla Ziehl-Neelsen
+
+-   Especialidad: Tipos Ácido-Alcohol Resistente, Gram- y Biofilm (Patógenos hospitalarios de UCI, tinción de Ziehl-Neelsen y resistencia a antimicrobianos).
+
+-   Ambientación: Un laboratorio de Nivel de Bioseguridad 3 (BSL-3) con presión negativa, puertas herméticas y tinción fucsina caliente.
+
+-   Equipo Microo:
+
+    1.  #106 Nocardia — Nv. 45 [Ácido-Alc. / Antibiótico] | Ácidos Micólicos, Fluorescencia DAPI, Estrés Oxidativo.
+
+    2.  #089 Aeruginosa (Pseudomonas aeruginosa) — Nv. 46 [Biofilm / Gram-] | Pigmento Piocianina, Limo Polimérico, Secreción Mucopurulenta.
+
+    3.  #112 Baumannii (Acinetobacter baumannii) — Nv. 47 [Gram- / Biofilm] | Resistencia Persister, Membrana Externa LPS, Eflujo Multidrogas.
+
+    4.  #076 Tuberculos (Mycobacterium tuberculosis) — Nv. 49 [Ácido-Alc.] | Tormenta Liofilizadora, Rayo Nitrógeno Líquido, Ácidos Micólicos, Tampón Fosfato.
+
+Gimnasio 8: Isla Conjugada — Gimnasio Fago
+
+-   Líder: Dra. Susana Campoy (Bacteriófagos y Transferencia Génica)
+
+-   Medalla: Medalla Lisogenia
+
+-   Especialidad: Tipo Virus (Fagos líticos, templados, transducción y terapia fágica).
+
+-   Ambientación: Un coliseo tecnológico sobre el cráter de la Isla Conjugada donde se proyectan cápsides icosaédricas holográficas. Es la última prueba tras haber detenido el despertar de E. coli O157 / Salmonella Typhimurium en la Mansión de las Cepas contra el Dr. Urtaza.
+
+-   Equipo Microo:
+
+    1.  #117 Lambda-V (Fago Lambda) — Nv. 49 [Virus / Biofilm] | Latencia Lisogénica, Infección Latente, Furia Fágica.
+
+    2.  #105 Bacteriovor (Bdellovibrio, el "fago viviente" bacteriano) — Nv. 50 [Gram- / Antibiótico] | Perforación Bdellovibrio, Corte Lisozima, Quimiotaxis Positiva.
+
+    3.  #123 Marburg-V — Nv. 51 [Virus / Gram-] | Espículas Glicoproteicas, Exotoxina Letal, Splicing Alternativo.
+
+    4.  #118 T4-Titan (Bacteriófago T4) — Nv. 53 [Virus / Biofilm] | Ariete Bacteriófago, Estallido Lítico, Cabezazo Cápside, Adhesión Matriz.
+
+2. La Liga Micromón: La UAB (Alto Mando y Campeón)
+
+Tras superar la durísima Calle Selección Natural (donde la Dra. Alba Hernández intenta darte su último sermón sobre tu "falta de perspectiva" antes de rendirse), accedes al edificio de la Facultad de Biociencias en La UAB.
+
+Alto Mando 1: Dra. Laura Tusell (Biología Celular y Genotoxicidad)
+
+-   Especialidad: Tipos Intracelular y Protozoo (Control del ciclo celular eucariota, huso mitótico, daño cromosómico y parásitos intracelulares que secuestran el citoesqueleto).
+
+-   Equipo Microo:
+
+    1.  #122 Chlamydia (Nv. 53) [Intracelular / Simbionte]
+
+    2.  #119 Trypanosom (Nv. 54) [Protozoo / Espiroqueta]
+
+    3.  #124 Toxoplasma (Nv. 54) [Protozoo / Intracelular]
+
+    4.  #062 Naegleria (Nv. 55) [Protozoo / Intracelular]
+
+    5.  #123 Plasmodium (P. falciparum) (Nv. 56) [Protozoo / Intracelular] — Mitosis Forzada, Secuestro Ribosomal, Hemólisis Beta, Variación Antigénica.
+
+Alto Mando 2: Dr. Joaquim Martí (Histología y Neurobiología Infecciosa)
+
+-   Especialidad: Tipos Espiroqueta, Esporulado y Ácido-Alcohol R. (Microorganismos neurotrópicos, toxinas tetánicas/botulínicas, espiroquetas del sistema nervioso y priones).
+
+-   Equipo Microo:
+
+    1.  #078 Treponema (T. pallidum) (Nv. 55) [Espiroqueta]
+
+    2.  #085 Tetani (Clostridium tetani) (Nv. 56) [Esporulado / Anaerobio]
+
+    3.  #071 Alexandrium (Productor de saxitoxina paralizante) (Nv. 56) [Alga / Gram-]
+
+    4.  #101 Meningitid (Neisseria meningitidis) (Nv. 57) [Gram-]
+
+    5.  #143 Prion-Sc (PrPSc) (Nv. 58) [Ácido-Alc. / Intracelular] — Pulso Prion, Sombra Prion, Silenciamiento Epigenético, Rayo Nitrógeno Líquido.
+
+Alto Mando 3: Dr. Jordi Barbé (Genética Microbiana y Respuesta SOS)
+
+-   Especialidad: Tipos Extremófilo, Gram- y Archaea (El verdadero maestro del daño al ADN, el regulón SOS con RecA/LexA y la resistencia a radiación). Desprecia lo que la Unidad de Genética de Urtaza ha hecho con el nombre de la genética y te pone a prueba con microorganismos casi indestructibles.
+
+-   Equipo Microo:
+
+    1.  #045 Agrobacter (A. tumefaciens) (Nv. 57) [Fotótrofo / Intracelular]
+
+    2.  #126 Sulfolobus (Nv. 58) [Archaea / Anaerobio]
+
+    3.  #125 Shewanella (Nv. 58) [Espiroqueta / Extremófilo]
+
+    4.  #147 Pyrococcus (P. furiosus) (Nv. 59) [Archaea / Anaerobio]
+
+    5.  #083 Radiodurans (Deinococcus radiodurans) (Nv. 60) [Extremófilo / Gram+] — Respuesta SOS, Reparación por Escisión, Ultracentrífuga, Paredes de Peptidoglicano.
+
+Alto Mando 4: Dra. Montserrat Llagostera (Virulencia Molecular y Fagos)
+
+-   Especialidad: Tipos Virus, Gram- y Antibiótico (Catedrática histórica de Microbiología en la UAB; domina la patogénesis bacteriana, fagos terapéuticos y sistemas de secreción).
+
+-   Equipo Microo:
+
+    1.  #127 Yersinia (Yersinia pestis) (Nv. 59) [Gram- / Antibiótico]
+
+    2.  #034 Anthracis (Bacillus anthracis) (Nv. 60) [Esporulado / Gram+]
+
+    3.  #121 Retrovir-X (Nv. 60) [Virus / Intracelular]
+
+    4.  #124 Filovir-Z (Nv. 61) [Virus / Gram-]
+
+    5.  #127 Pandoravir (Nv. 62) [Virus / Protozoo] — Estallido Lítico, Furia Fágica, Choque Osmótico Masivo, Nanocables Geobacter.
+
+El Campeón de la Liga Micromón: Dr. Louis Pasteur
+
+En la sala del Rectorado de La UAB, custodiado por matraces de cuello de cisne que impiden la generación espontánea, te espera la leyenda inmortal de la Microbiología: el Dr. Louis Pasteur. Su equipo rinde homenaje directo a sus descubrimientos históricos (la fermentación del vino y la cerveza, la anaerobiosis y el efecto Pasteur, el cólera aviar, el carbunco/ántrax, los estreptococos puerperales y la vacuna contra la rabia):
+
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Microo                                         Nivel    Tipos                     Homenaje Histórico a Pasteur y Movimientos
+  ---------------------------------------------- -------- ------------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  #018 Pichiamax (Línea Saccharomyces)           Nv. 63   Levadura / Simbionte      Estudios sobre la fermentación (1857) y el Efecto Pasteur. Espuma de Fermentador, Gemación Nutritiva, Síntesis de ATP, Mutación Espontánea.
+
+  #006 Thermocel (Línea Clostridium butyricum)   Nv. 63   Anaerobio / Extremófilo   Descubrimiento de la vida sin oxígeno ("Anaerobiosis", 1861). Fase Exponencial, Chorro Metano Ardiente, Choque Osmótico Masivo.
+
+  #068 Agalactiae (Línea Streptococcus)          Nv. 64   Gram+ / Antibiótico       Identificación del estreptococo en cadenas (1879). Presión Osmótica, Estrés Oxidativo, Hemólisis Beta, Pared de Peptidoglicano.
+
+  #059 Cholerae (Vibrio / Pasteurella)           Nv. 64   Gram- / Protozoo          Descubrimiento de la atenuación vacunal con cultivos envejecidos (1880). Chorro Citoplasmático, Exotoxina Letal, Rayo Nitrógeno Líquido.
+
+  #034 Anthracis (Bacillus anthracis)            Nv. 65   Esporulado / Gram+        El experimento público de Pouilly-le-Fort con la vacuna del carbunco (1881). Choque Osmótico Masivo, Autólisis Masiva, Lluvia de Cristales, Bomba de Esporas.
+
+  #122 Lyssavir (Forma Rabia Suprema)            Nv. 67   Virus / Intracelular      Su obra maestra: la vacuna contra la rabia (1885), trabajada a ciegas antes de que existiera el microscopio electrónico. Estallido Lítico, Secuestro Ribosomal, Cabezazo Cápside, Latencia Lisogénica.
+  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Al derrotar a Louis Pasteur, te hace entrega del título de Doctor Honoris Causa y Campeón de la Liga Micromón, inscribiendo tu nombre y el de tus 6 Microos en el Registro de Cepas Tipo de La UAB, y desbloqueando la cueva abisal donde aguarda el Microo #150: LUCA.
+
+Modalidades de Combate: Cultivos Axénicos (1v1) y Co-cultivos (2v2)
+
+El sistema de batalla soporta dos formatos principales que aprovechan la división entre ataques Físicos, Especiales y de Estado:
+
+-   Combates 1v1 (Cultivo Axénico / Puro): El formato clásico e individual donde un solo Microo se enfrenta a otro en la placa. Es el estándar en la mayoría de encuentros salvajes y duelos contra entrenadores individuales.
+
+-   Combates 2v2 (Co-cultivo / Consorcio Microbiano): Dos Microos luchan simultáneamente en el campo de batalla. Este formato es fundamental en momentos clave de la historia (como en el Gimnasio 3 de Ciudad Gram, batallas junto a tu amigo el Dr. Daniel Yero para liberar al Dr. Òscar Conchillo en el Instituto de Biotecnología, o contra la Dra. Sonia Casillas y sus becarios protegidos).
+
+-   Sinergias en 2v2:
+
+    -   Movimientos de área como Choque Osmótico Masivo (Terremoto), Flagelo Polar (Surf) o Lisis Celular Total (Explosión) golpean a múltiples objetivos en la placa.
+
+    -   Los tipos Biofilm y Simbionte brillan en el formato 2v2 mediante ataques de apoyo e interacciones de Quorum Sensing, subiendo las defensas de su compañero o curando sus estados alterados de forma pasiva.
+
+2. Sistema de Experiencia: Difusión de Nutrientes (Repartir Exp. Automático)
+
+Para evitar el tedioso grindeo clásico sin perder el mérito del Microo que lidera el combate, el juego cuenta desde el inicio con el sistema de Difusión en Medio Líquido (Repartir Experiencia moderno integrado por defecto):
+
+-   Microos Participantes (Fase Exponencial Activa): Todo Microo que haya salido al campo de batalla y participado directamente en el combate contra el rival recibe el 100% de los Puntos de Experiencia (Exp) calculados.
+
+-   Microos en la Reserva del Equipo (Crecimiento Basal): Los demás Microos de tu equipo que hayan permanecido guardados en sus Criobolas reciben automáticamente un 50% de la experiencia total, llevándose siempre menos que el Microo o Microos que han estado en combate activo.
+
+-   Escalado por Nivel: La fórmula aplica el escalado dinámico de generaciones modernas (cuanto menor sea el nivel de un Microo respecto al rival derrotado, mayor será el impulso de experiencia; si supera el nivel de la zona, la ganancia se modera para no romper la curva de dificultad).
+
+3. Selector de Dificultad (Condiciones de Incubación)
+
+Al iniciar la partida en Pueblo Plaqueta (o desde el menú de ajustes en cualquier momento, salvo en modo RandomLocke), el jugador puede elegir entre tres niveles de presión selectiva:
+
++--------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Modo de Dificultad | Nombre Temático             | Ajustes Mecánicos y de Inteligencia Artificial (IA)                                                                                                                                         |
++====================+=============================+=============================================================================================================================================================================================+
+| Fácil              | Medio Rico (LB / TSB)       | • Los Microos rivales tienen -3 niveles respecto a la curva base.                                                                                                                           |
+|                    |                             |                                                                                                                                                                                             |
+|                    |                             | • La IA enemiga realiza movimientos subóptimos y no cambia de Microo.                                                                                                                       |
+|                    |                             |                                                                                                                                                                                             |
+|                    |                             | • El jugador gana un +20% de experiencia y dinero de becas.                                                                                                                                 |
+|                    |                             |                                                                                                                                                                                             |
+|                    |                             | • Sin límite de uso de objetos curativos desde la mochila en combate.                                                                                                                       |
++--------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Normal             | Medio Selectivo             | • Niveles estándar equilibrados a la progresión de Kanto/Sinnoh.                                                                                                                            |
+|                    |                             |                                                                                                                                                                                             |
+|                    |                             | • La IA de los Líderes de Gimnasio y ejecutivos de la Unidad de Genética busca efectividades de tipo ( × 2) y usa hasta 2 medios curativos por combate.                                     |
+|                    |                             |                                                                                                                                                                                             |
+|                    |                             | • Límite opcional de nivel (Level Cap) suave.                                                                                                                                               |
++--------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Difícil            | Presión Antibiótica Extrema | • Los jefes (Líderes, Dr. Urtaza y Alto Mando de La UAB) tienen equipos de 5 a 6 Microos con IVs perfectos (Cepas de Referencia), naturalezas óptimas, objetos equipados y niveles +3 a +5. |
+|                    |                             |                                                                                                                                                                                             |
+|                    |                             | • Modo Torneo (Set Mode) forzado: No se te avisa qué Microo va a sacar el rival ni puedes cambiar gratis tras debilitar a uno.                                                              |
+|                    |                             |                                                                                                                                                                                             |
+|                    |                             | • Mochila bloqueada en combate: Solo valen los objetos equipados en los Microos.                                                                                                            |
+|                    |                             |                                                                                                                                                                                             |
+|                    |                             | • Level Cap estricto: Tus Microos no pueden superar el nivel del siguiente Líder de Gimnasio.                                                                                               |
++--------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+4. Modo "RandomLocke" Integrado (Protocolo de Mutagénesis Aleatoria)
+
+Al empezar una nueva partida, el laboratorio te permite activar el interruptor nativo Modo RandomLocke (Ensayo Ciego). Si se activa, el propio motor del juego aplica de forma automática e irreversible las siguientes reglas:
+
+Reglas "Locke" Forzadas por el Sistema (Hardcore Nuzlocke)
+
+1.  Muerte Celular (Lisis Permanente): Si los PS de un Microo llegan a 0, el juego muestra el mensaje "¡La cepa ha sufrido lisis irreversible!". Ese Microo queda inhabilitado para siempre, no se puede curar en La Incubadora y se transfiere automáticamente al Congelador de Residuos Biológicos (Cementerio) en el PC. Si pierdes a todo tu equipo, la partida termina (Proyecto Denegado).
+
+2.  Un Aislamiento por Ruta: El juego registra automáticamente el primer Microo salvaje que aparece en cada ruta o cueva (Bosque Viral, Monte Micelio, Cueva Anaeróbica, etc.) con un icono de "Muestra Única". Si lo derrotas o huyes, las Criobolas quedan bloqueadas en esa zona para siempre.
+
+    -   Cláusula de Duplicados (Dupes Clause) integrada: El primer encuentro válido de una ruta ignora automáticamente especies o líneas evolutivas que ya hayas capturado antes.
+
+    -   Cláusula de Mutante (Shiny Clause): Si aparece un Microo variocolor (cepa fluorescente con GFP), el bloqueo de captura se desactiva temporalmente.
+
+3.  Etiquetado Obligatorio (Motes): Al capturar cualquier Microo, el sistema te obliga a ponerle un código de cepa o mote personalizado para estrechar el vínculo antes de guardarlo.
+
+Opciones Configurables del "Randomizer" (Menú Pre-Partida)
+
+Al activar el RandomLocke, aparece un panel de configuración con casillas para elegir el grado de aleatorización:
+
+-   Microos Salvajes y de Entrenadores Aleatorios: Reemplaza todos los encuentros de rutas, gimnasios y de la Unidad de Genética al azar (con opción de activar "Similitud de Fuerza / BST" para que en la Ruta 1 no te salga directamente LUCA o Pandoravir, sino otro Microo de primera fase equivalente).
+
+-   Iniciales de Pueblo Plaqueta Aleatorios: Las 3 opciones iniciales del laboratorio se eligen al azar entre todas las líneas evolutivas de 3 etapas de la Microdex.
+
+-   Tipos de Gimnasio y Alto Mando Aleatorios: Si se activa, el Dr. Antoni Solé, el Dr. Òscar Conchillo o el propio Dr. Louis Pasteur tendrán equipos temáticos de cualquiera de los 18 tipos generados al azar en cada partida.
+
+-   Objetos del Suelo y MT Aleatorias: Los Plásmidos, Criobolas y Máquinas Técnicas repartidos por el mapa cambian en cada run.
+
+-   Habilidades y Movimientos Aleatorios (Modo Caos): Opción extrema donde cualquier Microo puede aprender cualquier ataque de los 165 disponibles al subir de nivel.
+
+SPRITES
+
+Dr. Jaime Martínez Urtaza[]
+
+Dr. Antonio Barbadilla []
+
+Dra. Sonia Casillas[]
+
+Dr. Isaac Salazar[]
+
+Dra. Alba Hernández []
+
+Líder del Gimnasio Bioinfo Dr. Òscar Conchillo[]
+
+Líder del Gimnasio Industrial Dr. Jordi Mas
+
+[]
+
+Líder del gimnasio Hongo Dra. Laia Guàrdia[]
+
+Líder del gimnasio Fago Dra. Susana Campoy
+
+[]
+
+Líder del gimnasio Levadura Dr. Daniel Yero
+
+[]
+
+Líder del gimnasio Ambiental Dra. Núria Gajú
+
+[]
+
+Líder del Gimnasio Clínico Dra. Marina Luquin`
+
+[]
+
+Líder del gimnasio Alimento Dr. Antoni Solé
+
+[]
+
+Alto Mando Dra. Montserrat Llagostera
+
+[]
+
+[][]Alto Mando Dr. Joaquim Marti
+
+[][]Alto mando Dr. Jordi Barbé
+
+Alto mando Dra. Laura Tusell
+
+[]
+
+Campeón de la Liga Dr. Louis Pasteur
+
+[]
