@@ -634,7 +634,7 @@ function torre(n: number) {
   b.trees(0, 0, 30, 2).trees(0, 0, 2, 10).trees(0, 14, 2, 10).trees(28, 0, 2, 24).trees(0, 22, 30, 2);
   b.fill(0, 11, 28, 2, "p").fill(14, 2, 2, 9, "p").fill(14, 13, 2, 9, "p");
   b.building(3, 3, { kind: "gimnasio", w: 7, color: "naranja", door: 3, to: "gimnasio-aerobia", tx: 6, ty: 15 });
-  b.building(18, 3, { kind: "casa", w: 8, color: "rojo", door: 4, to: "casino", tx: 6, ty: 10, sprite: "" });
+  b.building(18, 3, { kind: "casa", w: 8, color: "rojo", door: 4, to: "casino", tx: 6, ty: 10, sprite: "casino" });
   b.building(3, 15, { kind: "incubadora", w: 5, door: 2, to: "incubadora-aerobia", tx: 5, ty: 6 });
   b.building(18, 15, { kind: "tienda", w: 6, door: 3, to: "tienda-aerobia", tx: 4, ty: 6 });
   b.building(9, 16, { kind: "casa", w: 4, color: "azul", door: 1, to: "casa-aerobia", tx: 3, ty: 5 });
@@ -1237,7 +1237,7 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
   const b = new MapBuilder("uab", "La UAB", 22, 16);
   b.trees(0, 0, 22, 2).trees(0, 0, 2, 16).trees(20, 0, 2, 16);
   b.fill(8, 9, 6, 7, "p").fill(2, 12, 18, 2, "p");
-  b.building(5, 2, { kind: "lab", w: 12, color: "rojo", door: 5, to: "uab-vestibulo", tx: 5, ty: 8 });
+  b.building(5, 2, { kind: "lab", w: 12, color: "rojo", door: 5, to: "uab-vestibulo", tx: 5, ty: 8, sprite: "uab" });
   b.fill(2, 10, 4, 2, "f").fill(16, 10, 4, 2, "f").fill(3, 14, 4, 2, "~");
   b.sign(14, 8, "Facultad de Biociencias de La UAB. Liga Micromón. Solo con las 8 medallas.");
   b.npc({ id: "uab-estudiante", x: 15, y: 12, sprite: "estudiante", move: "pasear", talk: "Dicen que el Campeón es el mismísimo Louis Pasteur. ¡Con sus matraces de cuello de cisne!" });

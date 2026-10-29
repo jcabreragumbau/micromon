@@ -24,6 +24,9 @@ META = {
     "laboratorio": dict(door=(513, 545), wall=(235, 810)),
     "centro":      dict(door=(512, 528), wall=(130, 900)),
     "tienda":      dict(door=(512, 528), wall=(130, 900)),
+    "gimnasio":    dict(door=(512, 480), wall=(110, 915)),
+    "casino":      dict(door=(512, 480), wall=(110, 915)),
+    "uab":         dict(door=(512, 480), wall=(95, 930)),
     "arbol":       dict(),
 }
 

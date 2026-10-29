@@ -35,6 +35,7 @@ export function buildingSprite(kind: string, color: string): string {
   if (kind === "casa") return color === "rojo" || color === "naranja" ? "casa_roja" : "casa_azul";
   if (kind === "incubadora") return "centro";
   if (kind === "tienda") return "tienda";
+  if (kind === "gimnasio") return "gimnasio";
   return "";
 }
 
