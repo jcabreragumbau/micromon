@@ -622,4 +622,97 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("¡{nombre} ha recibido la MEDALLA QUIMIOSTATO del Dr. Mas!");
     await game.say("Dr. Mas: Mi amigo Daniel Yero me ha dicho que la Unidad de Genética ha tomado el Instituto de Biotecnología, al este. ¡Tienes que ayudarles!");
   },
+
+  // ---------------------------------------------------------------- sexto tramo
+  async yeroInstituto(game, world) {
+    const s = S(game);
+    if (!s.flags["yero-equipo"]) {
+      await game.say("Dr. Daniel Yero: ¡{nombre}! Menos mal que has venido. La Unidad de Genética tiene a Òscar encerrado en la sala de servidores.");
+      await game.say("Dr. Yero: Lleva días calculando árboles de 10.000 réplicas mientras Jaime le dice «pues vaya bioinformático estás hecho». ¡No hay derecho!");
+      await game.say("Dr. Yero: Yo distraigo a los reclutas de la puerta. Toma, que tu equipo llegue en plena forma.");
+      for (const m of s.party) fullHeal(m);
+      await game.say("¡El equipo de {nombre} se ha recuperado por completo!");
+      s.flags["yero-equipo"] = true;
+      world.refreshNpcs();
+      await game.say("Dr. Yero: ¡Adelante! Os sigo de cerca.");
+      return;
+    }
+    await game.say("Dr. Yero: ¡Corre, la sala de servidores está en la planta 5!");
+  },
+
+  async asedioEjecutivos(game, world) {
+    const s = S(game);
+    await game.say("Dr. Barbadilla: ¡Otra vez tú! Mira cómo me has dejado el flequillo la última vez.");
+    await game.say("Dra. Casillas: ¡Y encima vienes a estresar al pobre Òscar! ¿Ha comido? ¡Nadie le ha preguntado si ha comido!");
+    await game.say("Dr. Yero: ¡{nombre}, yo cubro la puerta! ¡Vosotros dos contra ellos dos!");
+    const r = rng(game);
+    const team = [createMicroo("volvox", 40, { rng: r }), createMicroo("kefirgran", 40, { rng: r }), createMicroo("salinarum", 41, { rng: r }),
+      createMicroo("myxococcus", 41, { rng: r }), createMicroo("spirulmax", 41, { rng: r }), createMicroo("aeruginosa", 42, { rng: r })];
+    const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Barbadilla y Casillas", { "medio-enriquecido": 2 }, "double"), wild: false,
+      trainer: { name: "Barbadilla y Casillas", clase: "Ejecutivos", portrait: "casillas", lose: "¡Retirada! ¡Pero abrígate al salir!", money: 300 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    await game.say("Dr. Barbadilla: Me voy a retocar. Esto no ha pasado.");
+    await game.say("Dra. Casillas: ¡Niños, nos vamos! ¡Coged los táperes!");
+    await game.fade(true, 12);
+    s.flags["conchillo-libre"] = true;
+    world.refreshNpcs();
+    await game.fade(false, 12);
+    await game.say("Dr. Òscar Conchillo: ¡Libre! Y ahora… ¡acceso al clúster revocado para toda la Unidad de Genética! ¡Ja!");
+    await game.say("Dr. Conchillo: Gracias, de verdad. Cuando termines aquí, ven a mi gimnasio. Te debo un duelo limpio de pura bioinformática.");
+    await game.say("Dr. Conchillo: Jaime está en la planta 11. Va a por el prototipo de la Criobola Morada. ¡Corre!");
+  },
+
+  async urtazaInstituto(game, world) {
+    const s = S(game);
+    if (!s.flags["conchillo-libre"]) {
+      await game.say("Dr. Martínez-Urtaza: ¿Tú otra vez? Estoy ocupado. Mis ejecutivos de la planta 5 se encargarán de ti.");
+      return;
+    }
+    await game.say("Dr. Martínez-Urtaza: Así que has liberado a Òscar. Da igual: la Criobola Morada y la pipeline definitiva ya son mías.");
+    await game.say("Dr. Martínez-Urtaza: ¿Los creadores en la autoría? Por favor. Las ideas son de quien las publica primero.");
+    const r = rng(game);
+    const team = [createMicroo("parahaemolyticus", 43, { rng: r }), createMicroo("vulnificus", 43, { rng: r }), createMicroo("tuberculos", 44, { rng: r })];
+    const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-enriquecido": 2 }), wild: false,
+      trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "¡¡DESGRACIADO SIN FUTURO!!", money: 900 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    await game.say("Dr. Martínez-Urtaza: ¡¡DESGRACIADO SIN FUTURO!! ¡Esto no acaba aquí! ¡En la Isla Conjugada lo verás!");
+    await game.fade(true, 12);
+    s.flags.urtaza2 = true;
+    world.refreshNpcs();
+    await game.fade(false, 12);
+    await game.say("El Dr. Martínez-Urtaza ha huido hacia la Isla Conjugada…");
+  },
+
+  async directorInstituto(game, world) {
+    const s = S(game);
+    if (!s.flags.urtaza2) { await game.say("Directora del Instituto: ¡Cuidado! Ese hombre quiere llevarse nuestro prototipo…"); return; }
+    if (!s.flags.morada) {
+      await game.say("Directora del Instituto: ¡Lo has conseguido! Has salvado el Instituto. Y el prototipo sigue aquí.");
+      await game.say("Directora: Es la Criobola Morada: congelación instantánea en nitrógeno líquido. Nunca falla. Quédatela: estará más segura contigo.");
+      addItem(s, "criobola-morada"); s.flags.morada = true;
+      await game.say("¡{nombre} ha recibido la CRIOBOLA MORADA!");
+      s.flags["instituto-libre"] = true;
+      world.refreshNpcs();
+      return;
+    }
+    await game.say("Directora: Usa la Criobola Morada con cabeza. Solo hay una.");
+  },
+
+  async liderConchillo(game, world) {
+    const s = S(game);
+    if (s.badges.includes("algoritmo")) {
+      await game.say("Dr. Conchillo: Un buen análisis empieza por buenos datos. Y los buenos datos empiezan en la placa. ¡Daniel tenía razón!");
+      return;
+    }
+    await game.say("Dr. Òscar Conchillo: ¡Bienvenid{o}! Sin servidores al 90% ni scripts ajenos. Por fin un duelo limpio de pura bioinformática.");
+    await game.say("Dr. Conchillo: Genomas mínimos, ensamblaje de novo, predicción de estructuras… ¡A ver si tu equipo compila!");
+    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty("gym6", s.difficulty, rng(game)), false, "Dr. Conchillo", s.difficulty === "normal" ? { "medio-enriquecido": 2 } : {}), wild: false,
+      trainer: { name: "Òscar Conchillo", clase: "Líder", portrait: "conchillo", lose: "Compilado sin errores. ¡Bien hecho!", money: 340 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    s.badges.push("algoritmo");
+    s.flags.medalla6 = true;
+    await game.say("Dr. Conchillo: Te has ganado la MEDALLA ALGORITMO.");
+    await game.say("¡{nombre} ha recibido la MEDALLA ALGORITMO del Dr. Conchillo!");
+    await game.say("Dr. Conchillo: La costa del este lleva a Ciudad Pili. Y por el camino, la Central Metabólica… dicen que allí vive algo muy raro.");
+  },
 };

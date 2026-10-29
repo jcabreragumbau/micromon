@@ -79,5 +79,11 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - 14 Microos nuevos diseñados a mano (`tools/art/designs6.py`).
 - El playtest usa la IA «difícil» del motor para el jugador.
 
+## Sexto tramo (hecho)
+- Ciudad Agar (guardas hasta la Medalla Quimiostato) → Ruta 8 → Parque Biotecnológico. El Dr. Yero espera en la puerta, cura al equipo y distrae a los reclutas.
+- Asedio al Instituto: Planta 1 (reclutas, doctorandos rebeldes), Planta 5 (sala de servidores: combate doble contra Barbadilla y Casillas; el Dr. Conchillo queda libre y revoca el acceso al clúster), Planta 11 (Martínez-Urtaza con Parahaemolyticus, Vulnificus y Tuberculos: «¡DESGRACIADO SIN FUTURO!», huye a la Isla Conjugada). La directora regala la Criobola Morada.
+- Gimnasio Bioinfo del Dr. Òscar Conchillo (Medalla Algoritmo), abierto tras el rescate.
+- 14 Microos nuevos (`tools/art/designs7.py`), incluidas las primeras líneas de virus.
+
 ## Siguiente tarea
-Fase 4: Instituto de Biotecnología en adelante (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
+Fase 4: Central Metabólica y Ciudad Pili en adelante (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

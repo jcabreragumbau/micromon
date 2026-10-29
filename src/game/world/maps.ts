@@ -762,7 +762,11 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
   b.sign(16, 7, "Reserva Microbiana: extremófilos y protozoos únicos. ¡Pase y vea!");
   b.sign(19, 9, "Gimnasio de Ciudad Agar. Líder: Dr. Jordi Mas, Microbiología Industrial.");
   b.npc({ id: "agar-1", x: 8, y: 12, sprite: "chica", move: "pasear", talk: "En la Reserva no se lucha: les ofreces Medios de Enriquecimiento para que se calmen, y luego… ¡Criobola Verde!" });
-  b.npc({ id: "agar-2", x: 24, y: 11, sprite: "chico", dir: 2, hideIf: "medalla5", talk: "El camino al Instituto de Biotecnología está cortado. Dicen que solo dejan pasar a quien tenga la Medalla Quimiostato." });
+  b.fill(28, 10, 2, 2, "p");
+  const corte = "Guarda: El camino al Instituto de Biotecnología está cortado. Solo dejamos pasar a quien tenga la Medalla Quimiostato.";
+  b.npc({ id: "agar-guarda-1", x: 27, y: 10, sprite: "dependiente", dir: 2, hideIf: "medalla5", talk: corte });
+  b.npc({ id: "agar-guarda-2", x: 27, y: 11, sprite: "dependiente", dir: 2, hideIf: "medalla5", talk: corte });
+  b.warp({ x: 29, y: 10, h: 2, to: "ruta-8", tx: 1, ty: 7, dir: 3, keep: "y" });
   b.npc({ id: "agar-3", x: 26, y: 9, sprite: "estudiante", dir: 0, talk: "El agar sale de las algas rojas. Lo trajeron a los laboratorios por consejo de la mujer de un ayudante de Koch. ¡Sin ella no habría placas!" });
   b.warp({ x: 0, y: 10, h: 2, to: "ruta-7", tx: 38, ty: 8, dir: 2, keep: "y" });
   add(b.done({ music: "ciudad" }));
@@ -816,6 +820,125 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
     intro: "¡Fermentación ABE: acetona, butanol y etanol! ¿Sabes quién la inventó?", lose: "Chaim Weizmann estaría decepcionado…", after: "La fermentación ABE se usó en la Primera Guerra Mundial para fabricar acetona." } });
   b.npc({ id: "guia-gym5", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "El Dr. Mas usa Anaerobios, Antibióticos y Extremófilos de escala industrial.", "¡Su Coli-BL21 es una superfactoría: aguanta mucho!"] });
   b.warp({ x: 5, y: 16, w: 3, to: "ciudad-agar", tx: 20, ty: 8, dir: 0 });
+  add(b.done({ music: "gimnasio" }));
+}
+
+// ---------------------------------------------------------------- Ruta 8
+{
+  const b = new MapBuilder("ruta-8", "Ruta 8", 36, 16);
+  b.trees(0, 0, 36, 2).trees(0, 14, 36, 2).trees(0, 2, 2, 4).trees(0, 10, 2, 4).trees(34, 2, 2, 4).trees(34, 10, 2, 4);
+  b.fill(0, 7, 36, 2, "p");
+  b.fill(3, 2, 10, 4, "g").fill(16, 10, 10, 4, "g").fill(22, 2, 10, 4, "G").fill(3, 10, 8, 4, "g");
+  b.fill(14, 2, 6, 3, "~").fill(28, 10, 4, 3, "f");
+  b.sign(3, 9, "Ruta 8. Al este: Parque Biotecnológico.");
+  b.item(30, 3, "medio-enriquecido", "item:r8-enriquecido", 2);
+  b.item(17, 12, "atp-concentrado", "item:r8-atp", 1, true);
+  b.npc({ id: "r8-a", x: 9, y: 6, sprite: "chica", dir: 0, trainer: {
+    name: "Ona", clase: "Viróloga", team: [["rous-v", 35], ["poxvir", 35]], sight: 1, money: 160,
+    intro: "¡Los virus no están vivos! …¿O sí? ¡Luchemos y lo discutimos!", lose: "Me has dejado sin cápside…", after: "El virus del sarcoma de Rous fue el primer virus que se vio que causaba cáncer." } });
+  b.npc({ id: "r8-b", x: 20, y: 9, sprite: "estudiante", dir: 1, trainer: {
+    name: "Iván", clase: "Doctorando Rebelde", team: [["chlamydia", 36], ["nocardia", 36]], sight: 2, money: 160,
+    intro: "¡Me he escapado del Instituto! ¿Eres de la Unidad? ¡Demuéstralo!", lose: "Vale, vale, no eres de la Unidad. ¡Ayúdanos!", after: "La Unidad ha tomado el Instituto. Tienen al Dr. Conchillo atado a una terminal…" } });
+  b.npc({ id: "r8-c", x: 29, y: 8, sprite: "chico", dir: 2, trainer: {
+    name: "Teo", clase: "Oceanógrafo", team: [["shewanella", 36], ["lyssavir", 36], ["lentivir", 37]], sight: 3, money: 170,
+    intro: "¡Shewanella respira metales pesados! ¿Y tú qué respiras?", lose: "Me he quedado sin electrones…", after: "Shewanella puede respirar hierro y manganeso. ¡Limpia aguas contaminadas!" } });
+  b.warp({ x: 0, y: 7, h: 2, to: "ciudad-agar", tx: 28, ty: 10, dir: 2, keep: "y" });
+  b.warp({ x: 35, y: 7, h: 2, to: "parque-biotec", tx: 1, ty: 11, dir: 3, keep: "y" });
+  b.encounters([
+    { sp: "rous-v", min: 34, max: 36, w: 12 }, { sp: "lentivir", min: 35, max: 37, w: 10 }, { sp: "poxvir", min: 34, max: 36, w: 12 },
+    { sp: "lyssavir", min: 34, max: 36, w: 12 }, { sp: "nocardia", min: 35, max: 37, w: 12 }, { sp: "shewanella", min: 35, max: 37, w: 12 },
+    { sp: "chlamydia", min: 35, max: 37, w: 12 }, { sp: "acantharia", min: 34, max: 36, w: 12 }, { sp: "bdellovib", min: 34, max: 36, w: 6 },
+  ]);
+  add(b.done({ music: "ruta" }));
+}
+
+// ---------------------------------------------------------------- Parque Biotecnológico
+{
+  const b = new MapBuilder("parque-biotec", "Parque Biotecnológico", 30, 24);
+  b.trees(0, 0, 30, 2).trees(0, 0, 2, 10).trees(0, 14, 2, 10).trees(28, 0, 2, 24).trees(0, 22, 30, 2);
+  b.fill(0, 11, 28, 2, "p").fill(14, 7, 2, 4, "p").fill(5, 13, 1, 3, "p").fill(22, 13, 1, 4, "p").fill(23, 8, 1, 3, "p");
+  b.building(9, 2, { kind: "lab", w: 12, color: "gris", door: 5, to: "instituto-1", tx: 6, ty: 12 });
+  b.building(3, 15, { kind: "incubadora", w: 5, door: 2, to: "incubadora-biotec", tx: 5, ty: 6 });
+  b.building(21, 4, { kind: "gimnasio", w: 6, color: "azul", door: 2, to: "gimnasio-biotec", tx: 6, ty: 15 });
+  b.building(19, 16, { kind: "tienda", w: 5, door: 3, to: "tienda-biotec", tx: 4, ty: 6 });
+  b.fill(10, 15, 6, 4, "f").fill(3, 3, 4, 4, "~");
+  b.sign(13, 10, "Parque Biotecnológico. Instituto de Biotecnología. «Del gen al biorreactor».");
+  b.sign(24, 9, "Gimnasio Bioinfo. Líder: Dr. Òscar Conchillo. (Cerrado: el líder no está).");
+  b.npc({ id: "biotec-yero", x: 16, y: 8, sprite: "yero", dir: 0, hideIf: "instituto-libre", script: "yeroInstituto" });
+  b.npc({ id: "biotec-recluta-1", x: 14, y: 7, sprite: "recluta", dir: 0, hideIf: "yero-equipo", talk: "Recluta: Prohibido el paso. Órdenes del Dr. Martínez-Urtaza." });
+  b.npc({ id: "biotec-recluta-2", x: 15, y: 7, sprite: "recluta-b", dir: 0, hideIf: "yero-equipo", talk: "Recluta: ¡Aquí no entra nadie sin cuenta en el clúster!" });
+  b.npc({ id: "biotec-gym-cerrado", x: 23, y: 7, sprite: "becario", dir: 0, hideIf: "instituto-libre", talk: "El Dr. Conchillo no ha vuelto del Instituto. Sin él, el gimnasio está cerrado." });
+  b.npc({ id: "biotec-1", x: 8, y: 13, sprite: "chica", move: "pasear", talk: "El Instituto tiene once plantas de laboratorios. ¡Y la Unidad de Genética las ha tomado todas!" });
+  b.warp({ x: 0, y: 11, h: 2, to: "ruta-8", tx: 34, ty: 7, dir: 2, keep: "y" });
+  add(b.done({ music: "ciudad" }));
+}
+add(incubadora("incubadora-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 5, y: 17 }));
+add(tienda("tienda-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 22, y: 18 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+
+// ---------------------------------------------------------------- Instituto de Biotecnología (asedio)
+function planta(id: string, name: string) {
+  const b = new MapBuilder(id, `Instituto · ${name}`, 14, 14, "L", "laboratorio", false);
+  b.fill(0, 0, 14, 1, "w").fill(0, 1, 14, 1, "W");
+  return b;
+}
+{
+  const b = planta("instituto-1", "Planta 1");
+  b.fill(1, 3, 4, 1, "c").set(12, 2, "E").fill(5, 13, 3, 1, "a").set(0, 12, "n").set(13, 12, "n");
+  b.fill(8, 5, 1, 4, "B").fill(3, 8, 1, 4, "B");
+  b.npc({ id: "i1-recepcion", x: 2, y: 2, sprite: "enfermera", dir: 0, talk: "Recepcionista: ¡Ayuda! Han tomado el edificio. El Dr. Conchillo está en la sala de servidores de la planta 5…" });
+  b.npc({ id: "i1-rebelde", x: 10, y: 10, sprite: "estudiante", dir: 2, talk: ["Doctorando rebelde: ¡Estamos hartos! Tres años sin contrato y ni siquiera salimos en la guía docente.", "Las escaleras del fondo llevan arriba. Os cubrimos."] });
+  b.npc({ id: "i1-r1", x: 6, y: 6, sprite: "recluta", dir: 3, trainer: {
+    name: "Becario", clase: "Recluta de la Unidad", team: [["lentivir", 38], ["marcescens", 38]], sight: 3, money: 180,
+    intro: "¡El Instituto es nuestro! ¡Bueno, del Dr. Martínez-Urtaza!", lose: "Me han quitado el acceso al VPN…", after: "Yo solo quería publicar en Nature…" } });
+  b.npc({ id: "i1-r2", x: 10, y: 4, sprite: "recluta-b", dir: 0, trainer: {
+    name: "Doctoranda", clase: "Recluta de la Unidad", team: [["pneumonia-k", 38], ["meningitid", 38]], sight: 3, money: 180,
+    intro: "¿Visitas? ¡Las visitas se anuncian por correo con tres semanas de antelación!", lose: "Tendré que reprogramar el seminario…", after: "Arriba tienen al Dr. Conchillo arreglando scripts que no ha escrito." } });
+  b.warp({ x: 5, y: 13, w: 3, to: "parque-biotec", tx: 14, ty: 6, dir: 0 });
+  b.warp({ x: 12, y: 2, to: "instituto-5", tx: 12, ty: 3, dir: 0 });
+  add(b.done({ music: "guarida" }));
+}
+{
+  const b = planta("instituto-5", "Planta 5 · Servidores");
+  b.set(12, 2, "E").set(1, 12, "E");
+  b.fill(3, 4, 8, 1, "D").fill(3, 8, 1, 4, "D").fill(10, 8, 1, 4, "D").fill(5, 11, 4, 1, "D");
+  b.npc({ id: "i5-conchillo", x: 6, y: 9, sprite: "conchillo", dir: 0, hideIf: "conchillo-libre", talk: ["Dr. Òscar Conchillo: …10.000 réplicas de bootstrap… cinco días… al 90% de CPU…", "¿Daniel? ¿Eres tú? ¡Sácame de aquí, por favor!"] });
+  b.npc({ id: "i5-barbadilla", x: 6, y: 6, sprite: "barbadilla", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
+  b.npc({ id: "i5-casillas", x: 7, y: 6, sprite: "casillas", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
+  b.npc({ id: "i5-r1", x: 11, y: 6, sprite: "recluta", dir: 2, trainer: {
+    name: "Doctorando", clase: "Recluta de la Unidad", team: [["methanosar", 39], ["prowazekii", 39], ["lentivir", 39]], sight: 3, money: 190,
+    intro: "¡No toques los servidores! ¡Llevan cinco días calculando!", lose: "Se ha reiniciado el clúster… ¡Cinco días perdidos!", after: "El jefe está arriba, en la planta 11. Busca algo morado." } });
+  b.item(12, 12, "criobola-amarilla", "item:i5-amarilla", 3);
+  b.warp({ x: 12, y: 2, to: "instituto-1", tx: 12, ty: 3, dir: 0 });
+  b.warp({ x: 1, y: 12, to: "instituto-11", tx: 2, ty: 12, dir: 3 });
+  add(b.done({ music: "guarida" }));
+}
+{
+  const b = planta("instituto-11", "Planta 11 · Dirección");
+  b.set(1, 12, "E").fill(4, 3, 6, 1, "c").set(4, 2, "P").set(9, 2, "e").set(10, 2, "e").set(0, 2, "n").set(13, 2, "n");
+  b.fill(3, 7, 1, 5, "B").fill(10, 7, 1, 5, "B");
+  b.npc({ id: "i11-urtaza", x: 7, y: 5, sprite: "urtaza", dir: 0, script: "urtazaInstituto", hideIf: "urtaza2", solid: true });
+  b.npc({ id: "i11-director", x: 6, y: 2, sprite: "profesora", dir: 0, script: "directorInstituto" });
+  b.npc({ id: "i11-r1", x: 6, y: 9, sprite: "recluta-b", dir: 2, hideIf: "urtaza2", trainer: {
+    name: "Postdoc", clase: "Recluta de la Unidad", team: [["bacteriovor", 40], ["pneumonia-k", 40]], sight: 3, money: 200,
+    intro: "¡El Dr. Martínez-Urtaza está ocupado! ¡Reunión importante con… con la Criobola!", lose: "Bueno… pide cita.", after: "Yo lo dejo. Me voy a hacer un máster en algo con contrato." } });
+  b.warp({ x: 1, y: 12, to: "instituto-5", tx: 2, ty: 12, dir: 3 });
+  add(b.done({ music: "guarida" }));
+}
+{
+  const b = new MapBuilder("gimnasio-biotec", "Gimnasio Bioinfo", 13, 17, "L", "laboratorio", false);
+  b.fill(0, 0, 13, 1, "w").fill(0, 1, 13, 1, "W");
+  b.fill(0, 5, 5, 1, "D").fill(7, 5, 6, 1, "D").fill(2, 9, 9, 1, "P").fill(0, 13, 4, 1, "D").fill(9, 13, 4, 1, "D");
+  b.set(0, 2, "D").set(12, 2, "D").set(0, 15, "n").set(12, 15, "n");
+  b.fill(5, 16, 3, 1, "a");
+  b.npc({ id: "lider-conchillo", x: 6, y: 2, sprite: "conchillo", dir: 0, script: "liderConchillo" });
+  b.npc({ id: "gym6-a", x: 11, y: 7, sprite: "estudiante", dir: 2, trainer: {
+    name: "Pere", clase: "Bioinformático", team: [["rickettsia", 39], ["chlamydia", 40]], sight: 4, money: 190,
+    intro: "¡Tengo un script que predice tus movimientos! …Tiene algún bug.", lose: "Segmentation fault (core dumped).", after: "Un genoma mínimo tiene unos 470 genes. ¡Mycoplasma genitalium casi no tiene más!" } });
+  b.npc({ id: "gym6-b", x: 1, y: 11, sprite: "chica", dir: 3, trainer: {
+    name: "Júlia", clase: "Biología Estructural", team: [["acantharia", 39], ["methanosar", 40], ["thermus", 40]], sight: 4, money: 190,
+    intro: "¡Mis proteínas se pliegan perfectamente! ¿Y las tuyas?", lose: "Se me ha desnaturalizado el modelo…", after: "El Dr. Conchillo predice la estructura de las proteínas a partir de su secuencia." } });
+  b.npc({ id: "guia-gym6", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "El Dr. Conchillo usa Intracelulares, Archaea y Extremófilos de genoma mínimo.", "¡Su Pyrolobus aguanta 113 °C! Busca bien sus debilidades."] });
+  b.warp({ x: 5, y: 16, w: 3, to: "parque-biotec", tx: 23, ty: 8, dir: 0 });
   add(b.done({ music: "gimnasio" }));
 }
 
