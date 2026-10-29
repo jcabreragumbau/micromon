@@ -120,6 +120,8 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Captura: la Criobola cae en la placa, el Microo se encoge dentro de ella con un destello rojo y desaparece mientras se agita; si se escapa, reaparece (también en la Reserva).
 - Medallero con las medallas del usuario (`tools/art/badges_hd.py` → `medallas_hd.png`, con fila de siluetas): estuche 4×2 en el menú (MEDALLERO), medallas en la ficha y animación al ganar cada una (gira, destellos y rótulo).
 - Portada del usuario en la pantalla de título (`tools/art/portada.py` → `portada.jpg` y `portada_fondo.jpg` desenfocada para los laterales), con fundido de entrada y ascuas animadas; el build admite atlas .jpg.
+- Transiciones al combate (`scenes/transiciones.ts`): entrenadores → hileras de placas de Petri (agar sangre, chocolate, MacConkey…) que barren la pantalla y luego la destapan; salvajes → parpadeo y cortinilla de persianas que se cierra y se abre. La música del combate empieza con la transición.
+- Música: tema de combate contra entrenador del usuario (`assets/audio/combate_entrenador.mp3`, incrustado en `assets_audio.ts` y en bucle). Arreglado el solapamiento: cada tema suena en su propio bus de WebAudio, que se apaga entero (también las notas ya programadas) al cambiar de pantalla.
 - Las 162 especies son obtenibles: Mirabilis (Ruta 2), Pelagibac (Ruta 3), Listeria (Ruta 8), Pyrococcus (Central Metabólica), Plasmodium y Toxoplasma (Calle Selección Natural); Salmonella legendaria en los jardines de La UAB tras ser Campeón; la Profesora regala los otros dos iniciales tras la Liga.
 
 ## Siguiente tarea

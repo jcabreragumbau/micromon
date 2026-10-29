@@ -1,6 +1,9 @@
 // Música y efectos sintetizados con WebAudio (estilo chiptune, sin archivos externos).
 // Cada tema es una melodía (onda cuadrada), un bajo (triangular) y percusión (ruido).
 
+/** Temas grabados (MP3 del usuario), incrustados como data URL por tools/build_game.ts. */
+import FILES from "./assets_audio";
+
 type Track = { bpm: number; lead: string; bass: string; drums?: boolean; loop?: boolean; leadWave?: OscillatorType };
 const T: Record<string, Track> = {
   pueblo: { bpm: 100, lead: "E5:2 G5:2 C6:4 B5:2 G5:2 A5:4 F5:2 A5:2 D6:4 C6:2 A5:2 G5:4 E5:2 G5:2 C6:4 B5:2 D6:2 C6:4 A5:2 F5:2 G5:2 E5:2 D5:4 C5:4",
@@ -40,9 +43,15 @@ function parse(s: string): [number | null, number][] {
 }
 const freq = (midi: number) => 440 * Math.pow(2, (midi - 69) / 12);
 
+const FILE_VOL: Record<string, number> = { entrenador: 0.55 };
+
 class Audio {
   ctx: AudioContext | null = null;
   master: GainNode | null = null;
+  /** Bus del tema que suena: al cambiar de tema se apaga entero (también las notas ya programadas). */
+  private bus: GainNode | null = null;
+  private src: AudioBufferSourceNode | null = null;
+  private buffers = new Map<string, Promise<AudioBuffer | null>>();
   musicOn = true; sfxOn = true;
   current = ""; private timer: number | null = null; private gen = 0;
   /** Se llama tras la primera pulsación (los navegadores no dejan sonar antes). */
@@ -52,29 +61,59 @@ class Audio {
     this.master = this.ctx.createGain(); this.master.gain.value = 0.18; this.master.connect(this.ctx.destination);
     if (this.current) { const c = this.current; this.current = ""; this.music(c); }
   }
-  private tone(type: OscillatorType, f: number, t0: number, dur: number, vol: number) {
+  private tone(type: OscillatorType, f: number, t0: number, dur: number, vol: number, dest: AudioNode = this.master!) {
     const c = this.ctx!, o = c.createOscillator(), g = c.createGain();
     o.type = type; o.frequency.value = f;
     g.gain.setValueAtTime(vol, t0); g.gain.exponentialRampToValueAtTime(0.001, t0 + Math.max(0.05, dur * 0.95));
-    o.connect(g); g.connect(this.master!); o.start(t0); o.stop(t0 + dur);
+    o.connect(g); g.connect(dest); o.start(t0); o.stop(t0 + dur);
   }
-  private noise(t0: number, dur: number, vol: number, hp = 2000) {
+  /** Apaga el tema actual con un fundido muy corto y desconecta su bus. */
+  private killBus() {
+    const c = this.ctx, b = this.bus, src = this.src;
+    this.bus = null; this.src = null;
+    if (!c || !b) return;
+    const t = c.currentTime;
+    b.gain.cancelScheduledValues(t); b.gain.setValueAtTime(b.gain.value, t); b.gain.linearRampToValueAtTime(0, t + 0.12);
+    setTimeout(() => { try { src?.stop(); } catch { /* ya parado */ } b.disconnect(); }, 200);
+  }
+  private loadFile(name: string): Promise<AudioBuffer | null> {
+    let p = this.buffers.get(name);
+    if (!p) {
+      const url = (FILES as Record<string, string>)[name];
+      p = fetch(url).then((r) => r.arrayBuffer()).then((ab) => this.ctx!.decodeAudioData(ab)).catch(() => null);
+      this.buffers.set(name, p);
+    }
+    return p;
+  }
+  private noise(t0: number, dur: number, vol: number, hp = 2000, dest: AudioNode = this.master!) {
     const c = this.ctx!, n = Math.floor(c.sampleRate * dur), buf = c.createBuffer(1, n, c.sampleRate), d = buf.getChannelData(0);
     for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
     const src = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
     f.type = "highpass"; f.frequency.value = hp; src.buffer = buf;
     g.gain.setValueAtTime(vol, t0); g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
-    src.connect(f); f.connect(g); g.connect(this.master!); src.start(t0);
+    src.connect(f); f.connect(g); g.connect(dest); src.start(t0);
   }
   /** Cambia la música (no la reinicia si ya suena la misma). */
   music(name: string | undefined) {
-    const n = name && T[name] ? name : "ruta";
+    const n = name && (T[name] || (FILES as Record<string, string>)[name]) ? name : "ruta";
     if (n === this.current) return;
     this.current = n;
     this.gen++;
     if (this.timer !== null) { clearInterval(this.timer); this.timer = null; }
+    this.killBus();
     if (!this.ctx || !this.musicOn) return;
-    const tr = T[n], step = 60 / tr.bpm / 4, gen = this.gen;
+    const gen = this.gen;
+    if ((FILES as Record<string, string>)[n]) {
+      // tema grabado: bucle de un MP3 directo a la salida
+      const bus = this.ctx.createGain(); bus.gain.value = FILE_VOL[n] ?? 0.5; bus.connect(this.ctx.destination); this.bus = bus;
+      this.loadFile(n).then((buf) => {
+        if (!buf || gen !== this.gen || !this.ctx) return;
+        const src = this.ctx.createBufferSource(); src.buffer = buf; src.loop = true; src.connect(bus); src.start(); this.src = src;
+      });
+      return;
+    }
+    const bus = this.ctx.createGain(); bus.gain.value = 1; bus.connect(this.master!); this.bus = bus;
+    const tr = T[n], step = 60 / tr.bpm / 4;
     const lead = parse(tr.lead), bass = parse(tr.bass);
     const len = lead.reduce((a, [, l]) => a + l, 0);
     let start = this.ctx.currentTime + 0.05, loopN = 0;
@@ -84,16 +123,16 @@ class Audio {
       if (base - this.ctx.currentTime > 2) return;              // ya programado con antelación
       for (const [seq, wave, vol, oct] of [[lead, tr.leadWave ?? "square", 0.22, 0], [bass, "triangle" as OscillatorType, 0.32, 0]] as const) {
         let t = 0;
-        for (const [m, l] of seq) { if (m !== null) this.tone(wave as OscillatorType, freq(m + oct), base + t * step, l * step, vol); t += l; }
+        for (const [m, l] of seq) { if (m !== null) this.tone(wave as OscillatorType, freq(m + oct), base + t * step, l * step, vol, bus); t += l; }
       }
-      if (tr.drums) for (let k = 0; k < len; k += 4) { this.noise(base + k * step, 0.05, k % 8 === 0 ? 0.25 : 0.12, k % 8 === 0 ? 400 : 4000); }
+      if (tr.drums) for (let k = 0; k < len; k += 4) { this.noise(base + k * step, 0.05, k % 8 === 0 ? 0.25 : 0.12, k % 8 === 0 ? 400 : 4000, bus); }
       loopN++;
       if (tr.loop === false) { if (this.timer !== null) clearInterval(this.timer); this.timer = null; }
     };
     schedule();
     this.timer = setInterval(schedule, 250) as unknown as number;
   }
-  stopMusic() { this.gen++; if (this.timer !== null) clearInterval(this.timer); this.timer = null; this.current = ""; }
+  stopMusic() { this.gen++; if (this.timer !== null) clearInterval(this.timer); this.timer = null; this.current = ""; this.killBus(); }
   /** Efectos cortos. */
   sfx(kind: "blip" | "ok" | "bump" | "hit" | "faint" | "ball" | "capture" | "levelup" | "heal" | "door") {
     if (!this.ctx || !this.sfxOn) return;

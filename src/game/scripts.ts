@@ -3,7 +3,8 @@ import type { Game } from "./game";
 import { audio } from "./audio";
 import { curiosidadPara } from "./curiosidades";
 import type { Overworld, NpcState } from "./scenes/overworld";
-import { BattleScene, type BattleSetup, type BattleOutcome } from "./scenes/battle";
+import { BattleScene, battleTrack, type BattleSetup, type BattleOutcome } from "./scenes/battle";
+import { PetriSweep, WildIntro, CurtainOpen } from "./scenes/transiciones";
 import { shopMenu, congeladorMenu, partyMenu, BadgeGet } from "./scenes/menus";
 import { evolutionSequence } from "./scenes/battle";
 import { SlotMachine, fichas } from "./scenes/casino";
@@ -37,11 +38,16 @@ const displayNameOf = (m: Microo) => m.nickname ?? getSpecies(m.species).name;
 export { battleFor };
 export async function startBattle(game: Game, world: Overworld, setup: Omit<BattleSetup, "env">): Promise<BattleOutcome> {
   const prev = game.scene;
-  for (let i = 0; i < 3; i++) { game.blackout = 0.8; await game.wait(4); game.blackout = 0; await game.wait(4); }
-  await game.fade(true, 14);
+  // la música del combate empieza con la transición (y corta la del mapa, sin solaparse)
+  audio.music(battleTrack(setup));
+  const trainer = !setup.wild;
+  await game.run(trainer ? new PetriSweep(true) : new WildIntro());
+  game.blackout = 1;
   const scene = new BattleScene(game, { ...setup, env: world.map.env });
   game.scene = scene;
-  await game.fade(false, 10);
+  await game.wait(6);
+  await game.run(trainer ? new PetriSweep(false) : new CurtainOpen());
+  game.blackout = 0;
   const out = await scene.run();
   await game.fade(true, 14);
   game.scene = prev;

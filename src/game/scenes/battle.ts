@@ -16,6 +16,11 @@ export interface BattleSetup {
   /** Reserva Microbiana: no se lucha; se lanzan Criobolas Verdes. */
   safari?: boolean;
 }
+/** Tema del combate: salvaje, entrenador (MP3 del usuario) o líder. */
+export function battleTrack(s: { wild?: boolean; trainer?: { clase?: string } }) {
+  const c = s.trainer?.clase ?? "";
+  return s.wild ? "combate" : ["Líder", "Campeón", "Alto Mando", "Líder de la Unidad"].includes(c) ? "lider" : "entrenador";
+}
 export interface BattleOutcome { outcome: "win" | "lose" | "run" | "capture" | "foeFled"; captured?: Microo }
 
 interface Disp { mon: Microo | null; hp: number; visible: boolean; flash: number; drop: number; appear: number; status: StatusCode | null; level: number; species: string }
@@ -40,10 +45,7 @@ export class BattleScene implements Scene {
     }
   }
   get b() { return this.s.battle; }
-  private battleMusic() {
-    const c = this.s.trainer?.clase ?? "";
-    audio.music(this.s.wild ? "combate" : ["Líder", "Campeón", "Alto Mando", "Líder de la Unidad"].includes(c) ? "lider" : "entrenador");
-  }
+  private battleMusic() { audio.music(battleTrack(this.s)); }
   update() {}
   animate() {
     for (const side of this.disp) for (const d of side) {

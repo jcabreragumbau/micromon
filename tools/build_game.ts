@@ -9,6 +9,9 @@ const lines = ATLAS.map((f) => {
   const mime = ext === "jpg" ? "image/jpeg" : "image/png";
   return `  ${JSON.stringify(n)}: "data:${mime};base64,${readFileSync(join(ROOT, "assets/atlas", `${n}.${ext}`)).toString("base64")}",`;
 });
+// Música grabada (MP3) en un módulo aparte: no son imágenes.
+const AUDIO: Record<string, string> = { entrenador: "combate_entrenador.mp3" };
+writeFileSync(join(ROOT, "src/game/assets_audio.ts"), `// Generado por tools/build_game.ts. No editar.\nexport default {\n${Object.entries(AUDIO).map(([k, f]) => `  ${JSON.stringify(k)}: "data:audio/mpeg;base64,${readFileSync(join(ROOT, "assets/audio", f)).toString("base64")}",`).join("\n")}\n};\n`);
 writeFileSync(join(ROOT, "src/game/assets_data.ts"), `// Generado por tools/build_game.ts. No editar.\nexport default {\n${lines.join("\n")}\n};\n`);
 
 const res = await Bun.build({ entrypoints: [join(ROOT, "src/game/main.ts")], minify: { whitespace: true, syntax: true, identifiers: false }, target: "browser" });

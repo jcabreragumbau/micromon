@@ -2,3 +2,4 @@ node_modules/
 dist/
 *.log
 src/game/assets_data.ts
+src/game/assets_audio.ts
