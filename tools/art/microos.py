@@ -188,3 +188,5 @@ from designs8 import DESIGNS8
 DESIGNS.update(DESIGNS8)
 from designs9 import DESIGNS9
 DESIGNS.update(DESIGNS9)
+from designs10 import DESIGNS10
+DESIGNS.update(DESIGNS10)

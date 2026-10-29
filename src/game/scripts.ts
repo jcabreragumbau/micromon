@@ -1,10 +1,13 @@
 // Guiones de historia, conversaciones y combates.
 import type { Game } from "./game";
+import { audio } from "./audio";
 import type { Overworld, NpcState } from "./scenes/overworld";
 import { BattleScene, type BattleSetup, type BattleOutcome } from "./scenes/battle";
-import { shopMenu } from "./scenes/menus";
+import { shopMenu, congeladorMenu } from "./scenes/menus";
 import { SlotMachine, fichas } from "./scenes/casino";
-import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, type Microo } from "../engine";
+import { HallOfFame, Credits } from "./scenes/creditos";
+import { saveGame } from "./state";
+import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, TRAINERS, type Microo } from "../engine";
 import { addItem, markCaught, markSeen } from "./state";
 import { MAPS } from "./world/maps";
 
@@ -40,6 +43,7 @@ export async function startBattle(game: Game, world: Overworld, setup: Omit<Batt
   const out = await scene.run();
   await game.fade(true, 14);
   game.scene = prev;
+  audio.music(world.map.music ?? "ruta");
   await game.fade(false, 10);
   return out;
 }
@@ -208,6 +212,7 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Muy bien. Déjame tus Criobolas un momento…");
     await game.fade(true, 10);
     for (const m of s.party) fullHeal(m);
+    audio.sfx("heal");
     await game.wait(40);
     await game.fade(false, 10);
     s.lastHeal = { map: s.map, x: 5, y: 3 };
@@ -833,8 +838,7 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dr. Martínez-Urtaza: El «Proyecto PopBugGenie Global». Selección poblacional quirúrgica contra quien no cite bien el Lancet Countdown.");
     await game.say("Dr. Martínez-Urtaza: Y tú, con tus placas de Petri, no vas a detener la genómica de poblaciones. ¡Última lección!");
     const r = rng(game);
-    const team = [createMicroo("parahaemolyticus", 52, { rng: r }), createMicroo("vulnificus", 53, { rng: r }), createMicroo("tuberculos", 54, { rng: r }),
-      createMicroo("t4-titan", 55, { rng: r }), createMicroo("pandoravir", 57, { rng: r })];
+    const team = trainerParty("villain", s.difficulty, r);
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-enriquecido": 3 }), wild: false,
       trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "Imposible… mi modelo tenía un 99% de precisión…", money: 1200 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
@@ -866,5 +870,105 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dra. Campoy: Te has ganado la MEDALLA LISOGENIA. ¡Ya tienes las ocho!");
     await game.say("¡{nombre} ha recibido la MEDALLA LISOGENIA de la Dra. Campoy!");
     await game.say("Dra. Campoy: El ferri ya puede llevarte a la Calle Selección Natural. Al final está La UAB… y la Liga Micromón.");
+  },
+
+  // ---------------------------------------------------------------- noveno tramo: Calle Selección Natural y Liga
+  async rivalFinal(game, world) {
+    const s = S(game);
+    if (s.flags.rival4) return;
+    const r = world.npc("csn-rival");
+    if (r) { r.emote = 40; r.dir = 1; await game.wait(30); }
+    await game.say("{rival}: ¡{nombre}! Sabía que llegarías hasta aquí. Yo también tengo las ocho medallas.");
+    await game.say("{rival}: Desde el laboratorio de la Profesora Hesse siempre has ido un paso por delante. Hoy se acaba. ¡Combate final!");
+    const rv = String(s.flags.rivalStarter ?? "butyricum");
+    const line = [rv];
+    for (let k = 0; k < 2; k++) { const nx = [...SPECIES.values()].find((x) => x.evolvesFrom === line[line.length - 1]); if (nx) line.push(nx.id); }
+    const r2 = rng(game);
+    const foe = [createMicroo("avermitil", 57, { rng: r2 }), createMicroo("lichenifor", 56, { rng: r2 }), createMicroo("interrogan", 57, { rng: r2 }),
+      createMicroo("genitalium", 56, { rng: r2 }), createMicroo("t4-titan", 58, { rng: r2 }), createMicroo(line[line.length - 1], 60, { rng: r2 })];
+    const out = await startBattle(game, world, { battle: battleFor(game, foe, false, s.rival, { "medio-enriquecido": 2 }), wild: false,
+      trainer: { name: s.rival, clase: "Rival", portrait: "rival", lose: "Vaya… Lo has hecho genial. De verdad.", money: 60 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    s.flags.rival4 = true;
+    await game.say("{rival}: Me has ganado limpiamente. Ve a La UAB y demuéstrales lo que aprendimos con la Profesora Hesse.");
+    await game.say("{rival}: Y oye… gracias por ser mi rival. Me has hecho mejor investigador.");
+    if (r) await world.walkNpc(r, 0, 2);
+    world.refreshNpcs();
+  },
+
+  async hernandezFinal(game, world) {
+    const s = S(game);
+    await game.say("Dra. Alba Hernández: Tú otra vez. Has desmantelado la Unidad, has humillado a Jaime… y sigues sin tener perspectiva global.");
+    await game.say("Dra. Hernández: Siempre he dejado que peleen los becarios. Pero esta vez lo haré yo. Te voy a enseñar lo que es ver el panorama completo.");
+    const r = rng(game);
+    const foe = [createMicroo("thiomargar", 57, { rng: r }), createMicroo("mimivir", 57, { rng: r }), createMicroo("tardigrad", 58, { rng: r }),
+      createMicroo("cyanofossil", 58, { rng: r }), createMicroo("filovir-z", 59, { rng: r })];
+    const out = await startBattle(game, world, { battle: battleFor(game, foe, false, "Dra. Hernández", { "medio-enriquecido": 2 }), wild: false,
+      trainer: { name: "Alba Hernández", clase: "Ejecutiva", portrait: "hernandez", lose: "… Quizás… la miope era yo.", money: 700 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    await game.say("Dra. Hernández: Está bien. Me rindo. A veces hay que mirar la placa de cerca para entender el mundo entero.");
+    await game.say("Dra. Hernández: Ve a La UAB. Y… perdona por el sermón de la torre.");
+    s.flags.hernandez2 = true;
+    world.refreshNpcs();
+  },
+
+  async guardaLiga(game, world) {
+    const s = S(game);
+    if (s.badges.length < 8) { await game.say("Bedel de la Liga: Solo pueden pasar quienes tengan las ocho medallas de gimnasio. Te faltan algunas."); return; }
+    await game.say("Bedel de la Liga: ¡Ocho medallas! Adelante. Te esperan el Alto Mando de La UAB y el Campeón.");
+    await game.say("Bedel: Una vez dentro, no podrás volver a curar a tus Microos hasta el final. ¡Mucha suerte!");
+    s.flags["liga-abierta"] = true;
+    world.refreshNpcs();
+  },
+
+  async liga(game, world, arg) {
+    const s = S(game);
+    const k = Number(arg);
+    const ids = ["elite1", "elite2", "elite3", "elite4", "champion"];
+    const intros: string[][] = [
+      ["Dra. Laura Tusell: Bienvenid{o} a la Liga. Soy Laura Tusell, del Alto Mando. Mi especialidad: el ciclo celular… y los parásitos que lo secuestran.", "Dra. Tusell: El huso mitótico no perdona errores. ¡Yo tampoco!"],
+      ["Dr. Joaquim Martí: Toxinas que paralizan, espiroquetas que invaden el sistema nervioso, priones… Bienvenid{o} a la neurobiología infecciosa.", "Dr. Martí: Veamos si tus neuronas aguantan."],
+      ["Dr. Jordi Barbé: Así que vienes a hablarme de genética. La Unidad de Urtaza ensució ese nombre. Yo te enseñaré lo que es la verdadera genética microbiana.", "Dr. Barbé: Regulón SOS, RecA, LexA… Mis Microos reparan su ADN más rápido de lo que tú lo dañas."],
+      ["Dra. Montserrat Llagostera: Llevo toda una vida en esta Facultad estudiando la virulencia. Patógenos, fagos, sistemas de secreción…", "Dra. Llagostera: Soy la última del Alto Mando. ¡Demuéstrame que mereces ver al Campeón!"],
+      ["Dr. Louis Pasteur: Bonjour. Así que tú eres quien ha llegado hasta aquí. Mis matraces de cuello de cisne demostraron que la vida no surge de la nada.", "Dr. Pasteur: Fermentación, anaerobiosis, vacunas… Y ahora, el último experimento: tú. «La suerte favorece a la mente preparada.» ¡Comencemos!"],
+    ];
+    const done = ["Dra. Tusell: Bien hecho. Sigue: te espera el Dr. Martí.", "Dr. Martí: Tienes buenos reflejos. Adelante.", "Dr. Barbé: Eso es genética de verdad. Continúa.",
+      "Dra. Llagostera: Excelente. El Campeón te espera en el Rectorado.", "Dr. Pasteur: Ha sido un honor. Abajo, en la fosa abisal, te espera el origen de todo."];
+    if (s.flags[`liga${k}`]) { await game.say(done[k - 1]); return; }
+    for (const l of intros[k - 1]) await game.say(l);
+    const portrait = ["tusell", "marti", "barbe", "llagostera", "pasteur"][k - 1];
+    const tname = TRAINERS.get(ids[k - 1])!.name;
+    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty(ids[k - 1], s.difficulty, rng(game)), false, tname, s.difficulty === "facil" ? {} : { "medio-enriquecido": 2 }), wild: false,
+      trainer: { name: tname.replace(/^Dra?\. /, ""), clase: k === 5 ? "Campeón" : "Alto Mando", portrait, lose: k === 5 ? "Magnifique… ¡Eres el nuevo Campeón!" : "Has superado mi laboratorio.", money: 500 } });
+    if (out.outcome === "lose") {
+      for (let j = 1; j <= 5; j++) delete s.flags[`liga${j}`];
+      await whiteout(game, world); return;
+    }
+    s.flags[`liga${k}`] = true;
+    world.refreshNpcs();
+    if (k < 5) { await game.say(done[k - 1]); return; }
+    // ¡Campeón!
+    await game.say("Dr. Pasteur: Por la autoridad de la Facultad de Biociencias, te nombro Doctor Honoris Causa y Campeón de la Liga Micromón.");
+    await game.say("Dr. Pasteur: Inscribiremos tu nombre y el de tus Microos en el Registro de Cepas Tipo de La UAB.");
+    s.flags.campeon = true;
+    await game.fade(true, 30);
+    await game.run(new HallOfFame(s.party.slice(), s.name));
+    await game.run(new Credits());
+    s.lastHeal = { map: "casa-jugador", x: 4, y: 5 };
+    world.load("casa-jugador", 4, 4, 0);
+    saveGame(s);
+    await game.fade(false, 30);
+    await game.say(`Madre: ¡{nombre}! ¡Te he visto por la tele! ¡${s.avatar === "chica" ? "Campeona" : "Campeón"} de la Liga! Estoy orgullosísima.`);
+    await game.say("(La partida se ha guardado. En el Rectorado de La UAB, la escalera del fondo baja a una fosa abisal…)");
+  },
+
+  async salirFosa(game, world) {
+    await game.fade(true, 12);
+    world.load("uab", 10, 8, 0);
+    await game.fade(false, 12);
+  },
+
+  async congelador(game) {
+    await congeladorMenu(game);
   },
 };

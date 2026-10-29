@@ -1,5 +1,6 @@
 // Pantalla de combate: dibuja la placa y traduce los eventos del motor en textos y animaciones.
 import type { Game, Overlay, Scene } from "../game";
+import { audio } from "../audio";
 import { Gfx, W, H, TB } from "../gfx";
 import { Battle, chooseActions, captureCheck, Rng, type Action, type BattleEvent } from "../../engine";
 import { getMove, getSpecies, ITEMS, type StatusCode } from "../../engine/data";
@@ -35,6 +36,10 @@ export class BattleScene implements Scene {
     }
   }
   get b() { return this.s.battle; }
+  private battleMusic() {
+    const c = this.s.trainer?.clase ?? "";
+    audio.music(this.s.wild ? "combate" : ["Líder", "Campeón", "Alto Mando", "Líder de la Unidad"].includes(c) ? "lider" : "entrenador");
+  }
   update() {}
   animate() {
     for (const side of this.disp) for (const d of side) {
@@ -48,6 +53,7 @@ export class BattleScene implements Scene {
   // ---------------------------------------------------------------- flujo principal
   async run(): Promise<BattleOutcome> {
     const g = this.game, b = this.b;
+    this.battleMusic();
     const initial = b.drain();
     // Introducción: primero el rival
     if (this.s.trainer) {
@@ -128,6 +134,7 @@ export class BattleScene implements Scene {
   private async finish(): Promise<BattleOutcome> {
     const b = this.b, g = this.game;
     const out: BattleOutcome = { outcome: b.outcome ?? (b.winner === 0 ? "win" : "lose") };
+    if (out.outcome === "win" || out.outcome === "capture") audio.music("victoria");
     if (b.outcome === "win" && this.s.trainer) {
       this.showTrainer = true; this.trainerSlide = 60; await g.wait(16);
       if (this.s.trainer.lose) await this.text(`${this.s.trainer.name}: ${this.s.trainer.lose}`);
@@ -244,29 +251,30 @@ export class BattleScene implements Scene {
       case "withdraw": if (d) d.visible = false; await this.text(e.text); break;
       case "damage": case "hp": {
         if (!d) break;
-        if (e.type === "damage" && (e.amount as number) > 0) { d.flash = 24; await g.wait(20); }
+        if (e.type === "damage" && (e.amount as number) > 0) { audio.sfx("hit"); d.flash = 24; await g.wait(20); }
         await this.tweenHp(d, e.hp as number);
         break;
       }
-      case "faint": if (d) { d.drop = 1; await g.wait(16); } await this.text(e.text); if (d) d.visible = false; break;
+      case "faint": audio.sfx("faint"); if (d) { d.drop = 1; await g.wait(16); } await this.text(e.text); if (d) d.visible = false; break;
       case "status": if (d) d.status = (e.status as StatusCode) ?? null; if (e.text) await this.text(e.text); break;
       case "cure": if (d) d.status = null; await this.text(e.text); break;
       case "levelup": {
         const m = b.sides[0].party.find((x) => x.uid === e.uid);
         const di = this.disp[0].find((x) => x.mon === m);
         if (di && m) { di.level = m.level; di.hp = m.hp; }
+        audio.sfx("levelup");
         await this.text(e.text, true);
         break;
       }
       case "learnPending": await this.learnPrompt(e.uid as number, e.move as string); break;
-      case "ball": this.ballAnim = 30; await this.text(e.text); await g.wait(20); break;
+      case "ball": audio.sfx("ball"); this.ballAnim = 30; await this.text(e.text); await g.wait(20); break;
       case "shake": {
         const n = e.shakes as number;
         for (let i = 0; i < n; i++) { this.ballShake = 1; await g.wait(12); this.ballShake = -1; await g.wait(12); this.ballShake = 0; await g.wait(16); }
         if (n < 3 || !(this.b.outcome === "capture")) this.ballAnim = 0;
         break;
       }
-      case "capture": this.disp[1][0].visible = false; await this.text(e.text, true); break;
+      case "capture": audio.sfx("capture"); this.disp[1][0].visible = false; await this.text(e.text, true); break;
       case "move": case "msg": case "crit": case "effective": case "miss": case "immune": case "boost": case "item":
       case "run": case "exp": case "learn": case "transform": case "end":
         if (e.text) await this.text(e.text, e.type === "end" || e.type === "learn");

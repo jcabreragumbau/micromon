@@ -1,5 +1,6 @@
 // Escena de mapa: movimiento por casillas, cámara, PNJ, entrenadores, hierba alta y puertas.
 import type { Game, Scene } from "../game";
+import { audio } from "../audio";
 import { AVATAR_SPRITE } from "../state";
 import type { Gfx } from "../gfx";
 import { W, H } from "../gfx";
@@ -37,6 +38,7 @@ export class Overworld implements Scene {
     const s = this.game.state;
     s.map = id; s.x = x; s.y = y; s.dir = this.dir;
     if (m.outdoor || m.env === "cueva") this.banner = 120;
+    audio.music(m.music ?? (m.outdoor ? "ruta" : "pueblo"));
     this.lux = false;
   }
   /** Deslizándose sobre hielo (sin animación de paso, sin control). */
@@ -92,7 +94,7 @@ export class Overworld implements Scene {
       if (w) this.doWarp(w, this.px, this.py);
       return;
     }
-    if (t === "bordillo" || this.blocked(nx, ny)) { if (turnOnly) return; this.bump = 8; return; }
+    if (t === "bordillo" || this.blocked(nx, ny)) { if (turnOnly) return; if (this.bump === 0) audio.sfx("bump"); this.bump = 8; return; }
     this.startMove(d, 1, run);
   }
   bump = 0;
@@ -140,7 +142,7 @@ export class Overworld implements Scene {
     if (tr && (!tr.once || !s.flags[tr.once])) { await this.lock(() => runScript(this.game, this, tr.script)); return; }
     if (await this.checkTrainers()) return;
     const cave = (this.map.env === "cueva" && tile === "suelo_cueva") || (this.map.env === "torre" && tile === "suelo_torre") || this.map.floorEncounters === tile;
-    if ((isGrass(tile) || cave) && this.map.grass.length) {
+    if ((isGrass(tile) || cave) && this.map.grass.length && !this.game.noEncounters) {
       this.stepsInGrass++;
       const rng = (this.game.frame * 9301 + this.px * 49297 + this.py * 233) % 1000;
       if (rng < (cave ? 70 : 100) && s.party.some((m) => m.hp > 0)) {

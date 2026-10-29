@@ -1,5 +1,6 @@
 // Menús: inicio, equipo, resumen, mochila, Microdex, ficha, guardado, opciones y tienda.
 import type { Game, Overlay } from "../game";
+import { audio } from "../audio";
 import { Gfx, W, H, TB, shade, TYPE_COLORS } from "../gfx";
 import type { Overworld } from "./overworld";
 import { SPECIES, ITEMS, getMove, getSpecies, type ItemData } from "../../engine/data";
@@ -69,6 +70,10 @@ async function options(game: Game) {
   if (sp >= 0) s.textSpeed = ([1, 2, 4] as const)[sp];
   const d = await game.choose(["Fácil · Medio Rico", "Normal · Medio Selectivo", "Difícil · Presión Antibiótica"], { prompt: "Dificultad (Condiciones de Incubación):", x: 70, y: 40, cancel: 999 });
   if (d >= 0) s.difficulty = (["facil", "normal", "dificil"] as const)[d];
+  const mu = await game.choose(["Música: SÍ", "Música: NO"], { prompt: "¿Música?", x: 150, y: 50, cancel: 999 });
+  if (mu >= 0) { s.flags.sinMusica = mu === 1; audio.musicOn = mu === 0; if (mu === 1) audio.stopMusic(); }
+  const fx = await game.choose(["Efectos: SÍ", "Efectos: NO"], { prompt: "¿Efectos de sonido?", x: 150, y: 50, cancel: 999 });
+  if (fx >= 0) { s.flags.sinEfectos = fx === 1; audio.sfxOn = fx === 0; }
 }
 
 // ---------------------------------------------------------------- equipo
@@ -430,5 +435,72 @@ class Quantity implements Overlay {
     g.text("▲", 150, 82, "gray", false); g.text("▼", 150, 100, "gray", false);
     g.text(`×${String(this.q).padStart(2, "0")}`, 160, 91);
     const t = `${this.q * this.price} cr.`; g.text(t, 242 - g.measure(t), 91);
+  }
+}
+
+// ---------------------------------------------------------------- Congelador de cepas (PC)
+export async function congeladorMenu(game: Game) {
+  const s = game.state;
+  for (;;) {
+    await game.say(`Congelador de cepas a -80 °C. Hay ${s.box.length} Microos congelados.`, { keep: true });
+    const c = await game.choose(["RETIRAR", "DEPOSITAR", "SALIR"], { x: 170, y: 60, cancel: 2 });
+    game.popKept();
+    if (c === 2 || c < 0) return;
+    if (c === 0) {
+      if (!s.box.length) { await game.say("El congelador está vacío."); continue; }
+      if (s.party.length >= 6) { await game.say("Tu equipo ya está completo. Deposita antes algún Microo."); continue; }
+      const i = await game.run<number>(new BoxScreen(game));
+      if (i < 0) continue;
+      const [m] = s.box.splice(i, 1);
+      s.party.push(m);
+      await game.say(`${displayName(m)} se ha descongelado y se une a tu equipo.`);
+    } else {
+      if (s.party.length <= 1) { await game.say("No puedes quedarte sin Microos en el equipo."); continue; }
+      const i = await partyMenu(game, { mode: "item", prompt: "¿Qué Microo quieres congelar?" });
+      if (i < 0) continue;
+      if (s.party.filter((m, k) => k !== i && m.hp > 0).length === 0) { await game.say("¡Necesitas al menos un Microo en condiciones de luchar!"); continue; }
+      const [m] = s.party.splice(i, 1);
+      s.box.push(m);
+      await game.say(`${displayName(m)} se ha congelado a -80 °C con glicerol.`);
+    }
+  }
+}
+class BoxScreen implements Overlay {
+  sel = 0; result = -1;
+  constructor(public game: Game) {}
+  update(game: Game) {
+    const n = game.state.box.length;
+    if (game.input.repeat("down")) this.sel = Math.min(n - 1, this.sel + 1);
+    if (game.input.repeat("up")) this.sel = Math.max(0, this.sel - 1);
+    if (game.input.repeat("right")) this.sel = Math.min(n - 1, this.sel + 6);
+    if (game.input.repeat("left")) this.sel = Math.max(0, this.sel - 6);
+    if (game.input.pressed("a")) { this.result = this.sel; return true; }
+    if (game.input.pressed("b")) { this.result = -1; return true; }
+    return false;
+  }
+  draw(g: Gfx, game: Game) {
+    const box = game.state.box;
+    g.pattern("#4a7ab8", "#5888c8", game.frame, "#284878");
+    g.panel(4, 4, W - 8, 20, "#e8f4ff", "#a8c8e8", "#284878", 5);
+    const t = `CONGELADOR DE CEPAS · ${box.length} Microos`;
+    g.text(t, W / 2 - g.measure(t) / 2, 8);
+    // ficha del seleccionado
+    const m = box[this.sel];
+    g.panel(4, 28, 104, 160, "#ffffff", "#e0ecf8", "#284878", 6);
+    if (m) {
+      g.microo(m.species, "frente", 16, 36);
+      g.text(g.fit(displayName(m), 92), 10, 120);
+      g.text(`Nv${m.level}`, 10, 134, "blue");
+      g.typeBadges(getSpecies(m.species).types, 9, 150, 94);
+    }
+    g.panel(112, 28, W - 116, 160, "#ffffff", "#eef4fa", "#284878", 6);
+    const off = Math.max(0, Math.min(box.length - 9, this.sel - 4));
+    box.slice(off, off + 9).forEach((x, i) => {
+      const y = 32 + i * 17, sel = off + i === this.sel;
+      if (sel) g.panel(115, y - 1, W - 122, 17, "#ffe8a0", "#f8c050", "#c07018", 3);
+      g.icon(x.species, sel ? Math.floor(game.frame / 10) % 2 : 0, 116, y - 9);
+      g.text(g.fit(displayName(x), 70), 148, y + 2);
+      g.text(`${x.level}`, W - 12 - g.measure(`${x.level}`), y + 2, "gray");
+    });
   }
 }

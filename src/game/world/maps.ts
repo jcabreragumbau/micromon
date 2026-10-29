@@ -19,7 +19,7 @@ function incubadora(id: string, ciudad: string, back: { to: string; x: number; y
   b.fill(3, 2, 5, 1, "c").set(10, 3, "P").set(0, 6, "n").set(10, 6, "n");
   b.fill(4, 7, 3, 1, "a");
   b.npc({ id: "enfermera", x: 5, y: 1, sprite: "enfermera", dir: 0, script: "incubadora" });
-  b.npc({ id: "pc-info", x: 10, y: 3, sprite: "", talk: "Es el Congelador de cepas. Aquí se guardan los Microos que no caben en tu equipo (llegará en la próxima versión)." });
+  b.npc({ id: "pc-info", x: 10, y: 3, sprite: "", script: "congelador" });
   b.warp({ x: 4, y: 7, w: 3, to: back.to, tx: back.x, ty: back.y + 1, dir: 0 });
   return b.done({ onEnter: "registrarIncubadora" });
 }
@@ -1183,6 +1183,93 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
   b.npc({ id: "guia-gym8", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! El último consejo.", "La Dra. Campoy usa Virus: Lambda-V, Bacteriovor, Marburg-V y su gran T4-Titan.", "¡T4-Titan es Virus y Biofilm, y golpea como un ariete!"] });
   b.warp({ x: 5, y: 16, w: 3, to: "isla-conjugada", tx: 15, ty: 6, dir: 0 });
   add(b.done({ music: "gimnasio" }));
+}
+
+// ---------------------------------------------------------------- Calle Selección Natural
+{
+  const b = new MapBuilder("calle-seleccion", "Calle Selección Natural", 24, 30, "A");
+  b.fill(1, 22, 22, 6, "s").fill(0, 26, 24, 4, "~").fill(2, 21, 3, 2, "s");
+  b.fill(3, 2, 3, 20, "p").fill(3, 15, 16, 2, "p").fill(17, 6, 3, 10, "p").fill(8, 6, 10, 2, "p").fill(8, 2, 3, 5, "p").fill(10, 0, 4, 3, "p");
+  b.fill(6, 9, 10, 5, "g").fill(13, 18, 8, 3, "g").fill(20, 2, 3, 4, "g");
+  b.set(5, 12, "r").set(18, 10, "r").set(9, 4, "r");
+  b.set(20, 6, "p").set(14, 17, "p");
+  b.sign(5, 21, "Calle Selección Natural. Solo los Microos más adaptados llegan a La UAB.");
+  b.item(21, 3, "medio-enriquecido", "item:csn-enriquecido", 3);
+  b.item(15, 20, "atp-concentrado", "item:csn-atp", 2);
+  b.item(7, 13, "glicerol", "item:csn-glicerol", 3, true);
+  b.npc({ id: "csn-marinero", x: 2, y: 24, sprite: "dependiente", dir: 3, script: "ferri" });
+  b.npc({ id: "csn-rival", x: 4, y: 18, sprite: "rival", dir: 0, hideIf: "rival4" });
+  b.trigger({ x: 3, y: 19, w: 3, script: "rivalFinal", once: "rival4" });
+  b.npc({ id: "csn-a", x: 10, y: 15, sprite: "estudiante", dir: 3, trainer: {
+    name: "Ferran", clase: "Catedrático Emérito", team: [["pyogenes", 54], ["agalactiae", 54], ["mutans", 53]], sight: 4, money: 260,
+    intro: "¡Llevo cuarenta años dando Microbiología! Veamos si has aprendido algo.", lose: "Aprobado. Con nota.", after: "La selección natural no tiene objetivo: solo sobreviven los que mejor se adaptan." } });
+  b.npc({ id: "csn-b", x: 18, y: 12, sprite: "chica", dir: 2, trainer: {
+    name: "Berta", clase: "Investigadora Ramón y Cajal", team: [["plasmodium", 54], ["toxoplasma", 54], ["naegleria", 55]], sight: 3, money: 260,
+    intro: "¡Cinco años de contrato y ni una plaza fija! ¡Descargo mi frustración contigo!", lose: "Al menos me queda la Ramón y Cajal…", after: "La UAB está al norte. El Alto Mando son catedráticos de verdad: no te confíes." } });
+  b.npc({ id: "csn-c", x: 12, y: 6, sprite: "chico", dir: 2, trainer: {
+    name: "Martí", clase: "Evolucionista", team: [["luca", 50], ["lokiarca", 54], ["cyanofossil", 55]], sight: 4, money: 260,
+    intro: "¡Desde LUCA hasta nosotros! ¡Cuatro mil millones de años de evolución!", lose: "La extinción es parte del proceso…", after: "LUCA vivió hace unos 4.000 millones de años. ¡Todos venimos de él!" } });
+  b.npc({ id: "csn-hernandez", x: 11, y: 2, sprite: "hernandez", dir: 0, script: "hernandezFinal", hideIf: "hernandez2", solid: true });
+  b.warp({ x: 10, y: 0, w: 4, to: "uab", tx: 9, ty: 14, dir: 1, keep: "x" });
+  b.encounters([
+    { sp: "pyogenes", min: 52, max: 55, w: 12 }, { sp: "agalactiae", min: 53, max: 55, w: 10 }, { sp: "treponema", min: 52, max: 55, w: 12 },
+    { sp: "trypanosom", min: 52, max: 55, w: 12 }, { sp: "yersinia", min: 53, max: 55, w: 8 }, { sp: "sulfolobus", min: 52, max: 55, w: 12 },
+    { sp: "alexandrium", min: 52, max: 54, w: 12 }, { sp: "agrobacter", min: 52, max: 54, w: 12 }, { sp: "filovir-z", min: 55, max: 55, w: 4 },
+    { sp: "pichiamax", min: 54, max: 55, w: 6 },
+  ]);
+  add(b.done({ music: "ruta" }));
+}
+
+// ---------------------------------------------------------------- La UAB
+{
+  const b = new MapBuilder("uab", "La UAB", 22, 16);
+  b.trees(0, 0, 22, 2).trees(0, 0, 2, 16).trees(20, 0, 2, 16);
+  b.fill(8, 9, 6, 7, "p").fill(2, 12, 18, 2, "p");
+  b.building(5, 2, { kind: "lab", w: 12, color: "rojo", door: 5, to: "uab-vestibulo", tx: 5, ty: 8 });
+  b.fill(2, 10, 4, 2, "f").fill(16, 10, 4, 2, "f").fill(3, 14, 4, 2, "~");
+  b.sign(14, 8, "Facultad de Biociencias de La UAB. Liga Micromón. Solo con las 8 medallas.");
+  b.npc({ id: "uab-estudiante", x: 15, y: 12, sprite: "estudiante", move: "pasear", talk: "Dicen que el Campeón es el mismísimo Louis Pasteur. ¡Con sus matraces de cuello de cisne!" });
+  b.warp({ x: 8, y: 15, w: 6, to: "calle-seleccion", tx: 10, ty: 1, dir: 0, keep: "x" });
+  add(b.done({ music: "ciudad" }));
+}
+{
+  const b = new MapBuilder("uab-vestibulo", "La UAB · Vestíbulo de la Liga", 11, 10, "L", "laboratorio", false);
+  b.fill(0, 0, 11, 1, "w").fill(0, 1, 11, 1, "W").set(1, 1, "i").set(2, 1, "i").set(8, 1, "e").set(9, 1, "e");
+  b.fill(0, 3, 4, 1, "c").fill(7, 3, 4, 1, "c").set(0, 8, "n").set(10, 8, "n").fill(4, 9, 3, 1, "a").set(5, 1, "E");
+  b.npc({ id: "uab-enfermera", x: 2, y: 2, sprite: "enfermera", dir: 0, script: "incubadora" });
+  b.npc({ id: "uab-tienda", x: 8, y: 2, sprite: "dependiente", dir: 0, script: "tienda:criobola-amarilla,medio-tsb,medio-enriquecido,solucion-salina,glicerol,atp-concentrado" });
+  b.npc({ id: "uab-guarda", x: 5, y: 2, sprite: "profesora", dir: 0, script: "guardaLiga", hideIf: "liga-abierta" });
+  b.npc({ id: "uab-guarda-2", x: 6, y: 2, sprite: "profesora", dir: 2, showIf: "liga-abierta", talk: "¡Mucha suerte! Recuerda: si pierdes contra cualquiera de ellos, tendrás que empezar de nuevo." });
+  b.warp({ x: 4, y: 9, w: 3, to: "uab", tx: 10, ty: 8, dir: 0 });
+  b.warp({ x: 5, y: 1, to: "liga-1", tx: 5, ty: 9, dir: 1 });
+  add(b.done({ music: "pueblo", onEnter: "registrarIncubadora" }));
+}
+const SALAS: [string, string, string][] = [
+  ["liga-1", "Laboratorio de la Dra. Tusell", "tusell"], ["liga-2", "Laboratorio del Dr. Martí", "marti"],
+  ["liga-3", "Laboratorio del Dr. Barbé", "barbe"], ["liga-4", "Laboratorio de la Dra. Llagostera", "llagostera"],
+  ["liga-5", "Rectorado de La UAB", "pasteur"],
+];
+SALAS.forEach(([id, name, who], k) => {
+  const b = new MapBuilder(id, `Liga Micromón · ${name}`, 11, 11, k === 4 ? "L" : "Y", "gimnasio", false);
+  if (k === 4) b.fill(4, 2, 3, 9, "a");
+  b.fill(0, 0, 11, 1, "w").fill(0, 1, 11, 1, "W").set(0, 2, "n").set(10, 2, "n");
+  if (k === 4) b.fill(0, 4, 3, 1, "K").fill(8, 4, 3, 1, "K");
+  else b.fill(0, 5, 3, 1, ["M", "B", "D", "1"][k]).fill(8, 5, 3, 1, ["M", "B", "D", "1"][k]);
+  b.set(5, 1, "E");
+  b.npc({ id: `liga-jefe-${k + 1}`, x: 4, y: 2, sprite: who, dir: 0, script: `liga:${k + 1}` });
+  b.trigger({ x: 0, y: 6, w: 11, script: `liga:${k + 1}`, once: `liga${k + 1}` });
+  b.npc({ id: `liga-puerta-${k + 1}`, x: 5, y: 2, sprite: "", hideIf: `liga${k + 1}`, solid: true, talk: "La puerta está cerrada. Primero tienes que vencer en este laboratorio." });
+  b.warp({ x: 5, y: 1, to: k < 4 ? `liga-${k + 2}` : "fosa-abisal", tx: 5, ty: 9, dir: 1 });
+  add(b.done({ music: k === 4 ? "campeon" : "gimnasio" }));
+});
+
+// ---------------------------------------------------------------- Fosa abisal (LUCA)
+{
+  const b = new MapBuilder("fosa-abisal", "Fosa Abisal", 11, 11, "X", "cueva", false);
+  b.fill(2, 2, 7, 9, "u").set(2, 2, "h").set(8, 2, "h").set(2, 9, "o").set(8, 9, "o");
+  b.npc({ id: "luca-legendario", x: 5, y: 3, sprite: "@microo:luca", script: "estatico:luca|70|luca", hideIf: "luca", solid: true });
+  b.npc({ id: "fosa-salida", x: 5, y: 10, sprite: "", talk: "Un ascensor de vuelta a La UAB.", script: "salirFosa" });
+  add(b.done({ music: "cueva" }));
 }
 
 /** Comprueba coherencia de mapas: destinos de warps dentro de los mapas existentes. */

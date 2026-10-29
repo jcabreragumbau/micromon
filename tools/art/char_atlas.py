@@ -20,18 +20,37 @@ REFS = {"urtaza": "ref1", "barbadilla": "ref2", "casillas": "ref3", "salazar": "
         "luquin": "luquin", "sole": "ref13", "tusell": "ref22", "pasteur": "ref23"}
 
 def step(im, d):
-    """Fotograma de paso: desplaza las piernas (6 filas inferiores con contenido) un píxel."""
-    a = im.copy()
-    bbox = im.getbbox()
-    if not bbox: return a
-    y1 = bbox[3]
-    legs = im.crop((0, y1 - 5, 32, y1))
-    a.paste((0, 0, 0, 0), (0, y1 - 5, 32, y1))
-    a.alpha_composite(legs, (d, 0 if d else 0) if False else (0, y1 - 5))
-    sh = Image.new("RGBA", (32, 32)); sh.alpha_composite(a.crop((0, 0, 32, y1 - 5)), (0, 0))
-    l = legs.crop((0, 0, 16, 5)); r = legs.crop((16, 0, 32, 5))
-    sh.alpha_composite(l, (0, y1 - 5 - (1 if d > 0 else 0))); sh.alpha_composite(r, (16, y1 - 5 - (1 if d < 0 else 0)))
-    return sh
+    """Fotograma de paso: una pierna se levanta 2 px y se abre 1 px; la otra queda apoyada. d = +1 / -1 elige la pierna."""
+    import numpy as np
+    a = np.array(im.convert("RGBA"))
+    ys, xs = np.where(a[..., 3] > 0)
+    if not len(ys): return im.copy()
+    y1, x0, x1 = ys.max() + 1, xs.min(), xs.max() + 1
+    cx = (x0 + x1) // 2
+    leg_top = y1 - 5
+    out = a.copy()
+    out[leg_top:y1] = 0
+    legs = a[leg_top:y1]
+    left, right = legs.copy(), legs.copy()
+    left[:, cx:] = 0; right[:, :cx] = 0
+    lift, keep = (right, left) if d > 0 else (left, right)
+    side = 1 if d > 0 else -1
+    # pierna apoyada
+    m = keep[..., 3] > 0
+    out[leg_top:y1][m] = keep[m]
+    # pierna levantada: sube 2 px y se separa 1 px
+    lifted = np.zeros_like(legs)
+    lifted[:-2] = lift[2:]
+    lifted = np.roll(lifted, side, axis=1)
+    m = lifted[..., 3] > 0
+    region = out[leg_top:y1]
+    region[m] = lifted[m]
+    # leve rebote del cuerpo: 1 px arriba
+    body = out[:leg_top].copy()
+    out[:leg_top] = 0
+    out[max(0, -1):leg_top - 1] = body[1:]
+    out[leg_top - 1][a[leg_top - 1][..., 3] > 0] = a[leg_top - 1][a[leg_top - 1][..., 3] > 0]
+    return Image.fromarray(out, "RGBA")
 
 def ref_sheet(prefix):
     out = Image.new("RGBA", (96, 128))

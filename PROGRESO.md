@@ -96,5 +96,19 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Isla Conjugada: Instituto Carlos III (revive fósiles; regala Lokiarca tras la Mansión), Mansión de las Cepas (diarios sobre el origen de O157, reclutas, laboratorio profundo con el combate final contra Martínez-Urtaza y el legendario E. coli O157:H7 a Nv60) y Gimnasio Fago de la Dra. Susana Campoy (Medalla Lisogenia), cerrado hasta resolver la Mansión.
 - 16 Microos nuevos (`tools/art/designs9.py`): virus finales, fósiles, Lokiarca, LUCA, legendarios y evoluciones de Pleomorph. Quedan 20 especies con dibujo de familia (sobre todo del Alto Mando).
 
+## Noveno tramo: Calle Selección Natural y Liga (hecho)
+- Ferri a la Calle Selección Natural con 8 medallas: combate final contra el rival Koch (6 Microos, inicial en su última fase) y contra la Dra. Alba Hernández, que por fin lucha y se rinde.
+- La UAB: vestíbulo con Incubadora, tienda y bedel (exige 8 medallas). Alto Mando en salas seguidas (Tusell, Martí, Barbé, Llagostera) y Campeón Dr. Louis Pasteur en el Rectorado; si pierdes, vuelves a empezar la Liga. Al ganar: Registro de Cepas Tipo (salón de la fama), créditos, vuelta a casa con guardado automático y acceso a la Fosa Abisal con LUCA (Nv70).
+- Sprites nuevos para Martí, Barbé y Llagostera. Los 162 Microos tienen ya diseño propio (`designs10.py` con las 20 últimas especies).
+
+## Pulido (hecho)
+- Congelador de cepas (PC) en las Incubadoras: retirar y depositar Microos, con lista, iconos y ficha.
+- Música y efectos sintetizados con WebAudio (`src/game/audio.ts`): tema por zona, combate salvaje/entrenador/líder, fanfarria de victoria, efectos de menú, choque, golpe, debilitamiento, captura, subida de nivel y curación. Opciones para quitar música o efectos (se guardan).
+- Fuente: À È Ò à è ò, raya (—), subíndice ₂, guion bajo, +, * y &.
+- Retratos de Guàrdia, Campoy, Yero, Gajú, Solé y Tusell recortados de nuevo con GrabCut guiado (`tools/art/ports_fix.py`).
+- Pasos visibles para los personajes convertidos del GDD (una pierna se levanta, rebote del cuerpo).
+- Equilibrio: Conchillo y Llagostera más asequibles; Luquin y Urtaza final más duros (simulador: gimnasios 57–93 %, Alto Mando 58–85 %, Campeón 65 %).
+- Playtest dividido: `PART=early` (hasta la 4.ª medalla) y `PART=late` (de la 5.ª al final, con estado preparado); cada mitad tarda menos de 10 minutos.
+
 ## Siguiente tarea
-Fase 4: Calle Selección Natural y Liga (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
+Posibles mejoras: más diálogos y misiones secundarias, intercambio/conjugación, Microdex con hábitats (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

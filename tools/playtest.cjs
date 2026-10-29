@@ -58,6 +58,12 @@ const path = require("node:path");
   const pos = () => G(() => ({ map: window.micromon.state.map, x: window.micromon.scene.px, y: window.micromon.scene.py }));
   await G(() => (window.micromon.turbo = 3));
 
+  const beat = async (tag) => { for (let i = 0; i < 300 && !(await idle()); i++) { if ((await scene()) === "BattleScene") { await autobattle(tag, false); continue; } await press("a", 1, 80); } };
+  const strong = () => G(() => { const g = window.micromon, e = micromonDebug.engine; g.state.party = [e.createMicroo("thermocel", 40), e.createMicroo("anthracis", 38), e.createMicroo("pinnularia", 38), e.createMicroo("spirulmax", 38)]; });
+  // PART=early: del principio a la 4.ª medalla · PART=late: de la 5.ª medalla al final (con un estado preparado)
+  const PART = process.env.PART ?? "all";
+  const R = {};
+  if (PART !== "late") {
   // --- Título y presentación
   await shot("01-titulo"); await press("a", 1, 300); await press("a", 1, 500);
   for (let i = 0; i < 60 && !(await G(() => window.micromon.overlays.some((o) => o.ov.constructor.name === "AvatarSelect"))); i++) await press("a");
@@ -180,8 +186,7 @@ const path = require("node:path");
   for (let i = 0; i < 300 && !(await idle()); i++) { if ((await scene()) === "BattleScene") { await autobattle("53b", false); continue; } await press("a", 1, 80); }
   const tramo3 = { mascara, guarda, enCA, lux, badges: await G(() => window.micromon.state.badges) };
   // --- Cuarto tramo: Pueblo Levadura, casino, guarida, Torre Prión y Gimnasio 4
-  const beat = async (tag) => { for (let i = 0; i < 300 && !(await idle()); i++) { if ((await scene()) === "BattleScene") { await autobattle(tag, false); continue; } await press("a", 1, 80); } };
-  const strong = () => G(() => { const g = window.micromon, e = micromonDebug.engine; g.state.party = [e.createMicroo("thermocel", 40), e.createMicroo("anthracis", 38), e.createMicroo("pinnularia", 38), e.createMicroo("spirulmax", 38)]; });
+  await G(() => { window.micromon.noEncounters = true; });
   await strong();
   await G(() => micromonDebug.enterWorld(window.micromon, "pueblo-levadura", 15, 7, 1)); await page.waitForTimeout(800); await shot("54-pueblo-levadura");
   await G(() => micromonDebug.enterWorld(window.micromon, "torre-prion-1", 9, 4, 1)); await page.waitForTimeout(800);
@@ -223,6 +228,14 @@ const path = require("node:path");
   await page.waitForTimeout(900); await shot("67-yero");
   await beat("68-yero");
   const tramo4 = { fich, guarida, blot, vir, badges: await G(() => window.micromon.state.badges) };
+  Object.assign(R, { st1, st2, trainerFlag, wild, tramo2: { hifas, enCueva, salazar, disco, rival3, st3 }, tramo3, tramo4 });
+  } else {
+    await G(() => { const g = window.micromon, s = g.state; Object.assign(s.flags, { starter: "butyricum", rivalStarter: "paramec", inicial: true, microdex: true, labIntro: true });
+      s.badges = ["probiotico", "tapete", "micelio", "catalasa"]; s.money = 20000; });
+    await strong();
+  }
+  if (PART !== "early") {
+  await G(() => { window.micromon.noEncounters = true; });
   // --- Quinto tramo: Ruta 7, Ciudad Agar, Reserva Microbiana y Gimnasio 5
   await G(() => micromonDebug.enterWorld(window.micromon, "ruta-7", 20, 9, 3)); await page.waitForTimeout(800); await shot("69-ruta7");
   await G(() => micromonDebug.enterWorld(window.micromon, "ciudad-agar", 14, 5, 1)); await page.waitForTimeout(800); await shot("70-ciudad-agar");
@@ -325,6 +338,50 @@ const path = require("node:path");
   await page.waitForTimeout(900); await shot("98-campoy");
   await beat("99-campoy");
   const tramo8 = { ferryMap, slid, fosil, revivido, u3, o157: await G(() => [window.micromon.state.seen.includes("ecoli-o157"), !!window.micromon.state.flags.o157]), badges: await G(() => window.micromon.state.badges.length) };  if (process.env.BLOG) console.error(blog.filter((l) => l.startsWith(process.env.BLOG)).join("\n"));
-  console.log(JSON.stringify({ errors, st1, st2, trainerFlag, wild, tramo2: { hifas, enCueva, salazar, disco, rival3, st3 }, tramo3, tramo4, tramo5, tramo6, tramo7, tramo8 }, null, 0));
+
+  // --- Noveno tramo: Calle Selección Natural, Liga en La UAB, créditos y LUCA
+  const strong5 = () => G(() => { const g = window.micromon, e = micromonDebug.engine; g.state.party = [e.createMicroo("thermocel", 72), e.createMicroo("spirulmax", 71), e.createMicroo("stentorox", 71), e.createMicroo("tuberculos", 70), e.createMicroo("anthracis", 70), e.createMicroo("t4-titan", 70)]; g.state.bag["criobola-amarilla"] = 30; g.state.bag["medio-enriquecido"] = 20; });
+  await strong5();
+  await G(() => micromonDebug.enterWorld(window.micromon, "isla-conjugada", 12, 21, 0)); await page.waitForTimeout(800);
+  await press("a", 1, 300);
+  for (let i = 0; i < 20 && !(await G(() => !!window.micromon.overlays.at(-1)?.ov.options)); i++) await press("a", 1, 150);
+  const ferriOpts = await G(() => window.micromon.overlays.at(-1)?.ov.options);
+  await G(() => { const ov = window.micromon.overlays.at(-1)?.ov; if (ov?.options) ov.sel = ov.options.indexOf("Calle Selección Natural"); });
+  await press("a", 1, 400); await advance(); await page.waitForTimeout(400);
+  const enCalle = await G(() => window.micromon.state.map);
+  await shot("100-calle");
+  await G(() => micromonDebug.enterWorld(window.micromon, "calle-seleccion", 4, 20, 1)); await page.waitForTimeout(600);
+  await walk("up", 1); await beat("101-rival-final");
+  const rival4 = await G(() => !!window.micromon.state.flags.rival4);
+  await strong5();
+  await G(() => micromonDebug.enterWorld(window.micromon, "calle-seleccion", 11, 3, 1)); await page.waitForTimeout(600);
+  await press("a", 1, 200); await beat("102-hernandez");
+  const h2 = await G(() => !!window.micromon.state.flags.hernandez2);
+  await G(() => micromonDebug.enterWorld(window.micromon, "uab", 10, 9, 1)); await page.waitForTimeout(800); await shot("103-uab");
+  await G(() => micromonDebug.enterWorld(window.micromon, "uab-vestibulo", 5, 3, 1)); await page.waitForTimeout(800);
+  await press("a", 1, 300); await advance();
+  const abierta = await G(() => !!window.micromon.state.flags["liga-abierta"]);
+  const ligaRes = [];
+  for (let k = 1; k <= 5; k++) {
+    await strong5();
+    await G((k) => micromonDebug.enterWorld(window.micromon, `liga-${k}`, 5, 8, 1), k); await page.waitForTimeout(700);
+    if (k === 5) await shot("104-rectorado");
+    await walk("up", 1); await walk("up", 1);
+    for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
+    if (k === 5) { await page.waitForTimeout(800); await shot("105-pasteur"); }
+    for (let i = 0; i < 900 && !(await idle()); i++) {
+      if ((await scene()) === "BattleScene") { await autobattle(`106-liga${k}`, false); continue; }
+      const t = await top();
+      if (k === 5 && (t === "HallOfFame" || t === "Credits") && !ligaRes.includes(t)) { ligaRes.push(t); await page.waitForTimeout(t === "Credits" ? 3000 : 600); await shot(t === "Credits" ? "108-creditos" : "107-registro"); }
+      await press("a", 1, 60);
+    }
+    ligaRes.push(await G((k) => !!window.micromon.state.flags[`liga${k}`], k));
+  }
+  const fin = await G(() => [!!window.micromon.state.flags.campeon, window.micromon.state.map]);
+  await G(() => micromonDebug.enterWorld(window.micromon, "fosa-abisal", 5, 4, 1)); await page.waitForTimeout(600); await shot("109-luca");
+  await press("a", 1, 300); await beat("110-luca");
+  const tramo9 = { ferriOpts, enCalle, rival4, h2, abierta, ligaRes, fin, luca: await G(() => [window.micromon.state.seen.includes("luca"), !!window.micromon.state.flags.luca]) };  Object.assign(R, { tramo5, tramo6, tramo7, tramo8, tramo9 });
+  }
+  console.log(JSON.stringify({ errors, ...R }, null, 0));
   await browser.close();
 })();

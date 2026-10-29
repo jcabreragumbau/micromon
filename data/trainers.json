@@ -191,39 +191,19 @@
   "team": [
    {
     "species": "pneumoniae",
-    "level": 41,
-    "moves": [
-     "secuestro-ribosomal",
-     "forma-l-pleomorfismo",
-     "interferencia-de-arn-rnai"
-    ]
+    "level": 39
    },
    {
     "species": "aquaticus",
-    "level": 42,
-    "moves": [
-     "hipermutacion-dirigida",
-     "chorro-metano-ardiente",
-     "reparacion-por-escision"
-    ]
+    "level": 40
    },
    {
     "species": "radiolaria",
-    "level": 43,
-    "moves": [
-     "onda-quimiotactica",
-     "cambio-de-serotipo",
-     "chorro-citoplasmatico"
-    ]
+    "level": 41
    },
    {
     "species": "pyrolobus",
-    "level": 45,
-    "moves": [
-     "explosion-metanogenica",
-     "envoltura-s-layer",
-     "ultracentrifuga"
-    ]
+    "level": 44
    }
   ]
  },
@@ -235,30 +215,15 @@
   "team": [
    {
     "species": "nocardia",
-    "level": 45,
-    "moves": [
-     "acidos-micolicos",
-     "fluorescencia-dapi",
-     "estres-oxidativo"
-    ]
+    "level": 47
    },
    {
     "species": "aeruginosa",
-    "level": 46,
-    "moves": [
-     "pigmento-piocianina",
-     "limo-polimerico",
-     "secrecion-mucopurulenta"
-    ]
+    "level": 48
    },
    {
     "species": "baumannii",
-    "level": 47,
-    "moves": [
-     "resistencia-persister",
-     "membrana-externa-lps",
-     "eflujo-multidrogas"
-    ]
+    "level": 48
    },
    {
     "species": "tuberculos",
@@ -427,29 +392,23 @@
   "team": [
    {
     "species": "yersinia",
-    "level": 59
+    "level": 58
    },
    {
     "species": "anthracis",
-    "level": 60
+    "level": 59
    },
    {
     "species": "retrovir-x",
+    "level": 59
+   },
+   {
+    "species": "pandoravir",
     "level": 60
    },
    {
     "species": "filovir-z",
     "level": 61
-   },
-   {
-    "species": "pandoravir",
-    "level": 62,
-    "moves": [
-     "estallido-litico",
-     "furia-fagica",
-     "choque-osmotico-masivo",
-     "nanocables-geobacter"
-    ]
    }
   ]
  },
@@ -527,37 +486,19 @@
   "team": [
    {
     "species": "parahaemolyticus",
-    "level": 52,
-    "moves": [
-     "flagelo-polar",
-     "exotoxina-letal",
-     "onda-choque-osmotico"
-    ]
+    "level": 55
    },
    {
     "species": "vulnificus",
-    "level": 53,
-    "moves": [
-     "transferencia-horizontal",
-     "fagocitosis",
-     "secuestro-ribosomal"
-    ]
+    "level": 55
    },
    {
     "species": "tuberculos",
-    "level": 54,
-    "moves": [
-     "acidos-micolicos",
-     "tormenta-liofilizadora"
-    ]
+    "level": 56
    },
    {
     "species": "t4-titan",
-    "level": 55,
-    "moves": [
-     "estallido-litico",
-     "ariete-bacteriofago"
-    ]
+    "level": 56
    },
    {
     "species": "pandoravir",

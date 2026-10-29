@@ -1,5 +1,6 @@
 // Núcleo: bucle de 60 fps, escena base y pila de capas (diálogos, menús, fundidos).
 import { Gfx, W, H, TB, type TextColor } from "./gfx";
+import { audio } from "./audio";
 import { Input } from "./input";
 import { newState, type GameState } from "./state";
 
@@ -35,6 +36,8 @@ export class Game {
   step() {
     for (let k = 0; k < this.turbo; k++) {
       this.input.tick();
+      if (["a", "b", "start", "up", "down", "left", "right"].some((k) => this.input.pressed(k as "a"))) audio.unlock();
+      if (this.overlays.length && this.input.pressed("a")) audio.sfx("blip");
       this.frame++;
       this.state.playFrames++;
       this.scene?.animate?.(this);
@@ -73,6 +76,8 @@ export class Game {
   keptDialog: Dialog | null = null;
   fade(out: boolean, frames = 16): Promise<void> { return this.run(new Fade(out, frames)) as Promise<void>; }
   blackout = 0;
+  /** Solo para pruebas: desactiva los encuentros salvajes. */
+  noEncounters = false;
   /** Sustituye {nombre}, {rival} y {o} (terminación de género: o / a). */
   fill(t: string) {
     return t.replaceAll("{nombre}", this.state.name).replaceAll("{rival}", this.state.rival)

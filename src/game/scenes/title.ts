@@ -1,5 +1,6 @@
 // Pantalla de título, presentación de la Profesora y creación de partida.
 import type { Game, Scene } from "../game";
+import { audio } from "../audio";
 import { Gfx, W, H } from "../gfx";
 import { Overworld } from "./overworld";
 import { newState, loadGame, hasSave, AVATAR_SPRITE, type Avatar } from "../state";
@@ -9,6 +10,7 @@ export class TitleScene implements Scene {
   t = 0; busy = false;
   update(game: Game) {
     this.t++;
+    if (this.t === 1) audio.music("ciudad");
     if (this.busy) return;
     if (game.input.pressed("a") || game.input.pressed("start")) { this.busy = true; this.menu(game).finally(() => (this.busy = false)); }
   }
@@ -18,7 +20,7 @@ export class TitleScene implements Scene {
     if (c < 0) return;
     if (opts[c] === "CONTINUAR") {
       const s = loadGame();
-      if (s) { game.state = s; return enterWorld(game, s.map, s.x, s.y, s.dir); }
+      if (s) { game.state = s; audio.musicOn = !s.flags.sinMusica; audio.sfxOn = !s.flags.sinEfectos; return enterWorld(game, s.map, s.x, s.y, s.dir); }
     }
     await newGame(game);
   }
