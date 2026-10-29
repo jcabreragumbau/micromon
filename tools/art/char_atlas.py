@@ -10,7 +10,7 @@ import json, sys
 from pathlib import Path
 from PIL import Image
 sys.path.insert(0, str(Path(__file__).parent))
-import characters
+import characters_ds as characters
 
 ROOT = Path(__file__).resolve().parents[2]
 C = ROOT / "assets/sprites/characters"

@@ -47,7 +47,10 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Pantalla a 256×192 (DS). Microos a 80×80 con sombreado volumétrico (normales desde la forma, 6 tonos, contorno teñido, luz reflejada), ojos con iris y brillos, colmillos en fases finales, patitas y bracitos.
 - Tileset nuevo de 152 tiles: autotile de caminos, arena y agua con orillas, árboles con volumen y sombra, tejados con tejas, muros con ventanas enmarcadas.
 - Combate: fondos con cielo, suelo y plataformas con relieve; cajas de PS estilo DS.
-- Pendiente: diseños a mano por especie, personajes de mapa más detallados, menús de equipo y mochila estilo DS.
+- Diseños a mano por especie (`tools/art/designs1.py`, `designs2.py`): las 3 líneas iniciales y los 29 Microos del primer tramo (Ruta 1, Bosque Viral, Gimnasio 1 y evoluciones). Cada uno con concepto de criatura propio (brote de hojas, cola de llama, campana con cilios, cápside icosaédrica...).
+- Personajes de mapa nuevos (`tools/art/characters_ds.py`): figura de ~26 px con cabeza grande, sombreado de 4 tonos por material, brillo en los ojos, contorno teñido, sombra en el suelo y animación de paso real (piernas alternas, balanceo de brazos, rebote).
+- Pendiente: menús de equipo, mochila y Microdex estilo DS; pasos de los líderes convertidos del GDD; diseños a mano del resto de especies.
+- Nota: el combate contra Solé con un equipo Nv25+22 se gana o se pierde según la suerte (revisar en fase 5).
 
 ## Siguiente tarea
 Fase 4: Monte Micelio en adelante (gimnasios 2–8 y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

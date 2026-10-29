@@ -169,3 +169,8 @@ if __name__ == "__main__":
     for mid in (sys.argv[1:] or DESIGNS):
         export(mid)
     print("OK", list(sys.argv[1:] or DESIGNS))
+
+from designs1 import DESIGNS1
+DESIGNS.update(DESIGNS1)
+from designs2 import DESIGNS2
+DESIGNS.update(DESIGNS2)
