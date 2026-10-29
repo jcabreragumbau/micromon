@@ -1,6 +1,6 @@
 // Punto de entrada del juego en el navegador.
 import { Game } from "./game";
-import { DexDetail } from "./scenes/menus";
+import { DexDetail, BadgeGet } from "./scenes/menus";
 import { W, H } from "./gfx";
 import { loadAssets } from "./assets";
 import { TitleScene, enterWorld } from "./scenes/title";
@@ -18,7 +18,7 @@ async function boot() {
   game.scene = new TitleScene();
   game.start();
   (window as unknown as { micromon: Game }).micromon = game;   // para pruebas automáticas
-  (window as unknown as { micromonDebug: unknown }).micromonDebug = { runScript, wildBattle, enterWorld, MAPS, engine, startBattle, battleFor, DexDetail };
+  (window as unknown as { micromonDebug: unknown }).micromonDebug = { runScript, wildBattle, enterWorld, MAPS, engine, startBattle, battleFor, DexDetail, BadgeGet };
   const fit = () => {
     const s = Math.max(1, Math.floor(Math.min((window.innerWidth - 32) / W, (window.innerHeight - (pad && getComputedStyle(pad).display !== "none" ? 170 : 0)) / H)));
     canvas.style.width = `${W * s}px`; canvas.style.height = `${H * s}px`; canvas.style.maxWidth = "100%";
@@ -30,9 +30,9 @@ boot().catch((e) => { document.body.insertAdjacentHTML("beforeend", `<pre style=
 // Al conectar un mando, la ayuda muestra sus botones.
 window.addEventListener("gamepadconnected", () => {
   const el = document.getElementById("ayuda");
-  if (el) el.textContent = "Mando: joystick o cruceta para moverse · B: aceptar (A) · A: cancelar / mantener para correr · Menú: START";
+  if (el) el.textContent = "Mando: joystick o cruceta para moverse · B: aceptar (A) · A: cancelar / mantener para correr · Menú: START · Y o RB: velocidad ×2";
 });
 window.addEventListener("gamepaddisconnected", () => {
   const el = document.getElementById("ayuda");
-  if (el) el.textContent = "Mando desconectado. Flechas: moverse · Z / Espacio: A · X / Esc: B (mantén para correr) · Intro: menú";
+  if (el) el.textContent = "Mando desconectado. Flechas: moverse · Z / Espacio: A · X / Esc: B (mantén para correr) · Intro: menú · Tab o V: velocidad ×2";
 });

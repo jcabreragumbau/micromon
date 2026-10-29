@@ -6,6 +6,7 @@ import tilesMeta from "../../assets/atlas/tiles.json";
 import charMeta from "../../assets/atlas/personajes.json";
 import microMeta from "../../assets/atlas/microos.json";
 import propsMeta from "../../assets/atlas/props_hd.json";
+import medalMeta from "../../assets/atlas/medallas_hd.json";
 
 export const IMG: Record<string, HTMLImageElement> = {};
 export const FONT = fontMeta as unknown as { cell: [number, number]; cols: number; height: number; glyphs: Record<string, [number, number]> };
@@ -23,3 +24,5 @@ export async function loadAssets(): Promise<void> {
 }
 /** Ilustraciones HD de edificios y árboles (rectángulo en el atlas, puerta y fachada en px del atlas). */
 export const PROPS = propsMeta as unknown as Record<string, { x: number; y: number; w: number; h: number; door?: [number, number]; wall?: [number, number] }>;
+/** Medallas HD: celdas cuadradas en el orden en que se ganan. */
+export const MEDALS = medalMeta as { cell: number; order: string[] };

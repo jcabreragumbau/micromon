@@ -27,6 +27,10 @@ export class BattleScene implements Scene {
   disp: Disp[][] = [[], []];
   msg = "";
   ballAnim = 0; ballShake = 0;
+  /** La Criobola descansa en la placa (tras absorber al Microo). */
+  ballRest = false;
+  /** Microo siendo absorbido por la Criobola: hueco y fotogramas restantes (de 16 a 0). */
+  absorb: { slot: number; t: number } | null = null;
   trainerSlide = 0; showTrainer = false;
   finished: BattleOutcome | null = null;
 
@@ -47,6 +51,7 @@ export class BattleScene implements Scene {
       if (d.drop > 0 && d.drop < 48) d.drop += 3;
     }
     if (this.ballAnim > 0) this.ballAnim--;
+    if (this.absorb && this.absorb.t > 0) this.absorb.t--;
     if (this.trainerSlide > 0) this.trainerSlide -= 4;
   }
 
@@ -88,17 +93,17 @@ export class BattleScene implements Scene {
       if (c === 0) {
         if (balls <= 0) { await this.text("¡No te quedan Criobolas Verdes!"); continue; }
         g.state.flags.safariBalls = balls - 1;
-        this.ballAnim = 30; await this.text("¡Lanzas una Criobola Verde!"); await g.wait(20);
+        audio.sfx("ball"); this.ballAnim = 30; await this.text("¡Lanzas una Criobola Verde!");
         const mult = 1.5 * (calm > 0 ? 0.75 : 1) * (angry > 0 ? 2 : 1);
         const { caught, shakes } = captureCheck(f.mon, mult, rng);
-        this.disp[1][0].visible = false;
+        await this.absorbInto(0);
         for (let i = 0; i < shakes; i++) { this.ballShake = 1; await g.wait(12); this.ballShake = -1; await g.wait(12); this.ballShake = 0; await g.wait(16); }
         if (caught) {
           await this.text(`¡Ya está! ¡Has aislado a ${displayName(f.mon)}!`, true);
           b.captured = f.mon; b.outcome = "capture"; b.ended = true;
           return this.finish();
         }
-        this.ballAnim = 0; this.disp[1][0].visible = true;
+        this.release(0);
         await this.text(shakes === 0 ? "¡Oh, no! ¡El Microo se ha escapado!" : "¡Casi lo tenías!");
         if (balls - 1 <= 0) { await this.text("¡Se te han acabado las Criobolas Verdes!"); return { outcome: "run" }; }
       }
@@ -267,11 +272,19 @@ export class BattleScene implements Scene {
         break;
       }
       case "learnPending": await this.learnPrompt(e.uid as number, e.move as string); break;
-      case "ball": audio.sfx("ball"); this.ballAnim = 30; await this.text(e.text); await g.wait(20); break;
+      case "ball":
+        audio.sfx("ball"); this.ballAnim = 30;
+        // si va a haber captura, la Criobola se queda en la placa al caer
+        this.ballRest = !!this.s.wild && this.disp[1].filter((d) => d?.visible && d.mon).length === 1;
+        await this.text(e.text);
+        if (!this.ballRest) await g.wait(20);
+        break;
       case "shake": {
         const n = e.shakes as number;
+        const slot = Math.max(0, this.disp[1].findIndex((d) => d?.visible && d.mon));
+        await this.absorbInto(slot);
         for (let i = 0; i < n; i++) { this.ballShake = 1; await g.wait(12); this.ballShake = -1; await g.wait(12); this.ballShake = 0; await g.wait(16); }
-        if (n < 3 || !(this.b.outcome === "capture")) this.ballAnim = 0;
+        if (!(this.b.outcome === "capture")) this.release(slot);
         break;
       }
       case "capture": audio.sfx("capture"); this.disp[1][0].visible = false; await this.text(e.text, true); break;
@@ -301,6 +314,25 @@ export class BattleScene implements Scene {
     await this.text(`1, 2 y… ¡zas! ${displayName(m)} ha olvidado ${old} y ha aprendido ${name}.`, true);
   }
 
+  /** La Criobola cae, se abre y el Microo se encoge dentro de ella hasta desaparecer. */
+  private async absorbInto(slot: number) {
+    const g = this.game;
+    if (this.ballAnim > 0) await g.wait(this.ballAnim);
+    this.ballRest = true;
+    this.absorb = { slot, t: 16 };
+    audio.sfx("ball");
+    await g.wait(17);
+    if (this.disp[1][slot]) this.disp[1][slot].visible = false;
+    this.absorb = null;
+    await g.wait(10);
+  }
+  /** El Microo se libera: la Criobola desaparece y vuelve a aparecer en la placa. */
+  private release(slot: number) {
+    this.ballRest = false; this.ballAnim = 0;
+    const d = this.disp[1][slot];
+    if (d) { d.visible = true; d.appear = 20; }
+  }
+
   // ---------------------------------------------------------------- dibujo
   /** Posición y escala de cada Microo en la placa (individual o doble). */
   private spot(side: 0 | 1, slot: number): [number, number, number] {
@@ -317,10 +349,18 @@ export class BattleScene implements Scene {
       const [x, y, k] = this.spot(1, slot);
       const blink = (f.flash > 0 && Math.floor(f.flash / 4) % 2 === 0) || (this.aim === slot && Math.floor(frame / 8) % 2 === 0);
       const sc = (f.appear > 0 ? 1 - f.appear / 24 : 1) * k;
+      if (this.absorb && this.absorb.slot === slot) {
+        // se encoge hacia la Criobola con un destello rojo
+        const q = this.absorb.t / 16, s2 = Math.max(0.05, q) * k;
+        const cx = 192 + 6 + (x + 32 * k - 198) * q, cy = 66 + 6 + (y + 40 * k - 72) * q;
+        g.alpha(0.35 + 0.65 * q, () => g.microo(f.species, "frente", cx - 32 * s2, cy - 40 * s2, s2));
+        g.alpha(0.5 * (1 - q), () => g.round(cx - 10 * (1 - q) - 2, cy - 10 * (1 - q) - 2, 20 * (1 - q) + 4, 20 * (1 - q) + 4, 12, "#ff5050"));
+        return;
+      }
       if (!blink) g.alpha(f.drop > 0 ? Math.max(0, 1 - f.drop / 48) : 1, () => g.microo(f.species, "frente", x + 40 * (k - sc), y + f.drop + 80 * (k - sc), sc));
     });
     // Criobola lanzada
-    if (this.ballAnim > 0 || this.ballShake !== 0) {
+    if (this.ballAnim > 0 || this.ballShake !== 0 || this.ballRest) {
       const t = Math.max(0, this.ballAnim) / 30;
       const bx = 192 - t * 120 + this.ballShake * 2, by = 66 - Math.sin((1 - t) * Math.PI) * (t > 0 ? 34 : 0);
       drawBallBig(g, bx, by);

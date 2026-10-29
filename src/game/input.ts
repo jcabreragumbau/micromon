@@ -1,7 +1,7 @@
 // Entrada: teclado, botones táctiles y mando (API Gamepad).
 // Teclado: A = Z/Espacio, B = X/Escape/Retroceso (correr), START = Intro.
 // Mando de Xbox (disposición estándar): botón B = A, botón A = B (correr/cancelar), Menú = START,
-// cruceta o joystick izquierdo = moverse.
+// cruceta o joystick izquierdo = moverse, Y o RB = velocidad ×2. Teclado: Tab o V = velocidad ×2.
 export type Key = "up" | "down" | "left" | "right" | "a" | "b" | "start";
 const MAP: Record<string, Key> = {
   ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right",
@@ -18,9 +18,13 @@ export class Input {
   private padHeld = new Set<Key>();
   /** Nombre del mando conectado (o null). */
   pad: string | null = null;
+  /** Pulsación pendiente del botón de velocidad ×2 (Tab / V, botón Y o RB del mando, botón táctil). */
+  speedToggle = false;
+  private padSpeed = false;
 
   attach(target: Window = window) {
     target.addEventListener("keydown", (e) => {
+      if ((e.code === "Tab" || e.code === "KeyV") && !e.repeat) { e.preventDefault(); this.speedToggle = true; return; }
       const k = MAP[e.code]; if (!k) return;
       e.preventDefault();
       if (!this.held.has(k)) this.queued.add(k);
@@ -31,6 +35,7 @@ export class Input {
   }
   /** Botones táctiles: elementos con data-key. */
   attachTouch(root: HTMLElement) {
+    root.querySelectorAll<HTMLElement>("[data-speed]").forEach((el) => el.addEventListener("pointerdown", (e) => { e.preventDefault(); this.speedToggle = true; }));
     root.querySelectorAll<HTMLElement>("[data-key]").forEach((el) => {
       const k = el.dataset.key as Key;
       const on = (e: Event) => { e.preventDefault(); if (!this.held.has(k)) this.queued.add(k); this.held.add(k); el.classList.add("on"); };
@@ -47,7 +52,7 @@ export class Input {
   private pollPad() {
     const pads = typeof navigator !== "undefined" && navigator.getGamepads ? navigator.getGamepads() : [];
     const now = new Set<Key>();
-    let name: string | null = null;
+    let name: string | null = null, speed = false;
     for (const gp of pads) {
       if (!gp || !gp.connected) continue;
       name ??= gp.id;
@@ -55,6 +60,7 @@ export class Input {
       if (btn(1)) now.add("a");        // B del mando de Xbox: confirmar
       if (btn(0)) now.add("b");        // A del mando de Xbox: correr / cancelar
       if (btn(9)) now.add("start");    // Menú
+      if (btn(3) || btn(5)) speed = true; // Y o RB: velocidad ×2
       if (btn(12)) now.add("up"); if (btn(13)) now.add("down"); if (btn(14)) now.add("left"); if (btn(15)) now.add("right");
       // joystick izquierdo: solo el eje dominante, para no moverse en diagonal
       const x = gp.axes[0] ?? 0, y = gp.axes[1] ?? 0, DEAD = 0.5;
@@ -64,6 +70,8 @@ export class Input {
     }
     for (const k of now) if (!this.padHeld.has(k) && !this.held.has(k)) this.queued.add(k);
     this.padHeld = now;
+    if (speed && !this.padSpeed) this.speedToggle = true;
+    this.padSpeed = speed;
     this.pad = name;
   }
 

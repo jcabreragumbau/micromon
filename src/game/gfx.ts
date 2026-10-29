@@ -1,5 +1,5 @@
 // Dibujo sobre un lienzo de 256×192 (pantalla de DS) sin suavizado: tiles, sprites, texto con la fuente propia y marcos.
-import { IMG, FONT, TILES, CHARS, MICRO } from "./assets";
+import { IMG, FONT, TILES, CHARS, MICRO, MEDALS } from "./assets";
 
 export const W = 256, H = 192;
 /** Resolución interna: el lienzo mide W·R × H·R y todo se dibuja en coordenadas lógicas (256×192).
@@ -81,6 +81,16 @@ export class Gfx {
       this.ctx.save(); this.ctx.translate(Math.round(x) + C * scale, Math.round(y)); this.ctx.scale(-1, 1);
       this.ctx.drawImage(img, sx, sy, C, C, 0, 0, C * scale, C * scale); this.ctx.restore();
     } else this.ctx.drawImage(img, sx, sy, C, C, Math.round(x), Math.round(y), C * scale, C * scale);
+  }
+  /** Medalla HD (size×size). Sin conseguir: silueta oscura. */
+  medal(id: string, x: number, y: number, size: number, got = true) {
+    const i = MEDALS.order.indexOf(id);
+    if (i < 0 || !IMG.medallas_hd) return;
+    const c = this.ctx, C = MEDALS.cell;
+    c.save();
+    c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+    c.drawImage(IMG.medallas_hd, i * C, got ? 0 : C, C, C, x, y, size, size);
+    c.restore();
   }
   icon(species: string, frame: number, x: number, y: number) {
     const i = MICRO.index[species] ?? 0;

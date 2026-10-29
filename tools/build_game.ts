@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = join(import.meta.dir, "..");
-const ATLAS = ["tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd", "props_hd", "microos_frente", "microos_espalda", "microos_iconos"];
+const ATLAS = ["tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd", "props_hd", "medallas_hd", "microos_frente", "microos_espalda", "microos_iconos"];
 const lines = ATLAS.map((n) => `  ${JSON.stringify(n)}: "data:image/png;base64,${readFileSync(join(ROOT, "assets/atlas", `${n}.png`)).toString("base64")}",`);
 writeFileSync(join(ROOT, "src/game/assets_data.ts"), `// Generado por tools/build_game.ts. No editar.\nexport default {\n${lines.join("\n")}\n};\n`);
 
@@ -27,13 +27,14 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;box
 #ab{display:flex;gap:14px;align-items:center}
 #ab .r{width:64px;height:64px;border-radius:50%}
 #start{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:84px;height:30px;border-radius:15px!important;font-size:12px!important}
+#x2{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);width:52px;height:26px;border-radius:13px!important;font-size:12px!important}
 @media (pointer:coarse){#mando{display:flex}#ayuda{display:none}}
 </style></head><body>
 <canvas id="pantalla" width="240" height="160"></canvas>
-<div id="ayuda">Flechas: moverse · Z / Espacio: A · X / Esc: B (mantén para correr) · Intro: menú · También con mando de Xbox</div>
+<div id="ayuda">Flechas: moverse · Z / Espacio: A · X / Esc: B (mantén para correr) · Intro: menú · Tab o V: velocidad ×2 · También con mando de Xbox</div>
 <div id="mando">
  <div id="cruz"><span></span><button data-key="up">▲</button><span></span><button data-key="left">◀</button><span></span><button data-key="right">▶</button><span></span><button data-key="down">▼</button><span></span></div>
- <button id="start" data-key="start">START</button>
+ <button id="start" data-key="start">START</button><button id="x2" data-speed="1">x2</button>
  <div id="ab"><button class="r" data-key="b">B</button><button class="r" data-key="a">A</button></div>
 </div>
 <script>${js.replaceAll("</script", "<\\/script")}</script>
@@ -60,13 +61,14 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:var(--ma
 #ab{display:flex;gap:14px;align-items:center}
 #ab .r{width:64px;height:64px;border-radius:50%}
 #start{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:84px;height:30px;border-radius:15px!important;font-size:12px!important}
+#x2{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);width:52px;height:26px;border-radius:13px!important;font-size:12px!important}
 @media (pointer:coarse){#mando{display:flex}#ayuda{display:none}}
 </style>
 <canvas id="pantalla" width="240" height="160" aria-label="Pantalla del juego Micromón"></canvas>
-<div id="ayuda">Flechas: moverse · Z o Espacio: A · X o Esc: B (mantén para correr) · Intro: menú · También con mando de Xbox · La partida se guarda en este navegador desde el menú</div>
+<div id="ayuda">Flechas: moverse · Z o Espacio: A · X o Esc: B (mantén para correr) · Intro: menú · Tab o V: velocidad ×2 · También con mando de Xbox · La partida se guarda en este navegador desde el menú</div>
 <div id="mando">
  <div id="cruz"><span></span><button id="b-arriba" data-key="up" aria-label="Arriba">▲</button><span></span><button id="b-izq" data-key="left" aria-label="Izquierda">◀</button><span></span><button id="b-der" data-key="right" aria-label="Derecha">▶</button><span></span><button id="b-abajo" data-key="down" aria-label="Abajo">▼</button><span></span></div>
- <button id="start" data-key="start">START</button>
+ <button id="start" data-key="start">START</button><button id="x2" data-speed="1">x2</button>
  <div id="ab"><button id="b-b" class="r" data-key="b">B</button><button id="b-a" class="r" data-key="a">A</button></div>
 </div>
 <script>${js.replaceAll("</script", "<\\/script")}</script>

@@ -16,6 +16,8 @@ export class Game {
   frame = 0;
   /** Velocidad de simulación (las pruebas automáticas la suben). */
   turbo = 1;
+  /** Fotogramas que queda visible el aviso grande al cambiar de velocidad. */
+  speedFlash = 0;
   private acc = 0;
   private last = 0;
 
@@ -33,9 +35,16 @@ export class Game {
     };
     requestAnimationFrame(loop);
   }
+  /** Velocidad elegida por el jugador (1 o 2); se guarda en la partida. */
+  get speed() { return this.state?.flags?.x2 ? 2 : 1; }
   step() {
-    for (let k = 0; k < this.turbo; k++) {
+    for (let k = 0; k < this.turbo * this.speed; k++) {
       this.input.tick();
+      if (this.input.speedToggle) {
+        this.input.speedToggle = false;
+        if (this.state) { this.state.flags.x2 = !this.state.flags.x2; audio.sfx(this.state.flags.x2 ? "ok" : "blip"); this.speedFlash = 90; }
+      }
+      if (this.speedFlash > 0) this.speedFlash--;
       if (["a", "b", "start", "up", "down", "left", "right"].some((k) => this.input.pressed(k as "a"))) audio.unlock();
       if (this.overlays.length && this.input.pressed("a")) audio.sfx("blip");
       this.frame++;
@@ -52,6 +61,11 @@ export class Game {
     this.scene?.draw(this.g, this);
     if (this.blackout > 0) this.g.alpha(Math.min(1, this.blackout), () => this.g.rect(0, 0, W, H, "#000"));
     for (const o of this.overlays) o.ov.draw(this.g, this);
+    if (this.speed === 2 || this.speedFlash > 0) {
+      const big = this.speedFlash > 0, t = this.speed === 2 ? "▶▶ x2" : "▶ x1";
+      const w = this.g.measure(t) + 8, x = W - w - 2, y = 2;
+      this.g.alpha(big ? 0.9 : 0.55, () => { this.g.round(x, y, w, 14, 4, "#102030"); this.g.text(t, x + 4, y + 1, this.speed === 2 ? "orange" : "white", false); });
+    }
   }
   run<T = unknown>(ov: Overlay): Promise<T> {
     return new Promise((resolve) => this.overlays.push({ ov, resolve: resolve as (v: unknown) => void }));

@@ -4,7 +4,7 @@ import { MAPS } from "../world/maps";
 import { audio } from "../audio";
 import { Gfx, W, H, TB, shade, TYPE_COLORS } from "../gfx";
 import type { Overworld } from "./overworld";
-import { SPECIES, ITEMS, getMove, getSpecies, type ItemData } from "../../engine/data";
+import { SPECIES, ITEMS, TRAINERS, getMove, getSpecies, type ItemData } from "../../engine/data";
 import { displayName, NATURES, itemEvolution, expForLevel, type Microo } from "../../engine/microo";
 import { applyItemOutOfBattleLike, type Battle } from "../../engine/battle";
 import { saveGame, playTime, addItem, AVATAR_SPRITE } from "../state";
@@ -22,7 +22,7 @@ export async function openStartMenu(game: Game, world: Overworld) {
     const opts: [string, string][] = [];
     if (s.flags.microdex) opts.push(["MICRODEX", "dex"]);
     if (s.party.length) opts.push(["MICROOS", "party"]);
-    opts.push(["MOCHILA", "bag"], [s.name.toUpperCase(), "card"], ["GUARDAR", "save"], ["OPCIONES", "opt"], ["SALIR", "exit"]);
+    opts.push(["MOCHILA", "bag"], [s.name.toUpperCase(), "card"], ["MEDALLERO", "medals"], ["GUARDAR", "save"], ["OPCIONES", "opt"], ["SALIR", "exit"]);
     const i = await game.run<number>(new StartMenu(opts.map((o) => o[0])));
     if (i < 0 || opts[i][1] === "exit") return;
     const k = opts[i][1];
@@ -30,6 +30,7 @@ export async function openStartMenu(game: Game, world: Overworld) {
     if (k === "party") await partyMenu(game, { mode: "view" });
     if (k === "bag") await bagMenu(game, { mode: "field" });
     if (k === "card") await game.run(new CardScreen());
+    if (k === "medals") await game.run(new BadgeCase());
     if (k === "save") {
       if (await game.yesno("¿Quieres guardar la partida?")) {
         const ok = saveGame(s);
@@ -370,12 +371,11 @@ class CardScreen implements Overlay {
     const rows: [string, string][] = [["Nombre", s.name], ["Créditos", `${s.money}`], ["Microdex", `${s.caught.length} aislados`], ["Tiempo", playTime(s)], ["Dificultad", { facil: "Fácil", normal: "Normal", dificil: "Difícil" }[s.difficulty]]];
     rows.forEach(([k, v], i) => { const y = 40 + i * 15; if (i % 2 === 0) g.rect(18, y - 2, W - 102, 14, "rgba(160,120,40,0.15)"); g.text(k, 22, y, "blue"); g.text(v, 98, y); });
     g.text("Medallas", 22, 122, "blue");
-    for (let i = 0; i < 8; i++) {
-      const x = 24 + i * 27, y = 138, got = i < s.badges.length;
-      g.round(x, y, 22, 22, 11, got ? "#806010" : "#c8b890");
-      g.round(x + 2, y + 2, 18, 18, 9, got ? "#f8d040" : "#e0d4b0");
-      if (got) { g.round(x + 6, y + 6, 10, 10, 5, MENU_DOT[i % MENU_DOT.length]); g.rect(x + 7, y + 7, 3, 2, "#ffffff"); }
-    }
+    BADGES.forEach((b, i) => {
+      const x = 22 + i * 27, y = 136;
+      g.round(x - 1, y - 1, 26, 26, 6, "rgba(96,72,32,0.18)");
+      g.medal(b.id, x, y, 24, s.badges.includes(b.id));
+    });
   }
 }
 
@@ -539,5 +539,87 @@ export class DexDetail implements Overlay {
     if (this.page === 0) lines = caught ? g.wrap(sp.entry, W - 24) : ["Aíslalo con una Criobola para", "completar su entrada."];
     else { const h = habitats(this.sp); lines = h.length ? ["Se encuentra en:", ...g.wrap(h.join(", "), W - 24)] : ["No aparece en estado salvaje."]; }
     lines.slice(0, 4).forEach((l, k) => g.text(l, 12, 125 + k * 14));
+  }
+}
+
+// ---------------------------------------------------------------- medallero
+/** Las ocho medallas en el orden en que se ganan: id, nombre, gimnasio (id de entrenador). */
+export const BADGES = [
+  { id: "probiotico", name: "Medalla Probiótico", gym: "gym1" },
+  { id: "tapete", name: "Medalla Tapete", gym: "gym2" },
+  { id: "micelio", name: "Medalla Micelio", gym: "gym3" },
+  { id: "catalasa", name: "Medalla Catalasa", gym: "gym4" },
+  { id: "quimiostato", name: "Medalla Quimiostato", gym: "gym5" },
+  { id: "algoritmo", name: "Medalla Algoritmo", gym: "gym6" },
+  { id: "ziehl", name: "Medalla Ziehl-Neelsen", gym: "gym7" },
+  { id: "lisogenia", name: "Medalla Lisogenia", gym: "gym8" },
+];
+
+/** Estuche de medallas: 4×2 huecos de terciopelo; las conseguidas brillan. */
+export class BadgeCase implements Overlay {
+  sel = 0;
+  update(game: Game) {
+    if (game.input.repeat("right")) this.sel = (this.sel + 1) % 8;
+    if (game.input.repeat("left")) this.sel = (this.sel + 7) % 8;
+    if (game.input.repeat("down") || game.input.repeat("up")) this.sel = (this.sel + 4) % 8;
+    return game.input.pressed("b") || game.input.pressed("start");
+  }
+  draw(g: Gfx, game: Game) {
+    const s = game.state;
+    g.pattern("#5a2a30", "#622f36", game.frame, "#3a1418");
+    g.panel(4, 4, W - 8, 20, "#f8d860", "#c89020", "#5a3a08", 5);
+    const title = `MEDALLERO · ${s.badges.length}/8`;
+    g.text(title, W / 2 - g.measure(title) / 2, 8, "dark");
+    // estuche
+    g.panel(6, 28, W - 12, 104, "#3a2028", "#2a141a", "#c89020", 8);
+    BADGES.forEach((b, i) => {
+      const cx = 12 + (i % 4) * 60, cy = 33 + Math.floor(i / 4) * 49;
+      const got = s.badges.includes(b.id), on = i === this.sel;
+      g.round(cx, cy, 52, 45, 8, on ? "#7a3a48" : "#4a2430");
+      g.round(cx + 2, cy + 2, 48, 41, 7, on ? "#8a4656" : "#552a36");
+      const bob = got && on ? Math.round(Math.sin(game.frame / 10)) : 0;
+      g.medal(b.id, cx + 6, cy + 2 + bob, 40, got);
+      if (got) {
+        // destello que recorre cada medalla por turnos
+        const ph = (game.frame + i * 23) % 160;
+        if (ph < 14) g.alpha(1 - ph / 14, () => { g.rect(cx + 30 - 2, cy + 8, 5, 1, "#ffffff"); g.rect(cx + 30, cy + 6, 1, 5, "#ffffff"); });
+      }
+      if (on && Math.floor(game.frame / 16) % 2 === 0) { g.rect(cx, cy, 52, 1, "#f8d860"); g.rect(cx, cy + 44, 52, 1, "#f8d860"); g.rect(cx, cy, 1, 45, "#f8d860"); g.rect(cx + 51, cy, 1, 45, "#f8d860"); }
+    });
+    // descripción
+    const b = BADGES[this.sel], t = TRAINERS.get(b.gym), got = s.badges.includes(b.id);
+    g.panel(4, 136, W - 8, 52, "#ffffff", "#e8e8f0", "#384058", 6);
+    if (got) {
+      g.text(b.name, 12, 141, "red");
+      g.text(g.fit(t ? `Líder: ${t.name}` : "", W - 24), 12, 156);
+      g.text(g.fit(t?.role ?? "", W - 24), 12, 170, "gray");
+    } else {
+      g.text("??????", 12, 141, "gray");
+      g.text(g.fit(t ? `Se gana en el ${t.role.split(" · ")[0]}.` : "", W - 24), 12, 156, "gray");
+      g.text(g.fit(t?.role.split(" · ")[1] ?? "", W - 24), 12, 170, "gray");
+    }
+  }
+}
+
+/** Animación al recibir una medalla: aparece girando con destellos. */
+export class BadgeGet implements Overlay {
+  t = 0;
+  constructor(public id: string) { audio.sfx("levelup"); }
+  update(game: Game) { this.t++; return this.t > 40 && (game.input.pressed("a") || game.input.pressed("b") || this.t > 150); }
+  draw(g: Gfx) {
+    const b = BADGES.find((x) => x.id === this.id);
+    g.alpha(Math.min(0.75, this.t / 20), () => g.rect(0, 0, W, H, "#000"));
+    const k = Math.min(1, this.t / 30), size = 24 + 56 * k;
+    const sx = Math.abs(Math.cos(Math.min(1, this.t / 30) * Math.PI * 2));      // gira dos veces al entrar
+    g.ctx.save();
+    g.ctx.translate(W / 2, 74); g.ctx.scale(this.t < 30 ? Math.max(0.08, sx) : 1, 1);
+    g.medal(this.id, -size / 2, -size / 2, size);
+    g.ctx.restore();
+    if (this.t > 30) for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2 + this.t / 30, r = 46 + Math.sin(this.t / 8 + i) * 4;
+      const x = W / 2 + Math.cos(a) * r, y = 74 + Math.sin(a) * r * 0.8;
+      g.rect(x - 1, y, 3, 1, "#fff8c0"); g.rect(x, y - 1, 1, 3, "#fff8c0");
+    }
+    if (this.t > 30 && b) { const t = `¡${b.name.toUpperCase()}!`; g.panel(W / 2 - g.measure(t) / 2 - 8, 124, g.measure(t) + 16, 18, "#f8d860", "#c89020", "#5a3a08", 5); g.text(t, W / 2 - g.measure(t) / 2, 127, "dark"); }
   }
 }

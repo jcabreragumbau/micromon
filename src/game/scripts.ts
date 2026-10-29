@@ -4,7 +4,7 @@ import { audio } from "./audio";
 import { curiosidadPara } from "./curiosidades";
 import type { Overworld, NpcState } from "./scenes/overworld";
 import { BattleScene, type BattleSetup, type BattleOutcome } from "./scenes/battle";
-import { shopMenu, congeladorMenu, partyMenu } from "./scenes/menus";
+import { shopMenu, congeladorMenu, partyMenu, BadgeGet } from "./scenes/menus";
 import { evolutionSequence } from "./scenes/battle";
 import { SlotMachine, fichas } from "./scenes/casino";
 import { HallOfFame, Credits } from "./scenes/creditos";
@@ -302,6 +302,7 @@ const SCRIPTS: Record<string, Script> = {
       trainer: { name: "Antoni Solé", clase: "Líder", portrait: "sole", lose: "¡Increíble! Has superado el control de calidad.", money: 100 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("probiotico");
+    await game.run(new BadgeGet("probiotico"));
     s.flags.medalla1 = true;
     await game.say("Dr. Solé: Te has ganado la MEDALLA PROBIÓTICO.");
     await game.say("¡{nombre} ha recibido la MEDALLA PROBIÓTICO del Dr. Solé!");
@@ -387,6 +388,7 @@ const SCRIPTS: Record<string, Script> = {
       trainer: { name: "Núria Gajú", clase: "Líder", portrait: "gaju", lose: "¡Qué buena adaptación! Como una cianobacteria al sol.", money: 160 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("tapete");
+    await game.run(new BadgeGet("tapete"));
     s.flags.medalla2 = true;
     await game.say("Dra. Gajú: Te has ganado la MEDALLA TAPETE.");
     await game.say("¡{nombre} ha recibido la MEDALLA TAPETE de la Dra. Gajú!");
@@ -438,6 +440,7 @@ const SCRIPTS: Record<string, Script> = {
       trainer: { name: "Laia Guàrdia", clase: "Líder", portrait: "guardia", lose: "¡Increíble! Has atravesado mi micelio.", money: 220 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("micelio");
+    await game.run(new BadgeGet("micelio"));
     s.flags.medalla3 = true;
     await game.say("Dra. Guàrdia: Te has ganado la MEDALLA MICELIO.");
     await game.say("¡{nombre} ha recibido la MEDALLA MICELIO de la Dra. Guàrdia!");
@@ -584,6 +587,7 @@ const SCRIPTS: Record<string, Script> = {
       trainer: { name: "Daniel Yero", clase: "Líder", portrait: "yero", lose: "¡Fermentación completa! Has ganado.", money: 260 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("catalasa");
+    await game.run(new BadgeGet("catalasa"));
     s.flags.medalla4 = true;
     await game.say("Dr. Yero: Te has ganado la MEDALLA CATALASA.");
     await game.say("¡{nombre} ha recibido la MEDALLA CATALASA del Dr. Yero!");
@@ -644,6 +648,7 @@ const SCRIPTS: Record<string, Script> = {
       trainer: { name: "Jordi Mas", clase: "Líder", portrait: "mas", lose: "¡Producción detenida! Has superado mi escalado.", money: 300 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("quimiostato");
+    await game.run(new BadgeGet("quimiostato"));
     s.flags.medalla5 = true;
     await game.say("Dr. Mas: Te has ganado la MEDALLA QUIMIOSTATO.");
     await game.say("¡{nombre} ha recibido la MEDALLA QUIMIOSTATO del Dr. Mas!");
@@ -746,6 +751,7 @@ const SCRIPTS: Record<string, Script> = {
       trainer: { name: "Òscar Conchillo", clase: "Líder", portrait: "conchillo", lose: "Compilado sin errores. ¡Bien hecho!", money: 340 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("algoritmo");
+    await game.run(new BadgeGet("algoritmo"));
     s.flags.medalla6 = true;
     await game.say("Dr. Conchillo: Te has ganado la MEDALLA ALGORITMO.");
     await game.say("¡{nombre} ha recibido la MEDALLA ALGORITMO del Dr. Conchillo!");
@@ -788,6 +794,7 @@ const SCRIPTS: Record<string, Script> = {
       trainer: { name: "Marina Luquin", clase: "Líder", portrait: "luquin", lose: "¡Has resistido como una buena micobacteria!", money: 380 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("ziehl");
+    await game.run(new BadgeGet("ziehl"));
     s.flags.medalla7 = true;
     await game.say("Dra. Luquin: Te has ganado la MEDALLA ZIEHL-NEELSEN.");
     await game.say("¡{nombre} ha recibido la MEDALLA ZIEHL-NEELSEN de la Dra. Luquin!");
@@ -885,6 +892,7 @@ const SCRIPTS: Record<string, Script> = {
       trainer: { name: "Susana Campoy", clase: "Líder", portrait: "campoy", lose: "¡Lisogenia rota! Eres digno de la Liga.", money: 420 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("lisogenia");
+    await game.run(new BadgeGet("lisogenia"));
     s.flags.medalla8 = true;
     await game.say("Dra. Campoy: Te has ganado la MEDALLA LISOGENIA. ¡Ya tienes las ocho!");
     await game.say("¡{nombre} ha recibido la MEDALLA LISOGENIA de la Dra. Campoy!");
