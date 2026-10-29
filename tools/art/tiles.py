@@ -397,6 +397,54 @@ def pool(frame=0):
     t.mask(circ(4, 8, 1.2), H("#58d070")); t.mask(circ(12, 3, 1), H("#58d070"))   # algas
     return t
 
+# ---------------------------------------------------------------- Ciudad Aerobia, guarida y Torre Prión
+def casino_floor():
+    t = T(H("#9a2838"))
+    t.mask(((XX + YY) % 8 == 0) | ((XX - YY) % 8 == 0), H("#b83848"))
+    for (x, y) in ((0, 0), (8, 8)): t.mask(circ(x + 0.5, y + 0.5, 1.3) | circ(x + 16.5, y + 0.5, 1.3) | circ(x + 0.5, y + 16.5, 1.3), H("#e8c050"))
+    return t
+def slot_machine(frame=0):
+    t = casino_floor()
+    t.rect(2, 0, 13, 15, O); t.rect(3, 1, 12, 14, H("#d8b040")); t.hline(3, 12, 1, H("#f8e090")); t.rect(3, 12, 12, 14, H("#8a6a20"))
+    t.rect(4, 4, 11, 9, O)
+    cols = [["#e84848", "#48a8e8", "#58c858"], ["#58c858", "#e84848", "#48a8e8"]][frame]
+    for i, c in enumerate(cols): t.rect(5 + i * 2, 5, 5 + i * 2, 8, H(c)); t.px(5 + i * 2, 5, H("#ffffff"))
+    t.rect(4, 2, 11, 2, H("#f04848") if frame else H("#f8f848"))
+    t.vline(14, 3, 8, H("#a0a0a8")); t.mask(circ(14.5, 3, 1.3), H("#e84848"))
+    return t
+def tech_floor():
+    t = T(H("#3a4250"))
+    t.hline(0, 15, 0, H("#2a3038")); t.vline(0, 0, 15, H("#2a3038")); t.hline(1, 15, 1, H("#4a5462"))
+    t.px(8, 8, H("#5a6472")); t.px(3, 12, H("#5a6472"))
+    return t
+def server(frame=0):
+    t = tech_floor()
+    t.rect(1, 0, 14, 15, O); t.rect(2, 1, 13, 14, H("#2a2e36")); t.vline(2, 1, 14, H("#4a5060"))
+    for k in range(4):
+        y = 2 + k * 3
+        t.hline(3, 12, y + 2, H("#181a20"))
+        for j in range(3):
+            on = (k + j + frame) % 3 != 0
+            t.px(4 + j * 2, y, H("#40e060") if on else H("#1a4020"))
+        t.px(11, y, H("#f04040") if (k + frame) % 2 else H("#401818"))
+    return t
+def tower_floor():
+    t = T(H("#5a5068"))
+    t.hline(0, 15, 0, H("#4a4058")); t.vline(0, 0, 15, H("#4a4058")); t.hline(0, 15, 8, H("#4a4058")); t.vline(8, 0, 7, H("#4a4058"))
+    t.hline(1, 7, 1, H("#6a6078")); t.hline(9, 15, 9, H("#6a6078"))
+    return t
+def cont_plate():
+    t = tower_floor()
+    t.mask(circ(8, 9, 6.5), O); t.mask(circ(8, 9, 5.6), H("#d8dce8")); t.mask(circ(8, 9, 4.6), H("#e8d090"))
+    for (x, y, r, c) in ((6, 8, 1.8, "#4a8a3a"), (10, 10, 1.4, "#6a3a7a"), (9, 6.5, 1.0, "#2a2a30")): t.mask(circ(x, y, r), H(c))
+    t.px(5, 6, H("#ffffff"))
+    return t
+def poster():
+    t = wall_in(True)
+    t.rect(3, 1, 12, 13, O); t.rect(4, 2, 11, 12, H("#f0ece0")); t.rect(4, 2, 11, 4, H("#c83838"))
+    t.hline(5, 10, 6, H("#606060")); t.hline(5, 9, 8, H("#606060")); t.hline(5, 10, 10, H("#606060"))
+    return t
+
 def black(): return T(H("#000000"))
 
 def build():
@@ -421,7 +469,9 @@ def build():
                   "suelo_cueva": cave_floor(), "pared_cueva": cave_wall(), "hifas0": hyphae(0), "hifas1": hyphae(1),
                   "seta0": mushroom(0), "seta1": mushroom(1), "disco_duro": hard_drive(), "acantilado": cliff(), "cueva_entrada": cave_mouth(),
                   "hifas_bloqueo": hyphae_block(), "winogradsky": winogradsky(), "suelo_invernadero": floor_greenhouse(),
-                  "piscina0": pool(0), "piscina1": pool(1)})
+                  "piscina0": pool(0), "piscina1": pool(1),
+                  "suelo_casino": casino_floor(), "tragaperras0": slot_machine(0), "tragaperras1": slot_machine(1), "suelo_tecnico": tech_floor(),
+                  "servidor0": server(0), "servidor1": server(1), "suelo_torre": tower_floor(), "placa_contaminada": cont_plate(), "poster": poster()})
     names = list(tiles)
     cols = 16; rows = (len(names) + cols - 1) // cols
     atlas = Image.new("RGBA", (cols * 16, rows * 16))

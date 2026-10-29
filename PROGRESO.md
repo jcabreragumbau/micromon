@@ -67,5 +67,10 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Ciudad Cultivo → Ruta 4 → Cueva Anaeróbica (lateral, con la Máscara de Gases que da la Dra. Gajú y un guarda en la entrada) y Túnel Endospórico (mapa oscuro: círculo de luz pequeño, grande tras usar Quorum Sensing Lux con la Medalla Tapete) → Ciudad Gram → Gimnasio de la Dra. Laia Guàrdia (Hongo, laberinto de hifas, Medalla Micelio).
 - 14 Microos nuevos diseñados a mano (`tools/art/designs4.py`).
 
+## Cuarto tramo (hecho)
+- Combates dobles en la interfaz: una acción por Microo, elección de objetivo con parpadeo, B vuelve al primer Microo, dos sprites y dos cajas de PS por lado.
+- Ciudad Gram → Ruta 5 → Pueblo Levadura (Torre Prión con niebla de priones) → Ruta 6 → Ciudad Aerobia: Casino Mutagénesis (fichas, tragaperras con rodillos de Microos y premios: Myxococcus, Pleomorph, Plásmido F), póster de Nature que abre la guarida de la Unidad de Genética (Barbadilla; Casillas en combate doble; Martínez-Urtaza, que huye y deja el Western Blot), Torre Prión de tres plantas (la Dra. Alba Hernández te sermonea; un investigador jubilado da el Plásmido Vir) y Gimnasio de Levaduras del Dr. Daniel Yero (Medalla Catalasa).
+- 25 Microos nuevos diseñados a mano (`tools/art/designs5.py`). Tiles nuevos: moqueta de casino, tragaperras y servidores animados, suelo técnico, suelo de la torre, placas contaminadas y póster.
+
 ## Siguiente tarea
-Fase 4: Pueblo Levadura y Torre Prión en adelante (gimnasios 4–8 y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
+Fase 4: Ciudad Agar e Instituto de Biotecnología en adelante (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

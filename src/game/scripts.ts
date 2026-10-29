@@ -3,6 +3,7 @@ import type { Game } from "./game";
 import type { Overworld, NpcState } from "./scenes/overworld";
 import { BattleScene, type BattleSetup, type BattleOutcome } from "./scenes/battle";
 import { shopMenu } from "./scenes/menus";
+import { SlotMachine, fichas } from "./scenes/casino";
 import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, type Microo } from "../engine";
 import { addItem, markCaught, markSeen } from "./state";
 
@@ -14,9 +15,19 @@ async function darMascara(game: Game) {
   await game.say("¡{nombre} ha recibido la MÁSCARA DE GASES!");
   await game.say("Dra. Gajú: Con ella podrás entrar en la Cueva Anaeróbica. Y el Túnel Endospórico está a oscuras: ¡usa Quorum Sensing Lux!");
 }
+/** Regala un Microo al jugador (al equipo o al Congelador si está lleno). */
+async function giveMicroo(game: Game, sp: string, lv: number) {
+  const m = createMicroo(sp, lv, { rng: rng(game) });
+  m.originalTrainer = game.state.name;
+  markSeen(game.state, sp); markCaught(game.state, sp);
+  if (game.state.party.length < 6) game.state.party.push(m); else game.state.box.push(m);
+  await game.say(`¡{nombre} ha recibido a ${getSpecies(sp).name}!`);
+  if (game.state.party.at(-1) !== m) await game.say(`${getSpecies(sp).name} se ha enviado al Congelador de cepas.`);
+}
 const displayNameOf = (m: Microo) => m.nickname ?? getSpecies(m.species).name;
 
 // ---------------------------------------------------------------- combates
+export { battleFor };
 export async function startBattle(game: Game, world: Overworld, setup: Omit<BattleSetup, "env">): Promise<BattleOutcome> {
   const prev = game.scene;
   for (let i = 0; i < 3; i++) { game.blackout = 0.8; await game.wait(4); game.blackout = 0; await game.wait(4); }
@@ -31,8 +42,8 @@ export async function startBattle(game: Game, world: Overworld, setup: Omit<Batt
   return out;
 }
 function rng(game: Game) { return new Rng((game.state.seed + game.state.playFrames) >>> 0); }
-function battleFor(game: Game, foe: Microo[], wild: boolean, name?: string, foeItems?: Record<string, number>) {
-  return new Battle({ player: game.state.party, foe, wild, seed: (game.state.seed ^ game.state.playFrames) >>> 0,
+function battleFor(game: Game, foe: Microo[], wild: boolean, name?: string, foeItems?: Record<string, number>, format: "single" | "double" = "single") {
+  return new Battle({ player: game.state.party, foe, wild, format, seed: (game.state.seed ^ game.state.playFrames) >>> 0,
     difficulty: game.state.difficulty, playerName: game.state.name, foeName: name, foeItems,
     inventory: {} });
 }
@@ -400,5 +411,150 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("¡{nombre} ha recibido la MEDALLA MICELIO de la Dra. Guàrdia!");
     await game.say("Dra. Guàrdia: Con ella podrás usar Flagelo Polar fuera de combate cuando lo consigas.");
     await game.say("— Fin del tercer tramo de Micromón. ¡La aventura continuará en Pueblo Levadura y la Torre Prión! —");
+  },
+
+  // ---------------------------------------------------------------- cuarto tramo
+  async venderFichas(game) {
+    const s = S(game);
+    await game.say(`Casino Mutagénesis: ¡Hola! Tienes ${fichas(game)} fichas. 50 fichas cuestan 1000 créditos.`, { keep: true });
+    const c = await game.choose(["50 FICHAS", "NO, GRACIAS"], { x: 170, y: 90, cancel: 1 });
+    game.popKept();
+    if (c !== 0) return;
+    if (s.money < 1000) { await game.say("Casino Mutagénesis: No tienes suficientes créditos."); return; }
+    s.money -= 1000; s.flags.fichas = fichas(game) + 50;
+    await game.say("¡{nombre} ha comprado 50 fichas!");
+  },
+
+  async tragaperras(game) {
+    if (fichas(game) < 3) { await game.say("Es una tragaperras con Microos en los rodillos. Necesitas fichas: se compran en el mostrador."); return; }
+    await game.run(new SlotMachine(game));
+  },
+
+  async premiosCasino(game) {
+    const s = S(game);
+    const prizes: [string, number, () => Promise<void>][] = [
+      ["Myxococcus Nv25", 2500, () => giveMicroo(game, "myxococcus", 25)],
+      ["Pleomorph Nv25", 1800, () => giveMicroo(game, "pleomorph", 25)],
+      ["Plásmido F", 700, async () => { addItem(s, "plasmido-f"); await game.say("¡{nombre} ha recibido un PLÁSMIDO F!"); }],
+      ["Criobola Amarilla ×3", 400, async () => { addItem(s, "criobola-amarilla", 3); await game.say("¡{nombre} ha recibido 3 CRIOBOLAS AMARILLAS!"); }],
+    ];
+    await game.say(`Premios: ¡Canjea tus fichas! Tienes ${fichas(game)}.`, { keep: true });
+    const c = await game.choose([...prizes.map(([n, cost]) => `${n} · ${cost}`), "SALIR"], { x: 96, y: 14, cancel: prizes.length });
+    game.popKept();
+    if (c < 0 || c >= prizes.length) return;
+    const [, cost, give] = prizes[c];
+    if (fichas(game) < cost) { await game.say("Premios: No tienes suficientes fichas."); return; }
+    s.flags.fichas = fichas(game) - cost;
+    await give();
+  },
+
+  async posterCasino(game, world) {
+    const s = S(game);
+    if (s.flags.guarida) { await game.say("Un póster de una portada de Nature. Detrás hay un interruptor ya pulsado."); return; }
+    if (!s.flags["entrenador:casino-recluta"]) { await game.say("Recluta: ¡Eh! ¡Deja ese póster en paz!"); return; }
+    await game.say("Es un póster de una portada de Nature… ¡Detrás hay un interruptor!");
+    await game.say("¡{nombre} pulsa el interruptor! Se oye un zumbido y una tragaperras se desliza hacia un lado…");
+    s.flags.guarida = true;
+    world.refreshNpcs();
+  },
+
+  async barbadilla(game, world) {
+    const s = S(game);
+    await game.say("Dr. Antonio Barbadilla: ¿Has visto mi reflejo en esa cabina de flujo? Impecable. Como mis Microos: simétricos y vistosos.");
+    await game.say("Dr. Barbadilla: ¿Qué es eso de la bioinformática moderna? Bah, yo me encargo de las malas noticias financieras. ¡Y tú eres una de ellas!");
+    const team = [createMicroo("volvox", 30, { rng: rng(game) }), createMicroo("spirulmax", 31, { rng: rng(game) }), createMicroo("salinarum", 31, { rng: rng(game) })];
+    const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Barbadilla"), wild: false,
+      trainer: { name: "Antonio Barbadilla", clase: "Ejecutivo", portrait: "barbadilla", lose: "¡Mi peinado! ¡Me has despeinado la simetría!", money: 500 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    await game.say("Dr. Barbadilla: Tengo que retocarme. Abajo está Jaime… y no le gusta que le interrumpan.");
+    s.flags.barbadilla1 = true;
+    world.refreshNpcs();
+  },
+
+  async casillas(game, world) {
+    const s = S(game);
+    await game.say("Dra. Sonia Casillas: ¡¿Tú eres quien está estresando a mis becarios?! ¿Han comido? ¿Has comido tú? ¡Da igual!");
+    await game.say("Dra. Casillas: ¡Mis niños están aprendiendo muchísimo! ¡Y no voy a dejar que nadie les ponga nerviosos! ¡Combate doble!");
+    const team = [createMicroo("kefirgran", 30, { rng: rng(game) }), createMicroo("putida", 30, { rng: rng(game) }), createMicroo("myxococcus", 31, { rng: rng(game) }), createMicroo("crescentus", 31, { rng: rng(game) })];
+    const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dra. Casillas", { "medio-tsb": 1 }, "double"), wild: false,
+      trainer: { name: "Sonia Casillas", clase: "Comandante", portrait: "casillas", lose: "¡Mis pobres becarios! ¡Os haré un caldito!", money: 500 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    await game.say("Dra. Casillas: Venga, niños, a casa a descansar. Y tú… ¡abrígate, que en el sótano hace frío!");
+    s.flags.casillas1 = true;
+    world.refreshNpcs();
+  },
+
+  async urtaza(game, world) {
+    const s = S(game);
+    await game.say("Dr. Jaime Martínez-Urtaza: Así que tú eres quien ha bajado hasta aquí. He visto tu plan de análisis.");
+    await game.say("Dr. Martínez-Urtaza: Es basura. Sin control de calidad, sin réplicas, sin un mal árbol filogenético. ¿Y te llamas investigador?");
+    await game.say("Dr. Martínez-Urtaza: Los Microos son solo datos. Y yo tengo los mejores datos del mundo. ¡Te lo demostraré!");
+    const team = [createMicroo("cholerae", 31, { rng: rng(game) }), createMicroo("klebsi", 31, { rng: rng(game) }), createMicroo("smegmatis", 32, { rng: rng(game) }), createMicroo("lambda-v", 33, { rng: rng(game) })];
+    const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-tsb": 2 }), wild: false,
+      trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "Esto… esto es un outlier. ¡No cuenta!", money: 800 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    await game.say("Dr. Martínez-Urtaza: Hmpf. Disfruta tu victoria estadísticamente insignificante. La Unidad de Genética tiene planes mucho más grandes.");
+    await game.say("¡El Dr. Martínez-Urtaza sale del despacho dando un portazo!");
+    await game.fade(true, 12);
+    s.flags.urtaza1 = true;
+    world.refreshNpcs();
+    await game.fade(false, 12);
+    await game.say("Con las prisas, se ha dejado algo encima de la mesa…");
+    addItem(s, "western-blot");
+    s.flags.blot = true;
+    await game.say("¡{nombre} ha encontrado el WESTERN BLOT! Con él podrás identificar las proteínas de la Torre Prión.");
+  },
+
+  async albaHernandez(game, world) {
+    const s = S(game);
+    if (s.flags.hernandez1) return;
+    const h = world.npc("hernandez");
+    if (h) { h.emote = 40; h.dir = 0; await game.wait(30); }
+    await game.say("Dra. Alba Hernández: Alto ahí. No, no voy a luchar contigo. Yo no me mancho las manos.");
+    await game.say("Dra. Hernández: Pero ¿sabes cuál es tu problema? Que no tienes perspectiva global. Los microbiólogos sois unos miopes: solo veis la placa.");
+    await game.say("Dra. Hernández: El plan de Vibrio parahaemolyticus en el mar se ha descartado. Todo el mundo sabe que los Vibrios siguen las corrientes superficiales… aunque nadie lo haya probado.");
+    await game.say("Dra. Hernández: Ahora vamos a por algo mucho mayor. Deberías callarte, agradecer la oportunidad y unirte a nosotros. Piénsalo.");
+    await game.fade(true, 12);
+    s.flags.hernandez1 = true;
+    world.refreshNpcs();
+    await game.fade(false, 12);
+    await game.say("La Dra. Hernández ha desaparecido entre la niebla…");
+  },
+
+  async jubiladoTorre(game) {
+    const s = S(game);
+    if (s.flags.plasmidoVir) { await game.say("Investigador jubilado: Esa mujer… siempre mirando desde la barandilla. Ten cuidado con la Unidad de Genética."); return; }
+    await game.say("Investigador jubilado: ¡Gracias por llegar hasta aquí! Llevaba días atrapado entre la niebla. Esa doctora no me dejaba bajar.");
+    await game.say("Investigador jubilado: Toma. Lo guardé de mis tiempos en el laboratorio de Vibrios. Un plásmido de virulencia…");
+    addItem(s, "plasmido-vir");
+    s.flags.plasmidoVir = true;
+    await game.say("¡{nombre} ha recibido el PLÁSMIDO VIR! Hace evolucionar a Cholerae.");
+  },
+
+  async regaloPleomorph(game) {
+    const s = S(game);
+    if (s.flags.pleomorph) { await game.say("¿Cómo está Pleomorph? Sin pared fija, puede convertirse en casi cualquier cosa."); return; }
+    await game.say("¡Hola! Encontré esta bacteria sin pared en una placa olvidada. Cambia de forma según dónde la cultives.");
+    await game.say("Yo no tengo sitio en el laboratorio. ¿Te la quedas?");
+    s.flags.pleomorph = true;
+    await giveMicroo(game, "pleomorph", 25);
+  },
+
+  async liderYero(game, world) {
+    const s = S(game);
+    if (s.badges.includes("catalasa")) {
+      await game.say("Dr. Yero: Las levaduras son eucariotas como tú y como yo. ¡Por eso es tan difícil encontrar fármacos contra ellas!");
+      return;
+    }
+    await game.say("Dr. Daniel Yero: ¡Bienvenid{o}! Soy el líder del Gimnasio de Ciudad Aerobia. Estudio levaduras y eucariotas unicelulares.");
+    await game.say("Dr. Yero: Mi amigo Òscar Conchillo dice que todo es bioinformática. Yo digo que sin cultivo no hay datos. ¡Demuéstrame qué sabes!");
+    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty("gym4", s.difficulty, rng(game)), false, "Dr. Yero", s.difficulty === "normal" ? { "medio-tsb": 2 } : {}), wild: false,
+      trainer: { name: "Daniel Yero", clase: "Líder", portrait: "yero", lose: "¡Fermentación completa! Has ganado.", money: 260 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    s.badges.push("catalasa");
+    s.flags.medalla4 = true;
+    await game.say("Dr. Yero: Te has ganado la MEDALLA CATALASA.");
+    await game.say("¡{nombre} ha recibido la MEDALLA CATALASA del Dr. Yero!");
+    await game.say("— Fin del cuarto tramo de Micromón. ¡La aventura continuará en Ciudad Agar y el Instituto de Biotecnología! —");
   },
 };

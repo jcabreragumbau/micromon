@@ -454,8 +454,9 @@ add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16
   b.fill(20, 4, 3, 2, "f").fill(2, 13, 2, 4, "f").fill(12, 13, 3, 3, "~");
   b.sign(10, 8, "Ciudad Gram. «Violeta o rosa: todo depende del alcohol-acetona».");
   b.sign(11, 6, "Gimnasio de Ciudad Gram. Líder: Dra. Laia Guàrdia, Micología.");
-  b.sign(22, 11, "Ruta 5: cerrada por fumigación. Vuelva más tarde.");
-  b.fill(22, 9, 2, 2, "k");
+  b.fill(22, 9, 4, 2, "p");
+  b.sign(22, 11, "Ruta 5. Al este: Pueblo Levadura y la Torre Prión.");
+  b.warp({ x: 25, y: 9, h: 2, to: "ruta-5", tx: 1, ty: 7, dir: 3, keep: "y" });
   b.npc({ id: "gram-1", x: 9, y: 11, sprite: "chico", move: "pasear", talk: ["La tinción de Gram tiñe de violeta las bacterias de pared gruesa y de rosa las de pared fina.", "¡Por eso hay Microos Gram+ y Gram-!"] });
   b.npc({ id: "gram-2", x: 20, y: 8, sprite: "chica", dir: 0, talk: "La Dra. Guàrdia es micóloga. Sus mohos odian los Antibióticos… ¡Uy, no, al revés! Mejor pregunta en el gimnasio." });
   b.npc({ id: "gram-3", x: 14, y: 12, sprite: "estudiante", dir: 2, talk: ["Aspergillus flavus produce aflatoxinas en los cacahuetes mal guardados.", "¡Y Penicillium chrysogenum nos dio la penicilina! Los hongos son buenos y malos a la vez."] });
@@ -483,6 +484,235 @@ add(casa("casa-gram", "Casa de Ciudad Gram", { to: "ciudad-gram", x: 7, y: 15 },
     intro: "¡Las hifas lo cubren todo! ¿Te atreves a atravesarlas?", lose: "Mi micelio se ha secado…", after: "La Dra. Guàrdia tiene un Aspergillus que suelta aflatoxinas. ¡Lleva Solución Salina!" } });
   b.npc({ id: "guia-gym3", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "La Dra. Guàrdia usa Hongos: sufren contra Anaerobios, Gram+ y Algas, y resisten Fotótrofos, Antibióticos y Esporulados.", "¡Y cuidado con su Chrysogenum: produce penicilina!"] });
   b.warp({ x: 5, y: 16, w: 3, to: "ciudad-gram", tx: 15, ty: 6, dir: 0 });
+  add(b.done({ music: "gimnasio" }));
+}
+
+// ---------------------------------------------------------------- Ruta 5
+{
+  const b = new MapBuilder("ruta-5", "Ruta 5", 36, 16);
+  b.trees(0, 0, 36, 2).trees(0, 14, 36, 2).trees(0, 2, 2, 4).trees(0, 10, 2, 4).trees(34, 2, 2, 4).trees(34, 10, 2, 4);
+  b.fill(0, 7, 36, 2, "p");
+  b.fill(4, 2, 7, 4, "g").fill(14, 10, 9, 4, "g").fill(25, 2, 7, 4, "g").fill(2, 10, 5, 4, "g");
+  b.fill(12, 3, 1, 4, "l").fill(24, 9, 1, 4, "l").fill(28, 10, 4, 3, "~").fill(15, 4, 3, 2, "f");
+  b.fill(4, 6, 7, 1, "v");
+  b.sign(3, 9, "Ruta 5. Al este: Pueblo Levadura.");
+  b.item(30, 3, "medio-tsb", "item:r5-tsb");
+  b.item(3, 12, "plasmido-r", "item:r5-plasmido-r");
+  b.npc({ id: "r5-a", x: 9, y: 9, sprite: "chico", dir: 1, trainer: {
+    name: "Aleix", clase: "Epidemiólogo", team: [["rickettsia", 25], ["borrelia", 26]], sight: 3, money: 100,
+    intro: "¡Las garrapatas transmiten de todo! ¿Te enseño mis Microos?", lose: "Brote controlado…", after: "Borrelia viaja en garrapatas y Rickettsia en piojos. ¡Siempre van de paquete!" } });
+  b.npc({ id: "r5-b", x: 19, y: 6, sprite: "chica", dir: 0, trainer: {
+    name: "Nora", clase: "Dentista", team: [["mutans", 26], ["actinomyces", 26]], sight: 1, money: 110,
+    intro: "¡Abre la boca! Ah, no, que eres rival. ¡Combate!", lose: "Me has dejado sin placa dental…", after: "Streptococcus mutans fabrica la placa que te da caries. ¡Cepíllate!" } });
+  b.npc({ id: "r5-c", x: 27, y: 8, sprite: "estudiante", dir: 2, trainer: {
+    name: "Pol", clase: "Microbiólogo de Suelos", team: [["bdellovib", 26], ["smegmatis", 26], ["caulobac", 27]], sight: 4, money: 110,
+    intro: "¡Bdellovibrio se come a otras bacterias desde dentro! ¿Quieres verlo?", lose: "Me han depredado…", after: "En Pueblo Levadura hay una torre llena de placas contaminadas. Nadie sube por la niebla." } });
+  b.warp({ x: 0, y: 7, h: 2, to: "ciudad-gram", tx: 24, ty: 9, dir: 2, keep: "y" });
+  b.warp({ x: 35, y: 7, h: 2, to: "pueblo-levadura", tx: 1, ty: 10, dir: 3, keep: "y" });
+  b.encounters([
+    { sp: "rickettsia", min: 25, max: 27, w: 14 }, { sp: "neisseria", min: 25, max: 27, w: 12 }, { sp: "cryptococ", min: 25, max: 28, w: 14 },
+    { sp: "smegmatis", min: 25, max: 27, w: 12 }, { sp: "borrelia", min: 25, max: 27, w: 12 }, { sp: "bdellovib", min: 25, max: 27, w: 12 },
+    { sp: "mutans", min: 25, max: 27, w: 12 }, { sp: "actinomyces", min: 26, max: 28, w: 12 },
+  ]);
+  add(b.done({ music: "ruta" }));
+}
+
+// ---------------------------------------------------------------- Pueblo Levadura
+{
+  const b = new MapBuilder("pueblo-levadura", "Pueblo Levadura", 24, 20);
+  b.trees(0, 0, 24, 2).trees(0, 0, 2, 10).trees(0, 12, 2, 8).trees(22, 0, 2, 8).trees(22, 12, 2, 8).trees(0, 18, 24, 2);
+  b.fill(0, 10, 24, 2, "p").fill(15, 6, 1, 4, "p").fill(5, 7, 1, 3, "p").fill(19, 12, 1, 4, "p");
+  b.building(12, 2, { kind: "lab", w: 7, color: "morado", door: 3, to: "torre-prion-1", tx: 5, ty: 12 });
+  b.building(3, 4, { kind: "incubadora", w: 5, door: 2, to: "incubadora-levadura", tx: 5, ty: 6 });
+  b.building(17, 13, { kind: "casa", w: 5, color: "gris", door: 2, to: "casa-levadura", tx: 3, ty: 5 });
+  b.fill(2, 13, 6, 4, "f").fill(9, 14, 4, 3, "f");
+  b.sign(9, 9, "Pueblo Levadura. «Aquí descansan las cepas que se contaminaron».");
+  b.sign(17, 8, "Torre Prión. Cementerio de cultivos contaminados. Prohibido abrir las placas.");
+  b.npc({ id: "lev-1", x: 8, y: 12, sprite: "madre", dir: 0, talk: ["Dicen que en la torre hay proteínas que se pliegan mal y contagian su forma a las sanas.", "Sin un Western Blot no hay forma de saber qué son. ¡Dan escalofríos!"] });
+  b.npc({ id: "lev-2", x: 19, y: 11, sprite: "chico", move: "pasear", talk: "Los del Casino de Ciudad Aerobia, al este, tienen máquinas de todo tipo. Hasta un Western Blot, dicen." });
+  b.warp({ x: 0, y: 10, h: 2, to: "ruta-5", tx: 34, ty: 7, dir: 2, keep: "y" });
+  b.warp({ x: 23, y: 10, h: 2, to: "ruta-6", tx: 1, ty: 7, dir: 3, keep: "y" });
+  add(b.done({ music: "pueblo" }));
+}
+add(incubadora("incubadora-levadura", "Pueblo Levadura", { to: "pueblo-levadura", x: 5, y: 6 }));
+add(casa("casa-levadura", "Casa de Pueblo Levadura", { to: "pueblo-levadura", x: 19, y: 15 }, [
+  { id: "lev-casa", x: 5, y: 3, sprite: "profesora", dir: 0, talk: ["Fui técnica de laboratorio cuarenta años. En esa torre guardábamos las placas que se estropeaban.", "Ahora la niebla no deja subir a nadie… Dicen que hay alguien arriba desde hace días."] },
+]));
+
+// ---------------------------------------------------------------- Torre Prión
+function torre(n: number) {
+  const b = new MapBuilder(`torre-prion-${n}`, `Torre Prión ${n}P`, 11, 14, "F", "torre", false);
+  b.fill(0, 0, 11, 1, "w").fill(0, 1, 11, 1, "W");
+  return b;
+}
+{
+  const b = torre(1);
+  b.set(1, 3, "I").set(3, 3, "I").set(7, 3, "I").set(9, 3, "I").set(1, 6, "I").set(3, 6, "I").set(7, 6, "I").set(9, 6, "I").set(1, 9, "I").set(9, 9, "I");
+  b.set(10, 2, "E").fill(4, 13, 3, 1, "a");
+  b.npc({ id: "torre-dolida", x: 4, y: 8, sprite: "chica", dir: 0, talk: ["Aquí está la placa de mi primer cultivo. Se contaminó con un hongo…", "Lo cuidé durante meses. Vengo a verlo cada semana."] });
+  const niebla = "Una niebla densa de proteínas mal plegadas tapa las escaleras. Sin un Western Blot no sabes qué son… y no te atreves a pasar.";
+  b.npc({ id: "niebla-1", x: 9, y: 2, sprite: "", hideIf: "blot", solid: true, talk: niebla });
+  b.npc({ id: "niebla-2", x: 10, y: 3, sprite: "", hideIf: "blot", solid: true, talk: niebla });
+  b.warp({ x: 4, y: 13, w: 3, to: "pueblo-levadura", tx: 15, ty: 6, dir: 0 });
+  b.warp({ x: 10, y: 2, to: "torre-prion-2", tx: 9, ty: 2, dir: 2 });
+  b.encounters([{ sp: "genitalium", min: 29, max: 31, w: 1 }]);
+  add(b.done({ music: "torre", fog: true }));
+}
+{
+  const b = torre(2);
+  b.fill(2, 4, 7, 1, "I").fill(0, 8, 4, 1, "I").fill(6, 8, 5, 1, "I").set(1, 11, "I").set(9, 11, "I");
+  b.set(10, 2, "E").set(0, 12, "E");
+  b.npc({ id: "tp2-a", x: 5, y: 6, sprite: "estudiante", dir: 2, trainer: {
+    name: "Gerard", clase: "Bioquímico", team: [["pneumoniae", 30], ["genitalium", 30]], sight: 4, money: 120,
+    intro: "¡He visto una proteína doblarse sola! ¡Lucha conmigo antes de que me doble yo!", lose: "Me he desnaturalizado…", after: "Los priones no tienen ADN. Solo una forma equivocada… que contagian." } });
+  b.npc({ id: "tp2-b", x: 8, y: 10, sprite: "chica", dir: 2, trainer: {
+    name: "Mar", clase: "Neuróloga", team: [["bovis", 31], ["cryptococ", 30], ["rickettsia", 31]], sight: 4, money: 120,
+    intro: "La encefalopatía espongiforme empieza así: una proteína mal plegada…", lose: "Necesito un café.", after: "Arriba hay alguien gritando sobre «perspectiva global». ¡Da miedo!" } });
+  b.item(1, 10, "atp-concentrado", "item:tp2-atp");
+  b.warp({ x: 10, y: 2, to: "torre-prion-1", tx: 9, ty: 2, dir: 2 });
+  b.warp({ x: 0, y: 12, to: "torre-prion-3", tx: 1, ty: 12, dir: 3 });
+  b.encounters([
+    { sp: "rickettsia", min: 29, max: 31, w: 22 }, { sp: "genitalium", min: 29, max: 31, w: 18 }, { sp: "pneumoniae", min: 30, max: 32, w: 18 },
+    { sp: "cryptococ", min: 29, max: 31, w: 16 }, { sp: "bovis", min: 30, max: 32, w: 16 }, { sp: "prion-sc", min: 32, max: 32, w: 4 },
+  ]);
+  add(b.done({ music: "torre", fog: true }));
+}
+{
+  const b = torre(3);
+  b.set(0, 12, "E").fill(3, 6, 5, 1, "I").set(2, 3, "I").set(8, 3, "I");
+  b.npc({ id: "hernandez", x: 5, y: 8, sprite: "hernandez", dir: 0, hideIf: "hernandez1" });
+  b.npc({ id: "torre-jubilado", x: 5, y: 3, sprite: "becario", dir: 0, script: "jubiladoTorre" });
+  b.trigger({ x: 1, y: 9, w: 9, h: 2, script: "albaHernandez", once: "hernandez1" });
+  b.warp({ x: 0, y: 12, to: "torre-prion-2", tx: 1, ty: 12, dir: 3 });
+  b.encounters([{ sp: "prion-sc", min: 32, max: 33, w: 30 }, { sp: "pneumoniae", min: 31, max: 33, w: 35 }, { sp: "bovis", min: 31, max: 33, w: 35 }]);
+  add(b.done({ music: "torre", fog: true }));
+}
+
+// ---------------------------------------------------------------- Ruta 6
+{
+  const b = new MapBuilder("ruta-6", "Ruta 6", 36, 16);
+  b.trees(0, 0, 36, 2).trees(0, 14, 36, 2).trees(0, 2, 2, 4).trees(0, 10, 2, 4).trees(34, 2, 2, 4).trees(34, 10, 2, 4);
+  b.fill(0, 7, 36, 2, "p");
+  b.fill(3, 2, 8, 4, "g").fill(20, 2, 10, 4, "g").fill(8, 10, 12, 4, "g");
+  b.fill(13, 2, 5, 4, "~").fill(24, 10, 6, 3, "s").fill(30, 11, 3, 2, "f");
+  b.sign(3, 9, "Ruta 6. Al este: Ciudad Aerobia, la metrópolis del oxígeno.");
+  b.item(25, 11, "criobola-amarilla", "item:r6-amarilla", 2);
+  b.item(16, 6, "glicerol", "item:r6-glicerol", 1, true);
+  b.npc({ id: "r6-a", x: 8, y: 6, sprite: "chica", dir: 0, trainer: {
+    name: "Lía", clase: "Geomicrobióloga", team: [["magnetospir", 27], ["geobacter", 28]], sight: 1, money: 120,
+    intro: "¡Mi Magnetospirillum siempre sabe dónde está el norte!", lose: "He perdido el norte…", after: "Geobacter produce electricidad. ¡Hay pilas de combustible microbianas!" } });
+  b.npc({ id: "r6-b", x: 21, y: 9, sprite: "chico", dir: 1, trainer: {
+    name: "Biel", clase: "Salinero", team: [["halobacter", 28], ["psychrobac", 27], ["baylyi", 28]], sight: 2, money: 120,
+    intro: "¡Mis arqueas viven en salmueras rosas! ¿Y las tuyas?", lose: "Me he quedado sin sal…", after: "Las salinas se vuelven rosas por Halobacterium. ¡Es su pigmento, la bacteriorrodopsina!" } });
+  b.npc({ id: "r6-c", x: 30, y: 8, sprite: "estudiante", dir: 2, trainer: {
+    name: "Rita", clase: "Médica Tropical", team: [["leishmania", 28], ["giardia", 28], ["rickettsia", 29]], sight: 3, money: 130,
+    intro: "¡Acabo de volver de una misión! Tengo Microos exóticos.", lose: "Necesito vacaciones de verdad.", after: "En Ciudad Aerobia hay un casino. Dicen que debajo hay servidores que no paran de zumbar." } });
+  b.warp({ x: 0, y: 7, h: 2, to: "pueblo-levadura", tx: 22, ty: 10, dir: 2, keep: "y" });
+  b.warp({ x: 35, y: 7, h: 2, to: "ciudad-aerobia", tx: 1, ty: 11, dir: 3, keep: "y" });
+  b.encounters([
+    { sp: "magnetospir", min: 27, max: 29, w: 14 }, { sp: "halobacter", min: 27, max: 29, w: 14 }, { sp: "psychrobac", min: 27, max: 29, w: 12 },
+    { sp: "actinomyces", min: 27, max: 29, w: 12 }, { sp: "baylyi", min: 27, max: 29, w: 12 }, { sp: "geobacter", min: 27, max: 29, w: 12 },
+    { sp: "leishmania", min: 27, max: 30, w: 12 }, { sp: "cryptococ", min: 27, max: 29, w: 12 },
+  ]);
+  add(b.done({ music: "ruta" }));
+}
+
+// ---------------------------------------------------------------- Ciudad Aerobia
+{
+  const b = new MapBuilder("ciudad-aerobia", "Ciudad Aerobia", 30, 24);
+  b.trees(0, 0, 30, 2).trees(0, 0, 2, 10).trees(0, 14, 2, 10).trees(28, 0, 2, 24).trees(0, 22, 30, 2);
+  b.fill(0, 11, 28, 2, "p").fill(14, 2, 2, 9, "p").fill(14, 13, 2, 9, "p");
+  b.building(3, 3, { kind: "gimnasio", w: 7, color: "naranja", door: 3, to: "gimnasio-aerobia", tx: 6, ty: 15 });
+  b.building(18, 3, { kind: "casa", w: 8, color: "rojo", door: 4, to: "casino", tx: 6, ty: 10 });
+  b.building(3, 15, { kind: "incubadora", w: 5, door: 2, to: "incubadora-aerobia", tx: 5, ty: 6 });
+  b.building(18, 15, { kind: "tienda", w: 6, door: 3, to: "tienda-aerobia", tx: 4, ty: 6 });
+  b.building(9, 16, { kind: "casa", w: 4, color: "azul", door: 1, to: "casa-aerobia", tx: 3, ty: 5 });
+  b.fill(6, 7, 1, 4, "p").fill(22, 7, 1, 4, "p").fill(5, 13, 1, 4, "p").fill(21, 13, 1, 5, "p").fill(10, 13, 1, 5, "p");
+  b.fill(17, 13, 2, 2, "f").fill(11, 3, 2, 3, "f");
+  b.sign(13, 10, "Ciudad Aerobia. «Donde todo respira oxígeno… y catalasa».");
+  b.sign(17, 8, "CASINO MUTAGÉNESIS. ¡Fichas, premios y mutaciones al azar!");
+  b.sign(7, 10, "Gimnasio de Ciudad Aerobia. Líder: Dr. Daniel Yero, Levaduras y Eucariotas.");
+  b.sign(26, 10, "Ruta 7: en obras de ampliación. Disculpen las molestias.");
+  b.fill(27, 11, 1, 2, "k");
+  b.npc({ id: "aer-1", x: 12, y: 13, sprite: "chico", move: "pasear", talk: "El Dr. Yero es amigo del Dr. Conchillo, del Instituto de Biotecnología. ¡Dicen que hablan de bioinformática hasta en las comidas!" });
+  b.npc({ id: "aer-2", x: 24, y: 9, sprite: "recluta", dir: 0, hideIf: "urtaza1", talk: "…¿Qué miras? Solo estoy… vigilando el casino. Por nada en especial." });
+  b.npc({ id: "aer-3", x: 8, y: 13, sprite: "estudiante", dir: 1, talk: ["La catalasa rompe el agua oxigenada en agua y oxígeno. ¡Por eso burbujea en una herida!", "Los Microos aerobios la usan para no oxidarse con su propia respiración."] });
+  b.warp({ x: 0, y: 11, h: 2, to: "ruta-6", tx: 34, ty: 7, dir: 2, keep: "y" });
+  add(b.done({ music: "ciudad" }));
+}
+add(incubadora("incubadora-aerobia", "Ciudad Aerobia", { to: "ciudad-aerobia", x: 5, y: 17 }));
+add(tienda("tienda-aerobia", "Ciudad Aerobia", { to: "ciudad-aerobia", x: 21, y: 17 }, ["criobola-roja", "criobola-azul", "criobola-amarilla", "medio-lb", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10, y: 18 }, [
+  { id: "aer-casa", x: 5, y: 3, sprite: "estudiante", dir: 0, script: "regaloPleomorph" },
+]));
+
+// ---------------------------------------------------------------- Casino Mutagénesis
+{
+  const b = new MapBuilder("casino", "Casino Mutagénesis", 14, 12, "x", "casino", false);
+  b.fill(0, 0, 14, 1, "w").fill(0, 1, 14, 1, "W").set(10, 1, "J");
+  b.fill(2, 4, 1, 4, "z").fill(5, 4, 1, 4, "z").fill(8, 4, 1, 4, "z").fill(1, 2, 3, 1, "c").fill(9, 9, 4, 1, "c");
+  b.set(12, 2, "E");
+  b.fill(5, 11, 3, 1, "a");
+  b.npc({ id: "casino-fichas", x: 2, y: 1, sprite: "dependiente", dir: 0, script: "venderFichas" });
+  b.npc({ id: "casino-premios", x: 11, y: 10, sprite: "chica", dir: 1, script: "premiosCasino" });
+  b.npc({ id: "casino-jugador", x: 4, y: 6, sprite: "chico", dir: 2, talk: "Llevo seis horas aquí. Ya casi saco tres LUCA seguidos. ¡Casi!" });
+  b.npc({ id: "casino-recluta", x: 9, y: 2, sprite: "recluta", dir: 3, trainer: {
+    name: "Becario", clase: "Recluta de la Unidad", team: [["serratia", 28], ["klebsi", 28]], sight: 2, money: 120,
+    intro: "¡Eh! ¡No mires ese póster! …Digo, ¡lucha conmigo!", lose: "Bueno, total, el póster es solo un póster… o no.", after: "Yo no he dicho nada de ningún interruptor." } });
+  b.npc({ id: "casino-poster", x: 10, y: 1, sprite: "@tile:poster", script: "posterCasino", solid: true });
+  b.npc({ id: "casino-bloqueo", x: 12, y: 2, sprite: "@tile:tragaperras0", hideIf: "guarida", solid: true, talk: "Una máquina tragaperras… está desenchufada y suena hueca por detrás." });
+  b.warp({ x: 5, y: 11, w: 3, to: "ciudad-aerobia", tx: 22, ty: 6, dir: 0 });
+  b.warp({ x: 12, y: 2, to: "guarida-1", tx: 1, ty: 2, dir: 0 });
+  add(b.done({ music: "casino" }));
+}
+
+// ---------------------------------------------------------------- Guarida de la Unidad de Genética
+{
+  const b = new MapBuilder("guarida-1", "Guarida de la Unidad · Sótano 1", 20, 14, "N", "casino", false);
+  b.fill(0, 0, 20, 1, "w").fill(0, 1, 20, 1, "W");
+  b.set(1, 1, "E").set(18, 12, "E");
+  b.fill(4, 3, 1, 7, "D").fill(9, 5, 1, 9, "D").fill(14, 2, 1, 8, "D").fill(15, 11, 3, 1, "D").set(19, 11, "D").fill(1, 11, 3, 1, "t");
+  b.item(2, 12, "medio-enriquecido", "item:g1-enriquecido");
+  b.item(16, 3, "criobola-amarilla", "item:g1-amarilla", 2);
+  const rec = (id: string, x: number, y: number, dir: number, sp: string, name: string, team: [string, number][], intro: string, after: string) =>
+    b.npc({ id, x, y, sprite: sp, dir, trainer: { name, clase: "Recluta de la Unidad", team, sight: 4, money: 130, intro, lose: "¡Mi script ha petado!", after } });
+  rec("g1-a", 3, 6, 3, "recluta", "Doctorando", [["lambda-v", 29], ["marcescens", 29]], "¡Estos servidores llevan cinco días al 90%! ¡No toques nada!", "El Dr. Barbadilla se mira en las cabinas de flujo. ¡Dice que es para controlar la esterilidad!");
+  rec("g1-b", 11, 3, 0, "recluta-b", "Becaria", [["klebsi", 29], ["mycoplas", 29], ["serratia", 29]], "¿Sabes cuántos genomas he ensamblado esta semana? ¡Ni yo!", "Llevo tres años sin vacaciones. Pero salgo en los agradecimientos.");
+  rec("g1-c", 12, 10, 2, "recluta", "Doctorando", [["phage-x174", 29], ["lambda-v", 30]], "¡Alto! ¡Este pasillo es solo para gente con cuenta en el clúster!", "Abajo está el despacho del jefe. No grites, que está de mal humor.");
+  b.npc({ id: "barbadilla", x: 18, y: 11, sprite: "barbadilla", dir: 1, script: "barbadilla", hideIf: "barbadilla1", solid: true });
+  b.warp({ x: 1, y: 1, to: "casino", tx: 12, ty: 3, dir: 0 });
+  b.warp({ x: 18, y: 12, to: "guarida-2", tx: 1, ty: 2, dir: 0 });
+  add(b.done({ music: "guarida" }));
+}
+{
+  const b = new MapBuilder("guarida-2", "Guarida de la Unidad · Sótano 2", 16, 12, "N", "casino", false);
+  b.fill(0, 0, 16, 1, "w").fill(0, 1, 16, 1, "W");
+  b.set(1, 1, "E");
+  b.fill(6, 2, 1, 6, "D").fill(0, 8, 5, 1, "D").fill(8, 7, 8, 1, "D").fill(11, 2, 1, 3, "D");
+  b.fill(14, 3, 2, 1, "t").set(14, 2, "P").set(15, 2, "D");
+  b.npc({ id: "casillas", x: 5, y: 9, sprite: "casillas", dir: 1, script: "casillas", hideIf: "casillas1", solid: true });
+  b.npc({ id: "g2-becario", x: 4, y: 9, sprite: "becario", dir: 1, hideIf: "casillas1", talk: "La Dra. Casillas nos trae táperes y nos pregunta si hemos comido. ¡Es la única que nos cuida!" });
+  b.npc({ id: "urtaza", x: 13, y: 3, sprite: "urtaza", dir: 0, script: "urtaza", hideIf: "urtaza1", solid: true });
+  b.warp({ x: 1, y: 1, to: "guarida-1", tx: 18, ty: 11, dir: 0 });
+  add(b.done({ music: "guarida" }));
+}
+
+// ---------------------------------------------------------------- Gimnasio de Ciudad Aerobia
+{
+  const b = new MapBuilder("gimnasio-aerobia", "Gimnasio de Ciudad Aerobia", 13, 17, "Y", "gimnasio", false);
+  b.fill(0, 0, 13, 1, "w").fill(0, 1, 13, 1, "W");
+  b.fill(0, 5, 4, 1, "K").fill(6, 5, 7, 1, "K").fill(0, 9, 8, 1, "K").fill(10, 9, 3, 1, "K").fill(3, 12, 7, 1, "B");
+  b.set(0, 2, "i").set(12, 2, "i").set(0, 15, "n").set(12, 15, "n");
+  b.fill(5, 16, 3, 1, "a");
+  b.npc({ id: "lider-yero", x: 6, y: 2, sprite: "yero", dir: 0, script: "liderYero" });
+  b.npc({ id: "gym4-a", x: 8, y: 7, sprite: "chica", dir: 2, trainer: {
+    name: "Clara", clase: "Panadera", team: [["sacchari", 28], ["kefirgran", 29]], sight: 4, money: 130,
+    intro: "¡La masa madre está lista! ¿Y tú?", lose: "Se me ha bajado la masa…", after: "Saccharomyces hace subir el pan con el CO₂ de su fermentación." } });
+  b.npc({ id: "gym4-b", x: 2, y: 11, sprite: "estudiante", dir: 3, trainer: {
+    name: "Hugo", clase: "Micólogo Clínico", team: [["albicans", 29], ["cryptococ", 29], ["bifidum", 29]], sight: 4, money: 130,
+    intro: "Las levaduras también pueden ser patógenas. ¡Te lo demuestro!", lose: "Necesito un antifúngico.", after: "Candida auris es resistente a casi todo. ¡El Dr. Yero tiene una!" } });
+  b.npc({ id: "guia-gym4", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "El Dr. Yero usa Levaduras y Eucariotas: Pastorian, Neoformans y Auris.", "¡Auris es Levadura y Biofilm, y no hay quien la elimine!"] });
+  b.warp({ x: 5, y: 16, w: 3, to: "ciudad-aerobia", tx: 6, ty: 7, dir: 0 });
   add(b.done({ music: "gimnasio" }));
 }
 

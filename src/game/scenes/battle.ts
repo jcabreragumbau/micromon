@@ -58,9 +58,9 @@ export class BattleScene implements Scene {
     for (const e of initial.filter((e) => e.side === 0)) await this.play(e);
     for (const m of b.sides[1].party) markSeen(g.state, m.species);
     while (!b.ended) {
-      const act = await this.chooseAction();
-      if (!act) continue;
-      b.playTurn([act], chooseActions(b, 1, this.s.wild ? "facil" : g.state.difficulty));
+      const acts = await this.chooseActions();
+      if (!acts) continue;
+      b.playTurn(acts, chooseActions(b, 1, this.s.wild ? "facil" : g.state.difficulty));
       for (const e of b.drain()) await this.play(e);
       await this.replacements();
     }
@@ -113,19 +113,53 @@ export class BattleScene implements Scene {
   }
 
   // ---------------------------------------------------------------- menús
-  private async chooseAction(): Promise<Action | null> {
+  get doubles() { return this.b.sides[0].active.length > 1; }
+  /** Acciones del turno: una por cada Microo propio en la placa (dos en combate doble). */
+  private async chooseActions(): Promise<Action[] | null> {
+    const b = this.b;
+    const slots = b.sides[0].active.map((x, i) => (x && x.mon.hp > 0 ? i : -1)).filter((i) => i >= 0);
+    const acts: Action[] = [];
+    const reserved = new Set<number>();
+    for (let k = 0; k < slots.length; k++) {
+      const a = await this.chooseFor(slots[k], reserved, k > 0, acts.some((x) => x.kind === "item"));
+      if (a === "back") {                       // B en el segundo Microo: volver al primero
+        const prev = acts.pop(); if (prev?.kind === "switch") reserved.delete(prev.party);
+        k -= 2; continue;
+      }
+      if (!a) { k--; continue; }
+      if (a.kind === "run") return [a];
+      if (a.kind === "switch") reserved.add(a.party);
+      acts.push(a);
+    }
+    return acts;
+  }
+  private async chooseFor(slot: number, reserved: Set<number>, canBack: boolean, itemUsed: boolean): Promise<Action | "back" | null> {
     const g = this.game, b = this.b;
-    const me = b.sides[0].active[0]!;
-    if (b.forced({ side: 0, slot: 0 })) return { kind: "move", slot: 0, move: 0 };
-    const c = await g.run<number>(new ActionMenu(displayName(me.mon)));
+    const me = b.sides[0].active[slot]!;
+    const ref = { side: 0 as const, slot };
+    if (b.forced(ref)) return { kind: "move", slot, move: 0 };
+    const c = await g.run<number>(new ActionMenu(displayName(me.mon), canBack));
+    if (c < 0) return "back";
     if (c === 0) {
-      const legal = b.legalMoves({ side: 0, slot: 0 });
-      if (!legal.length) return { kind: "move", slot: 0, move: -1 };
+      const legal = b.legalMoves(ref);
+      if (!legal.length) return { kind: "move", slot, move: -1 };
       const mv = await g.run<number>(new MoveMenu(me.mon, legal));
       if (mv < 0) return null;
-      return { kind: "move", slot: 0, move: mv, target: { side: 1, slot: 0 } };
+      const move = getMove(me.mon.moves[mv].id);
+      let target = { side: 1 as const, slot: b.sides[1].active.findIndex((x) => x && x.mon.hp > 0) };
+      if (target.slot < 0) target.slot = 0;
+      const foes = b.sides[1].active.map((x, i) => (x && x.mon.hp > 0 ? i : -1)).filter((i) => i >= 0);
+      if (this.doubles && (move.target === "normal" || move.target === "any") && foes.length > 1) {
+        this.aim = -1;
+        const t = await g.run<number>(new TargetMenu(this, foes));
+        this.aim = -1;
+        if (t < 0) return null;
+        target = { side: 1, slot: t };
+      }
+      return { kind: "move", slot, move: mv, target };
     }
     if (c === 1) {
+      if (itemUsed) { await this.text("¡Solo puedes usar un objeto por turno!"); return null; }
       const r = await bagMenu(g, { mode: "battle", wild: this.s.wild });
       if (!r) return null;
       if (ITEMS.get(r.item)?.kind === "ball") {
@@ -133,17 +167,23 @@ export class BattleScene implements Scene {
       }
       g.state.bag[r.item]--; if (g.state.bag[r.item] <= 0) delete g.state.bag[r.item];
       b.inventory[r.item] = (b.inventory[r.item] ?? 0) + 1;
-      return { kind: "item", slot: 0, item: r.item, party: r.target };
+      return { kind: "item", slot, item: r.item, party: r.target };
     }
     if (c === 2) {
-      if (!b.canSwitch({ side: 0, slot: 0 })) { await this.text(`¡${displayName(me.mon)} no puede retirarse!`); return null; }
+      if (!b.canSwitch(ref)) { await this.text(`¡${displayName(me.mon)} no puede retirarse!`); return null; }
       const idx = await partyMenu(g, { mode: "switch", battle: b });
       if (idx < 0) return null;
-      return { kind: "switch", slot: 0, party: idx };
+      if (reserved.has(idx)) { await this.text(`¡${displayName(g.state.party[idx])} ya va a salir!`); return null; }
+      return { kind: "switch", slot, party: idx };
     }
-    if (c === 3) return { kind: "run", slot: 0 };
+    if (c === 3) {
+      if (!this.s.wild) { await this.text("¡No puedes huir de un combate contra otro investigador!"); return null; }
+      return { kind: "run", slot };
+    }
     return null;
   }
+  /** Rival señalado al elegir objetivo (parpadea). */
+  aim = -1;
 
   // ---------------------------------------------------------------- eventos
   private async text(t: string, waitInput = false) { await this.game.run(new BattleText(this.game.fill(t), waitInput)); }
@@ -214,37 +254,52 @@ export class BattleScene implements Scene {
   }
 
   // ---------------------------------------------------------------- dibujo
-  draw(g: Gfx) {
+  /** Posición y escala de cada Microo en la placa (individual o doble). */
+  private spot(side: 0 | 1, slot: number): [number, number, number] {
+    if (!this.doubles) return side === 1 ? [152, 10, 1] : [22, 56, 1.1];
+    return side === 1 ? (slot === 0 ? [126, 24, 0.78] : [186, 8, 0.78]) : (slot === 0 ? [-4, 58, 0.92] : [62, 66, 0.92]);
+  }
+  draw(g: Gfx, game?: Game) {
     drawBattleBackground(g, this.s.env, this.bgCache);
-    // Rival
-    const f = this.disp[1][0];
+    const frame = game?.frame ?? 0;
+    // Rivales
     if (this.showTrainer && this.s.trainer) g.portrait(this.s.trainer.portrait ?? "becario", 158 + Math.max(0, this.trainerSlide), 0);
-    else if (f?.visible && f.mon) {
-      const blink = f.flash > 0 && Math.floor(f.flash / 4) % 2 === 0;
-      const sc = f.appear > 0 ? 1 - f.appear / 24 : 1;
-      if (!blink) g.alpha(f.drop > 0 ? Math.max(0, 1 - f.drop / 48) : 1, () => g.microo(f.species, "frente", 152 + 40 * (1 - sc), 10 + f.drop + 80 * (1 - sc), sc));
-    }
+    else this.disp[1].forEach((f, slot) => {
+      if (!f?.visible || !f.mon) return;
+      const [x, y, k] = this.spot(1, slot);
+      const blink = (f.flash > 0 && Math.floor(f.flash / 4) % 2 === 0) || (this.aim === slot && Math.floor(frame / 8) % 2 === 0);
+      const sc = (f.appear > 0 ? 1 - f.appear / 24 : 1) * k;
+      if (!blink) g.alpha(f.drop > 0 ? Math.max(0, 1 - f.drop / 48) : 1, () => g.microo(f.species, "frente", x + 40 * (k - sc), y + f.drop + 80 * (k - sc), sc));
+    });
     // Criobola lanzada
     if (this.ballAnim > 0 || this.ballShake !== 0) {
       const t = Math.max(0, this.ballAnim) / 30;
       const bx = 192 - t * 120 + this.ballShake * 2, by = 66 - Math.sin((1 - t) * Math.PI) * (t > 0 ? 34 : 0);
       drawBallBig(g, bx, by);
     }
-    // Propio
-    const p = this.disp[0][0];
-    if (p?.visible && p.mon) {
+    // Propios (el segundo se dibuja detrás)
+    [...this.disp[0].keys()].reverse().forEach((slot) => {
+      const p = this.disp[0][slot];
+      if (!p?.visible || !p.mon) return;
+      const [x, y, k] = this.spot(0, slot);
       const blink = p.flash > 0 && Math.floor(p.flash / 4) % 2 === 0;
-      if (!blink) g.alpha(p.drop > 0 ? Math.max(0, 1 - p.drop / 48) : 1, () => g.microo(p.species, "espalda", 22, 56 + p.drop, 1.1));
-    }
+      if (!blink) g.alpha(p.drop > 0 ? Math.max(0, 1 - p.drop / 48) : 1, () => g.microo(p.species, "espalda", x, y + p.drop, k));
+    });
     // Cajas de PS
-    if (f?.visible && f.mon) this.hpBox(g, f, 6, 10, false);
-    if (p?.visible && p.mon) this.hpBox(g, p, W - 128, TB - 46, true);
+    if (!this.doubles) {
+      const f = this.disp[1][0], p = this.disp[0][0];
+      if (f?.visible && f.mon) this.hpBox(g, f, 6, 10, false);
+      if (p?.visible && p.mon) this.hpBox(g, p, W - 128, TB - 46, true);
+    } else {
+      this.disp[1].forEach((f, i) => { if (f?.visible && f.mon) this.hpBox(g, f, 4, 4 + i * 31, false, true); });
+      this.disp[0].forEach((p, i) => { if (p?.visible && p.mon) this.hpBox(g, p, W - 116, TB - 74 + i * 37, true, true); });
+    }
     g.rect(0, TB, W, 48, "#283048");
   }
   bgCache: { env?: string; c?: HTMLCanvasElement } = {};
-  private hpBox(g: Gfx, d: Disp, x: number, y: number, mine: boolean) {
+  private hpBox(g: Gfx, d: Disp, x: number, y: number, mine: boolean, compact = false) {
     const m = d.mon!;
-    const w = 122, h = mine ? 42 : 30;
+    const w = compact ? 112 : 122, h = mine && !compact ? 42 : compact && mine ? 35 : 30;
     // Caja estilo DS: borde oscuro, relleno claro con degradado y lengüeta
     const c = g.ctx;
     c.fillStyle = "#2c3040"; roundRect(c, x, y, w, h, 6); c.fill();
@@ -261,7 +316,8 @@ export class BattleScene implements Scene {
     c.fillStyle = col[1]; c.fillRect(x + 24, y + 19, Math.round((w - 34) * frac), 3);
     c.fillStyle = col[0]; c.fillRect(x + 24, y + 19, Math.round((w - 34) * frac), 1);
     if (d.status) { const [t, cc] = STATUS_TAG[d.status]; c.fillStyle = cc; roundRect(c, x + 68, y + 4, 22, 10, 3); c.fill(); g.text(t, x + 70, y + 5, "white", false); }
-    if (mine) {
+    if (mine && compact) { const t = `${Math.max(0, d.hp)}/${m.stats.hp}`; g.text(t, x + w - 8 - g.measure(t), y + 24); }
+    if (mine && !compact) {
       g.text(`${Math.max(0, d.hp)}/${m.stats.hp}`, x + w - 50, y + 26);
       const sp = getSpecies(m.species);
       const lo = expForLevel(sp.growth, m.level), hi = expForLevel(sp.growth, m.level + 1);
@@ -288,6 +344,8 @@ function drawBattleBackground(g: Gfx, env: string, cache: { env?: string; c?: HT
       gimnasio: ["#f4d890", "#fff4d0", "#e8c870", "#c8a450", "#f8e098", "#a07c38"],
       cueva: ["#1a1424", "#3a2e48", "#4a3e52", "#2e2636", "#6a8a8a", "#1a1420"],
       invernadero: ["#bfe8f0", "#f0fff4", "#a8d898", "#7cb870", "#c8f0b0", "#4a8a50"],
+      casino: ["#3a1830", "#7a2840", "#9a3848", "#6a2030", "#e8c050", "#401020"],
+      torre: ["#2a2438", "#6a5a88", "#5a5068", "#3a3448", "#9a88b8", "#201830"],
     };
     const [sky1, sky2, g1, g2, rim, dark] = pal[env] ?? pal.hierba;
     const gr = c.createLinearGradient(0, 0, 0, 70);
@@ -347,7 +405,7 @@ class BattleText implements Overlay {
 
 class ActionMenu implements Overlay {
   sel = 0; result = 0;
-  constructor(public name: string) {}
+  constructor(public name: string, public canBack = false) {}
   update(game: Game) {
     const i = game.input;
     if (i.pressed("right") && this.sel % 2 === 0) this.sel++;
@@ -355,6 +413,7 @@ class ActionMenu implements Overlay {
     if (i.pressed("down") && this.sel < 2) this.sel += 2;
     if (i.pressed("up") && this.sel >= 2) this.sel -= 2;
     if (i.pressed("a")) { this.result = this.sel; return true; }
+    if (this.canBack && i.pressed("b")) { this.result = -1; return true; }
     return false;
   }
   draw(g: Gfx) {
@@ -391,6 +450,28 @@ class MoveMenu implements Overlay {
       g.text("PP", 182, TB + 10); g.text(`${s.pp}/${s.maxPp}`, 206, TB + 10, s.pp === 0 ? "red" : "dark");
       g.text(mv.type.slice(0, 11), 182, TB + 26, "blue");
     }
+  }
+}
+
+/** Elección del rival al que atacar en un combate doble. */
+class TargetMenu implements Overlay {
+  sel = 0; result = -1;
+  constructor(public scene: BattleScene, public foes: number[]) { scene.aim = foes[0]; }
+  update(game: Game) {
+    const i = game.input;
+    if (i.pressed("left") || i.pressed("right") || i.pressed("up") || i.pressed("down")) { this.sel = (this.sel + 1) % this.foes.length; this.scene.aim = this.foes[this.sel]; }
+    if (i.pressed("a")) { this.result = this.foes[this.sel]; return true; }
+    if (i.pressed("b")) { this.result = -1; return true; }
+    return false;
+  }
+  draw(g: Gfx) {
+    g.frame(0, TB, W, 48, "menu");
+    g.text("¿A quién atacar?", 10, TB + 8, "blue");
+    this.foes.forEach((slot, k) => {
+      const m = this.scene.b.sides[1].active[slot]?.mon;
+      if (m) g.text(displayName(m), 26 + k * 120, TB + 26);
+    });
+    g.cursor(16 + this.sel * 120, TB + 26);
   }
 }
 

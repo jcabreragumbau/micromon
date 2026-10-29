@@ -124,7 +124,7 @@ export class Overworld implements Scene {
     const tr = this.map.triggers.find((t) => this.px >= t.x && this.px < t.x + (t.w ?? 1) && this.py >= t.y && this.py < t.y + (t.h ?? 1));
     if (tr && (!tr.once || !s.flags[tr.once])) { await this.lock(() => runScript(this.game, this, tr.script)); return; }
     if (await this.checkTrainers()) return;
-    const cave = this.map.env === "cueva" && tile === "suelo_cueva";
+    const cave = (this.map.env === "cueva" && tile === "suelo_cueva") || (this.map.env === "torre" && tile === "suelo_torre");
     if ((isGrass(tile) || cave) && this.map.grass.length) {
       this.stepsInGrass++;
       const rng = (this.game.frame * 9301 + this.px * 49297 + this.py * 233) % 1000;
@@ -165,6 +165,7 @@ export class Overworld implements Scene {
     const t = tileAt(this.map, x, y);
     if (!n && t === "mostrador") n = this.npcs.find((m) => m.x === x + DX[this.dir] && m.y === y + DY[this.dir]);
     if (n) { if (n.def.sprite && !n.def.sprite.startsWith("@")) n.dir = [1, 0, 3, 2][this.dir]; this.lock(() => talkNpc(this.game, this, n!)); return; }
+    if (t.startsWith("tragaperras")) { this.lock(() => runScript(this.game, this, "tragaperras")); return; }
     const sign = this.map.signs.find((s) => s.x === x && s.y === y);
     if (sign) { this.lock(() => this.game.say(sign.text)); return; }
     const it = this.map.items.find((i) => i.x === x && i.y === y && !this.game.state.flags[i.flag]);
@@ -274,6 +275,7 @@ export class Overworld implements Scene {
       const i = TILES[gt];
       g.ctx.drawImage(IMG.tiles, (i % 16) * 16, Math.floor(i / 16) * 16 + 10, 16, 6, psx, psy + 10, 16, 6);
     }
+    if (this.map.fog) drawFog(g, this.anim, !!this.game.state.bag["western-blot"]);
     if (this.map.dark) drawDark(g, psx + 8, psy - 2 + jy, this.lux ? 84 : 22);
     if (this.banner > 0 && (this.map.outdoor || this.map.env === "cueva")) {
       const yb = this.banner > 100 ? (120 - this.banner) * 1.2 - 24 : this.banner < 20 ? this.banner * 1.2 - 24 : 0;
@@ -309,4 +311,19 @@ export function drawDark(g: Gfx, x: number, y: number, r: number) {
   k.fillStyle = gr; k.beginPath(); k.arc(x, y, r, 0, Math.PI * 2); k.fill();
   k.globalCompositeOperation = "source-over";
   g.ctx.drawImage(c, 0, 0);
+}
+
+/** Niebla violeta que se desplaza (más tenue cuando el Western Blot permite identificar los priones). */
+export function drawFog(g: Gfx, t: number, clear: boolean) {
+  const c = g.ctx;
+  c.save();
+  c.globalAlpha = clear ? 0.16 : 0.32;
+  for (let i = 0; i < 9; i++) {
+    const x = ((i * 71 + t * (0.25 + (i % 3) * 0.12)) % (g.canvas.width + 120)) - 60;
+    const y = 20 + ((i * 53) % 150) + Math.sin(t / 50 + i) * 6;
+    const gr = c.createRadialGradient(x, y, 4, x, y, 56);
+    gr.addColorStop(0, "#c8a8f0"); gr.addColorStop(1, "rgba(200,168,240,0)");
+    c.fillStyle = gr; c.fillRect(x - 60, y - 60, 120, 120);
+  }
+  c.restore();
 }

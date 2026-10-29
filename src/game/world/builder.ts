@@ -16,10 +16,12 @@ export interface Encounter { sp: string; min: number; max: number; w: number }
 export interface MapDef {
   id: string; name: string; w: number; h: number; grid: string[][];
   npcs: NpcDef[]; warps: WarpDef[]; signs: { x: number; y: number; text: string }[]; items: ItemDef[];
-  triggers: TriggerDef[]; grass: Encounter[]; env: "hierba" | "bosque" | "interior" | "laboratorio" | "gimnasio" | "cueva" | "invernadero";
+  triggers: TriggerDef[]; grass: Encounter[]; env: "hierba" | "bosque" | "interior" | "laboratorio" | "gimnasio" | "cueva" | "invernadero" | "casino" | "torre";
   outdoor: boolean; onEnter?: string; music?: string;
   /** Mapa oscuro: solo se ve alrededor del jugador (más con Quorum Sensing Lux). */
   dark?: boolean;
+  /** Niebla de proteínas mal plegadas (Torre Prión). */
+  fog?: boolean;
 }
 
 /** Leyenda de caracteres → tile. T y V son árboles de 2×2 alineados a coordenadas pares. */
@@ -28,6 +30,7 @@ export const LEGEND: Record<string, string> = {
   k: "seto", l: "valla", r: "roca", v: "bordillo", "#": "vacio", w: "pared", W: "pared_base", m: "suelo_madera", L: "suelo_lab",
   Y: "suelo_gimnasio", e: "estanteria", t: "mesa", c: "mostrador", P: "pc", b: "cama", n: "planta", a: "alfombra",
   i: "incubadora", B: "poyata", M: "microscopio", Q: "queso", C: "lata", K: "tanque", E: "escaleras", S: "cartel",
+  x: "suelo_casino", N: "suelo_tecnico", F: "suelo_torre", I: "placa_contaminada", J: "poster",
   u: "suelo_cueva", X: "pared_cueva", d: "disco_duro", A: "acantilado", O: "cueva_entrada", Z: "winogradsky", j: "suelo_invernadero",
 };
 
@@ -106,10 +109,12 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
   if (ch === "h") return frame % 80 < 40 ? "hifas0" : "hifas1";
   if (ch === "o") return frame % 90 < 45 ? "seta0" : "seta1";
   if (ch === "q") return frame % 64 < 32 ? "piscina0" : "piscina1";
+  if (ch === "z") return frame % 40 < 20 ? "tragaperras0" : "tragaperras1";
+  if (ch === "D") return frame % 48 < 24 ? "servidor0" : "servidor1";
   return LEGEND[ch] ?? "hierba";
 }
 
 const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
-  "suelo_madera", "suelo_lab", "suelo_gimnasio", "suelo_cueva", "suelo_invernadero", "cueva_entrada", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo"]);
+  "suelo_madera", "suelo_lab", "suelo_gimnasio", "suelo_cueva", "suelo_invernadero", "cueva_entrada", "suelo_casino", "suelo_tecnico", "suelo_torre", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo"]);
 export function passable(tile: string) { return PASSABLE.has(tile); }
 export function isGrass(tile: string) { return tile === "hierba_alta" || tile === "hierba_oscura"; }
