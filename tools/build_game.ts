@@ -3,8 +3,12 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = join(import.meta.dir, "..");
-const ATLAS = ["tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd", "props_hd", "medallas_hd", "microos_frente", "microos_espalda", "microos_iconos"];
-const lines = ATLAS.map((n) => `  ${JSON.stringify(n)}: "data:image/png;base64,${readFileSync(join(ROOT, "assets/atlas", `${n}.png`)).toString("base64")}",`);
+const ATLAS = ["portada.jpg", "portada_fondo.jpg", "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd", "props_hd", "medallas_hd", "microos_frente", "microos_espalda", "microos_iconos"];
+const lines = ATLAS.map((f) => {
+  const [n, ext] = f.includes(".") ? f.split(".") : [f, "png"];
+  const mime = ext === "jpg" ? "image/jpeg" : "image/png";
+  return `  ${JSON.stringify(n)}: "data:${mime};base64,${readFileSync(join(ROOT, "assets/atlas", `${n}.${ext}`)).toString("base64")}",`;
+});
 writeFileSync(join(ROOT, "src/game/assets_data.ts"), `// Generado por tools/build_game.ts. No editar.\nexport default {\n${lines.join("\n")}\n};\n`);
 
 const res = await Bun.build({ entrypoints: [join(ROOT, "src/game/main.ts")], minify: { whitespace: true, syntax: true, identifiers: false }, target: "browser" });

@@ -2,6 +2,7 @@
 import type { Game, Scene } from "../game";
 import { audio } from "../audio";
 import { Gfx, W, H } from "../gfx";
+import { IMG } from "../assets";
 import { Overworld } from "./overworld";
 import { newState, loadGame, hasSave, AVATAR_SPRITE, type Avatar } from "../state";
 import { runScript } from "../scripts";
@@ -16,7 +17,7 @@ export class TitleScene implements Scene {
   }
   async menu(game: Game) {
     const opts = hasSave() ? ["CONTINUAR", "NUEVA PARTIDA"] : ["NUEVA PARTIDA"];
-    const c = await game.choose(opts, { x: 88, y: 110, cancel: 999 });
+    const c = await game.choose(opts, { x: W - 106, y: 112, cancel: 999 });
     if (c < 0) return;
     if (opts[c] === "CONTINUAR") {
       const s = loadGame();
@@ -25,17 +26,29 @@ export class TitleScene implements Scene {
     await newGame(game);
   }
   draw(g: Gfx, game: Game) {
-    for (let y = 0; y < H; y++) g.rect(0, y, W, 1, `hsl(${150 + y / 4}, 45%, ${78 - y / 6}%)`);
-    const species = ["synechoc", "butyricum", "paramec"];
-    species.forEach((sp, i) => g.microo(sp, "frente", 8 + i * 84, 70 + Math.round(Math.sin((this.t + i * 20) / 20) * 3)));
-    g.frame(38, 10, 180, 46, "info");
-    const title = "MICROMÓN";
-    let x = 120 - g.measure(title) * 1.5;
-    g.ctx.save(); g.ctx.scale(3, 3);
-    g.text(title, (W / 2 - g.measure(title) * 1.5) / 3, 16 / 3, "red");
-    g.ctx.restore(); void x;
-    g.text("Edición Escherichia", W / 2 - g.measure("Edición Escherichia") / 2, 42, "blue");
-    if (Math.floor(this.t / 30) % 2 === 0 && !game.overlays.length) g.text("Pulsa A para empezar", W / 2 - g.measure("Pulsa A para empezar") / 2, H - 22, "white");
+    // Portada del juego: la ilustración entera en el centro y una versión desenfocada a los lados
+    const c = g.ctx;
+    c.save(); c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+    if (IMG.portada_fondo) c.drawImage(IMG.portada_fondo, 0, 0, W, H); else g.clear("#200806");
+    const cw = IMG.portada ? (H * IMG.portada.width) / IMG.portada.height : 0, cx = (W - cw) / 2;
+    if (IMG.portada) {
+      g.alpha(0.5, () => g.rect(cx - 2, 0, cw + 4, H, "#000"));
+      c.drawImage(IMG.portada, cx, 0, cw, H);
+    }
+    c.restore();
+    // ascuas que suben por toda la pantalla
+    for (let i = 0; i < 26; i++) {
+      const sp = 0.25 + (i % 5) * 0.09, x = (i * 53 + Math.sin((this.t + i * 40) / 37) * 8) % W;
+      const y = H - ((this.t * sp + i * 71) % (H + 20)) + 10;
+      g.alpha(0.5 + 0.5 * Math.sin((this.t + i * 13) / 9), () => g.rect(x, y, i % 3 ? 1 : 2, i % 3 ? 1 : 2, i % 2 ? "#ffd060" : "#ff7a20"));
+    }
+    // fundido de entrada
+    if (this.t < 40) g.alpha(1 - this.t / 40, () => g.rect(0, 0, W, H, "#000"));
+    if (Math.floor(this.t / 30) % 2 === 0 && !game.overlays.length && this.t > 40) {
+      const t = "Pulsa A para empezar", w = g.measure(t) + 12;
+      g.alpha(0.7, () => g.round(W / 2 - w / 2, H - 17, w, 14, 6, "#140404"));
+      g.text(t, W / 2 - w / 2 + 6, H - 16, "white");
+    }
   }
 }
 
