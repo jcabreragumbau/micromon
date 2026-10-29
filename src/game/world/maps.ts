@@ -13,6 +13,12 @@ function casa(id: string, name: string, back: { to: string; x: number; y: number
   npcs.forEach((n) => b.npc(n));
   return b.done();
 }
+/** PNJ divulgador: cada visita cuenta una curiosidad de microbiología. */
+function visitante(id: string) {
+  const SPR = ["chico", "chica", "estudiante", "becario", "madre", "jubilado"];
+  let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return SPR[h % SPR.length];
+}
 function incubadora(id: string, ciudad: string, back: { to: string; x: number; y: number }) {
   const b = new MapBuilder(id, `Incubadora de ${ciudad}`, 11, 8, "L", "interior", false);
   b.fill(0, 0, 11, 1, "w").fill(0, 1, 11, 1, "W").set(1, 1, "i").set(2, 1, "i").set(8, 1, "i").set(9, 1, "i");
@@ -20,6 +26,7 @@ function incubadora(id: string, ciudad: string, back: { to: string; x: number; y
   b.fill(4, 7, 3, 1, "a");
   b.npc({ id: "enfermera", x: 5, y: 1, sprite: "enfermera", dir: 0, script: "incubadora" });
   b.npc({ id: "pc-info", x: 10, y: 3, sprite: "", script: "congelador" });
+  b.npc({ id: `${id}-visita`, x: 2, y: 5, sprite: visitante(id), move: "girar", talk: [] });
   b.warp({ x: 4, y: 7, w: 3, to: back.to, tx: back.x, ty: back.y + 1, dir: 0 });
   return b.done({ onEnter: "registrarIncubadora" });
 }
@@ -30,6 +37,7 @@ function tienda(id: string, ciudad: string, back: { to: string; x: number; y: nu
   b.fill(4, 7, 2, 1, "a");
   b.npc({ id: "dependiente", x: 2, y: 2, sprite: "dependiente", dir: 0, script: `tienda:${stock.join(",")}` });
   b.warp({ x: 4, y: 7, w: 2, to: back.to, tx: back.x, ty: back.y + 1, dir: 0 });
+  b.npc({ id: `${id}-visita`, x: 2, y: 5, sprite: visitante(id + "t"), move: "girar", talk: [] });
   return b.done();
 }
 

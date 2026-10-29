@@ -1,6 +1,7 @@
 // Guiones de historia, conversaciones y combates.
 import type { Game } from "./game";
 import { audio } from "./audio";
+import { curiosidadPara } from "./curiosidades";
 import type { Overworld, NpcState } from "./scenes/overworld";
 import { BattleScene, type BattleSetup, type BattleOutcome } from "./scenes/battle";
 import { shopMenu, congeladorMenu, partyMenu } from "./scenes/menus";
@@ -95,14 +96,23 @@ export async function whiteout(game: Game, world: Overworld) {
 export async function talkNpc(game: Game, world: Overworld, n: NpcState) {
   const d = n.def;
   if (d.trainer) {
-    if (game.state.flags[`entrenador:${d.id}`]) await game.say(`${d.trainer.clase} ${d.trainer.name}: ${d.trainer.after}`);
+    if (game.state.flags[`entrenador:${d.id}`]) {
+      const k = CHARLAS.get(d.id) ?? 0; CHARLAS.set(d.id, k + 1);
+      if (k % 2 === 0 || !d.trainer.after || d.trainer.leader) await game.say(`${d.trainer.clase} ${d.trainer.name}: ${d.trainer.after}`);
+      else await game.say(`${d.trainer.name}: Por cierto, ¿sabías que…? ${curiosidadPara(d.id, k)}`);
+    }
     else await trainerBattle(game, world, n);
     return;
   }
   if (d.script) return runScript(game, world, d.script, n);
   const lines = Array.isArray(d.talk) ? d.talk : d.talk ? [d.talk] : [];
-  for (const l of lines) await game.say(l);
+  // Primera vez: su frase. Después: una curiosidad de microbiología distinta cada vez.
+  const k = (CHARLAS.get(d.id) ?? 0);
+  CHARLAS.set(d.id, k + 1);
+  if (k === 0 || !lines.length) { for (const l of lines) await game.say(l); if (lines.length) return; }
+  await game.say(`¿Sabías que…? ${curiosidadPara(d.id, k)}`);
 }
+const CHARLAS = new Map<string, number>();
 
 export async function runScript(game: Game, world: Overworld, name: string, npc?: NpcState): Promise<void> {
   const [key, arg] = name.split(":");
