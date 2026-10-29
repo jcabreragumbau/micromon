@@ -30,7 +30,7 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;box
 @media (pointer:coarse){#mando{display:flex}#ayuda{display:none}}
 </style></head><body>
 <canvas id="pantalla" width="240" height="160"></canvas>
-<div id="ayuda">Flechas: moverse · Z / Espacio: A · X / Esc: B (mantén para correr) · Intro: menú</div>
+<div id="ayuda">Flechas: moverse · Z / Espacio: A · X / Esc: B (mantén para correr) · Intro: menú · También con mando de Xbox</div>
 <div id="mando">
  <div id="cruz"><span></span><button data-key="up">▲</button><span></span><button data-key="left">◀</button><span></span><button data-key="right">▶</button><span></span><button data-key="down">▼</button><span></span></div>
  <button id="start" data-key="start">START</button>
@@ -63,7 +63,7 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:var(--ma
 @media (pointer:coarse){#mando{display:flex}#ayuda{display:none}}
 </style>
 <canvas id="pantalla" width="240" height="160" aria-label="Pantalla del juego Micromón"></canvas>
-<div id="ayuda">Flechas: moverse · Z o Espacio: A · X o Esc: B (mantén para correr) · Intro: menú · La partida se guarda en este navegador desde el menú</div>
+<div id="ayuda">Flechas: moverse · Z o Espacio: A · X o Esc: B (mantén para correr) · Intro: menú · También con mando de Xbox · La partida se guarda en este navegador desde el menú</div>
 <div id="mando">
  <div id="cruz"><span></span><button id="b-arriba" data-key="up" aria-label="Arriba">▲</button><span></span><button id="b-izq" data-key="left" aria-label="Izquierda">◀</button><span></span><button id="b-der" data-key="right" aria-label="Derecha">▶</button><span></span><button id="b-abajo" data-key="down" aria-label="Abajo">▼</button><span></span></div>
  <button id="start" data-key="start">START</button>

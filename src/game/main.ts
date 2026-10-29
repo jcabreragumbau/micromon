@@ -25,3 +25,13 @@ async function boot() {
   window.addEventListener("resize", fit); fit();
 }
 boot().catch((e) => { document.body.insertAdjacentHTML("beforeend", `<pre style="color:#f88">${String(e)}</pre>`); });
+
+// Al conectar un mando, la ayuda muestra sus botones.
+window.addEventListener("gamepadconnected", () => {
+  const el = document.getElementById("ayuda");
+  if (el) el.textContent = "Mando: joystick o cruceta para moverse · B: aceptar (A) · A: cancelar / mantener para correr · Menú: START";
+});
+window.addEventListener("gamepaddisconnected", () => {
+  const el = document.getElementById("ayuda");
+  if (el) el.textContent = "Mando desconectado. Flechas: moverse · Z / Espacio: A · X / Esc: B (mantén para correr) · Intro: menú";
+});
