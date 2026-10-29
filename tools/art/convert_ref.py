@@ -67,6 +67,19 @@ def shrink(rgba: Image.Image, target_h: int, colors=15) -> Image.Image:
     out[edge] = (26, 20, 32, 255)
     return Image.fromarray(out)
 
+HD = 4  # factor de la versión en alta resolución (el juego dibuja a 4× la resolución lógica)
+OUT_HD = ROOT / "assets" / "sprites" / "characters_hd"
+
+def hd(rgba: Image.Image, target_h: int, max_w: int | None = None) -> Image.Image:
+    """Versión fiel a la ilustración original: solo cambia de tamaño (sin reducir colores ni redibujar)."""
+    w, h = rgba.size
+    tw = max(1, round(w * target_h / h))
+    if max_w and tw > max_w: target_h = max(1, round(target_h * max_w / tw)); tw = max_w
+    small = rgba.convert("RGBa").resize((tw, target_h), Image.LANCZOS).convert("RGBA")
+    a = np.array(small)
+    a[..., 3] = np.where(a[..., 3] > 120, 255, 0)
+    return Image.fromarray(a)
+
 def fit(im: Image.Image, w: int, h: int) -> Image.Image:
     c = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     c.paste(im, ((w - im.width) // 2, h - im.height), im)
@@ -116,15 +129,19 @@ def main(src: str, name: str):
         cur.append(b)
     if cur: rows.append(cur)
     ordered = [b for r in rows for b in sorted(r, key=lambda b: b[0])]
-    frames = []
+    frames, hd_frames = [], []
     for (x0, y0, x1, y1, n, _) in ordered[:5]:
         crop = rgba[y0:y1, x0:x1].copy()
         crop[..., 3] = np.where(lab[y0:y1, x0:x1] == n, crop[..., 3], 0)
         frames.append(fit(shrink(Image.fromarray(crop), 26, colors=12), 32, 32))
+        OUT_HD.mkdir(parents=True, exist_ok=True)
+        hd_frames.append(fit(hd(Image.fromarray(crop), 28 * HD, 32 * HD), 32 * HD, 32 * HD))
     # En las hojas: fila 1 = frente y espalda; fila 2 = perfil izquierdo y derecho; fila 3 = frente (paso)
     names = ["frente", "espalda", "izquierda", "derecha", "frente2"]
     for f, nm in zip(frames, names):
         f.save(OUT / f"{name}_mapa_{nm}.png")
+    for f, nm in zip(hd_frames, names):
+        f.save(OUT_HD / f"{name}_mapa_{nm}.png")
     # Retrato de combate: GrabCut con una silueta previa en el centro del panel izquierdo
     port = portrait_mask(img, mask)
     if port is not None:
@@ -133,6 +150,7 @@ def main(src: str, name: str):
         crop = rgba[y0:y1, x0:x1].copy()
         crop[..., 3] = np.where(port[y0:y1, x0:x1], 255, 0)
         fit(shrink(Image.fromarray(crop), 92, colors=24), 64, 96).save(OUT / f"{name}_combate.png")
+        fit(hd(Image.fromarray(crop), 94 * HD, 64 * HD), 64 * HD, 96 * HD).save(OUT_HD / f"{name}_combate.png")
         # Busto para diálogos: parte superior del retrato con más detalle en la cara
         bh = int(crop.shape[0] * 0.42)
         bust = crop[:bh]

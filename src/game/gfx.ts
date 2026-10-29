@@ -2,6 +2,9 @@
 import { IMG, FONT, TILES, CHARS, MICRO } from "./assets";
 
 export const W = 256, H = 192;
+/** Resolución interna: el lienzo mide W·R × H·R y todo se dibuja en coordenadas lógicas (256×192).
+ *  Así los sprites HD (las ilustraciones originales) se ven con todo su detalle. */
+export const R = 4;
 /** Parte superior de la caja de texto inferior. */
 export const TB = H - 48;
 export type TextColor = "dark" | "white" | "red" | "blue" | "gray" | "green" | "orange";
@@ -33,8 +36,9 @@ export class Gfx {
   ctx: CanvasRenderingContext2D;
   private fonts = new Map<string, HTMLCanvasElement>();
   constructor(public canvas: HTMLCanvasElement) {
-    canvas.width = W; canvas.height = H;
+    canvas.width = W * R; canvas.height = H * R;
     this.ctx = canvas.getContext("2d")!;
+    this.ctx.setTransform(R, 0, 0, R, 0, 0);
     this.ctx.imageSmoothingEnabled = false;
   }
   clear(c = "#000") { this.ctx.fillStyle = c; this.ctx.fillRect(0, 0, W, H); }
@@ -48,10 +52,22 @@ export class Gfx {
   }
   /** Personaje de mapa: dir 0 abajo, 1 arriba, 2 izquierda, 3 derecha; frame 0-2. */
   character(id: string, dir: number, frame: number, x: number, y: number) {
+    const h = CHARS.hd?.[id];
+    if (h !== undefined && IMG.personajes_hd) {
+      const c = 32 * (CHARS.hdScale ?? 4);
+      this.ctx.drawImage(IMG.personajes_hd, frame * c, h * 4 * c + dir * c, c, c, Math.round(x), Math.round(y), 32, 32);
+      return;
+    }
     const s = CHARS.sheets[id] ?? CHARS.sheets.becario;
     this.ctx.drawImage(IMG.personajes, frame * 32, s * 128 + dir * 32, 32, 32, Math.round(x), Math.round(y), 32, 32);
   }
   portrait(id: string, x: number, y: number) {
+    const hp = CHARS.hdPortraits?.[id];
+    if (hp !== undefined && IMG.retratos_hd) {
+      const k = CHARS.hdScale ?? 4;
+      this.ctx.drawImage(IMG.retratos_hd, hp * 64 * k, 0, 64 * k, 96 * k, Math.round(x), Math.round(y), 64, 96);
+      return;
+    }
     const p = CHARS.portraits[id];
     if (p === undefined) { this.ctx.save(); this.ctx.drawImage(IMG.personajes, 0, (CHARS.sheets[id] ?? 0) * 128, 32, 32, Math.round(x), Math.round(y) + 32, 64, 64); this.ctx.restore(); return; }
     this.ctx.drawImage(IMG.retratos, p * 64, 0, 64, 96, Math.round(x), Math.round(y), 64, 96);

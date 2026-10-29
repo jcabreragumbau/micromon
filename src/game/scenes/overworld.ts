@@ -326,7 +326,7 @@ function drawEmote(g: Gfx, x: number, y: number) {
 let darkCanvas: HTMLCanvasElement | null = null;
 export function drawDark(g: Gfx, x: number, y: number, r: number) {
   darkCanvas ??= document.createElement("canvas");
-  const c = darkCanvas; c.width = g.canvas.width; c.height = g.canvas.height;
+  const c = darkCanvas; c.width = W; c.height = H;
   const k = c.getContext("2d")!;
   k.fillStyle = "rgba(4,4,12,0.96)"; k.fillRect(0, 0, c.width, c.height);
   k.globalCompositeOperation = "destination-out";
@@ -334,7 +334,7 @@ export function drawDark(g: Gfx, x: number, y: number, r: number) {
   gr.addColorStop(0, "rgba(0,0,0,1)"); gr.addColorStop(1, "rgba(0,0,0,0)");
   k.fillStyle = gr; k.beginPath(); k.arc(x, y, r, 0, Math.PI * 2); k.fill();
   k.globalCompositeOperation = "source-over";
-  g.ctx.drawImage(c, 0, 0);
+  g.ctx.drawImage(c, 0, 0, W, H);
 }
 
 /** Niebla violeta que se desplaza (más tenue cuando el Western Blot permite identificar los priones). */
@@ -343,7 +343,7 @@ export function drawFog(g: Gfx, t: number, clear: boolean) {
   c.save();
   c.globalAlpha = clear ? 0.16 : 0.32;
   for (let i = 0; i < 9; i++) {
-    const x = ((i * 71 + t * (0.25 + (i % 3) * 0.12)) % (g.canvas.width + 120)) - 60;
+    const x = ((i * 71 + t * (0.25 + (i % 3) * 0.12)) % (W + 120)) - 60;
     const y = 20 + ((i * 53) % 150) + Math.sin(t / 50 + i) * 6;
     const gr = c.createRadialGradient(x, y, 4, x, y, 56);
     gr.addColorStop(0, "#c8a8f0"); gr.addColorStop(1, "rgba(200,168,240,0)");

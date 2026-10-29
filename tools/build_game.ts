@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = join(import.meta.dir, "..");
-const ATLAS = ["tiles", "font", "personajes", "retratos", "microos_frente", "microos_espalda", "microos_iconos"];
+const ATLAS = ["tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd", "microos_frente", "microos_espalda", "microos_iconos"];
 const lines = ATLAS.map((n) => `  ${JSON.stringify(n)}: "data:image/png;base64,${readFileSync(join(ROOT, "assets/atlas", `${n}.png`)).toString("base64")}",`);
 writeFileSync(join(ROOT, "src/game/assets_data.ts"), `// Generado por tools/build_game.ts. No editar.\nexport default {\n${lines.join("\n")}\n};\n`);
 
