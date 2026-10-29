@@ -257,7 +257,7 @@ export class BattleScene implements Scene {
   /** Posición y escala de cada Microo en la placa (individual o doble). */
   private spot(side: 0 | 1, slot: number): [number, number, number] {
     if (!this.doubles) return side === 1 ? [152, 10, 1] : [22, 56, 1.1];
-    return side === 1 ? (slot === 0 ? [126, 24, 0.78] : [186, 8, 0.78]) : (slot === 0 ? [-4, 58, 0.92] : [62, 66, 0.92]);
+    return side === 1 ? (slot === 0 ? [124, 6, 0.72] : [188, -4, 0.72]) : (slot === 0 ? [-6, 76, 0.85] : [58, 80, 0.85]);
   }
   draw(g: Gfx, game?: Game) {
     drawBattleBackground(g, this.s.env, this.bgCache);
@@ -288,18 +288,47 @@ export class BattleScene implements Scene {
     // Cajas de PS
     if (!this.doubles) {
       const f = this.disp[1][0], p = this.disp[0][0];
-      if (f?.visible && f.mon) this.hpBox(g, f, 6, 10, false);
-      if (p?.visible && p.mon) this.hpBox(g, p, W - 128, TB - 46, true);
+      if (f?.visible && f.mon) { this.hpBox(g, f, 6, 10, false); g.typeBadges(this.typesOf(1, 0, f), 8, 43, 200); }
+      if (p?.visible && p.mon) {
+        const ts = this.typesOf(0, 0, p);
+        const tw = ts.reduce((a, t) => a + g.measure(t) + 13, -3);
+        g.typeBadges(ts, W - 6 - tw, TB - 62, 200);
+        this.hpBox(g, p, W - 128, TB - 46, true);
+      }
     } else {
-      this.disp[1].forEach((f, i) => { if (f?.visible && f.mon) this.hpBox(g, f, 4, 4 + i * 31, false, true); });
-      this.disp[0].forEach((p, i) => { if (p?.visible && p.mon) this.hpBox(g, p, W - 116, TB - 74 + i * 37, true, true); });
+      this.disp[1].forEach((f, i) => { if (f?.visible && f.mon) this.miniBox(g, f, 3, 3 + i * 37, false, this.typesOf(1, i, f)); });
+      this.disp[0].forEach((p, i) => { if (p?.visible && p.mon) this.miniBox(g, p, W - 115, TB - 76 + i * 38, true, this.typesOf(0, i, p)); });
     }
     g.rect(0, TB, W, 48, "#283048");
   }
   bgCache: { env?: string; c?: HTMLCanvasElement } = {};
-  private hpBox(g: Gfx, d: Disp, x: number, y: number, mine: boolean, compact = false) {
+  /** Tipos actuales (los cambios por transformación o movimientos se reflejan). */
+  private typesOf(side: 0 | 1, slot: number, d: Disp): string[] {
+    const b = this.b.sides[side].active[slot];
+    const t = (b && b.mon === d.mon ? this.b.typesOf(b) : null) ?? getSpecies(d.species).types;
+    return [...t];
+  }
+  /** Caja compacta del combate doble: nombre, nivel, PS y tipos abreviados. */
+  private miniBox(g: Gfx, d: Disp, x: number, y: number, mine: boolean, types: string[]) {
+    const m = d.mon!, w = 112, h = 35;
+    const c = g.ctx;
+    c.fillStyle = "#2c3040"; roundRect(c, x, y, w, h, 5); c.fill();
+    const gr = c.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, "#fbfbf3"); gr.addColorStop(1, "#dcdccc");
+    c.fillStyle = gr; roundRect(c, x + 2, y + 2, w - 4, h - 4, 4); c.fill();
+    c.fillStyle = mine ? "#e8d8a8" : "#c8d8e8"; c.fillRect(x + 4, y + 3, 2, h - 6);
+    const lv = `Nv${d.level}`;
+    g.text(g.fit(displayName(m), w - 22 - g.measure(lv)), x + 9, y + 3);
+    g.text(lv, x + w - 6 - g.measure(lv), y + 3);
+    c.fillStyle = "#3a3e4c"; roundRect(c, x + 8, y + 15, w - 16, 5, 2); c.fill();
+    const frac = Math.max(0, d.hp / m.stats.hp);
+    c.fillStyle = frac > 0.5 ? "#48c868" : frac > 0.2 ? "#e8c030" : "#e84848"; c.fillRect(x + 9, y + 16, Math.round((w - 18) * frac), 3);
+    let tx = x + 9; for (const t of types) tx += g.miniType(t, tx, y + 21) + 2;
+    if (d.status) { const [t, cc] = STATUS_TAG[d.status]; c.fillStyle = cc; roundRect(c, tx + 2, y + 21, 22, 11, 3); c.fill(); g.text(t, tx + 4, y + 21, "white", false); }
+    if (mine) { const t = `${Math.max(0, d.hp)}/${m.stats.hp}`; g.text(t, x + w - 6 - g.measure(t), y + 21); }
+  }
+  private hpBox(g: Gfx, d: Disp, x: number, y: number, mine: boolean, compact = false, types?: string[]) {
     const m = d.mon!;
-    const w = compact ? 112 : 122, h = mine && !compact ? 42 : compact && mine ? 35 : 30;
+    const w = compact ? 112 : 122, h = (mine && !compact ? 42 : compact && mine ? 35 : 30) + (types ? 10 : 0);
     // Caja estilo DS: borde oscuro, relleno claro con degradado y lengüeta
     const c = g.ctx;
     c.fillStyle = "#2c3040"; roundRect(c, x, y, w, h, 6); c.fill();
@@ -317,6 +346,7 @@ export class BattleScene implements Scene {
     c.fillStyle = col[0]; c.fillRect(x + 24, y + 19, Math.round((w - 34) * frac), 1);
     if (d.status) { const [t, cc] = STATUS_TAG[d.status]; c.fillStyle = cc; roundRect(c, x + 68, y + 4, 22, 10, 3); c.fill(); g.text(t, x + 70, y + 5, "white", false); }
     if (mine && compact) { const t = `${Math.max(0, d.hp)}/${m.stats.hp}`; g.text(t, x + w - 8 - g.measure(t), y + 24); }
+    if (types) { let tx = x + 10; for (const t of types) tx += g.miniType(t, tx, y + h - 15) + 2; }
     if (mine && !compact) {
       g.text(`${Math.max(0, d.hp)}/${m.stats.hp}`, x + w - 50, y + 26);
       const sp = getSpecies(m.species);
@@ -441,14 +471,14 @@ class MoveMenu implements Overlay {
   }
   draw(g: Gfx) {
     g.frame(0, TB, 172, 48, "menu");
-    this.mon.moves.forEach((s, i) => g.text(getMove(s.id).name.slice(0, 14), 14 + (i % 2) * 80, TB + 11 + Math.floor(i / 2) * 16, s.pp > 0 ? "dark" : "gray"));
+    this.mon.moves.forEach((s, i) => g.text(g.fit(getMove(s.id).name, 76), 14 + (i % 2) * 80, TB + 11 + Math.floor(i / 2) * 16, s.pp > 0 ? "dark" : "gray"));
     g.cursor(6 + (this.sel % 2) * 80, TB + 11 + Math.floor(this.sel / 2) * 16);
     g.frame(172, TB, W - 172, 48, "menu");
     const s = this.mon.moves[this.sel];
     if (s) {
       const mv = getMove(s.id);
       g.text("PP", 182, TB + 10); g.text(`${s.pp}/${s.maxPp}`, 206, TB + 10, s.pp === 0 ? "red" : "dark");
-      g.text(mv.type.slice(0, 11), 182, TB + 26, "blue");
+      g.typeBadge(mv.type, 178, TB + 25, W - 184);
     }
   }
 }

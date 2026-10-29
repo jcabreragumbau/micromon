@@ -16,6 +16,12 @@ export const TYPE_COLORS: Record<string, string> = {
   "Intracelular": "#d068b8", "Hongo": "#a0a030", "Ácido-Alc.": "#58a8d8", "Archaea": "#7060b0", "Virus": "#5850d8",
   "Biofilm": "#808ca0", "Extremófilo": "#705850", "Simbionte": "#e078a8",
 };
+/** Abreviaturas de tipo para las etiquetas pequeñas (combate doble). */
+export const TYPE_ABBR: Record<string, string> = {
+  "Levadura": "LEV", "Fotótrofo": "FOT", "Anaerobio": "ANA", "Protozoo": "PRO", "Espiroqueta": "ESP", "Gram+": "G+",
+  "Gram-": "G-", "Antibiótico": "ATB", "Esporulado": "SPO", "Alga": "ALG", "Intracelular": "INT", "Hongo": "HON",
+  "Ácido-Alc.": "AAR", "Archaea": "ARQ", "Virus": "VIR", "Biofilm": "BIO", "Extremófilo": "EXT", "Simbionte": "SIM",
+};
 /** Aclara (t>0) u oscurece (t<0) un color hexadecimal. */
 export function shade(hex: string, t: number): string {
   const n = parseInt(hex.slice(1), 16);
@@ -182,6 +188,14 @@ export class Gfx {
       this.typeBadge(t, cx, cy, w); cx += w + 3;
     }
     return cy - y + 15;
+  }
+  /** Etiqueta de tipo pequeña con abreviatura. Devuelve el ancho. */
+  miniType(type: string, x: number, y: number): number {
+    const base = TYPE_COLORS[type] ?? "#a0a0a0", t = TYPE_ABBR[type] ?? type.slice(0, 3).toUpperCase();
+    const w = this.measure(t) + 6;
+    this.round(x, y, w, 11, 2, shade(base, -0.5)); this.round(x + 1, y + 1, w - 2, 9, 2, base);
+    this.rawText(t, x + 3, y + 1, "#ffffff");
+    return w;
   }
   /** Recorta un texto con "…" para que quepa en `w` píxeles. */
   fit(s: string, w: number): string {
