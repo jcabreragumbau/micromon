@@ -64,7 +64,7 @@ add(casa("casa-vecina", "Casa vecina", { to: "pueblo-plaqueta", x: 14, y: 5 }, [
   b.fill(5, 9, 2, 1, "a");
   b.npc({ id: "profesora", x: 5, y: 3, sprite: "profesora", dir: 0, script: "profesora" });
   b.npc({ id: "rival-lab", x: 3, y: 6, sprite: "rival", dir: 3, script: "rivalLab", hideIf: "rival1" });
-  b.npc({ id: "ayudante", x: 9, y: 6, sprite: "becario", dir: 2, talk: ["Soy el ayudante de la Profesora.", "Cuidamos las cepas a 37 °C. ¡Ni un grado más!"] });
+  b.npc({ id: "ayudante", x: 9, y: 6, sprite: "becario", dir: 2, script: "ayudanteDex" });
   b.npc({ id: "ball-synechoc", x: 4, y: 4, sprite: "@criobola", script: "elegir:synechoc", hideIf: "inicial", solid: true });
   b.npc({ id: "ball-butyricum", x: 5, y: 4, sprite: "@criobola", script: "elegir:butyricum", hideIf: "inicial", solid: true });
   b.npc({ id: "ball-paramec", x: 6, y: 4, sprite: "@criobola", script: "elegir:paramec", hideIf: "inicial", solid: true });
@@ -466,6 +466,7 @@ add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16
 add(incubadora("incubadora-gram", "Ciudad Gram", { to: "ciudad-gram", x: 5, y: 6 }));
 add(tienda("tienda-gram", "Ciudad Gram", { to: "ciudad-gram", x: 18, y: 16 }, ["criobola-roja", "criobola-azul", "criobola-amarilla", "medio-lb", "medio-tsb", "solucion-salina", "glicerol", "atp-concentrado"]));
 add(casa("casa-gram", "Casa de Ciudad Gram", { to: "ciudad-gram", x: 7, y: 15 }, [
+  { id: "gram-examen", x: 6, y: 4, sprite: "jubilado", dir: 0, script: "examen" },
   { id: "gram-casa", x: 5, y: 3, sprite: "madre", dir: 0, talk: ["Mi hijo trabaja en el Instituto de Biotecnología, más allá de Ciudad Aerobia.", "Dice que últimamente hay gente rara con portátiles por los pasillos…"] },
 ]));
 {
@@ -536,6 +537,7 @@ add(casa("casa-gram", "Casa de Ciudad Gram", { to: "ciudad-gram", x: 7, y: 15 },
 }
 add(incubadora("incubadora-levadura", "Pueblo Levadura", { to: "pueblo-levadura", x: 5, y: 6 }));
 add(casa("casa-levadura", "Casa de Pueblo Levadura", { to: "pueblo-levadura", x: 19, y: 15 }, [
+  { id: "lev-trueque", x: 6, y: 4, sprite: "chico", dir: 0, script: "intercambio:sacchari|pastorian|Lager" },
   { id: "lev-casa", x: 5, y: 3, sprite: "profesora", dir: 0, talk: ["Fui técnica de laboratorio cuarenta años. En esa torre guardábamos las placas que se estropeaban.", "Ahora la niebla no deja subir a nadie… Dicen que hay alguien arriba desde hace días."] },
 ]));
 
@@ -581,7 +583,7 @@ function torre(n: number) {
   const b = torre(3);
   b.set(0, 12, "E").fill(3, 6, 5, 1, "I").set(2, 3, "I").set(8, 3, "I");
   b.npc({ id: "hernandez", x: 5, y: 8, sprite: "hernandez", dir: 0, hideIf: "hernandez1" });
-  b.npc({ id: "torre-jubilado", x: 5, y: 3, sprite: "becario", dir: 0, script: "jubiladoTorre" });
+  b.npc({ id: "torre-jubilado", x: 5, y: 3, sprite: "jubilado", dir: 0, script: "jubiladoTorre" });
   b.trigger({ x: 1, y: 9, w: 9, h: 2, script: "albaHernandez", once: "hernandez1" });
   b.warp({ x: 0, y: 12, to: "torre-prion-2", tx: 1, ty: 12, dir: 3 });
   b.encounters([{ sp: "genitalium", min: 31, max: 33, w: 30 }, { sp: "pneumoniae", min: 31, max: 33, w: 35 }, { sp: "bovis", min: 31, max: 33, w: 35 }]);
@@ -775,6 +777,7 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
 add(incubadora("incubadora-agar", "Ciudad Agar", { to: "ciudad-agar", x: 5, y: 6 }));
 add(tienda("tienda-agar", "Ciudad Agar", { to: "ciudad-agar", x: 5, y: 16 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
 add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }, [
+  { id: "agar-trueque", x: 6, y: 4, sprite: "chica", dir: 0, script: "intercambio:albicans|auris|Aurita" },
   { id: "agar-casa", x: 5, y: 3, sprite: "madre", dir: 0, talk: ["Fanny Hesse sugirió usar agar en vez de gelatina, porque no se derrite a 37 °C.", "¡Por eso la Profesora de tu pueblo se llama así! Es un homenaje."] },
 ]));
 {

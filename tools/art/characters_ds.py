@@ -242,6 +242,7 @@ P["recluta-b"] = dict(pelo="coleta", pelo_c="#6a3a5a", piel="#f0c8a8", camisa="#
 P["marti"] = dict(pelo="corto", pelo_c="#7a7a84", piel="#e8b890", camisa="#3a5a8a", bata="#f2f2f6", pantalon="#3a3a48", zapato="#2a2428", gafas=True, detalle="#c83c3c")
 P["barbe"] = dict(pelo="corto", pelo_c="#e8e8f0", piel="#f0c8a8", camisa="#5a8a3a", bata="#f2f2f6", pantalon="#4a4a5a", zapato="#5a3a2a", detalle="#f0c040")
 P["llagostera"] = dict(pelo="moño", pelo_c="#9a9aa8", piel="#f2c6a0", camisa="#8a2a4a", bata="#f2f2f6", pantalon="#3a3a48", zapato="#3a2a2a", gafas=True, falda="#3a3a48", detalle="#f0c040")
+P["jubilado"] = dict(pelo="corto", pelo_c="#d8d8e0", piel="#e8bc98", camisa="#8a6a3a", manga="camisa", pantalon="#5a5a4a", zapato="#3a2a20", gafas=True, detalle="#c8b070")
 P["apache"] = dict(helicoptero=True, piel="#000000", pelo_c="#000000", camisa="#000000", pantalon="#000000", zapato="#000000",
     x_fuselaje="#6a7a44", x_vientre="#8a9a5c", x_cabina="#78b8d8", x_metal="#3a3e44", x_rotor="#2a2c30",
     x_pod="#4a5236", x_punta="#c8c0a0")

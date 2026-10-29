@@ -8,7 +8,7 @@ import { evolutionSequence } from "./scenes/battle";
 import { SlotMachine, fichas } from "./scenes/casino";
 import { HallOfFame, Credits } from "./scenes/creditos";
 import { saveGame } from "./state";
-import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, TRAINERS, conjugationEvolution, type Microo } from "../engine";
+import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, TRAINERS, ITEMS, conjugationEvolution, type Microo } from "../engine";
 import { addItem, markCaught, markSeen } from "./state";
 import { MAPS } from "./world/maps";
 
@@ -979,6 +979,71 @@ const SCRIPTS: Record<string, Script> = {
 
   async congelador(game) {
     await congeladorMenu(game);
+  },
+
+  /** Recompensas del ayudante de la Profesora según las especies aisladas. */
+  async ayudanteDex(game) {
+    const s = S(game);
+    const PREMIOS: [number, string, number][] = [[15, "criobola-azul", 5], [40, "criobola-amarilla", 5], [80, "medio-enriquecido", 5], [120, "atp-concentrado", 5], [150, "criobola-morada", 1]];
+    const done = Number(s.flags.premiosDex ?? 0);
+    const next = PREMIOS[done];
+    if (!next) { await game.say(`Ayudante: ¡${s.caught.length} especies! Ya no me quedan premios. La Profesora dice que eres una leyenda.`); return; }
+    if (s.caught.length < next[0]) {
+      await game.say(`Ayudante: Llevas ${s.caught.length} especies aisladas. Cuando llegues a ${next[0]}, te daré un regalo de parte del laboratorio.`);
+      return;
+    }
+    s.flags.premiosDex = done + 1;
+    addItem(s, next[1], next[2]);
+    audio.sfx("capture");
+    await game.say(`Ayudante: ¡${next[0]} especies aisladas! Toma, te lo has ganado.`);
+    await game.say(`¡{nombre} ha recibido ${next[2] > 1 ? next[2] + " × " : ""}${ITEMS.get(next[1])!.name}!`);
+  },
+
+  /** Intercambio con un PNJ: "quiere|da|mote". */
+  async intercambio(game, _w, arg) {
+    const s = S(game);
+    const [need, give, nick] = (arg ?? "").split("|");
+    const key = `trade-${give}`;
+    const nn = getSpecies(need).name, gn = getSpecies(give).name;
+    if (s.flags[key]) { await game.say(`¿Qué tal está ${nick}? ¡Seguro que te está dando mucha guerra! Cuídalo bien.`); return; }
+    if (!(await game.yesno(`Estoy buscando un ${nn}. ¿Me cambias uno por mi ${gn}?`))) { await game.say("Vaya… Si cambias de idea, aquí estaré."); return; }
+    const i = await partyMenu(game, { mode: "item", prompt: `¿Qué ${nn} me das?` });
+    if (i < 0) return;
+    const m = s.party[i];
+    if (m.species !== need) { await game.say(`Eso no es un ${nn}… ¡Yo quiero un ${nn}!`); return; }
+    const got = createMicroo(give, m.level, { rng: rng(game), nickname: nick });
+    got.originalTrainer = "Vecino";
+    s.party[i] = got;
+    markSeen(s, give); markCaught(s, give);
+    s.flags[key] = true;
+    await game.say(`${displayNameOf(m)} se marcha… ¡y llega ${nick}!`);
+    audio.sfx("capture");
+    await game.say(`¡Gracias! Cuida de ${nick}, es muy especial para mí.`);
+  },
+
+  /** Examen sorpresa de microbiología (recompensa única). */
+  async examen(game) {
+    const s = S(game);
+    if (s.flags.examen) { await game.say("Catedrático jubilado: ¡Mi mejor alumn{o}! Sigue estudiando, que la microbiología nunca se acaba."); return; }
+    await game.say("Catedrático jubilado: Cuarenta años poniendo exámenes… ¿Te atreves con cinco preguntas? Si las aciertas todas, tendrás premio.");
+    if (!(await game.yesno("¿Empezamos el examen?"))) return;
+    const Q: [string, string[], number][] = [
+      ["¿De qué color quedan las Gram+ tras la tinción de Gram?", ["Violeta", "Rosa", "Verde"], 0],
+      ["¿Quién descubrió la penicilina en 1928?", ["Pasteur", "Fleming", "Koch"], 1],
+      ["¿De qué bacteria sale la Taq polimerasa de la PCR?", ["E. coli", "B. subtilis", "T. aquaticus"], 2],
+      ["¿Qué estructura permite la conjugación bacteriana?", ["El pilus", "El flagelo", "La cápsula"], 0],
+      ["¿Qué usaba Fanny Hesse para solidificar los medios?", ["Gelatina", "Agar", "Almidón"], 1],
+    ];
+    let ok = 0;
+    for (const [q, opts, right] of Q) {
+      const r = await game.choose(opts, { prompt: q, cancel: -1 });
+      if (r === right) { ok++; audio.sfx("ok"); } else audio.sfx("bump");
+    }
+    if (ok < Q.length) { await game.say(`Catedrático: ${ok} de ${Q.length}… Suspenso. ¡A septiembre! Vuelve cuando hayas repasado.`); return; }
+    s.flags.examen = true;
+    addItem(s, "criobola-amarilla", 3); addItem(s, "medio-enriquecido", 2);
+    await game.say("Catedrático: ¡Matrícula de Honor! Toma, para tus prácticas de campo.");
+    await game.say("¡{nombre} ha recibido 3 × Criobola Amarilla y 2 × Medio Enriquecido!");
   },
 
   /** Estación de Conjugación: evoluciones que en el GDD requieren intercambio (conjugación bacteriana). */

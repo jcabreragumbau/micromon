@@ -111,6 +111,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Playtest dividido: `PART=early` (hasta la 4.ª medalla) y `PART=late` (de la 5.ª al final, con estado preparado); cada mitad tarda menos de 10 minutos.
 - Estación de Conjugación en Isla Conjugada (técnica junto a la Incubadora): activa las evoluciones por conjugación. Plásmidos a la venta en las tiendas de Parque Biotec e Isla Conjugada.
 - Microdex con ficha por especie (A en la lista): nombre científico real, entrada divulgativa (`tools/dex_text.py` → `scientific`/`entry` en `microdex.json`), tipos, preevolución y página de hábitat calculada de las tablas de encuentros.
+- Misiones secundarias: examen sorpresa del catedrático jubilado (casa de Ciudad Gram, 5 preguntas), intercambios con vecinos (Sacchari→Pastorian «Lager» en Pueblo Levadura, Albicans→Auris «Aurita» en Ciudad Agar) y premios del ayudante de la Profesora a las 15/40/80/120/150 especies. Nuevo sprite: jubilado.
 - Las 162 especies son obtenibles: Mirabilis (Ruta 2), Pelagibac (Ruta 3), Listeria (Ruta 8), Pyrococcus (Central Metabólica), Plasmodium y Toxoplasma (Calle Selección Natural); Salmonella legendaria en los jardines de La UAB tras ser Campeón; la Profesora regala los otros dos iniciales tras la Liga.
 
 ## Siguiente tarea
