@@ -518,13 +518,14 @@ export class Battle {
       if (res.dmg === null) { this.emit("msg", "¡Pero ha fallado!"); return false; }
       if (res.crit) crits++;
       if (res.crit) this.emit("crit", "¡Un golpe crítico!");
+      // con un solo golpe, la eficacia se anuncia antes de que el objetivo se debilite
+      if (hits === 1) this.effMsg(eff);
       const dealt = this.applyDamage(t, res.dmg, b, move);
       total += dealt; landed++;
       if (move.orig === "payday") this.payDay += 5 * b.mon.level;
     }
     if (hits > 1) this.emit("msg", landed === 1 ? "¡Ha golpeado 1 vez!" : `¡Ha golpeado ${landed} veces!`);
-    if (eff > 1) this.emit("effective", "¡Es muy eficaz!");
-    else if (eff < 1 && eff > 0) this.emit("effective", "No es muy eficaz...");
+    if (hits > 1) this.effMsg(eff);
     // Drenaje y retroceso
     if (move.drain && total > 0 && b.mon.hp > 0) {
       const heal = Math.max(1, Math.floor((total * move.drain[0]) / move.drain[1]));
@@ -638,6 +639,10 @@ export class Battle {
     if (b.mon.hp !== before) this.emit("hp", "", { ...this.refOf(b), hp: b.mon.hp, max: b.mon.stats.hp });
   }
 
+  private effMsg(eff: number) {
+    if (eff > 1) this.emit("effective", "¡Es muy eficaz!");
+    else if (eff < 1 && eff > 0) this.emit("effective", "No es muy eficaz...");
+  }
   private faintNow(b: Battler, self = false) {
     const r = this.refOf(b);
     if (self) { b.mon.hp = 0; this.emit("damage", "", { ...r, amount: 0, hp: 0, max: b.mon.stats.hp }); }

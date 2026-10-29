@@ -27,6 +27,7 @@ items = [
  # Objetos clave
  {"id":"microscopio-optico","name":"Microscopio Óptico","kind":"key","price":0,"desc":"Registra los Microos vistos y aislados (Microdex)."},
  {"id":"mascara-de-gases","name":"Máscara de Gases","kind":"key","price":0,"desc":"Permite entrar en la Cueva Anaeróbica."},
+ {"id":"disco-duro","name":"Disco Duro Externo","kind":"key","price":0,"desc":"Un disco duro atado con celo. Pone «BACKUP_FINAL_v3_ESTE_SÍ». Alguien lo tiró en el Monte Micelio."},
  {"id":"western-blot","name":"Western Blot","kind":"key","price":0,"desc":"Identifica los priones de la Torre Prión."},
 ]
 (ROOT/"data"/"items.json").write_text(json.dumps(items, ensure_ascii=False, indent=1), encoding="utf-8")

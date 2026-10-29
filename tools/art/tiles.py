@@ -308,6 +308,95 @@ def stairs():
     t = floor_lab()
     for k in range(4): t.rect(0, k * 4, 15, k * 4 + 3, H("#a8b0bc") if k % 2 else H("#c8ccd4")); t.hline(0, 15, k * 4, H("#e8ecf0")); t.hline(0, 15, k * 4 + 3, O)
     return t
+
+# ---------------------------------------------------------------- cueva (Monte Micelio)
+CV = {k: H(v) for k, v in {"d": "#2a2230", "m": "#4a3e4c", "l": "#6a5a66", "h": "#8a7884", "f0": "#3c3242", "f1": "#4e4252", "f2": "#5e5060"}.items()}
+def cave_floor(seed=1):
+    t = T(CV["f1"])
+    for i in range(7):
+        cx, cy = rnd(seed + 40, i) * 16, rnd(seed + 41, i) * 16
+        t.mask(circ(cx, cy, 1.5 + rnd(seed, i) * 2) | circ(cx - 16, cy, 2) | circ(cx, cy - 16, 2), CV["f0"] if i % 2 else CV["f2"])
+    for i in range(5):
+        x, y = int(rnd(seed + 7, i) * 15), int(rnd(seed + 8, i) * 15)
+        t.px(x, y, CV["d"]); t.px(x + 1, y, CV["f2"])
+    return t
+def cave_wall():
+    t = T(CV["m"])
+    t.rect(0, 0, 15, 3, CV["l"]); t.hline(0, 15, 0, CV["h"])
+    for x0 in (0, 6, 11):                       # bloques de roca
+        t.vline(x0, 4, 15, CV["d"]); t.rect(x0 + 1, 4, x0 + 2, 9, CV["l"])
+    t.hline(0, 15, 4, CV["d"]); t.hline(0, 15, 10, CV["d"]); t.rect(3, 11, 4, 14, CV["l"]); t.rect(9, 11, 10, 14, CV["l"])
+    t.hline(0, 15, 15, CV["d"])
+    return t
+def hyphae(frame=0, base=None):
+    t = base if base is not None else cave_floor(3)
+    glow = [H("#2a6a70"), H("#3aa8a0"), H("#7ae8d0"), H("#d0fff0")]
+    paths = [[(0, 12), (4, 9), (8, 10), (12, 6), (16, 5)], [(2, 16), (5, 12), (6, 7), (9, 3), (11, 0)], [(16, 13), (12, 12), (10, 15)]]
+    for pts in paths:
+        for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+            for k in range(12):
+                x = x0 + (x1 - x0) * k / 12; y = y0 + (y1 - y0) * k / 12
+                t.px(int(x), int(y), glow[1]); t.px(int(x), int(y) + 1, glow[0])
+    for i, (x, y) in enumerate(((4, 9), (12, 6), (6, 7), (9, 3), (12, 12))):
+        on = (i + frame) % 2 == 0
+        t.mask(circ(x + 0.5, y + 0.5, 1.6), glow[2] if on else glow[1]); t.px(x, y, glow[3] if on else glow[2])
+    return t
+def mushroom(frame=0):
+    t = cave_floor(5)
+    for (cx, cy, r, c1, c2) in ((5, 9, 3.2, "#3aa8c8", "#9af0ff"), (11, 11, 2.4, "#58c8a0", "#c8ffe0")):
+        t.rect(int(cx) - 1, int(cy), int(cx), int(cy) + 4, H("#d8d0c0")); t.vline(int(cx) - 1, int(cy), int(cy) + 4, H("#b0a898"))
+        t.mask(circ(cx, cy, r + 0.8) & (YY < cy + 0.5), O)
+        t.mask(circ(cx, cy, r) & (YY < cy), H(c1))
+        t.mask(circ(cx - 0.8, cy - 1.2, r * 0.45), H(c2) if frame == 0 else H(c1))
+    return t
+def hard_drive():
+    t = cave_floor(6)
+    t.rect(3, 5, 13, 12, O); t.rect(4, 6, 12, 11, H("#3a3e48")); t.hline(4, 12, 6, H("#5a606c")); t.px(11, 10, H("#40e060"))
+    t.rect(1, 9, 3, 10, H("#202024")); t.px(0, 11, H("#202024"))      # cable
+    t.rect(5, 8, 9, 8, H("#e8e0b0"))                                   # celo
+    return t
+def cliff():
+    t = T(H("#8a6a4a"))
+    t.rect(0, 0, 15, 2, H("#62b84a")); t.hline(0, 15, 3, H("#3f8f3a")); t.hline(0, 15, 4, O)
+    for x0 in (0, 5, 10):
+        t.vline(x0, 5, 15, H("#5a4030")); t.rect(x0 + 1, 5, x0 + 2, 14, H("#a8865c"))
+    t.hline(0, 15, 9, H("#6a4c34")); t.hline(0, 15, 15, H("#4a3424"))
+    return t
+def cave_mouth():
+    t = cliff()
+    t.mask(circ(8, 16, 7.5) & (YY >= 5), O); t.mask(circ(8, 16, 6.5) & (YY >= 6), H("#141018"))
+    return t
+def hyphae_block():
+    t = grass(17)
+    t.mask(circ(8, 9, 7), O); t.mask(circ(8, 9, 6), H("#d8d0e0"))
+    for k in range(9):
+        a = k * 0.7
+        for r in range(1, 7):
+            t.px(int(8 + np.cos(a + r * 0.25) * r), int(9 + np.sin(a + r * 0.25) * r), H("#a898b8") if r % 2 else H("#f4f0ff"))
+    t.mask(circ(6, 6, 1.5), H("#ffffff"))
+    return t
+def winogradsky():
+    t = floor_greenhouse()
+    t.rect(4, 0, 11, 15, O)
+    bands = ["#a8d8f0", "#6ac860", "#2f8a3a", "#c84a5a", "#8a2a40", "#3a3030", "#1a1418"]
+    for i, c in enumerate(bands):
+        t.rect(5, 1 + i * 2, 10, 2 + i * 2, H(c))
+    t.vline(5, 1, 14, H("#ffffff")); t.vline(10, 1, 14, H("#5a6070")); t.hline(4, 11, 0, H("#d8dde6"))
+    return t
+def floor_greenhouse():
+    t = T(H("#bfe0b0"))
+    t.hline(0, 15, 0, H("#9ccc8c")); t.vline(0, 0, 15, H("#9ccc8c")); t.hline(1, 15, 1, H("#dcf2d0"))
+    t.mask(circ(11, 11, 1.5), H("#a8d498"))
+    return t
+def pool(frame=0):
+    t = T(H("#3a8ad0"))
+    t.rect(0, 0, 15, 1, H("#2a6aa8"))
+    for y in (5, 11):
+        o = (frame * 3 + y) % 8
+        t.hline(o, min(15, o + 4), y, H("#78c0f0"))
+    t.mask(circ(4, 8, 1.2), H("#58d070")); t.mask(circ(12, 3, 1), H("#58d070"))   # algas
+    return t
+
 def black(): return T(H("#000000"))
 
 def build():
@@ -328,7 +417,11 @@ def build():
     tiles.update({"suelo_madera": floor_wood(), "suelo_lab": floor_lab(), "suelo_gimnasio": floor_gym(), "pared": wall_in(), "pared_base": wall_in(True),
                   "mesa": table(), "mostrador": counter(), "pc": pc(), "estanteria": shelf(), "cama": bed(), "planta": plant(), "alfombra": mat(),
                   "incubadora": incubator(), "poyata": bench(), "microscopio": microscope(), "queso": cheese(), "lata": can(), "tanque": tank(),
-                  "escaleras": stairs()})
+                  "escaleras": stairs(),
+                  "suelo_cueva": cave_floor(), "pared_cueva": cave_wall(), "hifas0": hyphae(0), "hifas1": hyphae(1),
+                  "seta0": mushroom(0), "seta1": mushroom(1), "disco_duro": hard_drive(), "acantilado": cliff(), "cueva_entrada": cave_mouth(),
+                  "hifas_bloqueo": hyphae_block(), "winogradsky": winogradsky(), "suelo_invernadero": floor_greenhouse(),
+                  "piscina0": pool(0), "piscina1": pool(1)})
     names = list(tiles)
     cols = 16; rows = (len(names) + cols - 1) // cols
     atlas = Image.new("RGBA", (cols * 16, rows * 16))

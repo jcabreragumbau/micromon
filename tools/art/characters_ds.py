@@ -235,6 +235,10 @@ P = {
 P["protagonista-chica"] = dict(pelo="coleta", pelo_c="#3a2418", piel="#f6d0b0", camisa="#e8608a", bata="#f2f2f6",
     pantalon="#f2f2f6", falda="#2a3050", zapato="#e8608a", gorra="#f8f8fc", visera="#e8608a", logo="#2fa39a",
     mochila="#f0c040", detalle="#2fa39a")
+P["recluta"] = dict(pelo="puntas", pelo_c="#3a3440", piel="#e0b898", camisa="#2e2e3c", pantalon="#4a4a5a", zapato="#20202a",
+    detalle="#40e0a0", gafas=True, mochila="#5a6070", manga="camisa")
+P["recluta-b"] = dict(pelo="coleta", pelo_c="#6a3a5a", piel="#f0c8a8", camisa="#2e2e3c", pantalon="#4a4a5a", zapato="#20202a",
+    detalle="#40e0a0", falda="#3a3a4a", mochila="#5a6070", manga="camisa")
 P["apache"] = dict(helicoptero=True, piel="#000000", pelo_c="#000000", camisa="#000000", pantalon="#000000", zapato="#000000",
     x_fuselaje="#6a7a44", x_vientre="#8a9a5c", x_cabina="#78b8d8", x_metal="#3a3e44", x_rotor="#2a2c30",
     x_pod="#4a5236", x_punta="#c8c0a0")

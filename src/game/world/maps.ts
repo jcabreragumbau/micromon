@@ -1,4 +1,4 @@
-// Mapas del primer tramo: Pueblo Plaqueta → Ruta 1 → Ciudad Viral → Bosque Viral → Ciudad Petri.
+// Mapas: Pueblo Plaqueta → Ruta 1 → Ciudad Viral → Bosque Viral → Ciudad Petri → Ruta 2 → Monte Micelio → Ruta 3 → Ciudad Cultivo.
 import { MapBuilder, type MapDef } from "./builder";
 
 export const MAPS: Record<string, MapDef> = {};
@@ -182,8 +182,11 @@ add(casa("casa-viral", "Casa de Ciudad Viral", { to: "ciudad-viral", x: 17, y: 1
   b.fill(3, 15, 4, 3, "~").fill(2, 2, 3, 2, "f");
   b.sign(14, 12, "Ciudad Petri. «Todo empieza en una placa».");
   b.sign(10, 8, "Gimnasio de Ciudad Petri. Líder: Dr. Antoni Solé, Microbiología de los Alimentos.");
-  b.npc({ id: "petri-1", x: 13, y: 11, sprite: "chico", dir: 0, talk: "El Dr. Solé usa Simbiontes, Gram+ y Esporulados. ¡Un Microo de tipo Antibiótico le vendría fatal a sus lactobacilos!" });
-  b.npc({ id: "petri-2", x: 20, y: 12, sprite: "chica", move: "pasear", talk: "Dicen que el Monte Micelio, al norte, está cerrado por un derrumbe de hifas. ¡Qué miedo!" });
+  b.npc({ id: "petri-1", x: 13, y: 11, sprite: "chico", dir: 0, talk: "El Dr. Solé usa Simbiontes, Gram+ y Esporulados. ¡Ojo! Sus lactobacilos aguantan los Antibióticos; mejor algo de tipo Gram- o Biofilm." });
+  b.fill(20, 0, 2, 13, "p");
+  b.npc({ id: "petri-2", x: 15, y: 10, sprite: "chica", move: "pasear", talk: "Dicen que el Monte Micelio, al norte, está tapado por una maraña de hifas. Solo con Celulasa se puede pasar." });
+  b.sign(19, 2, "Ruta 2. Al norte: Monte Micelio.");
+  b.warp({ x: 20, y: 0, w: 2, to: "ruta-2", tx: 9, ty: 28, dir: 1, keep: "x" });
   b.warp({ x: 0, y: 13, h: 4, to: "bosque-viral", tx: 28, ty: 14, dir: 2, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
@@ -207,6 +210,152 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
     intro: "¡Huele a queso curado! ¡Y a victoria!", lose: "Se me ha cortado la leche…", after: "Los Esporulados aguantan casi todo. ¡Sus esporas resisten hasta el calor!" } });
   b.npc({ id: "guia-gym", x: 3, y: 12, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "Los tipos Simbionte resisten bien a los Antibióticos… pero sufren contra Gram- y Biofilm.", "Y los Esporulados odian el agua de los Protozoos y a los Fotótrofos."] });
   b.warp({ x: 4, y: 14, w: 3, to: "ciudad-petri", tx: 11, ty: 7, dir: 0 });
+  add(b.done({ music: "gimnasio" }));
+}
+
+
+// ---------------------------------------------------------------- Ruta 2
+{
+  const b = new MapBuilder("ruta-2", "Ruta 2", 20, 30);
+  b.trees(0, 0, 2, 30).trees(18, 0, 2, 30).trees(2, 0, 16, 2).trees(2, 28, 6, 2).trees(12, 28, 6, 2);
+  b.fill(8, 28, 1, 2, "k").fill(11, 28, 1, 2, "k");
+  b.fill(2, 2, 16, 3, "A").set(13, 4, "O");
+  b.fill(9, 20, 2, 10, "p").fill(4, 18, 7, 2, "p").fill(4, 8, 2, 10, "p").fill(4, 8, 10, 2, "p").fill(13, 5, 1, 4, "p");
+  b.fill(11, 21, 6, 5, "g").fill(7, 11, 6, 5, "g").fill(14, 10, 4, 7, "g").fill(2, 21, 5, 4, "g");
+  b.trees(8, 16, 2, 2).fill(2, 6, 2, 1, "f").fill(15, 6, 2, 1, "f");
+  b.sign(11, 27, "Ruta 2. Al norte: Monte Micelio. ¡Cuidado con las hifas!");
+  b.item(16, 12, "solucion-salina", "item:r2-salina", 2);
+  b.item(3, 22, "criobola-azul", "item:r2-azul");
+  b.npc({ id: "hifas-r2", x: 13, y: 5, sprite: "@tile:hifas_bloqueo", script: "cortarHifas", hideIf: "hifas-r2", solid: true });
+  b.npc({ id: "r2-micologa", x: 11, y: 19, sprite: "chica", dir: 2, trainer: {
+    name: "Elena", clase: "Micóloga", team: [["roqueforti", 11], ["mucorin", 12]], sight: 3, money: 40,
+    intro: "¡Los hongos son los reyes del bosque! ¿Quieres comprobarlo?", lose: "Mis esporas no han germinado…", after: "Penicillium roqueforti es el que da el color azul a los quesos. ¡Precioso!" } });
+  b.npc({ id: "r2-agronomo", x: 10, y: 7, sprite: "estudiante", dir: 0, trainer: {
+    name: "Ramón", clase: "Agrónomo", team: [["rhizobi", 11], ["thuringien", 11], ["serratia", 12]], sight: 2, money: 45,
+    intro: "¡Mis Rhizobium fijan nitrógeno en las raíces! ¡Y luchan!", lose: "Se me ha secado la cosecha…", after: "Bacillus thuringiensis es un insecticida natural. ¡Lo usan en agricultura ecológica!" } });
+  b.npc({ id: "r2-paseante", x: 15, y: 24, sprite: "chico", move: "pasear", talk: ["Arriba está el Monte Micelio. Una cueva llena de hifas que brillan en la oscuridad.", "Últimamente se ve entrar a gente con portátiles y ojeras… ¿Qué harán ahí dentro?"] });
+  b.warp({ x: 9, y: 29, w: 2, to: "ciudad-petri", tx: 20, ty: 1, dir: 0, keep: "x" });
+  b.warp({ x: 13, y: 4, to: "monte-micelio", tx: 14, ty: 22, dir: 1 });
+  b.encounters([
+    { sp: "rhizobi", min: 9, max: 12, w: 22 }, { sp: "serratia", min: 9, max: 12, w: 18 }, { sp: "thuringien", min: 10, max: 12, w: 14 },
+    { sp: "bifidum", min: 9, max: 11, w: 14 }, { sp: "euglena", min: 10, max: 12, w: 12 }, { sp: "casei", min: 10, max: 12, w: 12 },
+    { sp: "roqueforti", min: 11, max: 12, w: 8 },
+  ]);
+  add(b.done({ music: "ruta" }));
+}
+
+// ---------------------------------------------------------------- Monte Micelio
+{
+  const b = new MapBuilder("monte-micelio", "Monte Micelio", 30, 24, "X", "cueva", false);
+  b.fill(12, 18, 5, 6, "u").fill(3, 18, 9, 3, "u").fill(2, 8, 6, 10, "u").fill(2, 3, 14, 4, "u").fill(16, 3, 4, 12, "u")
+    .fill(16, 12, 12, 3, "u").fill(22, 4, 6, 8, "u").fill(24, 0, 2, 4, "u").fill(17, 19, 6, 2, "u").fill(21, 15, 2, 4, "u");
+  // hifas luminosas y setas como obstáculos y decoración
+  b.fill(12, 18, 1, 2, "h").fill(16, 18, 1, 1, "h").set(2, 8, "h").set(7, 8, "o").set(2, 17, "o").set(7, 16, "h").set(2, 3, "o")
+    .fill(6, 3, 1, 1, "h").set(15, 6, "h").set(19, 3, "o").set(16, 9, "h").set(19, 10, "h").set(27, 14, "o").set(22, 4, "h")
+    .set(27, 4, "o").set(22, 11, "h").set(17, 20, "o").set(22, 20, "h").set(12, 23, "h").set(16, 23, "o");
+  b.fill(9, 5, 2, 2, "h").fill(17, 6, 2, 2, "o");
+  b.item(3, 15, "medio-lb", "item:mm-lb", 2);
+  b.item(26, 10, "criobola-azul", "item:mm-azul", 2);
+  b.item(14, 4, "glicerol", "item:mm-glicerol");
+  const recluta = (id: string, x: number, y: number, dir: number, sprite: string, name: string, team: [string, number][], intro: string, lose: string, after: string) =>
+    b.npc({ id, x, y, sprite, dir, trainer: { name, clase: "Recluta de la Unidad", team, sight: 4, money: 60, intro, lose, after } });
+  recluta("mm-recluta-1", 5, 12, 0, "recluta", "Becario", [["phage-x174", 13], ["mycoplas", 13]],
+    "¡Eh! Este becario está picando datos de 16S y no se puede distraer. ¡Fuera de aquí!",
+    "¡Mi portátil se ha reiniciado!", "Llevo tres meses sin ver una placa de Petri… solo terminales negras.");
+  recluta("mm-recluta-2", 11, 4, 2, "recluta-b", "Doctoranda", [["serratia", 13], ["bacteroid", 14]],
+    "¿Microbióloga? ¡Ja! Los Microos son solo excusas con ADN para publicar en Nature.",
+    "No puede ser… ¡mi pipeline no tenía control de errores!", "Mi contrato acabó hace dos años. Sigo aquí por el paper.");
+  recluta("mm-recluta-3", 19, 13, 2, "recluta", "Becario", [["mucorin", 13], ["roqueforti", 14], ["phage-x174", 14]],
+    "¡El Dr. Salazar ha dicho que nadie pase! Bueno, ha dicho que le da igual, pero yo me lo tomo en serio.",
+    "Vale, vale, pasa… total, nadie me paga.", "El Dr. Salazar está al fondo, sentado. No se levanta ni para comer.");
+  b.npc({ id: "mm-becario-1", x: 3, y: 9, sprite: "becario", dir: 0, hideIf: "salazar1",
+    talk: ["¡Ayuda! Nos obligan a analizar metabarcoding de 16S y 18S sin supervisión.", "Yo vine a hacer prácticas de cultivo… ¡y llevo semanas sin tocar una pipeta!"] });
+  b.npc({ id: "mm-becario-2", x: 15, y: 3, sprite: "estudiante", dir: 0, hideIf: "salazar1",
+    talk: "Dicen que buscan cepas ancestrales liofilizadas para llevarlas al Instituto Carlos III. ¿Para qué las querrán?" });
+  b.npc({ id: "salazar", x: 24, y: 4, sprite: "salazar", dir: 0, script: "salazar", hideIf: "salazar1", solid: true });
+  b.npc({ id: "disco-duro", x: 25, y: 4, sprite: "@tile:disco_duro", script: "discoDuro", hideIf: "disco", solid: true });
+  b.warp({ x: 14, y: 23, w: 1, to: "ruta-2", tx: 13, ty: 5, dir: 0 });
+  b.warp({ x: 24, y: 0, w: 2, to: "ruta-3", tx: 9, ty: 23, dir: 0 });
+  b.encounters([
+    { sp: "roqueforti", min: 12, max: 15, w: 20 }, { sp: "niger", min: 13, max: 15, w: 16 }, { sp: "mucorin", min: 12, max: 14, w: 14 },
+    { sp: "rhizopupa", min: 13, max: 15, w: 12 }, { sp: "bacteroid", min: 12, max: 14, w: 12 }, { sp: "thermus", min: 13, max: 15, w: 10 },
+    { sp: "phage-x174", min: 12, max: 14, w: 10 }, { sp: "mycoplas", min: 12, max: 14, w: 6 },
+  ]);
+  add(b.done({ music: "cueva" }));
+}
+
+// ---------------------------------------------------------------- Ruta 3
+{
+  const b = new MapBuilder("ruta-3", "Ruta 3", 20, 30);
+  b.trees(0, 0, 2, 30).trees(18, 0, 2, 30).trees(2, 0, 6, 2).trees(10, 0, 8, 2).trees(2, 26, 16, 4);
+  b.fill(4, 20, 12, 3, "A").set(9, 22, "O");
+  b.fill(11, 3, 6, 5, "~");
+  b.fill(9, 23, 9, 1, "p").fill(16, 10, 2, 14, "p").fill(8, 10, 10, 2, "p").fill(8, 0, 2, 12, "p");
+  b.fill(3, 7, 5, 9, "g").fill(10, 13, 5, 5, "g").fill(2, 23, 6, 3, "g");
+  b.fill(12, 8, 4, 1, "f").set(3, 17, "f").set(4, 17, "f");
+  b.sign(10, 24, "Ruta 3. Al norte: Ciudad Cultivo, la ciudad de los fotobiorreactores.");
+  b.item(16, 4, "caldo-nutritivo", "item:r3-caldo", 2);
+  b.item(3, 15, "medio-lb", "item:r3-lb");
+  b.npc({ id: "r3-limnologa", x: 13, y: 9, sprite: "chica", dir: 0, trainer: {
+    name: "Marta", clase: "Limnóloga", team: [["euglena", 15], ["navicula", 15], ["noctiluca", 16]], sight: 1, money: 60,
+    intro: "¡Este lago tiene más diatomeas que gotas de agua!", lose: "Se me ha volcado el muestreador…", after: "La Dra. Gajú estudia los tapetes microbianos del Delta del Ebro. ¡Sus Microos aman la luz!" } });
+  b.npc({ id: "r3-cervecero", x: 7, y: 16, sprite: "estudiante", dir: 3, trainer: {
+    name: "Iker", clase: "Cervecero", team: [["sacchari", 15], ["zymomonas", 16]], sight: 3, money: 55,
+    intro: "¡Fermentación alcohólica en marcha! ¿Un combate mientras sube la espuma?", lose: "Se me ha cortado la fermentación…", after: "Zymomonas fermenta el agave del pulque. ¡Y es una bacteria, no una levadura!" } });
+  b.npc({ id: "r3-rival", x: 9, y: 5, sprite: "rival", dir: 0, hideIf: "rival3" });
+  b.trigger({ x: 8, y: 7, w: 2, script: "rivalRuta3", once: "rival3" });
+  b.warp({ x: 9, y: 22, to: "monte-micelio", tx: 24, ty: 1, dir: 0 });
+  b.warp({ x: 8, y: 0, w: 2, to: "ciudad-cultivo", tx: 8, ty: 18, dir: 1, keep: "x" });
+  b.encounters([
+    { sp: "euglena", min: 14, max: 17, w: 20 }, { sp: "noctiluca", min: 14, max: 16, w: 15 }, { sp: "ceratium", min: 14, max: 16, w: 15 },
+    { sp: "zymomonas", min: 14, max: 16, w: 14 }, { sp: "rhizobi", min: 14, max: 16, w: 12 }, { sp: "albicans", min: 15, max: 17, w: 12 },
+    { sp: "desulfovib", min: 15, max: 17, w: 6 }, { sp: "navicula", min: 14, max: 16, w: 6 },
+  ]);
+  add(b.done({ music: "ruta" }));
+}
+
+// ---------------------------------------------------------------- Ciudad Cultivo
+{
+  const b = new MapBuilder("ciudad-cultivo", "Ciudad Cultivo", 26, 20);
+  b.trees(0, 0, 26, 2).trees(0, 0, 2, 20).trees(24, 0, 2, 20).trees(0, 18, 8, 2).trees(10, 18, 14, 2);
+  b.fill(8, 12, 2, 8, "p").fill(2, 12, 20, 2, "p").fill(15, 8, 1, 4, "p").fill(5, 7, 1, 5, "p").fill(21, 11, 1, 1, "p");
+  b.building(12, 4, { kind: "gimnasio", w: 7, door: 3, to: "gimnasio-cultivo", tx: 6, ty: 15 });
+  b.building(3, 4, { kind: "incubadora", w: 5, door: 2, to: "incubadora-cultivo", tx: 5, ty: 6 });
+  b.building(19, 8, { kind: "tienda", w: 4, door: 2, to: "tienda-cultivo", tx: 4, ty: 6 });
+  b.building(14, 14, { kind: "casa", w: 5, color: "azul", door: 2, to: "casa-cultivo", tx: 3, ty: 5 });
+  b.fill(2, 15, 4, 3, "~").fill(10, 15, 3, 2, "f").fill(20, 3, 3, 2, "f");
+  b.sign(10, 14, "Ciudad Cultivo. «Donde la luz se convierte en biomasa».");
+  b.sign(11, 8, "Gimnasio de Ciudad Cultivo. Líder: Dra. Núria Gajú, Microbiología Ambiental.");
+  b.sign(22, 12, "Ruta 4: en obras. Disculpen las molestias (y el olor a sulfuro).");
+  b.fill(22, 12, 2, 2, "k").set(22, 13, "k");
+  b.npc({ id: "cultivo-1", x: 13, y: 10, sprite: "chico", dir: 0, talk: ["El gimnasio es un invernadero lleno de columnas de Winogradsky.", "Arriba crecen las algas y abajo, sin oxígeno, las bacterias del azufre. ¡Cada capa es un mundo!"] });
+  b.npc({ id: "cultivo-2", x: 19, y: 13, sprite: "chica", move: "pasear", talk: "La Dra. Gajú usa Fotótrofos, Algas y Anaerobios. Un buen Microo de tipo Hongo o Gram- le dará guerra." });
+  b.npc({ id: "cultivo-becario", x: 6, y: 13, sprite: "becario", dir: 0, showIf: "salazar1",
+    talk: ["¡Eres quien nos sacó del Monte Micelio! Gracias.", "Por fin he vuelto a sembrar una placa. ¡Qué bien huele el agar!"] });
+  b.warp({ x: 8, y: 19, w: 2, to: "ruta-3", tx: 8, ty: 1, dir: 0, keep: "x" });
+  add(b.done({ music: "ciudad" }));
+}
+add(incubadora("incubadora-cultivo", "Ciudad Cultivo", { to: "ciudad-cultivo", x: 5, y: 6 }));
+add(tienda("tienda-cultivo", "Ciudad Cultivo", { to: "ciudad-cultivo", x: 21, y: 10 }, ["criobola-roja", "criobola-azul", "caldo-nutritivo", "medio-lb", "solucion-salina", "glicerol"]));
+add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16, y: 16 }, [
+  { id: "cultivo-casa", x: 5, y: 3, sprite: "estudiante", dir: 0, talk: ["Mi abuelo cultivaba Spirulina en la terraza.", "Decía que una cianobacteria hace más fotosíntesis que todos los árboles de la ciudad juntos."] },
+]));
+{
+  const b = new MapBuilder("gimnasio-cultivo", "Gimnasio de Ciudad Cultivo", 13, 17, "j", "invernadero", false);
+  b.fill(0, 0, 13, 1, "w").fill(0, 1, 13, 1, "W");
+  b.fill(0, 5, 5, 1, "q").fill(7, 5, 6, 1, "q").fill(0, 9, 8, 1, "q").fill(10, 9, 3, 1, "q");
+  b.set(1, 2, "Z").set(3, 2, "Z").set(9, 2, "Z").set(11, 2, "Z").set(0, 7, "Z").set(12, 7, "Z").set(0, 11, "Z").set(12, 11, "Z")
+    .set(1, 13, "Z").set(11, 13, "Z").set(0, 15, "n").set(12, 15, "n");
+  b.fill(5, 16, 3, 1, "a");
+  b.npc({ id: "lider-gaju", x: 6, y: 2, sprite: "gaju", dir: 0, script: "liderGaju" });
+  b.npc({ id: "gym2-ana", x: 9, y: 7, sprite: "chica", dir: 2, trainer: {
+    name: "Sara", clase: "Ecóloga", team: [["euglena", 17], ["navicula", 17]], sight: 3, money: 70,
+    intro: "¡Bienvenid{o} al invernadero! ¿Sabes qué capa de la columna prefieres?", lose: "Me has dejado sin oxígeno…", after: "Arriba, Fotótrofos. Abajo, Anaerobios. ¡Todo es cuestión de gradientes!" } });
+  b.npc({ id: "gym2-pau", x: 4, y: 11, sprite: "estudiante", dir: 3, trainer: {
+    name: "Pau", clase: "Técnico de Fotobiorreactor", team: [["synechoc", 16], ["desulfovib", 17]], sight: 3, money: 70,
+    intro: "¡Mi fotobiorreactor produce biomasa sin parar! ¡Y Microos!", lose: "Se me ha apagado la lámpara…", after: "Desulfovibrio respira sulfato y suelta H₂S. ¡Por eso huele a huevo podrido!" } });
+  b.npc({ id: "guia-gym2", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "La Dra. Gajú combina Algas, Anaerobios y Fotótrofos.", "Un tipo Hongo pega fuerte a los Fotótrofos… ¡pero cuidado con los Anaerobios!"] });
+  b.warp({ x: 5, y: 16, w: 3, to: "ciudad-cultivo", tx: 15, ty: 8, dir: 0 });
   add(b.done({ music: "gimnasio" }));
 }
 

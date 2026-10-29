@@ -52,7 +52,13 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Menús estilo DS (kit en `gfx.ts`: paneles con degradado, fondos con motivo animado, etiquetas de tipo, barras): menú de inicio, equipo en 2 columnas, resumen con pestañas INFO/MOVIMIENTOS, mochila con bolsa por bolsillo, Microdex rojo con pantalla y lista, ficha con medallas y tienda.
 - Elección de personaje al empezar: chico, chica o helicóptero de combate Apache (sprite propio con rotor que gira y vuelo estacionario, frases propias de la Profesora y la madre). Los textos usan {o} para el género.
 - Pendiente: pasos de los líderes convertidos del GDD; diseños a mano del resto de especies (124); textos de «Organismo» en el Microdex.
-- Nota: el combate contra Solé con un equipo Nv25+22 se gana o se pierde según la suerte (revisar en fase 5).
+
+## Segundo tramo (hecho)
+- Ciudad Petri → Ruta 2 → Monte Micelio → Ruta 3 → Ciudad Cultivo (Incubadora, tienda, casa) → Gimnasio Ambiental de la Dra. Núria Gajú (Medalla Tapete).
+- Monte Micelio: cueva con tiles propios (suelo, roca, hifas luminosas animadas, setas), encuentros en el suelo de la cueva, maraña de hifas que se corta con Celulasa tras la Medalla Probiótico, reclutas de la Unidad de Genética (sprites nuevos), becarios secuestrados, Dr. Isaac Salazar (Niger, Fragilis, Desulfovib) y el Disco Duro Externo.
+- Rival Koch en la Ruta 3 con tres Microos (su inicial evolucionado). Gimnasio-invernadero con columnas de Winogradsky y estanques.
+- 15 Microos nuevos diseñados a mano (`tools/art/designs3.py`).
+- Arreglos: la boca de la cueva lleva dentro al pisarla; el aviso de eficacia sale antes del debilitamiento; consejo de tipos erróneo en Ciudad Petri corregido. El playtest elige bien el Microo de reemplazo (en la pantalla de 2 columnas) y espera a que acaben los diálogos.
 
 ## Siguiente tarea
-Fase 4: Monte Micelio en adelante (gimnasios 2–8 y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
+Fase 4: Cueva Anaeróbica y Ciudad Gram en adelante (gimnasios 3–8 y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

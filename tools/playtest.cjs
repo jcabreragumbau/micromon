@@ -7,7 +7,7 @@ const path = require("node:path");
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 720, height: 560 } });
   const errors = [];
-  page.on("pageerror", (e) => errors.push(String(e)));
+  page.on("pageerror", (e) => errors.push(String(e) + " @ " + String(e.stack).split("\n").slice(1, 6).join(" | ")));
   page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
   await page.goto("file://" + path.resolve("dist/index.html"));
   await page.waitForTimeout(400);
@@ -29,13 +29,21 @@ const path = require("node:path");
       if ((await top()) || (await scene()) !== "Overworld") return;
     }
   }
+  const blog = [];
   async function autobattle(tag, shots = true, max = 600) {
     let k = 0;
     for (let i = 0; i < max; i++) {
       if ((await scene()) !== "BattleScene") { await page.waitForTimeout(300); if ((await scene()) !== "BattleScene") return; }
       const t = await top();
+      const txt = await G(() => String(window.micromon.overlays.at(-1)?.ov.text ?? ""));
+      if (txt && blog.at(-1) !== `${tag}: ${txt}`) blog.push(`${tag}: ${txt}`);
       if (shots && t === "ActionMenu" && k < 2) await shot(`${tag}-${k++}`);
-      if (t === "PartyScreen") { await press("down"); await press("a"); continue; }
+      if (t === "PartyScreen") {
+        await G(() => { const ov = window.micromon.overlays.at(-1).ov, p = window.micromon.state.party;
+          const act = ov.o.battle?.sides[0].active.map((x) => x?.party) ?? [];
+          const i = p.findIndex((m, k) => m.hp > 0 && !act.includes(k)); ov.sel = i >= 0 ? i : p.length; });
+        await press("a"); continue;
+      }
       if (t === "Choice") { await press("b"); continue; }
       if (t === "MoveMenu") {
         await G(() => { const ov = window.micromon.overlays.at(-1).ov, E = micromonDebug.engine;
@@ -112,8 +120,43 @@ const path = require("node:path");
   for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
   await page.waitForTimeout(900); await shot("29-lider-intro");
   await autobattle("30-lider");
-  for (let i = 0; i < 60 && !(await idle()); i++) { await press("a", 1, 80); if (i === 3) await shot("31-medalla"); }
+  for (let i = 0; i < 300 && !(await idle()); i++) { if ((await scene()) === "BattleScene") { await autobattle("30b", false); continue; } await press("a", 1, 80); if (i === 3) await shot("31-medalla"); }
   const st2 = await G(() => ({ badges: window.micromon.state.badges, money: window.micromon.state.money, caught: window.micromon.state.caught, party: window.micromon.state.party.map((m) => [m.species, m.level, m.hp]) }));
-  console.log(JSON.stringify({ errors, st1, st2, trainerFlag, wild }, null, 0));
+  // --- Segundo tramo: Ruta 2, Monte Micelio, Ruta 3, Ciudad Cultivo y Gimnasio 2
+  await G(() => { const g = window.micromon, e = micromonDebug.engine; if (!g.state.badges.includes("probiotico")) g.state.badges.push("probiotico");
+    g.state.party = [e.createMicroo(g.state.flags.starter, 32), e.createMicroo("anthracis", 30), e.createMicroo("chrysogenum", 30)]; });
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-2", 13, 6, 1)); await page.waitForTimeout(800); await shot("32-ruta2");
+  await press("a", 1, 300); await press("a", 1, 300); await shot("33-hifas"); await press("a", 1, 300); await advance();
+  const hifas = await G(() => !!window.micromon.state.flags["hifas-r2"]);
+  await walk("up", 1); await walk("up", 1); await page.waitForTimeout(900); await shot("34-cueva");
+  const enCueva = await G(() => window.micromon.state.map);
+  await G(() => micromonDebug.enterWorld(window.micromon, "monte-micelio", 24, 5, 1)); await page.waitForTimeout(800); await shot("35-salazar-sala");
+  await press("a", 1, 200);
+  for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
+  await page.waitForTimeout(900); await shot("36-salazar-combate");
+  await autobattle("37-salazar", false); await advance();
+  const salazar = await G(() => !!window.micromon.state.flags.salazar1);
+  await G(() => micromonDebug.enterWorld(window.micromon, "monte-micelio", 25, 5, 1)); await page.waitForTimeout(800);
+  await press("a", 1, 300); await shot("38-disco"); await advance();
+  const disco = await G(() => !!window.micromon.state.bag["disco-duro"]);
+  await G(() => { for (const m of window.micromon.state.party) micromonDebug.engine.fullHeal?.(m); });
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-3", 9, 9, 1)); await page.waitForTimeout(800); await shot("39-ruta3");
+  await walk("up", 1); await walk("up", 1);
+  for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
+  await page.waitForTimeout(900); await shot("40-rival3");
+  await autobattle("41-rival3", false); await advance();
+  const rival3 = await G(() => !!window.micromon.state.flags.rival3);
+  await G(() => micromonDebug.enterWorld(window.micromon, "ciudad-cultivo", 8, 17, 1)); await page.waitForTimeout(800); await shot("42-ciudad-cultivo");
+  await G(() => micromonDebug.enterWorld(window.micromon, "gimnasio-cultivo", 6, 14, 1)); await page.waitForTimeout(800); await shot("43-gimnasio2");
+  await G(() => { const g = window.micromon, e = micromonDebug.engine; g.state.party = [e.createMicroo("chrysogenum", 30), e.createMicroo("anthracis", 30), e.createMicroo(g.state.flags.starter, 32)]; });
+  await G(() => micromonDebug.enterWorld(window.micromon, "gimnasio-cultivo", 6, 3, 1)); await page.waitForTimeout(800);
+  await press("a", 1, 200);
+  for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
+  await page.waitForTimeout(900); await shot("44-gaju");
+  await autobattle("45-gaju", false);
+  for (let i = 0; i < 60 && !(await idle()); i++) await press("a", 1, 80);
+  const st3 = await G(() => ({ badges: window.micromon.state.badges, map: window.micromon.state.map }));
+  if (process.env.BLOG) console.error(blog.filter((l) => l.startsWith(process.env.BLOG)).join("\n"));
+  console.log(JSON.stringify({ errors, st1, st2, trainerFlag, wild, tramo2: { hifas, enCueva, salazar, disco, rival3, st3 } }, null, 0));
   await browser.close();
 })();

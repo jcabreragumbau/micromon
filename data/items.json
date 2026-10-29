@@ -144,6 +144,13 @@
   "desc": "Permite entrar en la Cueva Anaeróbica."
  },
  {
+  "id": "disco-duro",
+  "name": "Disco Duro Externo",
+  "kind": "key",
+  "price": 0,
+  "desc": "Un disco duro atado con celo. Pone «BACKUP_FINAL_v3_ESTE_SÍ». Alguien lo tiró en el Monte Micelio."
+ },
+ {
   "id": "western-blot",
   "name": "Western Blot",
   "kind": "key",

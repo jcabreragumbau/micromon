@@ -1,9 +1,9 @@
-// Guiones de historia, conversaciones y combates del primer tramo.
+// Guiones de historia, conversaciones y combates.
 import type { Game } from "./game";
 import type { Overworld, NpcState } from "./scenes/overworld";
 import { BattleScene, type BattleSetup, type BattleOutcome } from "./scenes/battle";
 import { shopMenu } from "./scenes/menus";
-import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, type Microo } from "../engine";
+import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, type Microo } from "../engine";
 import { addItem, markCaught, markSeen } from "./state";
 
 const COUNTER: Record<string, string> = { synechoc: "butyricum", butyricum: "paramec", paramec: "synechoc" };
@@ -255,6 +255,90 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dr. Solé: Te has ganado la MEDALLA PROBIÓTICO.");
     await game.say("¡{nombre} ha recibido la MEDALLA PROBIÓTICO del Dr. Solé!");
     await game.say("Dr. Solé: Con ella podrás usar Celulasa fuera de combate para cortar los arbustos que bloquean el camino.");
-    await game.say("— Fin del primer tramo de Micromón. ¡Gracias por jugar! La aventura continuará en el Monte Micelio. —");
+    await game.say("Dr. Solé: Por cierto… dicen que en el Monte Micelio, al norte, ronda gente con portátiles y muy mala cara. Ten cuidado.");
+  },
+
+  // ---------------------------------------------------------------- segundo tramo
+  async cortarHifas(game, world) {
+    const s = S(game);
+    if (!s.badges.includes("probiotico")) {
+      await game.say("Una maraña de hifas blancas tapa la entrada de la cueva. Es dura como el cartón.");
+      await game.say("Con la Celulasa que enseña el líder de Ciudad Petri se podría cortar.");
+      return;
+    }
+    await game.say("Una maraña de hifas tapa la entrada de la cueva. ¿Quieres usar Celulasa?", { keep: true });
+    const ok = await game.choose(["SÍ", "NO"], { x: 200, y: 96, cancel: 1 });
+    game.popKept();
+    if (ok !== 0) return;
+    await game.say(s.avatar === "apache" ? "¡{nombre} usó Celulasa! …Y, por si acaso, también el rotor." : "¡{nombre} usó Celulasa! Las paredes de las hifas se deshacen.");
+    s.flags["hifas-r2"] = true;
+    world.refreshNpcs();
+  },
+
+  async salazar(game, world) {
+    const s = S(game);
+    await game.say("Dr. Salazar: …¿Eh? ¿Quién eres tú? No, no me levanto. Se está muy bien sentado.");
+    await game.say("Dr. Salazar: Alguien ha tirado un disco duro al suelo. ¿Lo ves ahí? Pues yo no pienso hacer nada.");
+    await game.say("Dr. Salazar: ¿Que los becarios están picando datos de 16S sin supervisión? Ya aprenderán. Yo aprendí así… creo.");
+    await game.say("Dr. Salazar: ¿Quieres pasar? Uf… vale, te gano desde la silla.");
+    const team = [createMicroo("niger", 15, { rng: rng(game) }), createMicroo("fragilis", 16, { rng: rng(game) }), createMicroo("desulfovib", 17, { rng: rng(game) })];
+    const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Salazar"), wild: false,
+      trainer: { name: "Isaac Salazar", clase: "Ejecutivo", portrait: "salazar", lose: "Bah… tampoco me importaba tanto.", money: 400 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    await game.say("Dr. Salazar: Pfff. Vale, vale. Me voy a mi cuarto de servidores, que ahí no me molesta nadie.");
+    await game.say("Dr. Salazar: Y llevaos a los becarios, que ya hacen mucho ruido. La Unidad de Genética tiene planes más grandes…");
+    await game.fade(true, 14);
+    s.flags.salazar1 = true;
+    world.refreshNpcs();
+    await game.fade(false, 14);
+    await game.say("Los becarios secuestrados han salido corriendo hacia Ciudad Cultivo.");
+  },
+
+  async discoDuro(game, world) {
+    const s = S(game);
+    if (!s.flags.salazar1) { await game.say("Dr. Salazar: Ni lo toques. Bueno… en realidad me da igual. Pero no lo toques."); return; }
+    await game.say("Es un disco duro externo atado con celo. Pone «BACKUP_FINAL_v3_ESTE_SÍ».");
+    addItem(s, "disco-duro");
+    s.flags.disco = true;
+    world.refreshNpcs();
+    await game.say("¡{nombre} ha guardado el DISCO DURO EXTERNO en la mochila!");
+  },
+
+  async rivalRuta3(game, world) {
+    const s = S(game);
+    if (s.flags.rival3) return;
+    const r = world.npc("r3-rival");
+    if (r) { r.emote = 40; r.dir = 0; await game.wait(30); }
+    await game.say("{rival}: ¡{nombre}! ¿Has cruzado el Monte Micelio? Yo he visto a unos tipos raros con portátiles… ¡pero no me han dado ningún miedo!");
+    await game.say("{rival}: He entrenado mucho. ¡Esta vez no tienes nada que hacer!");
+    const rv = String(s.flags.rivalStarter ?? "butyricum");
+    const evo = [...SPECIES.values()].find((x) => x.evolvesFrom === rv && x.evolution?.method === "level" && (x.evolution.level ?? 99) <= 19);
+    const foe = [createMicroo("rhizopupa", 16, { rng: rng(game) }), createMicroo("subtilis", 16, { rng: rng(game) }), createMicroo(evo?.id ?? rv, 19, { rng: rng(game) })];
+    const out = await startBattle(game, world, { battle: battleFor(game, foe, false, s.rival), wild: false,
+      trainer: { name: s.rival, clase: "Rival", portrait: "rival", lose: "¡¿Otra vez?! ¡Mi cultivo estaba contaminado!", money: 30 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    s.flags.rival3 = true;
+    await game.say("{rival}: La líder de Ciudad Cultivo cultiva algas en columnas gigantes. ¡Seguro que yo lo entiendo antes que tú!");
+    if (r) await world.walkNpc(r, 1, 6);
+    world.refreshNpcs();
+  },
+
+  async liderGaju(game, world) {
+    const s = S(game);
+    if (s.badges.includes("tapete")) {
+      await game.say("Dra. Gajú: Cada capa de una columna de Winogradsky es un ecosistema. Arriba la luz, abajo el azufre… ¡y en medio, la vida!");
+      return;
+    }
+    await game.say("Dra. Gajú: ¡Hola! Soy Núria Gajú, líder del Gimnasio de Ciudad Cultivo. Estudio los tapetes microbianos del Delta del Ebro.");
+    await game.say("Dra. Gajú: Mis Microos viven en gradientes de luz, oxígeno y sulfuro. ¿Sabrás adaptarte tú?");
+    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty("gym2", s.difficulty, rng(game)), false, "Dra. Gajú", s.difficulty === "normal" ? { "medio-lb": 2 } : {}), wild: false,
+      trainer: { name: "Núria Gajú", clase: "Líder", portrait: "gaju", lose: "¡Qué buena adaptación! Como una cianobacteria al sol.", money: 160 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    s.badges.push("tapete");
+    s.flags.medalla2 = true;
+    await game.say("Dra. Gajú: Te has ganado la MEDALLA TAPETE.");
+    await game.say("¡{nombre} ha recibido la MEDALLA TAPETE de la Dra. Gajú!");
+    await game.say("Dra. Gajú: Con ella podrás usar Quorum Sensing Lux fuera de combate para iluminar los lugares oscuros.");
+    await game.say("— Fin del segundo tramo de Micromón. ¡La aventura continuará en la Cueva Anaeróbica y Ciudad Gram! —");
   },
 };

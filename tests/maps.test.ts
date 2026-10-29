@@ -2,12 +2,13 @@ import { describe, expect, test } from "bun:test";
 import { MAPS, checkMaps } from "../src/game/world/maps";
 import { tileAt, passable } from "../src/game/world/builder";
 
-describe("Mapas del primer tramo", () => {
+describe("Mapas", () => {
   test("coherencia de filas y destinos de puertas", () => { expect(checkMaps()).toEqual([]); });
   test("todas las salidas, objetos y personajes son alcanzables desde cada entrada", () => {
     const problems: string[] = [];
     for (const m of Object.values(MAPS)) {
-      const solidNpc = new Set(m.npcs.filter((n) => !n.hideIf || !n.hideIf.startsWith("rival")).map((n) => `${n.x},${n.y}`));
+      // los PNJ que desaparecen con la historia (rival, hifas, Salazar...) no bloquean para siempre
+      const solidNpc = new Set(m.npcs.filter((n) => !n.hideIf).map((n) => `${n.x},${n.y}`));
       const items = new Set(m.items.map((i) => `${i.x},${i.y}`));
       const free = (x: number, y: number) => x >= 0 && y >= 0 && x < m.w && y < m.h && passable(tileAt(m, x, y)) && tileAt(m, x, y) !== "bordillo" && !solidNpc.has(`${x},${y}`) && !items.has(`${x},${y}`);
       // Entradas: destinos de warps de otros mapas hacia este

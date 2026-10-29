@@ -16,7 +16,7 @@ export interface Encounter { sp: string; min: number; max: number; w: number }
 export interface MapDef {
   id: string; name: string; w: number; h: number; grid: string[][];
   npcs: NpcDef[]; warps: WarpDef[]; signs: { x: number; y: number; text: string }[]; items: ItemDef[];
-  triggers: TriggerDef[]; grass: Encounter[]; env: "hierba" | "bosque" | "interior" | "laboratorio" | "gimnasio";
+  triggers: TriggerDef[]; grass: Encounter[]; env: "hierba" | "bosque" | "interior" | "laboratorio" | "gimnasio" | "cueva" | "invernadero";
   outdoor: boolean; onEnter?: string; music?: string;
 }
 
@@ -26,6 +26,7 @@ export const LEGEND: Record<string, string> = {
   k: "seto", l: "valla", r: "roca", v: "bordillo", "#": "vacio", w: "pared", W: "pared_base", m: "suelo_madera", L: "suelo_lab",
   Y: "suelo_gimnasio", e: "estanteria", t: "mesa", c: "mostrador", P: "pc", b: "cama", n: "planta", a: "alfombra",
   i: "incubadora", B: "poyata", M: "microscopio", Q: "queso", C: "lata", K: "tanque", E: "escaleras", S: "cartel",
+  u: "suelo_cueva", X: "pared_cueva", d: "disco_duro", A: "acantilado", O: "cueva_entrada", Z: "winogradsky", j: "suelo_invernadero",
 };
 
 export class MapBuilder {
@@ -100,10 +101,13 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
     return `${ch === "p" ? "camino" : "arena"}_${mask}`;
   }
   if (ch === "f") return frame % 64 < 32 ? "flores0" : "flores1";
+  if (ch === "h") return frame % 80 < 40 ? "hifas0" : "hifas1";
+  if (ch === "o") return frame % 90 < 45 ? "seta0" : "seta1";
+  if (ch === "q") return frame % 64 < 32 ? "piscina0" : "piscina1";
   return LEGEND[ch] ?? "hierba";
 }
 
 const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
-  "suelo_madera", "suelo_lab", "suelo_gimnasio", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo"]);
+  "suelo_madera", "suelo_lab", "suelo_gimnasio", "suelo_cueva", "suelo_invernadero", "cueva_entrada", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo"]);
 export function passable(tile: string) { return PASSABLE.has(tile); }
 export function isGrass(tile: string) { return tile === "hierba_alta" || tile === "hierba_oscura"; }
