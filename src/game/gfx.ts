@@ -10,6 +10,19 @@ const COLORS: Record<TextColor, [string, string]> = {
   blue: ["#3058c0", "#b8c8f0"], gray: ["#808088", "#d8d8d0"], green: ["#30a050", "#c0e8c8"], orange: ["#e07828", "#f8d8b0"],
 };
 
+export const TYPE_COLORS: Record<string, string> = {
+  "Levadura": "#c8a868", "Fotótrofo": "#68b840", "Anaerobio": "#e87828", "Protozoo": "#4888e0", "Espiroqueta": "#d8b820",
+  "Gram+": "#8858c8", "Gram-": "#d05088", "Antibiótico": "#d05848", "Esporulado": "#a87c40", "Alga": "#40b098",
+  "Intracelular": "#d068b8", "Hongo": "#a0a030", "Ácido-Alc.": "#58a8d8", "Archaea": "#7060b0", "Virus": "#5850d8",
+  "Biofilm": "#808ca0", "Extremófilo": "#705850", "Simbionte": "#e078a8",
+};
+/** Aclara (t>0) u oscurece (t<0) un color hexadecimal. */
+export function shade(hex: string, t: number): string {
+  const n = parseInt(hex.slice(1), 16);
+  const ch = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => Math.round(t >= 0 ? v + (255 - v) * t : v * (1 + t)));
+  return `rgb(${ch[0]},${ch[1]},${ch[2]})`;
+}
+
 export class Gfx {
   ctx: CanvasRenderingContext2D;
   private fonts = new Map<string, HTMLCanvasElement>();
@@ -109,6 +122,82 @@ export class Gfx {
     c.fillStyle = st[0]; c.fillRect(x + 3, y + 2, w - 6, h - 4); c.fillRect(x + 2, y + 3, w - 4, h - 6);
   }
   cursor(x: number, y: number) { this.text("▶", x, y, "dark", false); }
+  // ---------------------------------------------------------------- kit de interfaz estilo DS
+  /** Rectángulo de esquinas redondeadas (radio en píxeles, escalonado). */
+  round(x: number, y: number, w: number, h: number, r: number, c: string) {
+    const ctx = this.ctx; ctx.fillStyle = c;
+    for (let i = 0; i < r; i++) {
+      const inset = r - Math.round(Math.sqrt(r * r - (r - i - 0.5) ** 2));
+      ctx.fillRect(x + inset, y + i, w - inset * 2, 1);
+      ctx.fillRect(x + inset, y + h - 1 - i, w - inset * 2, 1);
+    }
+    ctx.fillRect(x, y + r, w, h - r * 2);
+  }
+  /** Panel con borde, degradado vertical y brillo superior. */
+  panel(x: number, y: number, w: number, h: number, top: string, bottom: string, border = "#384058", r = 4) {
+    this.round(x, y, w, h, r, border);
+    const ctx = this.ctx;
+    const gr = ctx.createLinearGradient(0, y + 1, 0, y + h - 1);
+    gr.addColorStop(0, top); gr.addColorStop(1, bottom);
+    ctx.save(); ctx.fillStyle = gr;
+    for (let i = 0; i < r - 1; i++) {
+      const rr = r - 1, inset = rr - Math.round(Math.sqrt(rr * rr - (rr - i - 0.5) ** 2));
+      ctx.fillRect(x + 1 + inset, y + 1 + i, w - 2 - inset * 2, 1);
+      ctx.fillRect(x + 1 + inset, y + h - 2 - i, w - 2 - inset * 2, 1);
+    }
+    ctx.fillRect(x + 1, y + r, w - 2, h - r * 2);
+    ctx.restore();
+    this.alpha(0.45, () => this.rect(x + r, y + 2, w - r * 2, 1, "#ffffff"));
+  }
+  /** Fondo de menú: degradado con rombos suaves que se desplazan. */
+  pattern(c1: string, c2: string, t = 0, c3?: string) {
+    const ctx = this.ctx;
+    const gr = ctx.createLinearGradient(0, 0, 0, H);
+    gr.addColorStop(0, c1); gr.addColorStop(1, c3 ?? c1);
+    ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H);
+    const o = Math.floor(t / 4) % 16;
+    ctx.fillStyle = c2;
+    for (let y = -16; y < H + 16; y += 16) for (let x = -16; x < W + 16; x += 16) {
+      const cx = x + o + ((y / 16) % 2 ? 8 : 0), cy = y + o;
+      ctx.fillRect(cx + 3, cy, 2, 1); ctx.fillRect(cx + 2, cy + 1, 4, 1); ctx.fillRect(cx + 1, cy + 2, 6, 1);
+      ctx.fillRect(cx + 2, cy + 3, 4, 1); ctx.fillRect(cx + 3, cy + 4, 2, 1);
+    }
+  }
+  /** Etiqueta de tipo con su color; ancho automático si w = 0. Devuelve el ancho usado. */
+  typeBadge(type: string, x: number, y: number, w = 0): number {
+    const base = TYPE_COLORS[type] ?? "#a0a0a0";
+    const tw = this.measure(type);
+    if (!w) w = tw + 10;
+    this.panel(x, y, w, 13, shade(base, 0.2), shade(base, -0.15), shade(base, -0.6), 3);
+    this.rawText(type, x + Math.round((w - tw) / 2) + 1, y + 3, shade(base, -0.6));
+    this.rawText(type, x + Math.round((w - tw) / 2), y + 2, "#ffffff");
+    return w;
+  }
+  /** Varias etiquetas de tipo en fila, saltando de línea si no caben. Devuelve la altura usada. */
+  typeBadges(types: string[], x: number, y: number, maxW: number): number {
+    let cx = x, cy = y;
+    for (const t of types) {
+      const w = this.measure(t) + 10;
+      if (cx > x && cx + w > x + maxW) { cx = x; cy += 15; }
+      this.typeBadge(t, cx, cy, w); cx += w + 3;
+    }
+    return cy - y + 15;
+  }
+  /** Recorta un texto con "…" para que quepa en `w` píxeles. */
+  fit(s: string, w: number): string {
+    if (this.measure(s) <= w) return s;
+    while (s.length > 1 && this.measure(s + ".") > w) s = s.slice(0, -1);
+    return s.trimEnd() + ".";
+  }
+  /** Barra genérica con marco (PS, experiencia, estadística). */
+  bar(x: number, y: number, w: number, frac: number, col: string, h = 3, back = "#505868") {
+    this.rect(x - 1, y - 1, w + 2, h + 2, "#283040");
+    this.rect(x, y, w, h, back);
+    const fw = Math.max(0, Math.min(w, Math.round(w * frac)));
+    this.rect(x, y, fw, h, col);
+    if (h > 2) this.alpha(0.5, () => this.rect(x, y, fw, 1, "#ffffff"));
+  }
+  hpColor(frac: number) { return frac > 0.5 ? "#48d070" : frac > 0.2 ? "#f0c020" : "#f04040"; }
   hpBar(x: number, y: number, w: number, frac: number) {
     this.rect(x, y, w + 2, 4, "#383840");
     const col = frac > 0.5 ? "#58d080" : frac > 0.2 ? "#f0c828" : "#e84848";

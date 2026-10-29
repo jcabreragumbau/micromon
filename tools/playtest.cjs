@@ -71,8 +71,8 @@ const path = require("node:path");
   await press("start", 1, 300); await shot("11-menu-inicio");
   await press("down", 1); await press("a", 1, 300); await shot("12-equipo");
   await press("a", 1, 200); await press("a", 1, 300); await shot("13-resumen"); await press("right", 1, 200); await shot("14-resumen-movs");
-  await press("b", 3, 200); await press("down", 1); await press("a", 1, 300); await shot("15-mochila"); await press("right", 1, 150); await shot("16-mochila-criobolas");
-  await press("b", 1, 200); await press("up", 2); await press("a", 1, 300); await shot("17-microdex"); await press("b", 2, 200);
+  await press("b", 2, 250); await press("down", 2, 150); await press("a", 1, 300); await shot("15-mochila"); await press("right", 1, 150); await shot("16-mochila-criobolas");
+  await press("b", 1, 250); await press("a", 1, 300); await shot("17-microdex"); await press("down", 3, 120); await shot("17b-microdex"); await press("b", 1, 250); await press("down", 3, 120); await press("a", 1, 300); await shot("17c-ficha"); await press("b", 1, 250); await press("b", 1, 250);
   await advance();
   // --- Ruta 1 con combate salvaje y captura
   await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 6, 22, 1)); await page.waitForTimeout(800); await shot("18-ruta1");
@@ -103,6 +103,7 @@ const path = require("node:path");
   await G(() => micromonDebug.enterWorld(window.micromon, "ciudad-petri", 11, 12, 1)); await page.waitForTimeout(800); await shot("27-ciudad-petri");
   // --- Gimnasio: subir el equipo para ganar y probar el combate de líder
   await G(() => { const g = window.micromon, e = micromonDebug.engine; g.state.party = [e.createMicroo(g.state.flags.starter, 25), e.createMicroo("anthracis", 22)]; });
+  await press("start", 1, 300); await press("down", 1, 150); await press("a", 1, 300); await press("right", 1, 150); await shot("27b-equipo2"); await press("a", 1, 200); await press("a", 1, 300); await shot("27c-resumen2"); await press("right", 1, 200); await shot("27d-movs2"); await press("b", 3, 250);
   await G(() => micromonDebug.enterWorld(window.micromon, "gimnasio-petri", 5, 3, 1)); await page.waitForTimeout(800); await shot("28-gimnasio");
   await press("a", 1, 200);
   for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);

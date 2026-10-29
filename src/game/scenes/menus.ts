@@ -1,13 +1,16 @@
 // Menús: inicio, equipo, resumen, mochila, Microdex, ficha, guardado, opciones y tienda.
 import type { Game, Overlay } from "../game";
-import { Gfx, W, H, TB } from "../gfx";
+import { Gfx, W, H, TB, shade, TYPE_COLORS } from "../gfx";
 import type { Overworld } from "./overworld";
 import { SPECIES, ITEMS, getMove, getSpecies, type ItemData } from "../../engine/data";
-import { displayName, NATURES, itemEvolution, type Microo } from "../../engine/microo";
+import { displayName, NATURES, itemEvolution, expForLevel, type Microo } from "../../engine/microo";
 import { applyItemOutOfBattleLike, type Battle } from "../../engine/battle";
 import { saveGame, playTime, addItem } from "../state";
 import { evolutionSequence } from "./battle";
 
+const MENU_DOT = ["#e84848", "#48a0e8", "#f0b030", "#48c068", "#a060d8", "#808898", "#e86898"];
+const STATUS_COL: Record<string, string> = { brn: "#e86030", frz: "#58b8e8", par: "#d8b820", psn: "#a050c0", tox: "#a050c0", slp: "#8890a0" };
+const TYPE_C = (t: string) => TYPE_COLORS[t] ?? "#a0a0a0";
 const STATUS_SHORT: Record<string, string> = { brn: "DES", frz: "CON", par: "PAR", psn: "TOX", tox: "TOX", slp: "LAT" };
 
 // ---------------------------------------------------------------- menú de inicio
@@ -48,10 +51,15 @@ class StartMenu implements Overlay {
     return false;
   }
   draw(g: Gfx) {
-    const w = 84, h = this.opts.length * 16 + 10;
-    g.frame(W - w - 2, 2, w, h);
-    this.opts.forEach((o, i) => g.text(o, W - w + 14, 9 + i * 16));
-    g.cursor(W - w + 5, 9 + this.sel * 16);
+    const w = 92, h = this.opts.length * 18 + 8, x = W - w - 3, y = 3;
+    g.panel(x, y, w, h, "#f8f8f8", "#d8e0e8", "#384058", 5);
+    this.opts.forEach((o, i) => {
+      const yy = y + 4 + i * 18, sel = i === this.sel;
+      if (sel) g.panel(x + 3, yy, w - 6, 17, "#ffd890", "#f09838", "#b05818", 3);
+      g.rect(x + 9, yy + 5, 7, 7, sel ? "#ffffff" : MENU_DOT[i % MENU_DOT.length]);
+      g.rect(x + 10, yy + 6, 5, 5, sel ? "#f09838" : shade(MENU_DOT[i % MENU_DOT.length], 0.4));
+      g.text(o, x + 22, yy + 4, "dark");
+    });
   }
 }
 
@@ -90,33 +98,44 @@ class PartyScreen implements Overlay {
   sel = 0; result = -1;
   constructor(public game: Game, public o: PartyOpts) {}
   update(game: Game) {
-    const n = game.state.party.length;
-    if (game.input.repeat("down")) this.sel = (this.sel + 1) % (n + 1);
-    if (game.input.repeat("up")) this.sel = (this.sel + n) % (n + 1);
+    const n = game.state.party.length, inp = game.input;
+    if (inp.repeat("down")) this.sel = this.sel === n ? 0 : this.sel + 2 < n ? this.sel + 2 : n;
+    if (inp.repeat("up")) this.sel = this.sel === n ? n - 1 : this.sel >= 2 ? this.sel - 2 : n;
+    if (inp.repeat("right") && this.sel < n && this.sel % 2 === 0 && this.sel + 1 < n) this.sel++;
+    if (inp.repeat("left") && this.sel < n && this.sel % 2 === 1) this.sel--;
     if (game.input.pressed("a")) { this.result = this.sel === n ? -1 : this.sel; return true; }
     if (game.input.pressed("b")) { this.result = -1; return true; }
     return false;
   }
   draw(g: Gfx, game: Game) {
-    g.clear("#3870a8");
-    for (let y = 0; y < H; y += 8) g.rect(0, y, W, 4, "#3068a0");
+    g.pattern("#58a880", "#68b890", game.frame, "#388868");
     const p = game.state.party;
-    p.forEach((m, i) => {
-      const y = 4 + i * 22, sel = i === this.sel;
-      g.frame(4, y, W - 8, 21, sel ? "texto" : "menu");
-      g.icon(m.species, Math.floor(game.frame / 16) % 2, 6, y - 8);
-      g.text(displayName(m), 40, y + 6, m.hp > 0 ? "dark" : "gray");
-      g.text(`Nv${m.level}`, 110, y + 6);
-      if (m.status) g.text(STATUS_SHORT[m.status], 140, y + 6, "red");
-      g.hpBar(W - 92, y + 6, 64, m.hp / m.stats.hp);
-      g.text(`${m.hp}/${m.stats.hp}`, W - 80, y + 12);
-    });
-    const ny = 4 + p.length * 22;
-    g.frame(W - 70, Math.min(ny, H - 46), 66, 20, this.sel === p.length ? "texto" : "menu");
-    g.text("SALIR", W - 54, Math.min(ny, H - 46) + 6);
+    for (let i = 0; i < 6; i++) {
+      const x = 4 + (i % 2) * 125, y = 4 + Math.floor(i / 2) * 49, m = p[i];
+      if (!m) { g.panel(x, y, 123, 46, "#88b8a0", "#78a890", "#4a7a64", 6); continue; }
+      const sel = i === this.sel, fainted = m.hp <= 0;
+      const [t, b, br] = fainted ? ["#f0b0a8", "#c87870", "#803838"] : sel ? ["#fff0b0", "#f8b848", "#c06818"] : i === 0 ? ["#c8f0ff", "#68b8e8", "#2a6898"] : ["#d8ecff", "#88b0e0", "#384c88"];
+      g.panel(x, y, 123, 46, t, b, br, 6);
+      if (sel) g.alpha(0.6, () => g.round(x + 2, y + 2, 119, 42, 5, "#ffffff00"));
+      g.round(x + 4, y + 5, 30, 30, 15, "rgba(255,255,255,0.35)");
+      const bounce = sel && Math.floor(game.frame / 8) % 2 ? -2 : 0;
+      g.icon(m.species, sel ? Math.floor(game.frame / 8) % 2 : 0, x + 3, y + 2 + bounce);
+      g.text(displayName(m), x + 37, y + 5, fainted ? "gray" : "dark");
+      g.text(`Nv${m.level}`, x + 37, y + 18, "dark");
+      if (m.status) { g.round(x + 72, y + 17, 24, 11, 3, STATUS_COL[m.status]); g.text(STATUS_SHORT[m.status], x + 75, y + 18, "white", false); }
+      const f = m.hp / m.stats.hp;
+      g.round(x + 34, y + 31, 85, 11, 3, "#384058");
+      g.text("PS", x + 36, y + 31, "orange", false);
+      g.bar(x + 50, y + 34, 66, f, g.hpColor(f), 4);
+      const hp = `${m.hp}/${m.stats.hp}`;
+      g.text(hp, x + 119 - g.measure(hp), y + 18, "dark");
+    }
+    const csel = this.sel === p.length;
+    g.panel(W - 68, H - 38, 64, 34, csel ? "#fff0b0" : "#f0f0f0", csel ? "#f8b848" : "#c0c8d0", csel ? "#c06818" : "#384058", 6);
+    g.text("SALIR", W - 36 - g.measure("SALIR") / 2, H - 26, "dark");
     const msg = this.o.prompt ?? { view: "Elige un Microo.", switch: "¿Qué Microo sacar?", replace: "¡Elige el siguiente Microo!", item: "¿En qué Microo usarlo?" }[this.o.mode];
-    g.frame(4, H - 22, 170, 20, "info");
-    g.text(msg, 10, H - 16);
+    g.panel(4, H - 38, W - 76, 34, "#ffffff", "#e8e8e0", "#384058", 6);
+    g.wrap(msg, W - 92).slice(0, 2).forEach((l, i) => g.text(l, 12, H - 31 + i * 13));
   }
 }
 
@@ -128,38 +147,69 @@ class SummaryScreen implements Overlay {
     if (game.input.pressed("right") || game.input.pressed("left")) this.page = 1 - this.page;
     return game.input.pressed("b") || game.input.pressed("a");
   }
-  draw(g: Gfx) {
+  draw(g: Gfx, game: Game) {
     const m = this.m, sp = getSpecies(m.species);
-    g.clear("#e8f0e0");
-    g.frame(0, 0, 100, 112, "info");
-    g.microo(m.species, "frente", 10, 18);
-    g.text(`Nº ${String(sp.dex).padStart(3, "0")}`, 8, 6, "gray");
-    g.text(displayName(m), 8, 98);
-    g.frame(100, 0, W - 100, 20, "menu");
-    g.text(this.page === 0 ? "ESTADÍSTICAS  ◀▶" : "MOVIMIENTOS  ◀▶", 104, 6);
+    const main = sp.types[0];
+    g.pattern("#e8e0f0", "#ddd4ea", game.frame, "#c8c0e0");
+    // cabecera con pestañas
+    g.rect(0, 0, W, 20, "#384058"); g.rect(0, 18, W, 2, "#202838");
+    ["INFO", "MOVIMIENTOS"].forEach((t, i) => {
+      const x = 112 + i * 72, on = this.page === i;
+      g.panel(x, 3, 68, 17, on ? "#ffd890" : "#8890a8", on ? "#f09838" : "#606880", on ? "#b05818" : "#202838", 4);
+      g.text(t, x + 34 - g.measure(t) / 2, 6, on ? "dark" : "white", on);
+    });
+    g.text(`Nº${String(sp.dex).padStart(3, "0")}`, 6, 5, "white", false);
+    // retrato del Microo
+    g.panel(4, 24, 104, 94, shade(TYPE_C(main), 0.55), shade(TYPE_C(main), 0.1), shade(TYPE_C(main), -0.5), 6);
+    g.alpha(0.18, () => g.round(24, 96, 64, 14, 7, "#000000"));
+    const bob = Math.floor(game.frame / 20) % 2;
+    g.microo(m.species, "frente", 16, 28 + bob, 1);
+    g.panel(4, 121, 104, 67, "#ffffff", "#e8e8f0", "#384058", 5);
+    g.text(g.fit(displayName(m), 64), 10, 125);
+    g.text(`Nv${m.level}`, 102 - g.measure(`Nv${m.level}`), 125, "blue");
+    g.typeBadges(sp.types, 9, 139, 94);
+    const lo = expForLevel(sp.growth, m.level), hi = expForLevel(sp.growth, m.level + 1);
+    g.text("EXP", 10, 174, "gray");
+    g.bar(30, 177, 72, m.level >= 100 ? 1 : Math.min(1, Math.max(0, (m.exp - lo) / Math.max(1, hi - lo))), "#40a8f0", 3);
     if (this.page === 0) {
       const nat = NATURES[m.nature];
-      const rows: [string, string][] = [["Especie", sp.name], ["Tipo", sp.types.join(" / ")], ["Nivel", `${m.level}`], ["Naturaleza", nat[0]],
-        ["PS", `${m.hp}/${m.stats.hp}`], ["Ataque", `${m.stats.atk}`], ["Defensa", `${m.stats.def}`], ["At. Esp.", `${m.stats.spa}`],
-        ["Def. Esp.", `${m.stats.spd}`], ["Velocidad", `${m.stats.spe}`]];
-      rows.forEach(([k, v], i) => { g.text(k, 108, 26 + i * 15, "blue"); g.text(v, 180, 26 + i * 15); });
-    } else {
-      m.moves.forEach((s, i) => {
-        const mv = getMove(s.id);
-        g.frame(102, 24 + i * 38, W - 104, 34, "info");
-        g.text(mv.name.slice(0, 18), 108, 29 + i * 38);
-        g.text(`${mv.type} · ${mv.category === "physical" ? "Físico" : mv.category === "special" ? "Especial" : "Estado"}`, 108, 42 + i * 38, "blue");
-        g.text(`${s.pp}/${s.maxPp}`, W - 36, 29 + i * 38, "gray");
-        if (mv.power) g.text(`${mv.power}`, W - 28, 42 + i * 38, "gray");
+      g.panel(112, 24, W - 116, 46, "#ffffff", "#e8e8f0", "#384058", 5);
+      g.text("Organismo", 118, 28, "blue");
+      g.wrap(sp.organism || sp.name, W - 130).slice(0, 2).forEach((l, i) => g.text(l, 118, 41 + i * 12));
+      g.panel(112, 73, W - 116, 115, "#ffffff", "#e8e8f0", "#384058", 5);
+      g.text(`Naturaleza ${nat[0]}`, 118, 77, "dark");
+      const st: [string, number, string][] = [["PS", m.stats.hp, "hp"], ["Ataque", m.stats.atk, "atk"], ["Defensa", m.stats.def, "def"],
+        ["At. Esp.", m.stats.spa, "spa"], ["Def. Esp.", m.stats.spd, "spd"], ["Velocidad", m.stats.spe, "spe"]];
+      st.forEach(([k, v, key], i) => {
+        const y = 92 + i * 15;
+        if (i % 2 === 0) g.rect(115, y - 2, W - 122, 14, "#eef0f8");
+        const up = nat[1] === key, down = nat[2] === key && nat[1] !== nat[2];
+        g.text(k, 118, y, up ? "red" : down ? "blue" : "dark");
+        const val = key === "hp" ? `${m.hp}/${v}` : `${v}`;
+        g.text(val, 206 - g.measure(val), y);
+        g.bar(210, y + 3, 32, Math.min(1, v / (m.level * 2.2 + 20)), key === "hp" ? g.hpColor(m.hp / v) : "#58b0e8", 3);
       });
+    } else {
+      for (let i = 0; i < 4; i++) {
+        const y = 24 + i * 41, s = m.moves[i];
+        if (!s) { g.panel(112, y, W - 116, 38, "#d8d8e0", "#c8c8d0", "#808898", 5); g.text("-", 180, y + 13, "gray"); continue; }
+        const mv = getMove(s.id);
+        g.panel(112, y, W - 116, 38, "#ffffff", shade(TYPE_C(mv.type), 0.7), shade(TYPE_C(mv.type), -0.45), 5);
+        const pp0 = `PP ${s.pp}/${s.maxPp}`;
+        g.text(g.fit(mv.name, W - 126 - g.measure(pp0) - 6), 118, y + 4);
+        g.typeBadge(mv.type, 117, y + 21);
+        const cat = mv.category === "physical" ? "Físico" : mv.category === "special" ? "Especial" : "Estado";
+        g.text(cat, 117 + g.measure(mv.type) + 14, y + 22, "gray");
+        const pp = `PP ${s.pp}/${s.maxPp}`;
+        g.text(pp, W - 8 - g.measure(pp), y + 4, s.pp === 0 ? "red" : "dark");
+        if (mv.power) g.text(`${mv.power}`, W - 8 - g.measure(`${mv.power}`), y + 22, "dark");
+      }
     }
-    g.frame(0, 112, 100, H - 112, "info");
-    g.text("Organismo:", 6, 118, "blue");
-    g.wrap(sp.organism || sp.name, 88).slice(0, 4).forEach((l, i) => g.text(l, 6, 132 + i * 12));
   }
 }
 
 // ---------------------------------------------------------------- mochila
+const POCKET_COL = ["#d85858", "#3878d0", "#9858c8", "#d89830"];
 const POCKETS: [string, ItemData["kind"][]][] = [["MEDIOS", ["heal", "cure", "revive", "pp"]], ["CRIOBOLAS", ["ball"]], ["PLÁSMIDOS", ["evolution"]], ["CLAVE", ["key"]]];
 export async function bagMenu(game: Game, o: { mode: "field" | "battle"; wild?: boolean }): Promise<{ item: string; target?: number } | null> {
   const screen = new BagScreen();
@@ -213,19 +263,39 @@ class BagScreen implements Overlay {
     return false;
   }
   draw(g: Gfx, game: Game) {
-    g.clear("#e8c070");
-    g.frame(0, 0, 90, 24, "info"); g.text(`◀ ${POCKETS[this.pocket][0]} ▶`, 8, 7);
-    g.frame(90, 0, W - 90, TB, "menu");
+    const col = POCKET_COL[this.pocket];
+    g.pattern(shade(col, 0.55), shade(col, 0.42), game.frame, shade(col, 0.2));
+    // bolsa dibujada
+    const bx = 14, by = 30;
+    g.round(bx + 4, by + 50, 64, 10, 5, "rgba(0,0,0,0.2)");
+    g.panel(bx, by + 8, 72, 50, shade(col, 0.15), shade(col, -0.3), shade(col, -0.65), 10);
+    g.panel(bx + 6, by, 60, 26, shade(col, 0.3), shade(col, -0.15), shade(col, -0.65), 8);
+    g.round(bx + 30, by + 18, 12, 12, 4, "#f0d060"); g.round(bx + 32, by + 20, 8, 8, 3, "#c89828");
+    g.rect(bx + 10, by + 34, 52, 2, shade(col, -0.4));
+    // nombre del bolsillo y puntos
+    g.panel(4, 98, 98, 22, "#ffffff", "#e0e0e8", "#384058", 5);
+    const name = POCKETS[this.pocket][0];
+    g.text("◀", 9, 103, "gray", false); g.text("▶", 91, 103, "gray", false);
+    g.text(name, 53 - g.measure(name) / 2, 103);
+    POCKETS.forEach((_, i) => g.round(30 + i * 12, 124, 8, 8, 4, i === this.pocket ? POCKET_COL[i] : "#ffffff"));
+    g.panel(4, 136, 98, 18, "#fff8d0", "#f0d890", "#806020", 5);
+    g.text(`${game.state.money} cr.`, 53 - g.measure(`${game.state.money} cr.`) / 2, 139);
+    // lista
+    g.panel(106, 4, W - 110, 150, "#ffffff", "#eef0f4", "#384058", 6);
     const its = this.items(game);
-    const off = Math.max(0, this.sel - 5);
-    its.slice(off, off + 7).forEach((id, i) => { g.text(ITEMS.get(id)!.name, 106, 8 + i * 16); g.text(`×${game.state.bag[id]}`, W - 28, 8 + i * 16); });
-    if (its.length - off < 6) g.text("CERRAR", 106, 8 + (its.length - off) * 16);
-    g.cursor(97, 8 + (this.sel - off) * 16);
-    g.frame(0, TB, W, 48, "texto");
+    const off = Math.max(0, this.sel - 7);
+    const rows = [...its.slice(off, off + 9).map((id) => [ITEMS.get(id)!.name, `×${game.state.bag[id]}`]), ...(its.length - off < 9 ? [["CERRAR", ""]] : [])];
+    rows.forEach(([n, q], i) => {
+      const y = 9 + i * 16, sel = off + i === this.sel;
+      if (sel) g.panel(109, y - 2, W - 116, 16, "#ffe8a0", "#f8c050", "#c07018", 3);
+      else if (i % 2) g.rect(110, y - 2, W - 118, 16, "#f0f2f8");
+      g.text(n, 116, y + 1, "dark");
+      if (q) g.text(q, W - 12 - g.measure(q), y + 1, "dark");
+    });
+    g.panel(4, 157, W - 8, 32, "#ffffff", "#e8e8e0", "#384058", 6);
     const id = its[this.sel];
     const d = id ? ITEMS.get(id)!.desc : "Cerrar la mochila.";
-    g.wrap(d, W - 20).slice(0, 2).forEach((l, i) => g.text(l, 10, TB + 10 + i * 16));
-    g.text(`${game.state.money} créditos`, 6, 34, "dark");
+    g.wrap(d, W - 24).slice(0, 2).forEach((l, i) => g.text(l, 12, 161 + i * 13));
   }
 }
 
@@ -243,26 +313,40 @@ class DexScreen implements Overlay {
   }
   draw(g: Gfx, game: Game) {
     const s = game.state;
-    g.clear("#c83c3c");
-    g.frame(0, 0, 112, H, "info");
-    g.text(`Vistos ${s.seen.length}  Aislados ${s.caught.length}`, 6, 4, "gray");
-    const off = Math.max(0, Math.min(this.list.length - 11, this.sel - 5));
-    this.list.slice(off, off + 11).forEach((sp, i) => {
-      const y = 18 + i * 15;
-      const seen = s.seen.includes(sp.id), caught = s.caught.includes(sp.id);
-      g.text(`${String(sp.dex).padStart(3, "0")} ${seen ? sp.name : "-----"}`, 16, y, off + i === this.sel ? "red" : "dark");
-      if (caught) g.rect(104, y + 2, 4, 4, "#d83838");
-    });
-    g.cursor(5, 18 + (this.sel - off) * 15);
+    g.clear("#c83838");
+    g.rect(0, 0, W, 20, "#a02828"); g.rect(0, 20, W, 2, "#701818");
+    g.round(4, 3, 14, 14, 7, "#f8f8f8"); g.round(6, 5, 10, 10, 5, "#48b8f0"); g.rect(8, 7, 3, 3, "#d8f4ff");
+    [["#f84848", 24], ["#f8d838", 32], ["#58d858", 40]].forEach(([c, x]) => g.round(x as number, 6, 6, 6, 3, c as string));
+    g.text("MICRODEX", 54, 5, "white");
+    const cnt = `Vistos ${s.seen.length}  Aislados ${s.caught.length}`;
+    g.text(cnt, W - 6 - g.measure(cnt), 5, "white");
+    // pantalla del Microo
     const sp = this.list[this.sel];
-    g.frame(114, 0, W - 114, 110, "menu");
-    if (s.seen.includes(sp.id)) {
-      g.microo(sp.id, "frente", 114 + (W - 114 - 80) / 2, 22);
-      g.text(sp.name, 120, 6);
-      g.frame(114, 110, W - 114, H - 110, "info");
-      g.text(sp.types.join(" / "), 120, 116, "blue");
-      g.wrap(s.caught.includes(sp.id) ? sp.organism || "Sin datos." : "Aún no aislado.", 112).slice(0, 4).forEach((l, i) => g.text(l, 120, 130 + i * 12));
-    } else g.text("?", 172, 44);
+    const seen = s.seen.includes(sp.id), caught = s.caught.includes(sp.id);
+    g.round(4, 26, 120, 112, 6, "#202830");
+    g.panel(7, 29, 114, 106, seen ? shade(TYPE_C(sp.types[0]), 0.7) : "#d0d8d8", seen ? shade(TYPE_C(sp.types[0]), 0.25) : "#a8b0b0", "#283040", 4);
+    g.alpha(0.12, () => { for (let x = 10; x < 120; x += 8) g.rect(x, 30, 1, 104, "#000"); for (let y = 32; y < 134; y += 8) g.rect(8, y, 112, 1, "#000"); });
+    if (seen) g.microo(sp.id, "frente", 24, 40 + (Math.floor(game.frame / 24) % 2), 1);
+    else g.text("?", 60, 76, "gray");
+    g.panel(4, 142, 120, 46, "#ffffff", "#e8e8f0", "#384058", 5);
+    if (seen) {
+      g.text(sp.name, 10, 145);
+      const th = g.typeBadges(sp.types, 9, 158, 110);
+      if (th < 20) g.text(g.fit(caught ? sp.organism || "Sin datos." : "Aún no aislado.", 108), 10, 174, "gray");
+    } else g.text("Sin datos.", 10, 150, "gray");
+    // lista
+    g.panel(128, 26, W - 132, H - 30, "#304060", "#203048", "#101828", 5);
+    const off = Math.max(0, Math.min(this.list.length - 10, this.sel - 4));
+    this.list.slice(off, off + 10).forEach((e, i) => {
+      const y = 30 + i * 16, sel = off + i === this.sel;
+      const sn = s.seen.includes(e.id), ca = s.caught.includes(e.id);
+      if (sel) g.panel(131, y, W - 138, 15, "#ffe8a0", "#f8b848", "#c06818", 3);
+      if (ca) { g.round(135, y + 4, 8, 8, 4, "#f04848"); g.rect(135, y + 7, 8, 2, "#ffffff"); }
+      g.text(String(e.dex).padStart(3, "0"), 147, y + 2, sel ? "dark" : "white", sel);
+      g.text(sn ? e.name : "----------", 171, y + 2, sel ? "dark" : sn ? "white" : "gray", sel);
+    });
+    const frac = this.sel / Math.max(1, this.list.length - 1);
+    g.rect(W - 8, 30, 2, H - 38, "#506080"); g.rect(W - 9, 30 + Math.round(frac * (H - 44)), 4, 6, "#f8d838");
   }
 }
 
@@ -270,14 +354,21 @@ class CardScreen implements Overlay {
   update(game: Game) { return game.input.pressed("a") || game.input.pressed("b"); }
   draw(g: Gfx, game: Game) {
     const s = game.state;
-    g.clear("#3870a8");
-    g.frame(10, 10, W - 20, H - 20, "info");
-    g.text("FICHA DE INVESTIGACIÓN", 22, 18, "blue");
-    g.character("protagonista", 0, 0, W - 60, 30);
+    g.pattern("#5080c8", "#5888d0", game.frame, "#3060a8");
+    g.panel(8, 8, W - 16, H - 16, "#f8f4e0", "#e8d8a8", "#604820", 8);
+    g.panel(14, 14, W - 28, 18, "#f8c058", "#e08828", "#804010", 4);
+    g.text("FICHA DE INVESTIGACIÓN", 22, 17, "white");
+    g.panel(W - 76, 38, 56, 64, "#c8e8f8", "#88b8e0", "#305080", 5);
+    g.character("protagonista", 0, Math.floor(game.frame / 16) % 3 === 1 ? 1 : 0, W - 64, 56);
     const rows: [string, string][] = [["Nombre", s.name], ["Créditos", `${s.money}`], ["Microdex", `${s.caught.length} aislados`], ["Tiempo", playTime(s)], ["Dificultad", { facil: "Fácil", normal: "Normal", dificil: "Difícil" }[s.difficulty]]];
-    rows.forEach(([k, v], i) => { g.text(k, 22, 40 + i * 15); g.text(v, 100, 40 + i * 15); });
-    g.text("Medallas:", 22, 118);
-    s.badges.forEach((b, i) => { g.rect(90 + i * 16, 116, 12, 12, "#f0c040"); g.rect(93 + i * 16, 119, 6, 6, "#c83c3c"); void b; });
+    rows.forEach(([k, v], i) => { const y = 40 + i * 15; if (i % 2 === 0) g.rect(18, y - 2, W - 102, 14, "rgba(160,120,40,0.15)"); g.text(k, 22, y, "blue"); g.text(v, 98, y); });
+    g.text("Medallas", 22, 122, "blue");
+    for (let i = 0; i < 8; i++) {
+      const x = 24 + i * 27, y = 138, got = i < s.badges.length;
+      g.round(x, y, 22, 22, 11, got ? "#806010" : "#c8b890");
+      g.round(x + 2, y + 2, 18, 18, 9, got ? "#f8d040" : "#e0d4b0");
+      if (got) { g.round(x + 6, y + 6, 10, 10, 5, MENU_DOT[i % MENU_DOT.length]); g.rect(x + 7, y + 7, 3, 2, "#ffffff"); }
+    }
   }
 }
 
@@ -313,10 +404,13 @@ class ShopList implements Overlay {
   }
   draw(g: Gfx, game: Game) {
     game.keptDialog?.draw(g, game);
-    g.frame(70, 2, 168, this.stock.length * 15 + 26);
-    this.stock.forEach((id, i) => { const it = ITEMS.get(id)!; g.text(it.name, 86, 9 + i * 15); g.text(`${it.price}`, 204, 9 + i * 15); });
-    g.text("SALIR", 86, 9 + this.stock.length * 15);
-    g.cursor(77, 9 + this.sel * 15);
+    g.panel(70, 3, 182, this.stock.length * 16 + 24, "#ffffff", "#e8eef4", "#384058", 6);
+    [...this.stock.map((id) => [ITEMS.get(id)!.name, `${ITEMS.get(id)!.price}`]), ["SALIR", ""]].forEach(([n, p], i) => {
+      const y = 8 + i * 16, sel = i === this.sel;
+      if (sel) g.panel(73, y - 2, 176, 16, "#ffe8a0", "#f8c050", "#c07018", 3);
+      g.text(n, 82, y + 1);
+      if (p) g.text(`${p} cr.`, 242 - g.measure(`${p} cr.`), y + 1);
+    });
   }
 }
 class Quantity implements Overlay {
@@ -331,5 +425,10 @@ class Quantity implements Overlay {
     if (game.input.pressed("b")) { this.result = 0; return true; }
     return false;
   }
-  draw(g: Gfx) { g.frame(140, 80, 98, 30); g.text(`×${this.q}`, 150, 90); g.text(`${this.q * this.price}`, 196, 90); }
+  draw(g: Gfx) {
+    g.panel(140, 80, 110, 32, "#ffffff", "#e8eef4", "#384058", 6);
+    g.text("▲", 150, 82, "gray", false); g.text("▼", 150, 100, "gray", false);
+    g.text(`×${String(this.q).padStart(2, "0")}`, 160, 91);
+    const t = `${this.q * this.price} cr.`; g.text(t, 242 - g.measure(t), 91);
+  }
 }
