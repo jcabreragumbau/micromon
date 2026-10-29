@@ -70,7 +70,7 @@ add(casa("casa-vecina", "Casa vecina", { to: "pueblo-plaqueta", x: 14, y: 5 }, [
   b.set(0, 4, "M").set(0, 5, "B").set(10, 4, "B").set(10, 5, "i").set(0, 8, "n").set(10, 8, "n").set(4, 1, "P");
   b.fill(4, 4, 3, 1, "t");
   b.fill(5, 9, 2, 1, "a");
-  b.npc({ id: "profesora", x: 5, y: 3, sprite: "profesora", dir: 0, script: "profesora" });
+  b.npc({ id: "profesora", x: 5, y: 3, sprite: "hesse", dir: 0, script: "profesora" });
   b.npc({ id: "rival-lab", x: 3, y: 6, sprite: "rival", dir: 3, script: "rivalLab", hideIf: "rival1" });
   b.npc({ id: "ayudante", x: 9, y: 6, sprite: "becario", dir: 2, script: "ayudanteDex" });
   b.npc({ id: "ball-synechoc", x: 4, y: 4, sprite: "@criobola", script: "elegir:synechoc", hideIf: "inicial", solid: true });

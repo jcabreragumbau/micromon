@@ -111,7 +111,43 @@ def portrait_mask(img: np.ndarray, mask: np.ndarray):
     fg = cv2.morphologyEx(fg, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
     return binary_fill_holes(fg.astype(bool))
 
+# Hojas con distribución propia: vista -> índice de componente (en el orden de components()); "-k" = espejo de k
+MANUAL = {
+    "ref24": {"frente": 1, "espalda": 2, "derecha": 3, "izquierda": 4, "frente2": 5},
+    "ref25": {"frente": 1, "espalda": 2, "derecha": 3, "izquierda": 4, "frente2": 5},
+    "ref26": {"frente": 1, "espalda": 3, "izquierda": 2, "derecha": "-2", "frente2": 4},
+    "ref27": {"frente": 1, "espalda": 2, "derecha": 3, "izquierda": "-3", "frente2": 6},
+}
+
+def main_manual(src: str, name: str):
+    img = np.array(Image.open(src).convert("RGB"))
+    mask = bg_mask(img)
+    lab, boxes = components(mask)
+    rgba = np.dstack([img, np.where(mask, 255, 0).astype(np.uint8)])
+    OUT.mkdir(parents=True, exist_ok=True); OUT_HD.mkdir(parents=True, exist_ok=True)
+    def crop(k):
+        x0, y0, x1, y1, n, _ = boxes[k]
+        c = rgba[y0:y1, x0:x1].copy()
+        c[..., 3] = np.where(lab[y0:y1, x0:x1] == n, c[..., 3], 0)
+        return Image.fromarray(c)
+    for view, k in MANUAL[name].items():
+        mirror = isinstance(k, str)
+        im = crop(abs(int(k)))
+        if mirror: im = im.transpose(Image.FLIP_LEFT_RIGHT)
+        fit(shrink(im, 26, colors=12), 32, 32).save(OUT / f"{name}_mapa_{view}.png")
+        fit(hd(im, 28 * HD, 32 * HD), 32 * HD, 32 * HD).save(OUT_HD / f"{name}_mapa_{view}.png")
+    # retrato: la figura grande (fondo liso, basta la máscara)
+    big = max(range(len(boxes)), key=lambda k: boxes[k][5])
+    x0, y0, x1, y1, n, _ = boxes[big]
+    m = binary_fill_holes(lab[y0:y1, x0:x1] == n)
+    c = rgba[y0:y1, x0:x1].copy(); c[..., 3] = np.where(m, 255, 0)
+    im = Image.fromarray(c)
+    fit(shrink(im, 92, colors=24), 64, 96).save(OUT / f"{name}_combate.png")
+    fit(hd(im, 94 * HD, 64 * HD), 64 * HD, 96 * HD).save(OUT_HD / f"{name}_combate.png")
+    print(name, "manual OK")
+
 def main(src: str, name: str):
+    if name in MANUAL: return main_manual(src, name)
     img = np.array(Image.open(src).convert("RGB"))
     H, W, _ = img.shape
     mask = bg_mask(img)
@@ -136,8 +172,8 @@ def main(src: str, name: str):
         frames.append(fit(shrink(Image.fromarray(crop), 26, colors=12), 32, 32))
         OUT_HD.mkdir(parents=True, exist_ok=True)
         hd_frames.append(fit(hd(Image.fromarray(crop), 28 * HD, 32 * HD), 32 * HD, 32 * HD))
-    # En las hojas: fila 1 = frente y espalda; fila 2 = perfil izquierdo y derecho; fila 3 = frente (paso)
-    names = ["frente", "espalda", "izquierda", "derecha", "frente2"]
+    # En las hojas: fila 1 = frente y espalda; fila 2 = perfil que mira a la derecha y a la izquierda; fila 3 = frente (paso)
+    names = ["frente", "espalda", "derecha", "izquierda", "frente2"]
     for f, nm in zip(frames, names):
         f.save(OUT / f"{name}_mapa_{nm}.png")
     for f, nm in zip(hd_frames, names):

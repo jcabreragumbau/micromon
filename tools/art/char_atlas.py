@@ -18,7 +18,8 @@ C = ROOT / "assets/sprites/characters"
 REFS = {"urtaza": "ref1", "barbadilla": "ref2", "casillas": "ref3", "salazar": "ref4", "hernandez": "ref5",
         "conchillo": "ref6", "mas": "ref7", "guardia": "ref8", "campoy": "ref9", "yero": "ref10", "gaju": "ref11",
         "luquin": "luquin", "sole": "ref13", "tusell": "ref22", "pasteur": "ref23",
-        "llagostera": "ref14", "marti": "ref15", "barbe": "ref19"}
+        "llagostera": "ref14", "marti": "ref15", "barbe": "ref19",
+        "protagonista": "ref24", "protagonista-chica": "ref25", "hesse": "ref26", "rival": "ref27"}
 CHD = ROOT / "assets/sprites/characters_hd"
 K = 4  # escala de la versión HD
 

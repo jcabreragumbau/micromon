@@ -44,7 +44,7 @@ class IntroScene implements Scene {
   update() {}
   draw(g: Gfx) {
     g.clear("#101828");
-    g.ctx.save(); g.ctx.scale(2, 2); g.character("profesora", 0, 0, 22, 8); g.ctx.restore();
+    g.portrait("hesse", 36, 20);
     g.microo(this.sp, "frente", 150, 40);
   }
 }
