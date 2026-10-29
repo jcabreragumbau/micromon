@@ -28,8 +28,17 @@ export interface MapDef {
   floorEncounters?: string;
   /** Edificios dibujados con una ilustración HD sobre su planta (casilla x,y; ancho w; filas h; puerta en x+door). */
   props?: PropDef[];
+  /** Puertas de edificios (para enlazar automáticamente la salida de cada interior). */
+  doors?: { x: number; y: number; to: string }[];
 }
 export interface PropDef { sprite: string; x: number; y: number; w: number; h: number; door: number }
+/** Tamaño en casillas (ancho, alto) de cada edificio ilustrado: la ilustración ocupa exactamente esa planta,
+ *  con proporciones acordes al jugador (la puerta mide algo más de una casilla de alto). La puerta queda en la
+ *  fila inferior, en la columna central. */
+export const SPRITE_DIMS: Record<string, [number, number]> = {
+  casa_roja: [5, 6], casa_azul: [5, 6], laboratorio: [7, 6], centro: [7, 5], tienda: [7, 5],
+  gimnasio: [13, 7], casino: [13, 7], uab: [15, 8],
+};
 /** Ilustración HD por defecto de cada tipo de edificio ("" = dibujarlo con tiles). */
 export function buildingSprite(kind: string, color: string): string {
   if (kind === "casa") return color === "rojo" || color === "naranja" ? "casa_roja" : "casa_azul";
@@ -78,14 +87,15 @@ export class MapBuilder {
     const color = o.color ?? { casa: "rojo", lab: "gris", incubadora: "naranja", tienda: "azul", gimnasio: "verde" }[o.kind];
     const wallRows = o.kind === "lab" || o.kind === "gimnasio" ? 2 : 1;
     const sprite = o.sprite ?? buildingSprite(o.kind, color);
-    if (sprite) {
-      // Planta sólida invisible bajo la ilustración; la puerta sigue siendo la casilla de entrada.
-      const rows = 2 + wallRows, dy = y + rows - 1;
-      this.fill(x, y, o.w, rows, "@bloque");
-      this.set(x + o.door, dy, "@puerta_hd");
-      (this.def.props ??= []).push({ sprite, x, y, w: o.w, h: rows, door: o.door });
-      this.def.warps.push({ x: x + o.door, y: dy, to: o.to, tx: o.tx, ty: o.ty, dir: 1 });
-      return { x: x + o.door, y: dy };
+    if (sprite && SPRITE_DIMS[sprite]) {
+      // Planta sólida invisible del tamaño de la ilustración; la puerta (abajo, en el centro) es la entrada.
+      const [w, rows] = SPRITE_DIMS[sprite], door = Math.floor(w / 2), dy = y + rows - 1;
+      this.fill(x, y, w, rows, "@bloque");
+      this.set(x + door, dy, "@puerta_hd");
+      (this.def.props ??= []).push({ sprite, x, y, w, h: rows, door });
+      this.def.warps.push({ x: x + door, y: dy, to: o.to, tx: o.tx, ty: o.ty, dir: 1 });
+      (this.def.doors ??= []).push({ x: x + door, y: dy, to: o.to });
+      return { x: x + door, y: dy };
     }
     for (let r = 0; r < 2; r++) for (let i = 0; i < o.w; i++) {
       const pos = i === 0 ? "l" : i === o.w - 1 ? "r" : "m";
@@ -105,7 +115,14 @@ export class MapBuilder {
     const icon = { incubadora: "muro_placa", tienda: "muro_tienda", gimnasio: "muro_gimnasio" }[o.kind as string];
     if (icon) this.set(x + o.door + 1 < x + o.w ? x + o.door + 1 : x + o.door - 1, dy, `@${icon}`);
     this.def.warps.push({ x: x + o.door, y: dy, to: o.to, tx: o.tx, ty: o.ty, dir: 1 });
+    (this.def.doors ??= []).push({ x: x + o.door, y: dy, to: o.to });
     return { x: x + o.door, y: dy };
+  }
+  /** Edificio ilustrado con la puerta justo encima de la fila `road` (la calle); x es su borde izquierdo. */
+  onRoad(x: number, road: number, o: Parameters<MapBuilder["building"]>[2]) {
+    const sprite = o.sprite ?? buildingSprite(o.kind, o.color ?? { casa: "rojo", lab: "gris", incubadora: "naranja", tienda: "azul", gimnasio: "verde" }[o.kind]);
+    const h = SPRITE_DIMS[sprite]?.[1] ?? 3;
+    return this.building(x, road - h, o);
   }
   warp(w: WarpDef) { this.def.warps.push(w); return this; }
   npc(n: NpcDef) { this.def.npcs.push(n); return this; }

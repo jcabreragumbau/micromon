@@ -43,19 +43,22 @@ function tienda(id: string, ciudad: string, back: { to: string; x: number; y: nu
 
 // ---------------------------------------------------------------- Pueblo Plaqueta
 {
-  const b = new MapBuilder("pueblo-plaqueta", "Pueblo Plaqueta", 20, 18);
-  b.trees(0, 0, 8, 2).trees(10, 0, 10, 2).trees(0, 0, 2, 18).trees(18, 0, 2, 18).trees(0, 16, 20, 2);
-  b.fill(8, 0, 2, 7, "p").fill(4, 6, 13, 1, "p").fill(5, 6, 1, 1, "p").fill(8, 7, 2, 6, "p").fill(9, 13, 1, 1, "p");
-  b.fill(14, 11, 3, 3, "~").fill(3, 8, 2, 1, "f").fill(15, 8, 2, 1, "f").fill(3, 13, 2, 1, "f");
-  b.building(3, 3, { kind: "casa", w: 5, door: 2, to: "casa-jugador", tx: 3, ty: 5 });
-  b.building(12, 3, { kind: "casa", w: 5, color: "azul", door: 2, to: "casa-vecina", tx: 3, ty: 5 });
-  b.building(5, 9, { kind: "lab", w: 8, door: 4, to: "laboratorio", tx: 5, ty: 8, sprite: "laboratorio" });
-  b.sign(7, 7, "Pueblo Plaqueta. «Donde germinan las grandes cepas».");
-  b.sign(11, 13, "Laboratorio de Microbiología de la Profesora Hesse.");
-  b.npc({ id: "chico-plaqueta", x: 12, y: 8, sprite: "chico", move: "pasear", talk: "¿Sabías que los Microos viven en todas partes? ¡Hasta en tu nevera!" });
-  b.npc({ id: "chica-plaqueta", x: 13, y: 12, sprite: "chica", dir: 3, talk: ["El estanque está lleno de algas y protozoos.", "Sin un Microo propio no es seguro meterse en la hierba alta."] });
-  b.trigger({ x: 8, y: 1, w: 2, script: "bloqueoSalida" });
-  b.warp({ x: 8, y: 0, w: 2, to: "ruta-1", tx: 6, ty: 28, dir: 1, keep: "x" });
+  const b = new MapBuilder("pueblo-plaqueta", "Pueblo Plaqueta", 24, 24);
+  b.trees(0, 0, 10, 2).trees(12, 0, 12, 2).trees(0, 0, 2, 24).trees(22, 0, 2, 24).trees(0, 22, 24, 2);
+  // calle principal (y 10-11) y camino al norte (x 10-11)
+  b.fill(10, 0, 2, 10, "p").fill(3, 10, 18, 2, "p");
+  b.onRoad(4, 10, { kind: "casa", w: 5, door: 2, to: "casa-jugador", tx: 3, ty: 5 });
+  b.onRoad(15, 10, { kind: "casa", w: 5, color: "azul", door: 2, to: "casa-vecina", tx: 3, ty: 5 });
+  // laboratorio de la Profesora Hesse al sur, con su calle delante (y 20)
+  b.fill(16, 12, 2, 8, "p").fill(9, 19, 9, 2, "p");
+  b.onRoad(8, 19, { kind: "lab", w: 8, door: 4, to: "laboratorio", tx: 5, ty: 8, sprite: "laboratorio" });
+  b.fill(18, 14, 3, 3, "~").fill(2, 12, 3, 1, "f").fill(19, 12, 2, 1, "f").fill(2, 20, 3, 1, "f");
+  b.sign(9, 12, "Pueblo Plaqueta. «Donde germinan las grandes cepas».");
+  b.sign(18, 19, "Laboratorio de Microbiología de la Profesora Hesse.");
+  b.npc({ id: "chico-plaqueta", x: 6, y: 13, sprite: "chico", move: "pasear", talk: "¿Sabías que los Microos viven en todas partes? ¡Hasta en tu nevera!" });
+  b.npc({ id: "chica-plaqueta", x: 19, y: 17, sprite: "chica", dir: 1, talk: ["El estanque está lleno de algas y protozoos.", "Sin un Microo propio no es seguro meterse en la hierba alta."] });
+  b.trigger({ x: 10, y: 1, w: 2, script: "bloqueoSalida" });
+  b.warp({ x: 10, y: 0, w: 2, to: "ruta-1", tx: 6, ty: 28, dir: 1, keep: "x" });
   add(b.done({ music: "pueblo" }));
 }
 add(casa("casa-jugador", "Tu casa", { to: "pueblo-plaqueta", x: 5, y: 5 }, [
@@ -108,22 +111,22 @@ add(casa("casa-vecina", "Casa vecina", { to: "pueblo-plaqueta", x: 14, y: 5 }, [
 
 // ---------------------------------------------------------------- Ciudad Viral
 {
-  const b = new MapBuilder("ciudad-viral", "Ciudad Viral", 24, 20);
-  b.trees(0, 0, 24, 2).trees(0, 0, 2, 20).trees(0, 18, 10, 2).trees(14, 18, 10, 2).trees(22, 0, 2, 8).trees(22, 12, 2, 8);
-  b.fill(11, 6, 2, 14, "p").fill(2, 9, 20, 2, "p").fill(22, 9, 2, 2, "p").fill(5, 7, 1, 2, "p").fill(16, 7, 1, 2, "p").fill(10, 18, 4, 2, "p");
-  b.building(3, 4, { kind: "incubadora", w: 5, door: 2, to: "incubadora-viral", tx: 5, ty: 6 });
-  b.building(15, 4, { kind: "tienda", w: 4, door: 1, to: "tienda-viral", tx: 4, ty: 6 });
-  b.building(3, 12, { kind: "casa", w: 6, color: "morado", door: 2, to: "academia", tx: 4, ty: 6 });
-  b.building(15, 13, { kind: "casa", w: 5, color: "verde", door: 2, to: "casa-viral", tx: 3, ty: 5 });
-  b.fill(5, 15, 1, 3, "p").fill(17, 16, 1, 2, "p").fill(2, 17, 16, 1, "p");
-  b.fill(19, 2, 2, 2, "f").fill(8, 16, 2, 2, "f");
-  b.sign(13, 16, "Ciudad Viral. Hogar de la Academia de Infección y Estados.");
-  b.sign(9, 13, "Academia de Infección: ¡aprende a manejar los estados alterados!");
-  b.npc({ id: "viral-1", x: 14, y: 8, sprite: "estudiante", move: "pasear", talk: ["Al este está el Bosque Viral. Está lleno de bacteriófagos.", "Los fagos de tipo Virus son fuertes contra Fotótrofos y bacterias Gram."] });
-  b.npc({ id: "viral-2", x: 8, y: 10, sprite: "chico", dir: 2, talk: "La Incubadora cura a tus Microos a 37 °C con agitación orbital. ¡Y no cobra nada!" });
-  b.npc({ id: "viral-3", x: 19, y: 11, sprite: "becario", dir: 0, talk: ["Dicen que en Ciudad Petri hay un gimnasio lleno de quesos.", "El líder, el Dr. Solé, es un experto en Microbiología de los Alimentos."] });
-  b.warp({ x: 10, y: 19, w: 4, to: "ruta-1", tx: 6, ty: 1, dir: 0 });
-  b.warp({ x: 23, y: 9, h: 2, to: "bosque-viral", tx: 1, ty: 9, dir: 3, keep: "y" });
+  const b = new MapBuilder("ciudad-viral", "Ciudad Viral", 28, 26);
+  b.trees(0, 0, 28, 2).trees(0, 0, 2, 26).trees(26, 0, 2, 12).trees(26, 14, 2, 12).trees(0, 24, 12, 2).trees(14, 24, 14, 2);
+  // calles: norte (y 10-11), sur (y 21-22), avenida central (x 12-13) y salida al este (y 12-13)
+  b.fill(2, 10, 24, 2, "p").fill(12, 10, 2, 16, "p").fill(14, 12, 14, 2, "p").fill(2, 21, 24, 2, "p");
+  b.onRoad(3, 10, { kind: "incubadora", w: 5, door: 2, to: "incubadora-viral", tx: 5, ty: 6 });
+  b.onRoad(17, 10, { kind: "tienda", w: 4, door: 1, to: "tienda-viral", tx: 4, ty: 6 });
+  b.onRoad(4, 21, { kind: "casa", w: 6, color: "morado", door: 2, to: "academia", tx: 4, ty: 6 });
+  b.onRoad(18, 21, { kind: "casa", w: 5, color: "verde", door: 2, to: "casa-viral", tx: 3, ty: 5 });
+  b.fill(10, 15, 2, 2, "f").fill(15, 15, 2, 2, "f").fill(22, 2, 3, 2, "f");
+  b.sign(14, 14, "Ciudad Viral. Hogar de la Academia de Infección y Estados.");
+  b.sign(10, 20, "Academia de Infección: ¡aprende a manejar los estados alterados!");
+  b.npc({ id: "viral-1", x: 16, y: 9, sprite: "estudiante", move: "pasear", talk: ["Al este está el Bosque Viral. Está lleno de bacteriófagos.", "Los fagos de tipo Virus son fuertes contra Fotótrofos y bacterias Gram."] });
+  b.npc({ id: "viral-2", x: 10, y: 9, sprite: "chico", dir: 0, talk: "La Incubadora cura a tus Microos a 37 °C con agitación orbital. ¡Y no cobra nada!" });
+  b.npc({ id: "viral-3", x: 24, y: 16, sprite: "becario", dir: 0, talk: ["Dicen que en Ciudad Petri hay un gimnasio lleno de quesos.", "El líder, el Dr. Solé, es un experto en Microbiología de los Alimentos."] });
+  b.warp({ x: 12, y: 25, w: 2, to: "ruta-1", tx: 6, ty: 1, dir: 0, keep: "x" });
+  b.warp({ x: 27, y: 12, h: 2, to: "bosque-viral", tx: 1, ty: 9, dir: 3, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-viral", "Ciudad Viral", { to: "ciudad-viral", x: 5, y: 6 }));
@@ -179,23 +182,22 @@ add(casa("casa-viral", "Casa de Ciudad Viral", { to: "ciudad-viral", x: 17, y: 1
 
 // ---------------------------------------------------------------- Ciudad Petri
 {
-  const b = new MapBuilder("ciudad-petri", "Ciudad Petri", 24, 20);
-  b.trees(0, 0, 24, 2).trees(0, 0, 2, 12).trees(0, 18, 24, 2).trees(22, 0, 2, 20).trees(0, 18, 2, 2);
-  b.fill(0, 12, 2, 6, ".");
-  b.fill(0, 13, 22, 2, "p").fill(11, 8, 2, 5, "p").fill(5, 9, 1, 4, "p").fill(18, 10, 1, 3, "p");
-  b.building(8, 3, { kind: "gimnasio", w: 7, door: 3, to: "gimnasio-petri", tx: 5, ty: 13 });
-  b.building(3, 6, { kind: "incubadora", w: 5, door: 2, to: "incubadora-petri", tx: 5, ty: 6 });
-  b.building(16, 7, { kind: "tienda", w: 4, door: 2, to: "tienda-petri", tx: 4, ty: 6 });
-  b.building(16, 14, { kind: "casa", w: 5, color: "rojo", door: 2, to: "casa-petri", tx: 3, ty: 5 });
-  b.fill(3, 15, 4, 3, "~").fill(2, 2, 3, 2, "f");
-  b.sign(14, 12, "Ciudad Petri. «Todo empieza en una placa».");
-  b.sign(10, 8, "Gimnasio de Ciudad Petri. Líder: Dr. Antoni Solé, Microbiología de los Alimentos.");
-  b.npc({ id: "petri-1", x: 13, y: 11, sprite: "chico", dir: 0, talk: "El Dr. Solé usa Simbiontes, Gram+ y Esporulados. ¡Ojo! Sus lactobacilos aguantan los Antibióticos; mejor algo de tipo Gram- o Biofilm." });
-  b.fill(20, 0, 2, 13, "p");
-  b.npc({ id: "petri-2", x: 15, y: 10, sprite: "chica", move: "pasear", talk: "Dicen que el Monte Micelio, al norte, está tapado por una maraña de hifas. Solo con Celulasa se puede pasar." });
-  b.sign(19, 2, "Ruta 2. Al norte: Monte Micelio.");
-  b.warp({ x: 20, y: 0, w: 2, to: "ruta-2", tx: 9, ty: 28, dir: 1, keep: "x" });
-  b.warp({ x: 0, y: 13, h: 4, to: "bosque-viral", tx: 28, ty: 14, dir: 2, keep: "y" });
+  const b = new MapBuilder("ciudad-petri", "Ciudad Petri", 36, 28);
+  b.trees(0, 0, 30, 2).trees(32, 0, 4, 2).trees(0, 0, 2, 16).trees(0, 20, 2, 8).trees(34, 0, 2, 28).trees(0, 26, 36, 2);
+  // calle principal (y 16-17), calle sur (y 24-25), enlace (x 14-15) y salida norte (x 30-31)
+  b.fill(0, 16, 32, 2, "p").fill(30, 0, 2, 16, "p").fill(14, 18, 2, 6, "p").fill(2, 24, 30, 2, "p");
+  b.onRoad(8, 16, { kind: "gimnasio", w: 7, door: 3, to: "gimnasio-petri", tx: 5, ty: 13 });
+  b.onRoad(22, 16, { kind: "incubadora", w: 5, door: 2, to: "incubadora-petri", tx: 5, ty: 6 });
+  b.onRoad(4, 24, { kind: "tienda", w: 4, door: 2, to: "tienda-petri", tx: 4, ty: 6 });
+  b.onRoad(22, 24, { kind: "casa", w: 5, color: "rojo", door: 2, to: "casa-petri", tx: 3, ty: 5 });
+  b.fill(17, 19, 4, 3, "~").fill(3, 3, 3, 2, "f").fill(24, 4, 3, 2, "f");
+  b.sign(16, 18, "Ciudad Petri. «Todo empieza en una placa».");
+  b.sign(7, 15, "Gimnasio de Ciudad Petri. Líder: Dr. Antoni Solé, Microbiología de los Alimentos.");
+  b.sign(29, 3, "Ruta 2. Al norte: Monte Micelio.");
+  b.npc({ id: "petri-1", x: 12, y: 17, sprite: "chico", dir: 1, talk: "El Dr. Solé usa Simbiontes, Gram+ y Esporulados. ¡Ojo! Sus lactobacilos aguantan los Antibióticos; mejor algo de tipo Gram- o Biofilm." });
+  b.npc({ id: "petri-2", x: 11, y: 21, sprite: "chica", move: "pasear", talk: "Dicen que el Monte Micelio, al norte, está tapado por una maraña de hifas. Solo con Celulasa se puede pasar." });
+  b.warp({ x: 30, y: 0, w: 2, to: "ruta-2", tx: 9, ty: 28, dir: 1, keep: "x" });
+  b.warp({ x: 0, y: 16, h: 4, to: "bosque-viral", tx: 28, ty: 14, dir: 2, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-petri", "Ciudad Petri", { to: "ciudad-petri", x: 5, y: 8 }));
@@ -324,24 +326,24 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
 
 // ---------------------------------------------------------------- Ciudad Cultivo
 {
-  const b = new MapBuilder("ciudad-cultivo", "Ciudad Cultivo", 26, 20);
-  b.trees(0, 0, 26, 2).trees(0, 0, 2, 20).trees(24, 0, 2, 20).trees(0, 18, 8, 2).trees(10, 18, 14, 2);
-  b.fill(8, 12, 2, 8, "p").fill(2, 12, 20, 2, "p").fill(15, 8, 1, 4, "p").fill(5, 7, 1, 5, "p").fill(21, 11, 1, 1, "p");
-  b.building(12, 4, { kind: "gimnasio", w: 7, door: 3, to: "gimnasio-cultivo", tx: 6, ty: 15 });
-  b.building(3, 4, { kind: "incubadora", w: 5, door: 2, to: "incubadora-cultivo", tx: 5, ty: 6 });
-  b.building(19, 8, { kind: "tienda", w: 4, door: 2, to: "tienda-cultivo", tx: 4, ty: 6 });
-  b.building(14, 14, { kind: "casa", w: 5, color: "azul", door: 2, to: "casa-cultivo", tx: 3, ty: 5 });
-  b.fill(2, 15, 4, 3, "~").fill(10, 15, 3, 2, "f").fill(20, 3, 3, 2, "f");
-  b.sign(10, 14, "Ciudad Cultivo. «Donde la luz se convierte en biomasa».");
-  b.sign(11, 8, "Gimnasio de Ciudad Cultivo. Líder: Dra. Núria Gajú, Microbiología Ambiental.");
-  b.fill(22, 12, 4, 2, "p");
-  b.sign(22, 11, "Ruta 4. Al este: Túnel Endospórico y Ciudad Gram.");
-  b.warp({ x: 25, y: 12, h: 2, to: "ruta-4", tx: 1, ty: 8, dir: 3, keep: "y" });
-  b.npc({ id: "cultivo-1", x: 13, y: 10, sprite: "chico", dir: 0, talk: ["El gimnasio es un invernadero lleno de columnas de Winogradsky.", "Arriba crecen las algas y abajo, sin oxígeno, las bacterias del azufre. ¡Cada capa es un mundo!"] });
-  b.npc({ id: "cultivo-2", x: 19, y: 13, sprite: "chica", move: "pasear", talk: "La Dra. Gajú usa Fotótrofos, Algas y Anaerobios. Un buen Microo de tipo Hongo o Gram- le dará guerra." });
-  b.npc({ id: "cultivo-becario", x: 6, y: 13, sprite: "becario", dir: 0, showIf: "salazar1",
+  const b = new MapBuilder("ciudad-cultivo", "Ciudad Cultivo", 36, 28);
+  b.trees(0, 0, 36, 2).trees(0, 0, 2, 28).trees(34, 0, 2, 14).trees(34, 16, 2, 12).trees(0, 26, 8, 2).trees(10, 26, 26, 2);
+  // calle principal (y 14-15) con salida al este, calle sur (y 23-24) y salida sur (x 8-9)
+  b.fill(2, 14, 34, 2, "p").fill(8, 16, 2, 12, "p").fill(2, 23, 32, 2, "p");
+  b.onRoad(14, 14, { kind: "gimnasio", w: 7, door: 3, to: "gimnasio-cultivo", tx: 6, ty: 15 });
+  b.onRoad(3, 14, { kind: "incubadora", w: 5, door: 2, to: "incubadora-cultivo", tx: 5, ty: 6 });
+  b.onRoad(12, 23, { kind: "tienda", w: 4, door: 2, to: "tienda-cultivo", tx: 4, ty: 6 });
+  b.onRoad(24, 23, { kind: "casa", w: 5, color: "azul", door: 2, to: "casa-cultivo", tx: 3, ty: 5 });
+  b.fill(2, 18, 4, 3, "~").fill(19, 19, 3, 2, "f").fill(28, 3, 3, 2, "f").fill(4, 3, 3, 2, "f");
+  b.sign(10, 16, "Ciudad Cultivo. «Donde la luz se convierte en biomasa».");
+  b.sign(13, 13, "Gimnasio de Ciudad Cultivo. Líder: Dra. Núria Gajú, Microbiología Ambiental.");
+  b.sign(33, 13, "Ruta 4. Al este: Túnel Endospórico y Ciudad Gram.");
+  b.npc({ id: "cultivo-1", x: 21, y: 16, sprite: "chico", dir: 1, talk: ["El gimnasio es un invernadero lleno de columnas de Winogradsky.", "Arriba crecen las algas y abajo, sin oxígeno, las bacterias del azufre. ¡Cada capa es un mundo!"] });
+  b.npc({ id: "cultivo-2", x: 30, y: 18, sprite: "chica", move: "pasear", talk: "La Dra. Gajú usa Fotótrofos, Algas y Anaerobios. Un buen Microo de tipo Hongo o Gram- le dará guerra." });
+  b.npc({ id: "cultivo-becario", x: 5, y: 16, sprite: "becario", dir: 1, showIf: "salazar1",
     talk: ["¡Eres quien nos sacó del Monte Micelio! Gracias.", "Por fin he vuelto a sembrar una placa. ¡Qué bien huele el agar!"] });
-  b.warp({ x: 8, y: 19, w: 2, to: "ruta-3", tx: 8, ty: 1, dir: 0, keep: "x" });
+  b.warp({ x: 35, y: 14, h: 2, to: "ruta-4", tx: 1, ty: 8, dir: 3, keep: "y" });
+  b.warp({ x: 8, y: 27, w: 2, to: "ruta-3", tx: 8, ty: 1, dir: 0, keep: "x" });
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-cultivo", "Ciudad Cultivo", { to: "ciudad-cultivo", x: 5, y: 6 }));
@@ -452,23 +454,23 @@ add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16
 
 // ---------------------------------------------------------------- Ciudad Gram
 {
-  const b = new MapBuilder("ciudad-gram", "Ciudad Gram", 26, 20);
-  b.trees(0, 0, 26, 2).trees(0, 0, 2, 8).trees(0, 12, 2, 8).trees(24, 0, 2, 20).trees(0, 18, 26, 2);
-  b.fill(0, 9, 22, 2, "p").fill(15, 7, 1, 2, "p").fill(5, 7, 1, 2, "p").fill(18, 11, 1, 3, "p").fill(10, 11, 1, 6, "p").fill(7, 16, 4, 1, "p");
-  b.building(12, 2, { kind: "gimnasio", w: 7, color: "morado", door: 3, to: "gimnasio-gram", tx: 6, ty: 15 });
-  b.building(3, 4, { kind: "incubadora", w: 5, door: 2, to: "incubadora-gram", tx: 5, ty: 6 });
-  b.building(16, 14, { kind: "tienda", w: 4, door: 2, to: "tienda-gram", tx: 4, ty: 6 });
-  b.building(5, 13, { kind: "casa", w: 5, color: "morado", door: 2, to: "casa-gram", tx: 3, ty: 5 });
-  b.fill(20, 4, 3, 2, "f").fill(2, 13, 2, 4, "f").fill(12, 13, 3, 3, "~");
-  b.sign(10, 8, "Ciudad Gram. «Violeta o rosa: todo depende del alcohol-acetona».");
-  b.sign(11, 6, "Gimnasio de Ciudad Gram. Líder: Dra. Laia Guàrdia, Micología.");
-  b.fill(22, 9, 4, 2, "p");
-  b.sign(22, 11, "Ruta 5. Al este: Pueblo Levadura y la Torre Prión.");
-  b.warp({ x: 25, y: 9, h: 2, to: "ruta-5", tx: 1, ty: 7, dir: 3, keep: "y" });
-  b.npc({ id: "gram-1", x: 9, y: 11, sprite: "chico", move: "pasear", talk: ["La tinción de Gram tiñe de violeta las bacterias de pared gruesa y de rosa las de pared fina.", "¡Por eso hay Microos Gram+ y Gram-!"] });
-  b.npc({ id: "gram-2", x: 20, y: 8, sprite: "chica", dir: 0, talk: "La Dra. Guàrdia es micóloga. Sus mohos odian los Antibióticos… ¡Uy, no, al revés! Mejor pregunta en el gimnasio." });
-  b.npc({ id: "gram-3", x: 14, y: 12, sprite: "estudiante", dir: 2, talk: ["Aspergillus flavus produce aflatoxinas en los cacahuetes mal guardados.", "¡Y Penicillium chrysogenum nos dio la penicilina! Los hongos son buenos y malos a la vez."] });
-  b.warp({ x: 0, y: 9, h: 2, to: "tunel-endosporico", tx: 34, ty: 3, dir: 2, keep: "y" });
+  const b = new MapBuilder("ciudad-gram", "Ciudad Gram", 36, 28);
+  b.trees(0, 0, 36, 2).trees(0, 0, 2, 14).trees(0, 16, 2, 12).trees(34, 0, 2, 14).trees(34, 16, 2, 12).trees(0, 26, 36, 2);
+  // calle principal (y 14-15) de oeste (túnel) a este (Ruta 5), calle sur (y 23-24) y enlace (x 16-17)
+  b.fill(0, 14, 36, 2, "p").fill(16, 16, 2, 7, "p").fill(2, 23, 32, 2, "p");
+  b.onRoad(18, 14, { kind: "gimnasio", w: 7, color: "morado", door: 3, to: "gimnasio-gram", tx: 6, ty: 15 });
+  b.onRoad(4, 14, { kind: "incubadora", w: 5, door: 2, to: "incubadora-gram", tx: 5, ty: 6 });
+  b.onRoad(24, 23, { kind: "tienda", w: 4, door: 2, to: "tienda-gram", tx: 4, ty: 6 });
+  b.onRoad(6, 23, { kind: "casa", w: 5, color: "morado", door: 2, to: "casa-gram", tx: 3, ty: 5 });
+  b.fill(12, 3, 3, 2, "f").fill(2, 19, 2, 3, "f").fill(19, 18, 4, 3, "~");
+  b.sign(15, 16, "Ciudad Gram. «Violeta o rosa: todo depende del alcohol-acetona».");
+  b.sign(17, 13, "Gimnasio de Ciudad Gram. Líder: Dra. Laia Guàrdia, Micología.");
+  b.sign(33, 16, "Ruta 5. Al este: Pueblo Levadura y la Torre Prión.");
+  b.npc({ id: "gram-1", x: 12, y: 17, sprite: "chico", move: "pasear", talk: ["La tinción de Gram tiñe de violeta las bacterias de pared gruesa y de rosa las de pared fina.", "¡Por eso hay Microos Gram+ y Gram-!"] });
+  b.npc({ id: "gram-2", x: 13, y: 12, sprite: "chica", dir: 0, talk: "La Dra. Guàrdia es micóloga. Sus mohos odian los Antibióticos… ¡Uy, no, al revés! Mejor pregunta en el gimnasio." });
+  b.npc({ id: "gram-3", x: 22, y: 22, sprite: "estudiante", dir: 2, talk: ["Aspergillus flavus produce aflatoxinas en los cacahuetes mal guardados.", "¡Y Penicillium chrysogenum nos dio la penicilina! Los hongos son buenos y malos a la vez."] });
+  b.warp({ x: 35, y: 14, h: 2, to: "ruta-5", tx: 1, ty: 7, dir: 3, keep: "y" });
+  b.warp({ x: 0, y: 14, h: 2, to: "tunel-endosporico", tx: 34, ty: 3, dir: 2, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-gram", "Ciudad Gram", { to: "ciudad-gram", x: 5, y: 6 }));
@@ -528,19 +530,20 @@ add(casa("casa-gram", "Casa de Ciudad Gram", { to: "ciudad-gram", x: 7, y: 15 },
 
 // ---------------------------------------------------------------- Pueblo Levadura
 {
-  const b = new MapBuilder("pueblo-levadura", "Pueblo Levadura", 24, 20);
-  b.trees(0, 0, 24, 2).trees(0, 0, 2, 10).trees(0, 12, 2, 8).trees(22, 0, 2, 8).trees(22, 12, 2, 8).trees(0, 18, 24, 2);
-  b.fill(0, 10, 24, 2, "p").fill(15, 6, 1, 4, "p").fill(5, 7, 1, 3, "p").fill(19, 12, 1, 4, "p");
-  b.building(12, 2, { kind: "lab", w: 7, color: "morado", door: 3, to: "torre-prion-1", tx: 5, ty: 12 });
-  b.building(3, 4, { kind: "incubadora", w: 5, door: 2, to: "incubadora-levadura", tx: 5, ty: 6 });
-  b.building(17, 13, { kind: "casa", w: 5, color: "gris", door: 2, to: "casa-levadura", tx: 3, ty: 5 });
-  b.fill(2, 13, 6, 4, "f").fill(9, 14, 4, 3, "f");
-  b.sign(9, 9, "Pueblo Levadura. «Aquí descansan las cepas que se contaminaron».");
-  b.sign(17, 8, "Torre Prión. Cementerio de cultivos contaminados. Prohibido abrir las placas.");
-  b.npc({ id: "lev-1", x: 8, y: 12, sprite: "madre", dir: 0, talk: ["Dicen que en la torre hay proteínas que se pliegan mal y contagian su forma a las sanas.", "Sin un Western Blot no hay forma de saber qué son. ¡Dan escalofríos!"] });
-  b.npc({ id: "lev-2", x: 19, y: 11, sprite: "chico", move: "pasear", talk: "Los del Casino de Ciudad Aerobia, al este, tienen máquinas de todo tipo. Hasta un Western Blot, dicen." });
-  b.warp({ x: 0, y: 10, h: 2, to: "ruta-5", tx: 34, ty: 7, dir: 2, keep: "y" });
-  b.warp({ x: 23, y: 10, h: 2, to: "ruta-6", tx: 1, ty: 7, dir: 3, keep: "y" });
+  const b = new MapBuilder("pueblo-levadura", "Pueblo Levadura", 30, 24);
+  b.trees(0, 0, 30, 2).trees(0, 0, 2, 12).trees(0, 14, 2, 10).trees(28, 0, 2, 12).trees(28, 14, 2, 10).trees(0, 22, 30, 2);
+  // calle principal (y 12-13) entre la Ruta 5 y la Ruta 6, enlace (x 12-13) y calle sur (y 20-21)
+  b.fill(0, 12, 30, 2, "p").fill(12, 14, 2, 6, "p").fill(12, 20, 15, 2, "p").fill(17, 10, 1, 2, "p");
+  b.building(14, 6, { kind: "lab", w: 7, color: "morado", door: 3, to: "torre-prion-1", tx: 5, ty: 12 });
+  b.onRoad(4, 12, { kind: "incubadora", w: 5, door: 2, to: "incubadora-levadura", tx: 5, ty: 6 });
+  b.onRoad(19, 20, { kind: "casa", w: 5, color: "gris", door: 2, to: "casa-levadura", tx: 3, ty: 5 });
+  b.fill(3, 16, 6, 4, "f").fill(15, 16, 3, 2, "f");
+  b.sign(11, 14, "Pueblo Levadura. «Aquí descansan las cepas que se contaminaron».");
+  b.sign(19, 11, "Torre Prión. Cementerio de cultivos contaminados. Prohibido abrir las placas.");
+  b.npc({ id: "lev-1", x: 10, y: 15, sprite: "madre", dir: 1, talk: ["Dicen que en la torre hay proteínas que se pliegan mal y contagian su forma a las sanas.", "Sin un Western Blot no hay forma de saber qué son. ¡Dan escalofríos!"] });
+  b.npc({ id: "lev-2", x: 25, y: 16, sprite: "chico", move: "pasear", talk: "Los del Casino de Ciudad Aerobia, al este, tienen máquinas de todo tipo. Hasta un Western Blot, dicen." });
+  b.warp({ x: 0, y: 12, h: 2, to: "ruta-5", tx: 34, ty: 7, dir: 2, keep: "y" });
+  b.warp({ x: 29, y: 12, h: 2, to: "ruta-6", tx: 1, ty: 7, dir: 3, keep: "y" });
   add(b.done({ music: "pueblo" }));
 }
 add(incubadora("incubadora-levadura", "Pueblo Levadura", { to: "pueblo-levadura", x: 5, y: 6 }));
@@ -630,26 +633,25 @@ function torre(n: number) {
 
 // ---------------------------------------------------------------- Ciudad Aerobia
 {
-  const b = new MapBuilder("ciudad-aerobia", "Ciudad Aerobia", 30, 24);
-  b.trees(0, 0, 30, 2).trees(0, 0, 2, 10).trees(0, 14, 2, 10).trees(28, 0, 2, 24).trees(0, 22, 30, 2);
-  b.fill(0, 11, 28, 2, "p").fill(14, 2, 2, 9, "p").fill(14, 13, 2, 9, "p");
-  b.building(3, 3, { kind: "gimnasio", w: 7, color: "naranja", door: 3, to: "gimnasio-aerobia", tx: 6, ty: 15 });
-  b.building(18, 3, { kind: "casa", w: 8, color: "rojo", door: 4, to: "casino", tx: 6, ty: 10, sprite: "casino" });
-  b.building(3, 15, { kind: "incubadora", w: 5, door: 2, to: "incubadora-aerobia", tx: 5, ty: 6 });
-  b.building(18, 15, { kind: "tienda", w: 6, door: 3, to: "tienda-aerobia", tx: 4, ty: 6 });
-  b.building(9, 16, { kind: "casa", w: 4, color: "azul", door: 1, to: "casa-aerobia", tx: 3, ty: 5 });
-  b.fill(6, 7, 1, 4, "p").fill(22, 7, 1, 4, "p").fill(5, 13, 1, 4, "p").fill(21, 13, 1, 5, "p").fill(10, 13, 1, 5, "p");
-  b.fill(17, 13, 2, 2, "f").fill(11, 3, 2, 3, "f");
-  b.sign(13, 10, "Ciudad Aerobia. «Donde todo respira oxígeno… y catalasa».");
-  b.sign(17, 8, "CASINO MUTAGÉNESIS. ¡Fichas, premios y mutaciones al azar!");
-  b.sign(7, 10, "Gimnasio de Ciudad Aerobia. Líder: Dr. Daniel Yero, Levaduras y Eucariotas.");
-  b.fill(26, 11, 4, 2, "p");
-  b.sign(26, 10, "Ruta 7. Al este: Ciudad Agar y la Reserva Microbiana.");
-  b.warp({ x: 29, y: 11, h: 2, to: "ruta-7", tx: 1, ty: 8, dir: 3, keep: "y" });
-  b.npc({ id: "aer-1", x: 12, y: 13, sprite: "chico", move: "pasear", talk: "El Dr. Yero es amigo del Dr. Conchillo, del Instituto de Biotecnología. ¡Dicen que hablan de bioinformática hasta en las comidas!" });
-  b.npc({ id: "aer-2", x: 24, y: 9, sprite: "recluta", dir: 0, hideIf: "urtaza1", talk: "…¿Qué miras? Solo estoy… vigilando el casino. Por nada en especial." });
-  b.npc({ id: "aer-3", x: 8, y: 13, sprite: "estudiante", dir: 1, talk: ["La catalasa rompe el agua oxigenada en agua y oxígeno. ¡Por eso burbujea en una herida!", "Los Microos aerobios la usan para no oxidarse con su propia respiración."] });
-  b.warp({ x: 0, y: 11, h: 2, to: "ruta-6", tx: 34, ty: 7, dir: 2, keep: "y" });
+  const b = new MapBuilder("ciudad-aerobia", "Ciudad Aerobia", 36, 30);
+  b.trees(0, 0, 36, 2).trees(0, 0, 2, 14).trees(0, 16, 2, 14).trees(34, 0, 2, 14).trees(34, 16, 2, 14).trees(0, 28, 36, 2);
+  // avenida (y 14-15) entre la Ruta 6 y la Ruta 7, enlace (x 16-17) y calle sur (y 25-26)
+  b.fill(0, 14, 36, 2, "p").fill(16, 16, 2, 9, "p").fill(2, 25, 32, 2, "p");
+  b.onRoad(3, 14, { kind: "gimnasio", w: 7, color: "naranja", door: 3, to: "gimnasio-aerobia", tx: 6, ty: 15 });
+  b.onRoad(19, 14, { kind: "casa", w: 8, color: "rojo", door: 4, to: "casino", tx: 6, ty: 10, sprite: "casino" });
+  b.onRoad(3, 25, { kind: "incubadora", w: 5, door: 2, to: "incubadora-aerobia", tx: 5, ty: 6 });
+  b.onRoad(10, 25, { kind: "casa", w: 4, color: "azul", door: 1, to: "casa-aerobia", tx: 3, ty: 5 });
+  b.onRoad(20, 25, { kind: "tienda", w: 6, door: 3, to: "tienda-aerobia", tx: 4, ty: 6 });
+  b.fill(28, 19, 3, 2, "f").fill(16, 3, 3, 3, "f");
+  b.sign(18, 16, "Ciudad Aerobia. «Donde todo respira oxígeno… y catalasa».");
+  b.sign(18, 13, "CASINO MUTAGÉNESIS. ¡Fichas, premios y mutaciones al azar!");
+  b.sign(2, 13, "Gimnasio de Ciudad Aerobia. Líder: Dr. Daniel Yero, Levaduras y Eucariotas.");
+  b.sign(33, 13, "Ruta 7. Al este: Ciudad Agar y la Reserva Microbiana.");
+  b.npc({ id: "aer-1", x: 12, y: 17, sprite: "chico", move: "pasear", talk: "El Dr. Yero es amigo del Dr. Conchillo, del Instituto de Biotecnología. ¡Dicen que hablan de bioinformática hasta en las comidas!" });
+  b.npc({ id: "aer-2", x: 28, y: 15, sprite: "recluta", dir: 1, hideIf: "urtaza1", talk: "…¿Qué miras? Solo estoy… vigilando el casino. Por nada en especial." });
+  b.npc({ id: "aer-3", x: 8, y: 17, sprite: "estudiante", dir: 1, talk: ["La catalasa rompe el agua oxigenada en agua y oxígeno. ¡Por eso burbujea en una herida!", "Los Microos aerobios la usan para no oxidarse con su propia respiración."] });
+  b.warp({ x: 35, y: 14, h: 2, to: "ruta-7", tx: 1, ty: 8, dir: 3, keep: "y" });
+  b.warp({ x: 0, y: 14, h: 2, to: "ruta-6", tx: 34, ty: 7, dir: 2, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-aerobia", "Ciudad Aerobia", { to: "ciudad-aerobia", x: 5, y: 17 }));
@@ -760,26 +762,26 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
 
 // ---------------------------------------------------------------- Ciudad Agar
 {
-  const b = new MapBuilder("ciudad-agar", "Ciudad Agar", 30, 22);
-  b.trees(0, 0, 30, 2).trees(0, 0, 2, 10).trees(0, 12, 2, 10).trees(28, 0, 2, 10).trees(28, 12, 2, 10).trees(0, 20, 30, 2);
-  b.fill(0, 10, 30, 2, "p").fill(14, 3, 2, 7, "p").fill(5, 12, 1, 4, "p").fill(22, 12, 1, 4, "p").fill(9, 7, 1, 3, "p");
-  b.building(11, 0, { kind: "lab", w: 8, color: "verde", door: 3, to: "reserva-entrada", tx: 5, ty: 8 });
-  b.building(17, 4, { kind: "gimnasio", w: 7, color: "gris", door: 3, to: "gimnasio-agar", tx: 6, ty: 15 });
-  b.building(3, 4, { kind: "incubadora", w: 5, door: 2, to: "incubadora-agar", tx: 5, ty: 6 });
-  b.building(3, 14, { kind: "tienda", w: 5, door: 2, to: "tienda-agar", tx: 4, ty: 6 });
-  b.building(20, 14, { kind: "casa", w: 5, color: "verde", door: 2, to: "casa-agar", tx: 3, ty: 5 });
-  b.fill(10, 14, 6, 4, "~").fill(17, 13, 2, 3, "f").fill(25, 3, 2, 3, "f");
-  b.sign(13, 9, "Ciudad Agar. «Sólida por fuera, nutritiva por dentro».");
-  b.sign(16, 7, "Reserva Microbiana: extremófilos y protozoos únicos. ¡Pase y vea!");
-  b.sign(19, 9, "Gimnasio de Ciudad Agar. Líder: Dr. Jordi Mas, Microbiología Industrial.");
-  b.npc({ id: "agar-1", x: 8, y: 12, sprite: "chica", move: "pasear", talk: "En la Reserva no se lucha: les ofreces Medios de Enriquecimiento para que se calmen, y luego… ¡Criobola Verde!" });
-  b.fill(28, 10, 2, 2, "p");
+  const b = new MapBuilder("ciudad-agar", "Ciudad Agar", 38, 30);
+  b.trees(0, 0, 38, 2).trees(0, 0, 2, 14).trees(0, 16, 2, 14).trees(36, 0, 2, 14).trees(36, 16, 2, 14).trees(0, 28, 38, 2);
+  // avenida (y 14-15) entre la Ruta 7 y la Ruta 8, camino a la Reserva (x 19), enlace (x 18-19) y calle sur (y 25-26)
+  b.fill(0, 14, 38, 2, "p").fill(19, 6, 1, 8, "p").fill(18, 16, 2, 9, "p").fill(2, 25, 34, 2, "p");
+  b.building(16, 2, { kind: "lab", w: 8, color: "verde", door: 3, to: "reserva-entrada", tx: 5, ty: 8 });
+  b.onRoad(23, 14, { kind: "gimnasio", w: 7, color: "gris", door: 3, to: "gimnasio-agar", tx: 6, ty: 15 });
+  b.onRoad(3, 14, { kind: "incubadora", w: 5, door: 2, to: "incubadora-agar", tx: 5, ty: 6 });
+  b.onRoad(3, 25, { kind: "tienda", w: 5, door: 2, to: "tienda-agar", tx: 4, ty: 6 });
+  b.onRoad(24, 25, { kind: "casa", w: 5, color: "verde", door: 2, to: "casa-agar", tx: 3, ty: 5 });
+  b.fill(11, 19, 6, 4, "~").fill(21, 18, 2, 3, "f").fill(11, 3, 3, 3, "f");
+  b.sign(17, 16, "Ciudad Agar. «Sólida por fuera, nutritiva por dentro».");
+  b.sign(20, 8, "Reserva Microbiana: extremófilos y protozoos únicos. ¡Pase y vea!");
+  b.sign(22, 13, "Gimnasio de Ciudad Agar. Líder: Dr. Jordi Mas, Microbiología Industrial.");
+  b.npc({ id: "agar-1", x: 9, y: 17, sprite: "chica", move: "pasear", talk: "En la Reserva no se lucha: les ofreces Medios de Enriquecimiento para que se calmen, y luego… ¡Criobola Verde!" });
   const corte = "Guarda: El camino al Instituto de Biotecnología está cortado. Solo dejamos pasar a quien tenga la Medalla Quimiostato.";
-  b.npc({ id: "agar-guarda-1", x: 27, y: 10, sprite: "dependiente", dir: 2, hideIf: "medalla5", talk: corte });
-  b.npc({ id: "agar-guarda-2", x: 27, y: 11, sprite: "dependiente", dir: 2, hideIf: "medalla5", talk: corte });
-  b.warp({ x: 29, y: 10, h: 2, to: "ruta-8", tx: 1, ty: 7, dir: 3, keep: "y" });
-  b.npc({ id: "agar-3", x: 26, y: 9, sprite: "estudiante", dir: 0, talk: "El agar sale de las algas rojas. Lo trajeron a los laboratorios por consejo de la mujer de un ayudante de Koch. ¡Sin ella no habría placas!" });
-  b.warp({ x: 0, y: 10, h: 2, to: "ruta-7", tx: 38, ty: 8, dir: 2, keep: "y" });
+  b.npc({ id: "agar-guarda-1", x: 35, y: 14, sprite: "dependiente", dir: 2, hideIf: "medalla5", talk: corte });
+  b.npc({ id: "agar-guarda-2", x: 35, y: 15, sprite: "dependiente", dir: 2, hideIf: "medalla5", talk: corte });
+  b.npc({ id: "agar-3", x: 33, y: 17, sprite: "estudiante", dir: 1, talk: "El agar sale de las algas rojas. Lo trajeron a los laboratorios por consejo de la mujer de un ayudante de Koch. ¡Sin ella no habría placas!" });
+  b.warp({ x: 37, y: 14, h: 2, to: "ruta-8", tx: 1, ty: 7, dir: 3, keep: "y" });
+  b.warp({ x: 0, y: 14, h: 2, to: "ruta-7", tx: 38, ty: 8, dir: 2, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-agar", "Ciudad Agar", { to: "ciudad-agar", x: 5, y: 6 }));
@@ -866,24 +868,24 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
 
 // ---------------------------------------------------------------- Parque Biotecnológico
 {
-  const b = new MapBuilder("parque-biotec", "Parque Biotecnológico", 30, 24);
-  b.trees(0, 0, 30, 2).trees(0, 0, 2, 10).trees(0, 14, 2, 10).trees(28, 0, 2, 24).trees(0, 22, 30, 2);
-  b.fill(0, 11, 28, 2, "p").fill(14, 7, 2, 4, "p").fill(5, 13, 1, 3, "p").fill(22, 13, 1, 4, "p").fill(23, 8, 1, 3, "p");
-  b.building(9, 2, { kind: "lab", w: 12, color: "gris", door: 5, to: "instituto-1", tx: 6, ty: 12 });
-  b.building(3, 15, { kind: "incubadora", w: 5, door: 2, to: "incubadora-biotec", tx: 5, ty: 6 });
-  b.building(21, 4, { kind: "gimnasio", w: 6, color: "azul", door: 2, to: "gimnasio-biotec", tx: 6, ty: 15 });
-  b.building(19, 16, { kind: "tienda", w: 5, door: 3, to: "tienda-biotec", tx: 4, ty: 6 });
-  b.fill(10, 15, 6, 4, "f").fill(3, 3, 4, 4, "~");
-  b.sign(13, 10, "Parque Biotecnológico. Instituto de Biotecnología. «Del gen al biorreactor».");
-  b.sign(24, 9, "Gimnasio Bioinfo. Líder: Dr. Òscar Conchillo. (Cerrado: el líder no está).");
-  b.npc({ id: "biotec-yero", x: 16, y: 8, sprite: "yero", dir: 0, hideIf: "instituto-libre", script: "yeroInstituto" });
-  b.npc({ id: "biotec-recluta-1", x: 14, y: 7, sprite: "recluta", dir: 0, hideIf: "yero-equipo", talk: "Recluta: Prohibido el paso. Órdenes del Dr. Martínez-Urtaza." });
-  b.npc({ id: "biotec-recluta-2", x: 15, y: 7, sprite: "recluta-b", dir: 0, hideIf: "yero-equipo", talk: "Recluta: ¡Aquí no entra nadie sin cuenta en el clúster!" });
-  b.npc({ id: "biotec-gym-cerrado", x: 23, y: 7, sprite: "becario", dir: 0, hideIf: "instituto-libre", talk: "El Dr. Conchillo no ha vuelto del Instituto. Sin él, el gimnasio está cerrado." });
-  b.npc({ id: "biotec-1", x: 8, y: 13, sprite: "chica", move: "pasear", talk: "El Instituto tiene once plantas de laboratorios. ¡Y la Unidad de Genética las ha tomado todas!" });
-  b.warp({ x: 0, y: 11, h: 2, to: "ruta-8", tx: 34, ty: 7, dir: 2, keep: "y" });
-  b.fill(28, 11, 2, 2, "p");
-  b.warp({ x: 29, y: 11, h: 2, to: "ruta-9", tx: 1, ty: 8, dir: 3, keep: "y" });
+  const b = new MapBuilder("parque-biotec", "Parque Biotecnológico", 40, 30);
+  b.trees(0, 0, 40, 2).trees(0, 0, 2, 14).trees(0, 16, 2, 14).trees(38, 0, 2, 14).trees(38, 16, 2, 14).trees(0, 28, 40, 2);
+  // avenida (y 14-15) entre la Ruta 8 y la Ruta 9, acceso al Instituto (x 9-10), enlace (x 18-19) y calle sur (y 25-26)
+  b.fill(0, 14, 40, 2, "p").fill(9, 8, 2, 6, "p").fill(18, 16, 2, 9, "p").fill(2, 25, 36, 2, "p");
+  b.building(4, 4, { kind: "lab", w: 12, color: "gris", door: 5, to: "instituto-1", tx: 6, ty: 12 });
+  b.onRoad(22, 14, { kind: "gimnasio", w: 6, color: "azul", door: 2, to: "gimnasio-biotec", tx: 6, ty: 15 });
+  b.onRoad(3, 25, { kind: "incubadora", w: 5, door: 2, to: "incubadora-biotec", tx: 5, ty: 6 });
+  b.onRoad(26, 25, { kind: "tienda", w: 5, door: 3, to: "tienda-biotec", tx: 4, ty: 6 });
+  b.fill(11, 18, 6, 3, "f").fill(17, 3, 4, 3, "~");
+  b.sign(17, 16, "Parque Biotecnológico. Instituto de Biotecnología. «Del gen al biorreactor».");
+  b.sign(21, 13, "Gimnasio Bioinfo. Líder: Dr. Òscar Conchillo. (Cerrado: el líder no está).");
+  b.npc({ id: "biotec-yero", x: 11, y: 10, sprite: "yero", dir: 2, hideIf: "instituto-libre", script: "yeroInstituto" });
+  b.npc({ id: "biotec-recluta-1", x: 9, y: 8, sprite: "recluta", dir: 0, hideIf: "yero-equipo", talk: "Recluta: Prohibido el paso. Órdenes del Dr. Martínez-Urtaza." });
+  b.npc({ id: "biotec-recluta-2", x: 10, y: 8, sprite: "recluta-b", dir: 0, hideIf: "yero-equipo", talk: "Recluta: ¡Aquí no entra nadie sin cuenta en el clúster!" });
+  b.npc({ id: "biotec-gym-cerrado", x: 28, y: 14, sprite: "becario", dir: 0, hideIf: "instituto-libre", talk: "El Dr. Conchillo no ha vuelto del Instituto. Sin él, el gimnasio está cerrado." });
+  b.npc({ id: "biotec-1", x: 13, y: 17, sprite: "chica", move: "pasear", talk: "El Instituto tiene once plantas de laboratorios. ¡Y la Unidad de Genética las ha tomado todas!" });
+  b.warp({ x: 0, y: 14, h: 2, to: "ruta-8", tx: 34, ty: 7, dir: 2, keep: "y" });
+  b.warp({ x: 39, y: 14, h: 2, to: "ruta-9", tx: 1, ty: 8, dir: 3, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 5, y: 17 }));
@@ -1021,22 +1023,24 @@ function planta(id: string, name: string) {
 
 // ---------------------------------------------------------------- Ciudad Pili
 {
-  const b = new MapBuilder("ciudad-pili", "Ciudad Pili", 28, 22);
-  b.trees(0, 0, 28, 2).trees(0, 0, 2, 8).trees(0, 12, 2, 6).trees(26, 0, 2, 16);
-  b.fill(0, 16, 28, 2, "s").fill(0, 18, 28, 4, "~").fill(12, 16, 4, 4, "s");
-  b.fill(0, 9, 26, 2, "p").fill(13, 11, 2, 5, "p").fill(20, 6, 1, 3, "p").fill(6, 6, 1, 3, "p");
-  b.building(16, 2, { kind: "gimnasio", w: 8, color: "rojo", door: 4, to: "gimnasio-pili", tx: 6, ty: 15 });
-  b.building(3, 3, { kind: "incubadora", w: 5, door: 2, to: "incubadora-pili", tx: 5, ty: 6 });
-  b.building(3, 12, { kind: "tienda", w: 5, door: 2, to: "tienda-pili", tx: 4, ty: 6 });
-  b.building(19, 12, { kind: "casa", w: 5, color: "azul", door: 2, to: "casa-pili", tx: 3, ty: 5 });
-  b.fill(9, 3, 4, 3, "f");
-  b.sign(11, 8, "Ciudad Pili. «Aquí todo se pega: hasta la gente».");
-  b.sign(15, 8, "Gimnasio Clínico. Líder: Dra. Marina Luquin. Laboratorio de Bioseguridad Nivel 3.");
-  b.sign(11, 16, "Puerto de Ciudad Pili. Ferri a las Islas Esporuladas y la Isla Conjugada.");
-  b.npc({ id: "pili-marinero", x: 13, y: 19, sprite: "dependiente", dir: 1, script: "ferri" });
-  b.npc({ id: "pili-1", x: 9, y: 11, sprite: "chico", move: "pasear", talk: "La Dra. Luquin trabaja con micobacterias. ¡Hasta la tinción usa fucsina caliente!" });
-  b.npc({ id: "pili-2", x: 22, y: 10, sprite: "chica", dir: 2, talk: ["Los pili son como pelitos que usan las bacterias para pegarse a todo.", "¡Y algunos sirven para arrastrarse por las superficies, como un garfio!"] });
-  b.warp({ x: 0, y: 9, h: 2, to: "ruta-9", tx: 42, ty: 8, dir: 2, keep: "y" });
+  const b = new MapBuilder("ciudad-pili", "Ciudad Pili", 36, 30);
+  b.trees(0, 0, 36, 2).trees(0, 0, 2, 12).trees(0, 14, 2, 9).trees(34, 0, 2, 23);
+  // playa (y 23-24), mar (y 25-29) y muelle del ferri (x 15-18)
+  b.fill(0, 23, 36, 2, "s").fill(0, 25, 36, 5, "~").fill(15, 23, 4, 4, "s");
+  // avenida (y 12-13) desde la Ruta 9, enlace (x 15-16) y calle sur (y 21-22)
+  b.fill(0, 12, 34, 2, "p").fill(15, 14, 2, 7, "p").fill(2, 21, 32, 2, "p");
+  b.onRoad(19, 12, { kind: "gimnasio", w: 8, color: "rojo", door: 4, to: "gimnasio-pili", tx: 6, ty: 15 });
+  b.onRoad(3, 12, { kind: "incubadora", w: 5, door: 2, to: "incubadora-pili", tx: 5, ty: 6 });
+  b.onRoad(3, 21, { kind: "tienda", w: 5, door: 2, to: "tienda-pili", tx: 4, ty: 6 });
+  b.onRoad(24, 21, { kind: "casa", w: 5, color: "azul", door: 2, to: "casa-pili", tx: 3, ty: 5 });
+  b.fill(11, 3, 4, 3, "f");
+  b.sign(14, 14, "Ciudad Pili. «Aquí todo se pega: hasta la gente».");
+  b.sign(18, 11, "Gimnasio Clínico. Líder: Dra. Marina Luquin. Laboratorio de Bioseguridad Nivel 3.");
+  b.sign(14, 23, "Puerto de Ciudad Pili. Ferri a las Islas Esporuladas y la Isla Conjugada.");
+  b.npc({ id: "pili-marinero", x: 16, y: 26, sprite: "dependiente", dir: 1, script: "ferri" });
+  b.npc({ id: "pili-1", x: 11, y: 16, sprite: "chico", move: "pasear", talk: "La Dra. Luquin trabaja con micobacterias. ¡Hasta la tinción usa fucsina caliente!" });
+  b.npc({ id: "pili-2", x: 31, y: 15, sprite: "chica", dir: 2, talk: ["Los pili son como pelitos que usan las bacterias para pegarse a todo.", "¡Y algunos sirven para arrastrarse por las superficies, como un garfio!"] });
+  b.warp({ x: 0, y: 12, h: 2, to: "ruta-9", tx: 42, ty: 8, dir: 2, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-pili", "Ciudad Pili", { to: "ciudad-pili", x: 5, y: 5 }));
@@ -1111,30 +1115,32 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
 
 // ---------------------------------------------------------------- Isla Conjugada
 {
-  const b = new MapBuilder("isla-conjugada", "Isla Conjugada", 30, 26);
-  b.trees(0, 0, 30, 2).trees(0, 0, 2, 20).trees(28, 0, 2, 20);
-  b.fill(0, 20, 30, 2, "s").fill(0, 22, 30, 4, "~").fill(12, 20, 4, 3, "s");
-  b.fill(14, 7, 2, 13, "p").fill(3, 12, 24, 2, "p").fill(6, 8, 1, 4, "p").fill(23, 8, 1, 4, "p").fill(9, 14, 1, 3, "p").fill(20, 14, 1, 3, "p");
-  b.building(11, 2, { kind: "gimnasio", w: 8, color: "morado", door: 4, to: "gimnasio-conjugada", tx: 6, ty: 15 });
-  b.building(3, 5, { kind: "lab", w: 6, color: "azul", door: 3, to: "carlos-iii", tx: 5, ty: 8 });
-  b.building(20, 5, { kind: "casa", w: 7, color: "gris", door: 3, to: "mansion-1", tx: 7, ty: 12, sprite: "laboratorio" });
-  b.building(7, 15, { kind: "incubadora", w: 5, door: 2, to: "incubadora-conjugada", tx: 5, ty: 6 });
-  b.building(18, 15, { kind: "tienda", w: 5, door: 2, to: "tienda-conjugada", tx: 4, ty: 6 });
-  b.fill(24, 15, 3, 3, "f").fill(2, 15, 3, 3, "f");
-  b.sign(13, 19, "Isla Conjugada. «Aquí los genes cambian de dueño».");
-  b.sign(5, 10, "Instituto Carlos III. Revivimos cepas del permafrost y fósiles microbianos.");
-  b.sign(22, 10, "Mansión de las Cepas. Propiedad privada. (La puerta está forzada…)");
-  b.sign(16, 6, "Gimnasio Fago. Líder: Dra. Susana Campoy.");
-  b.npc({ id: "conj-marinero", x: 12, y: 22, sprite: "dependiente", dir: 3, script: "ferri" });
-  b.npc({ id: "conj-gym-cerrado", x: 15, y: 5, sprite: "becario", dir: 0, hideIf: "urtaza3", talk: "La Dra. Campoy ha cerrado el gimnasio. Ha ido a la Mansión de las Cepas: dice que ahí dentro está pasando algo terrible." });
-  b.npc({ id: "conj-tecnica", x: 11, y: 11, sprite: "profesora", dir: 0, script: "conjugacion" });
-  b.npc({ id: "conj-1", x: 9, y: 11, sprite: "chica", move: "pasear", talk: "La conjugación bacteriana es como un intercambio de genes con un puente de pilus. ¡Por eso la isla se llama así!" });
+  const b = new MapBuilder("isla-conjugada", "Isla Conjugada", 40, 34);
+  b.trees(0, 0, 40, 2).trees(0, 0, 2, 26).trees(38, 0, 2, 26);
+  // playa (y 26-27), mar (y 28-33) y muelle (x 17-20)
+  b.fill(0, 26, 40, 2, "s").fill(0, 28, 40, 6, "~").fill(17, 26, 4, 4, "s");
+  // calle principal (y 14-15), enlace (x 18-19) y calle sur (y 24-25)
+  b.fill(2, 14, 36, 2, "p").fill(6, 13, 1, 1, "p").fill(18, 16, 2, 8, "p").fill(2, 24, 36, 2, "p");
+  b.building(3, 9, { kind: "lab", w: 6, color: "azul", door: 3, to: "carlos-iii", tx: 5, ty: 8 });
+  b.onRoad(14, 14, { kind: "gimnasio", w: 8, color: "morado", door: 4, to: "gimnasio-conjugada", tx: 6, ty: 15 });
+  b.onRoad(29, 14, { kind: "casa", w: 7, color: "gris", door: 3, to: "mansion-1", tx: 7, ty: 12, sprite: "laboratorio" });
+  b.onRoad(8, 24, { kind: "incubadora", w: 5, door: 2, to: "incubadora-conjugada", tx: 5, ty: 6 });
+  b.onRoad(24, 24, { kind: "tienda", w: 5, door: 2, to: "tienda-conjugada", tx: 4, ty: 6 });
+  b.fill(21, 18, 2, 2, "f").fill(10, 3, 3, 3, "f");
+  b.sign(17, 17, "Isla Conjugada. «Aquí los genes cambian de dueño».");
+  b.sign(8, 13, "Instituto Carlos III. Revivimos cepas del permafrost y fósiles microbianos.");
+  b.sign(28, 13, "Mansión de las Cepas. Propiedad privada. (La puerta está forzada…)");
+  b.sign(13, 13, "Gimnasio Fago. Líder: Dra. Susana Campoy.");
+  b.npc({ id: "conj-marinero", x: 18, y: 29, sprite: "dependiente", dir: 1, script: "ferri" });
+  b.npc({ id: "conj-gym-cerrado", x: 20, y: 14, sprite: "becario", dir: 0, hideIf: "urtaza3", talk: "La Dra. Campoy ha cerrado el gimnasio. Ha ido a la Mansión de las Cepas: dice que ahí dentro está pasando algo terrible." });
+  b.npc({ id: "conj-tecnica", x: 16, y: 18, sprite: "profesora", dir: 0, script: "conjugacion" });
+  b.npc({ id: "conj-1", x: 12, y: 17, sprite: "chica", move: "pasear", talk: "La conjugación bacteriana es como un intercambio de genes con un puente de pilus. ¡Por eso la isla se llama así!" });
   b.encounters([
     { sp: "marburg-v", min: 47, max: 49, w: 16 }, { sp: "mimivir", min: 47, max: 49, w: 16 }, { sp: "lambda-v", min: 46, max: 48, w: 16 },
     { sp: "bacteriovor", min: 46, max: 48, w: 16 }, { sp: "retrovir-x", min: 50, max: 50, w: 4 }, { sp: "lentivir", min: 46, max: 48, w: 16 },
     { sp: "pleomorph", min: 45, max: 46, w: 6 }, { sp: "coli-bl21", min: 46, max: 48, w: 10 },
   ]);
-  b.fill(2, 2, 8, 3, "g").fill(22, 2, 5, 3, "g").fill(24, 18, 4, 2, "g").fill(2, 18, 4, 2, "g");
+  b.fill(2, 2, 7, 5, "g").fill(28, 2, 8, 4, "g").fill(2, 18, 5, 5, "g").fill(32, 18, 5, 5, "g");
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 9, y: 17 }));
@@ -1234,15 +1240,16 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
 
 // ---------------------------------------------------------------- La UAB
 {
-  const b = new MapBuilder("uab", "La UAB", 22, 16);
-  b.trees(0, 0, 22, 2).trees(0, 0, 2, 16).trees(20, 0, 2, 16);
-  b.fill(8, 9, 6, 7, "p").fill(2, 12, 18, 2, "p");
-  b.building(5, 2, { kind: "lab", w: 12, color: "rojo", door: 5, to: "uab-vestibulo", tx: 5, ty: 8, sprite: "uab" });
-  b.fill(2, 10, 4, 2, "f").fill(16, 10, 4, 2, "f").fill(3, 14, 4, 2, "~");
-  b.sign(14, 8, "Facultad de Biociencias de La UAB. Liga Micromón. Solo con las 8 medallas.");
-  b.npc({ id: "uab-estudiante", x: 15, y: 12, sprite: "estudiante", move: "pasear", talk: "Dicen que el Campeón es el mismísimo Louis Pasteur. ¡Con sus matraces de cuello de cisne!" });
-  b.npc({ id: "salmonella-legendario", x: 18, y: 13, sprite: "@microo:salmonella-typhimurium", script: "estatico:salmonella-typhimurium|70|salmonella", showIf: "campeon", hideIf: "salmonella", solid: true });
-  b.warp({ x: 8, y: 15, w: 6, to: "calle-seleccion", tx: 10, ty: 1, dir: 0, keep: "x" });
+  const b = new MapBuilder("uab", "La UAB", 28, 24);
+  b.trees(0, 0, 28, 2).trees(0, 0, 2, 24).trees(26, 0, 2, 24).trees(0, 22, 12, 2).trees(16, 22, 12, 2);
+  // explanada (y 13-14) delante de la Facultad y paseo hasta Calle Selección Natural (x 12-15)
+  b.fill(2, 13, 24, 2, "p").fill(12, 15, 4, 9, "p");
+  b.onRoad(6, 13, { kind: "lab", w: 12, color: "rojo", door: 5, to: "uab-vestibulo", tx: 5, ty: 8, sprite: "uab" });
+  b.fill(3, 16, 4, 2, "f").fill(21, 16, 4, 2, "f").fill(4, 19, 4, 2, "~").fill(3, 3, 2, 2, "f").fill(23, 3, 2, 2, "f");
+  b.sign(17, 15, "Facultad de Biociencias de La UAB. Liga Micromón. Solo con las 8 medallas.");
+  b.npc({ id: "uab-estudiante", x: 20, y: 16, sprite: "estudiante", move: "pasear", talk: "Dicen que el Campeón es el mismísimo Louis Pasteur. ¡Con sus matraces de cuello de cisne!" });
+  b.npc({ id: "salmonella-legendario", x: 22, y: 19, sprite: "@microo:salmonella-typhimurium", script: "estatico:salmonella-typhimurium|70|salmonella", showIf: "campeon", hideIf: "salmonella", solid: true });
+  b.warp({ x: 12, y: 23, w: 4, to: "calle-seleccion", tx: 10, ty: 1, dir: 0, keep: "x" });
   add(b.done({ music: "ciudad" }));
 }
 {
@@ -1284,6 +1291,35 @@ SALAS.forEach(([id, name, who], k) => {
   b.npc({ id: "fosa-salida", x: 5, y: 10, sprite: "", talk: "Un ascensor de vuelta a La UAB.", script: "salirFosa" });
   add(b.done({ music: "cueva" }));
 }
+
+/** Enlaza automáticamente las llegadas:
+ *  - al salir de un interior, el jugador aparece justo debajo de la puerta de su edificio ilustrado;
+ *  - al cruzar el borde entre dos mapas exteriores, aparece justo dentro del borde de salida del otro mapa.
+ *  Así se pueden recolocar edificios y calles sin tocar los mapas vecinos. */
+function linkWarps() {
+  const span = (w: { w?: number; h?: number }) => [w.w ?? 1, w.h ?? 1];
+  const edge = (m: MapDef, w: MapDef["warps"][number]) => { const [sw, sh] = span(w); return w.x === 0 || w.y === 0 || w.x + sw - 1 === m.w - 1 || w.y + sh - 1 === m.h - 1; };
+  for (const m of Object.values(MAPS)) for (const a of m.warps) {
+    const t = MAPS[a.to];
+    if (!t) continue;
+    if (!m.outdoor && t.outdoor) {
+      const d = t.doors?.find((d) => d.to === m.id);
+      if (d) { a.tx = d.x; a.ty = d.y + 1; }
+      continue;
+    }
+    if (m.outdoor && t.outdoor && edge(m, a)) {
+      const b = t.warps.find((w) => w.to === m.id && edge(t, w));
+      if (!b) continue;
+      const [bw, bh] = span(b);
+      if (b.x === 0) { a.tx = 1; a.ty = b.y; }
+      else if (b.x + bw - 1 === t.w - 1 && bh > 1) { a.tx = t.w - 2; a.ty = b.y; }
+      else if (b.y === 0) { a.ty = 1; a.tx = b.x; }
+      else if (b.y + bh - 1 === t.h - 1) { a.ty = t.h - 2; a.tx = b.x; }
+      else if (b.x + bw - 1 === t.w - 1) { a.tx = t.w - 2; a.ty = b.y; }
+    }
+  }
+}
+linkWarps();
 
 /** Comprueba coherencia de mapas: destinos de warps dentro de los mapas existentes. */
 export function checkMaps(): string[] {

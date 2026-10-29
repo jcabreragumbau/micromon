@@ -252,11 +252,14 @@ export class Overworld implements Scene {
   }
 
   // ---------------------------------------------------------------- dibujo
+  /** Cámara fija para capturas del mapa entero (solo herramientas de prueba). */
+  debugCam: [number, number] | null = null;
   draw(g: Gfx, game: Game) {
     const camX = Math.round(this.px * 16 + this.ox - W / 2 + 8);
     const camY = Math.round(this.py * 16 + this.oy - H / 2 + 8);
-    const cx = this.map.w * 16 < W ? -(W - this.map.w * 16) / 2 : Math.max(0, Math.min(this.map.w * 16 - W, camX));
-    const cy = this.map.h * 16 < H ? -(H - this.map.h * 16) / 2 : Math.max(0, Math.min(this.map.h * 16 - H, camY));
+    let cx = this.map.w * 16 < W ? -(W - this.map.w * 16) / 2 : Math.max(0, Math.min(this.map.w * 16 - W, camX));
+    let cy = this.map.h * 16 < H ? -(H - this.map.h * 16) / 2 : Math.max(0, Math.min(this.map.h * 16 - H, camY));
+    if (this.debugCam) [cx, cy] = this.debugCam;      // vistas completas del mapa (herramientas)
     g.clear("#000");
     const x0 = Math.floor(cx / 16) - 1, y0 = Math.floor(cy / 16) - 1;
     const hd = !!IMG.props_hd;
@@ -285,8 +288,9 @@ export class Overworld implements Scene {
     if (hd) for (const p of this.map.props ?? []) {
       const m = PROPS[p.sprite];
       if (!m?.door || !m.wall) continue;
-      const k = (p.sprite === "laboratorio" ? p.w - 1.5 : Math.max(p.w, 5)) * 16 / (m.wall[1] - m.wall[0]);
-      const dx = (p.x + p.door) * 16 + 8 - cx - m.door[0] * k, dy = (p.y + p.h) * 16 - cy - m.door[1] * k;
+      // la ilustración ocupa la planta: su alto es el de la planta y su puerta cae sobre la casilla de la puerta
+      const k = (p.h * 16) / m.h;
+      const dx = (p.x + p.door) * 16 + 8 - cx - m.door[0] * k, dy = (p.y + p.h) * 16 - cy - m.h * k;
       if (dx > W || dy > H || dx + m.w * k < 0 || dy + m.h * k < 0) continue;
       ents.push({ y: (p.y + p.h - 1) * 16 - cy - 1, d: () => drawProp(g, p.sprite, dx, dy, m.w * k) });
     }

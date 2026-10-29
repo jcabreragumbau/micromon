@@ -813,8 +813,8 @@ const SCRIPTS: Record<string, Script> = {
     const s = S(game);
     if (!s.bag["billete-ferri"]) { await game.say("Marinero: El ferri a las islas solo admite pasajeros con billete. ¡La Dra. Luquin del gimnasio los reparte!"); return; }
     const all: [string, string, number, number, boolean][] = [
-      ["Ciudad Pili", "ciudad-pili", 13, 18, true], ["Islas Esporuladas", "islas-esporuladas", 10, 22, true],
-      ["Isla Conjugada", "isla-conjugada", 13, 21, true], ["Calle Selección Natural", "calle-seleccion", 3, 22, s.badges.length >= 8],
+      ["Ciudad Pili", "ciudad-pili", 16, 25, true], ["Islas Esporuladas", "islas-esporuladas", 10, 22, true],
+      ["Isla Conjugada", "isla-conjugada", 18, 28, true], ["Calle Selección Natural", "calle-seleccion", 3, 22, s.badges.length >= 8],
     ];
     const opts = all.filter(([, id, , , ok]) => ok && MAPS_EXIST(id) && id !== world.map.id);
     await game.say("Marinero: ¡Todos a bordo! ¿A dónde vamos?", { keep: true });
@@ -997,7 +997,7 @@ const SCRIPTS: Record<string, Script> = {
 
   async salirFosa(game, world) {
     await game.fade(true, 12);
-    world.load("uab", 10, 8, 0);
+    world.load("uab", 13, 14, 0);
     await game.fade(false, 12);
   },
 
