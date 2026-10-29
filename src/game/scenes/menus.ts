@@ -5,7 +5,7 @@ import type { Overworld } from "./overworld";
 import { SPECIES, ITEMS, getMove, getSpecies, type ItemData } from "../../engine/data";
 import { displayName, NATURES, itemEvolution, expForLevel, type Microo } from "../../engine/microo";
 import { applyItemOutOfBattleLike, type Battle } from "../../engine/battle";
-import { saveGame, playTime, addItem } from "../state";
+import { saveGame, playTime, addItem, AVATAR_SPRITE } from "../state";
 import { evolutionSequence } from "./battle";
 
 const MENU_DOT = ["#e84848", "#48a0e8", "#f0b030", "#48c068", "#a060d8", "#808898", "#e86898"];
@@ -359,7 +359,7 @@ class CardScreen implements Overlay {
     g.panel(14, 14, W - 28, 18, "#f8c058", "#e08828", "#804010", 4);
     g.text("FICHA DE INVESTIGACIÓN", 22, 17, "white");
     g.panel(W - 76, 38, 56, 64, "#c8e8f8", "#88b8e0", "#305080", 5);
-    g.character("protagonista", 0, Math.floor(game.frame / 16) % 3 === 1 ? 1 : 0, W - 64, 56);
+    g.character(AVATAR_SPRITE[s.avatar], 0, Math.floor(game.frame / 16) % 3 === 1 ? 1 : 0, W - 64, 56);
     const rows: [string, string][] = [["Nombre", s.name], ["Créditos", `${s.money}`], ["Microdex", `${s.caught.length} aislados`], ["Tiempo", playTime(s)], ["Dificultad", { facil: "Fácil", normal: "Normal", dificil: "Difícil" }[s.difficulty]]];
     rows.forEach(([k, v], i) => { const y = 40 + i * 15; if (i % 2 === 0) g.rect(18, y - 2, W - 102, 14, "rgba(160,120,40,0.15)"); g.text(k, 22, y, "blue"); g.text(v, 98, y); });
     g.text("Medallas", 22, 122, "blue");

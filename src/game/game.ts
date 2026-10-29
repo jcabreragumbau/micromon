@@ -73,8 +73,11 @@ export class Game {
   keptDialog: Dialog | null = null;
   fade(out: boolean, frames = 16): Promise<void> { return this.run(new Fade(out, frames)) as Promise<void>; }
   blackout = 0;
-  /** Sustituye {nombre} y {rival}. */
-  fill(t: string) { return t.replaceAll("{nombre}", this.state.name).replaceAll("{rival}", this.state.rival); }
+  /** Sustituye {nombre}, {rival} y {o} (terminación de género: o / a). */
+  fill(t: string) {
+    return t.replaceAll("{nombre}", this.state.name).replaceAll("{rival}", this.state.rival)
+      .replaceAll("{o}", this.state.avatar === "chica" ? "a" : "o");
+  }
 }
 
 class WaitOverlay implements Overlay {

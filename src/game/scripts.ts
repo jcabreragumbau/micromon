@@ -87,6 +87,7 @@ const SCRIPTS: Record<string, Script> = {
     if (!S(game).flags.inicial) {
       await game.say("Madre: ¡Buenos días, {nombre}! La Profesora Hesse ha llamado. Dice que hoy es tu gran día.");
       await game.say("Madre: Su laboratorio está al sur del pueblo. ¡No la hagas esperar!");
+      if (S(game).avatar === "apache") await game.say("Madre: Y esta vez aterriza en el jardín, que las macetas aún no se han recuperado.");
       return;
     }
     await game.say("Madre: ¡Qué bien te veo con tu Microo! Descansad un poco.");
@@ -174,7 +175,7 @@ const SCRIPTS: Record<string, Script> = {
 
   async incubadora(game) {
     const s = S(game);
-    await game.say("¡Hola! Bienvenido/a a la Incubadora. Aquí cultivamos a tus Microos a 37 °C con agitación orbital.");
+    await game.say("¡Hola! Bienvenid{o} a la Incubadora. Aquí cultivamos a tus Microos a 37 °C con agitación orbital.");
     if (!s.party.length) { await game.say("Vaya, no llevas ningún Microo. ¡Vuelve cuando tengas uno!"); return; }
     if (!(await game.yesno("¿Quieres que incube a tus Microos?"))) { await game.say("¡Vuelve cuando quieras!"); return; }
     await game.say("Muy bien. Déjame tus Criobolas un momento…");
@@ -188,7 +189,7 @@ const SCRIPTS: Record<string, Script> = {
   async registrarIncubadora() {},
 
   async tienda(game, _w, arg) {
-    await game.say("¡Bienvenido/a a la Tienda de Medios!");
+    await game.say("¡Bienvenid{o} a la Tienda de Medios!");
     await shopMenu(game, (arg ?? "").split(","));
     await game.say("¡Vuelve pronto!");
   },
@@ -203,7 +204,7 @@ const SCRIPTS: Record<string, Script> = {
 
   async academia(game) {
     const s = S(game);
-    await game.say("Profesora de la Academia: ¡Bienvenido/a a la Academia de Infección y Estados!");
+    await game.say("Profesora de la Academia: ¡Bienvenid{o} a la Academia de Infección y Estados!");
     const c = await game.choose(["Contaminaciones", "Tipos", "Captura", "Nada"], { prompt: "¿Sobre qué quieres aprender?", x: 130, y: 20, cancel: 3 });
     const t: Record<number, string[]> = {
       0: ["Hay seis contaminaciones: desnaturalizado, congelado, paralizado, intoxicado, gravemente intoxicado y fase de latencia.",
@@ -216,7 +217,7 @@ const SCRIPTS: Record<string, Script> = {
     for (const l of t[c] ?? ["¡Vuelve cuando quieras repasar!"]) await game.say(l);
     if (c >= 0 && c < 3 && !s.flags.premioAcademia) {
       s.flags.premioAcademia = true; addItem(s, "solucion-salina", 2);
-      await game.say("¡Muy atento/a! Toma, para que practiques. ¡{nombre} ha recibido 2 Soluciones Salinas!");
+      await game.say("¡Muy atent{o}! Toma, para que practiques. ¡{nombre} ha recibido 2 Soluciones Salinas!");
     }
   },
 
@@ -244,7 +245,7 @@ const SCRIPTS: Record<string, Script> = {
       await game.say("Dr. Solé: Más allá de Ciudad Petri te espera el Monte Micelio. ¡Sigue investigando!");
       return;
     }
-    await game.say("Dr. Solé: ¡Bienvenido/a a mi planta piloto! Soy Antoni Solé, líder del Gimnasio de Ciudad Petri.");
+    await game.say("Dr. Solé: ¡Bienvenid{o} a mi planta piloto! Soy Antoni Solé, líder del Gimnasio de Ciudad Petri.");
     await game.say("Dr. Solé: Mis Microos fermentan la leche, conservan el queso… y a veces estropean una lata. ¡Veamos de qué está hecho tu cultivo!");
     const out = await startBattle(game, world, { battle: battleFor(game, trainerParty("gym1", s.difficulty, rng(game)), false, "Dr. Solé", s.difficulty === "normal" ? { "medio-lb": 2 } : {}), wild: false,
       trainer: { name: "Antoni Solé", clase: "Líder", portrait: "sole", lose: "¡Increíble! Has superado el control de calidad.", money: 100 } });

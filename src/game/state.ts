@@ -2,9 +2,15 @@
 import type { Microo } from "../engine/microo";
 import type { Difficulty } from "../engine/battle";
 
+export type Avatar = "chico" | "chica" | "apache";
+/** Hoja de sprites del mapa para cada personaje jugable. */
+export const AVATAR_SPRITE: Record<Avatar, string> = { chico: "protagonista", chica: "protagonista-chica", apache: "apache" };
+
 export interface GameState {
   version: 1;
   name: string;
+  /** Personaje elegido al empezar. */
+  avatar: Avatar;
   rival: string;
   money: number;
   badges: string[];
@@ -24,7 +30,7 @@ export interface GameState {
 
 export function newState(): GameState {
   return {
-    version: 1, name: "Ana", rival: "Koch", money: 3000, badges: [], flags: {},
+    version: 1, name: "Ana", avatar: "chica", rival: "Koch", money: 3000, badges: [], flags: {},
     party: [], box: [], bag: { "medio-lb": 1 }, seen: [], caught: [],
     map: "casa-jugador", x: 4, y: 5, dir: 0, lastHeal: { map: "casa-jugador", x: 4, y: 5 },
     difficulty: "normal", playFrames: 0, textSpeed: 2, seed: (Math.random() * 2 ** 31) >>> 0,
@@ -41,7 +47,9 @@ export function loadGame(): GameState | null {
     const raw = localStorage.getItem(KEY);
     if (!raw) return null;
     const s = JSON.parse(raw) as GameState;
-    return s.version === 1 ? s : null;
+    if (s.version !== 1) return null;
+    s.avatar ??= "chica";
+    return s;
   } catch { return null; }
 }
 export function hasSave(): boolean { return loadGame() !== null; }

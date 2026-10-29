@@ -51,6 +51,9 @@ const path = require("node:path");
 
   // --- Título y presentación
   await shot("01-titulo"); await press("a", 1, 300); await press("a", 1, 500);
+  for (let i = 0; i < 60 && !(await G(() => window.micromon.overlays.some((o) => o.ov.constructor.name === "AvatarSelect"))); i++) await press("a");
+  await G((k) => { window.micromon.overlays.find((o) => o.ov.constructor.name === "AvatarSelect").ov.sel = k; }, Number(process.env.AVATAR ?? 2));
+  await page.waitForTimeout(500); await shot("01b-personaje"); await press("a", 1, 300);
   for (let i = 0; i < 60 && !(await G(() => window.micromon.overlays.some((o) => o.ov.options))); i++) await press("a");
   await press("a", 1, 300);
   for (let i = 0; i < 60 && !(await G(() => window.micromon.overlays.some((o) => o.ov.options && o.ov.options.length === 3))); i++) await press("a");

@@ -50,6 +50,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Diseños a mano por especie (`tools/art/designs1.py`, `designs2.py`): las 3 líneas iniciales y los 29 Microos del primer tramo (Ruta 1, Bosque Viral, Gimnasio 1 y evoluciones). Cada uno con concepto de criatura propio (brote de hojas, cola de llama, campana con cilios, cápside icosaédrica...).
 - Personajes de mapa nuevos (`tools/art/characters_ds.py`): figura de ~26 px con cabeza grande, sombreado de 4 tonos por material, brillo en los ojos, contorno teñido, sombra en el suelo y animación de paso real (piernas alternas, balanceo de brazos, rebote).
 - Menús estilo DS (kit en `gfx.ts`: paneles con degradado, fondos con motivo animado, etiquetas de tipo, barras): menú de inicio, equipo en 2 columnas, resumen con pestañas INFO/MOVIMIENTOS, mochila con bolsa por bolsillo, Microdex rojo con pantalla y lista, ficha con medallas y tienda.
+- Elección de personaje al empezar: chico, chica o helicóptero de combate Apache (sprite propio con rotor que gira y vuelo estacionario, frases propias de la Profesora y la madre). Los textos usan {o} para el género.
 - Pendiente: pasos de los líderes convertidos del GDD; diseños a mano del resto de especies (124); textos de «Organismo» en el Microdex.
 - Nota: el combate contra Solé con un equipo Nv25+22 se gana o se pierde según la suerte (revisar en fase 5).
 

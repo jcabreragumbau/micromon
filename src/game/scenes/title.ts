@@ -2,7 +2,7 @@
 import type { Game, Scene } from "../game";
 import { Gfx, W, H } from "../gfx";
 import { Overworld } from "./overworld";
-import { newState, loadGame, hasSave } from "../state";
+import { newState, loadGame, hasSave, AVATAR_SPRITE, type Avatar } from "../state";
 import { runScript } from "../scripts";
 
 export class TitleScene implements Scene {
@@ -54,12 +54,21 @@ async function newGame(game: Game) {
   game.scene = intro;
   await game.fade(false, 12);
   const say = (t: string) => game.say(t);
-  await say("¡Hola! ¡Bienvenido/a al mundo de los Microos! Soy la Profesora Fanny Hesse.");
+  await say("¡Hola! ¡Te doy la bienvenida al mundo de los Microos! Soy la Profesora Fanny Hesse.");
   await say("Este mundo está habitado por criaturas diminutas llamadas Microos: bacterias, hongos, protozoos, algas… ¡y hasta virus!");
   await say("Algunos nos ayudan a hacer pan y yogur. Otros causan enfermedades. Y todos tienen algo que enseñarnos.");
   await say("Yo dedico mi vida a cultivarlos y estudiarlos. Pero antes… háblame de ti.");
-  const n = await game.choose(["Ana", "Leo", "Iris", "Escribir…"], { prompt: "¿Cómo te llamas?", x: 160, y: 20, cancel: 999 });
-  let name = ["Ana", "Leo", "Iris"][n] ?? "Ana";
+  await game.say("Las gafas no me dejan verte bien. Dime, ¿cómo eres?", { keep: true });
+  const av = AVATARS[await game.run<number>(new AvatarSelect())].id;
+  game.popKept();
+  game.state.avatar = av;
+  if (av === "apache") {
+    await say("…¿Un helicóptero de combate? ¿De verdad?");
+    await say("Bueno… la ciencia no juzga. Eso sí: en el laboratorio, el rotor apagado. ¡Las placas de Petri vuelan!");
+  } else await say(av === "chica" ? "¡Una futura microbióloga! Me encanta." : "¡Un futuro microbiólogo! Me encanta.");
+  const names = { chico: ["Leo", "Hugo", "Marc"], chica: ["Ana", "Iris", "Lucía"], apache: ["AH-64", "Rotor", "Halcón"] }[av];
+  const n = await game.choose([...names, "Escribir…"], { prompt: "¿Cómo te llamas?", x: 160, y: 20, cancel: 999 });
+  let name = names[n] ?? names[0];
   if (n === 3) { const typed = await game.run<string>(new NameEntry()); if (typed.trim()) name = typed.trim(); }
   game.state.name = name;
   await say(`¡Así que te llamas ${name}! Encantada.`);
@@ -77,6 +86,37 @@ export async function enterWorld(game: Game, map: string, x: number, y: number, 
   game.scene = w;
   await game.fade(false, 12);
   void runScript;
+}
+
+const AVATARS: { id: Avatar; label: string }[] = [
+  { id: "chico", label: "Chico" }, { id: "chica", label: "Chica" }, { id: "apache", label: "Apache" },
+];
+/** Elección del personaje: tres tarjetas con el sprite animado. Devuelve el índice. */
+class AvatarSelect {
+  sel = 1; result = 1; t = 0; transparent = true;
+  update(game: Game) {
+    this.t++;
+    if (game.input.repeat("right")) this.sel = (this.sel + 1) % 3;
+    if (game.input.repeat("left")) this.sel = (this.sel + 2) % 3;
+    if (game.input.pressed("a")) { this.result = this.sel; return true; }
+    return false;
+  }
+  draw(g: Gfx, game: Game) {
+    g.pattern("#283860", "#304070", this.t, "#182038");
+    game.keptDialog?.draw(g, game);
+    AVATARS.forEach((a, i) => {
+      const x = 14 + i * 80, y = 22, on = i === this.sel;
+      g.panel(x, y, 68, 100, on ? "#fff0b0" : "#d8e4f0", on ? "#f8b848" : "#8098b8", on ? "#c06818" : "#283048", 6);
+      g.alpha(0.2, () => g.round(x + 14, y + 72, 40, 8, 4, "#000"));
+      const heli = a.id === "apache";
+      const fr = heli ? Math.floor(this.t / 3) % 3 : on ? [0, 1, 0, 2][Math.floor(this.t / 10) % 4] : 0;
+      g.ctx.save(); g.ctx.translate(x + 2, y + 10 + (on && !heli ? 0 : 0)); g.ctx.scale(2, 2);
+      g.character(AVATAR_SPRITE[a.id], 0, fr, 0, heli ? -Math.round(Math.sin(this.t / 12)) : 0);
+      g.ctx.restore();
+      g.text(a.label, x + 34 - g.measure(a.label) / 2, y + 84, on ? "dark" : "white", on);
+    });
+    if (Math.floor(this.t / 20) % 2) { g.text("◀", 4, 66, "white"); g.text("▶", W - 10, 66, "white"); }
+  }
 }
 
 /** Teclado en pantalla para escribir el nombre (los diálogos del navegador no funcionan en todas partes). */

@@ -1,5 +1,6 @@
 // Escena de mapa: movimiento por casillas, cámara, PNJ, entrenadores, hierba alta y puertas.
 import type { Game, Scene } from "../game";
+import { AVATAR_SPRITE } from "../state";
 import type { Gfx } from "../gfx";
 import { W, H } from "../gfx";
 import { MAPS } from "../world/maps";
@@ -258,11 +259,13 @@ export class Overworld implements Scene {
     const psx = this.px * 16 + this.ox - cx, psy = this.py * 16 + this.oy - cy;
     const pfr = this.moving > 0 ? (Math.floor((this.px + this.py) % 2 === 0 ? (this.moving > 8 ? 1 : 0) : (this.moving > 8 ? 2 : 0))) : 0;
     const jy = this.jumping > 0 ? -Math.round(Math.sin(((32 - this.jumping) / 32) * Math.PI) * 8) : 0;
-    ents.push({ y: psy, d: () => g.character("protagonista", this.dir, pfr, psx - 8, psy - 18 + jy) });
+    const heli = this.game.state.avatar === "apache";
+    const pf = heli ? Math.floor(this.game.frame / 3) % 3 : pfr;      // el rotor gira siempre
+    ents.push({ y: psy, d: () => g.character(AVATAR_SPRITE[this.game.state.avatar], this.dir, pf, psx - 8, psy - 18 + jy) });
     ents.sort((a, b) => a.y - b.y).forEach((e) => e.d());
     // la hierba alta tapa los pies del jugador
     const gt = tileAt(this.map, this.px, this.py);
-    if (isGrass(gt) && this.moving === 0) {
+    if (isGrass(gt) && this.moving === 0 && !heli) {
       const i = TILES[gt];
       g.ctx.drawImage(IMG.tiles, (i % 16) * 16, Math.floor(i / 16) * 16 + 10, 16, 6, psx, psy + 10, 16, 6);
     }

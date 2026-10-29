@@ -159,6 +159,8 @@ def render(lab, p, mirror=False):
         "falda": ramp(p.get("falda") or "#888888"), "detalle": ramp(p.get("detalle") or "#ffffff"),
         "gafas": ramp("#383848"),
     }
+    for k, v in p.items():
+        if k.startswith("x_"): pal[k] = ramp(v)
     pal["pantalon_sombra"] = [pal["pantalon"][0]] * 2 + [pal["pantalon"][1], pal["pantalon"][2]]
     pal["mochila_bolsillo"] = [pal["mochila"][0], pal["mochila"][0], pal["mochila"][1], pal["mochila"][2]]
     img = np.zeros((32, 32, 4), np.uint8)
@@ -168,6 +170,7 @@ def render(lab, p, mirror=False):
             m = lab[y, x]
             if not m: continue
             if m == "ojo": col = FIXED["ojo"]
+            elif m == "x_luz": col = (255, 80, 60) if p.get("_blink") else (120, 30, 30)
             elif m == "brillo": col = FIXED["brillo"]
             elif m == "mejilla": col = mix(pal["piel"][2], (240, 120, 120), 0.45)
             elif m == "piel_sombra": col = pal["piel"][1]
@@ -229,7 +232,73 @@ P = {
  "estudiante": dict(pelo="corto", pelo_c="#5a3a24", piel="#e8b890", camisa="#5cb060", pantalon="#4a4a5a", zapato="#3a3038",
                     mochila="#3a6ac8", gafas=True),
 }
+P["protagonista-chica"] = dict(pelo="coleta", pelo_c="#3a2418", piel="#f6d0b0", camisa="#e8608a", bata="#f2f2f6",
+    pantalon="#f2f2f6", falda="#2a3050", zapato="#e8608a", gorra="#f8f8fc", visera="#e8608a", logo="#2fa39a",
+    mochila="#f0c040", detalle="#2fa39a")
+P["apache"] = dict(helicoptero=True, piel="#000000", pelo_c="#000000", camisa="#000000", pantalon="#000000", zapato="#000000",
+    x_fuselaje="#6a7a44", x_vientre="#8a9a5c", x_cabina="#78b8d8", x_metal="#3a3e44", x_rotor="#2a2c30",
+    x_pod="#4a5236", x_punta="#c8c0a0")
 CHARACTERS = list(P)
+
+# ------------------------------------------------------------------------- helicóptero de combate
+def poly(pts):
+    from matplotlib.path import Path as MP
+    return MP(pts).contains_points(np.c_[XX.ravel(), YY.ravel()]).reshape(32, 32)
+
+def draw_heli(view, step):
+    """Helicóptero de ataque en vuelo estacionario; el rotor gira con el fotograma."""
+    c = Canvas()
+    blade = [(1, 31), (5, 27), (10, 22)][step]
+    if view in ("abajo", "arriba"):
+        if view == "arriba":                                   # cola hacia el jugador
+            c.paint(box(14.5, 17, 17.5, 28), "x_fuselaje")
+            c.paint(box(11, 25, 21, 26.5), "x_fuselaje")
+            c.paint(box(15, 24, 17, 30), "x_metal")
+        c.paint(box(10, 24, 12, 27) | box(20, 24, 22, 27), "x_metal")      # tren de aterrizaje
+        c.paint(box(5, 17, 27, 19.5), "x_fuselaje")                         # alas cortas
+        c.paint(box(3.5, 16, 8, 23) | box(24, 16, 28.5, 23), "x_pod")       # lanzacohetes
+        for x in (4.5, 6.5, 25.5, 27.5):
+            c.px(int(x), 22, "x_punta")
+        c.paint(ell(11, 13, 2.6, 3.5) | ell(21, 13, 2.6, 3.5), "x_fuselaje")  # motores
+        c.paint(ell(16, 16, 5, 8.5), "x_fuselaje")
+        c.paint(ell(16, 19, 3.5, 4.5), "x_vientre")
+        if view == "abajo":
+            c.paint(ell(16, 12.5, 3.4, 4.2), "x_cabina")
+            c.paint(box(13, 12, 19, 12.7), "x_fuselaje")                    # marco de la cabina
+            c.paint(box(15, 23, 17, 27), "x_metal")                          # cañón bajo el morro
+            c.px(16, 27, "x_rotor")
+            c.px(16, 9, "x_luz")
+        else:
+            c.paint(ell(16, 12.5, 3.2, 3.8), "x_fuselaje")
+            c.px(16, 9, "x_luz")
+        c.paint(box(15, 4, 17, 8), "x_metal")                                # mástil
+        c.paint(box(blade[0], 3.4, blade[1], 4.8), "x_rotor")
+        if step: c.paint(box(15.2, 1, 16.8, 7.5), "x_rotor")                # pala perpendicular
+        c.paint(ell(16, 4, 2, 1.6), "x_metal")
+    else:                                                     # perfil mirando a la izquierda
+        c.paint(box(20, 13, 30, 15.8), "x_fuselaje")                         # botalón de cola
+        c.paint(poly([(26.5, 15), (28, 7), (30.5, 7), (30.5, 15)]), "x_fuselaje")  # deriva
+        c.paint(box(24, 15, 30, 16.5), "x_fuselaje")                         # estabilizador
+        tr = [(6.5, 12.5), (8.5, 10.5), (10, 9)][step]
+        c.paint(box(30.5, tr[0], 31.5, tr[1] + 4), "x_rotor")                # rotor de cola
+        c.paint(ell(28, 18.5, 1.1, 1.1), "x_metal")
+        c.paint(box(7.5, 20, 9, 23) | box(16.5, 20, 18, 23), "x_metal")      # tren
+        c.paint(ell(8.2, 23.5, 1.6, 1.4) | ell(17.2, 23.5, 1.6, 1.4), "x_rotor")
+        c.paint(ell(13, 16, 9, 4.6), "x_fuselaje")
+        c.paint(ell(17, 12.2, 4.5, 2.6), "x_fuselaje")                       # motor
+        c.paint(ell(13, 18.5, 7.5, 2), "x_vientre")
+        c.paint(ell(8.5, 13.2, 4.2, 2.8) & (YY < 15.2), "x_cabina")          # cabina en tándem
+        c.paint(box(8, 10, 9, 15.2), "x_fuselaje")
+        c.paint(box(10, 17, 20, 18.5), "x_fuselaje")                         # ala corta
+        c.paint(box(10.5, 18, 19.5, 21), "x_pod")
+        c.px(10, 19, "x_punta"); c.px(10, 20, "x_punta")
+        c.paint(box(4, 19, 7.5, 20.4), "x_metal")                             # cañón
+        c.px(4, 15, "x_luz")
+        c.paint(box(15, 7, 17, 10), "x_metal")
+        c.paint(box(blade[0], 6.4, blade[1], 7.8), "x_rotor")
+        c.paint(ell(16, 7, 2, 1.4), "x_metal")
+    return c.lab
+
 
 def sheet(cid):
     p = P[cid]
@@ -237,7 +306,10 @@ def sheet(cid):
     views = [("abajo", False), ("arriba", False), ("lado", False), ("lado", True)]
     for row, (v, mir) in enumerate(views):
         for col, st in enumerate((0, 1, 2)):
-            out.alpha_composite(render(draw(p, v, st), p, mir), (col * 32, row * 32))
+            lab = draw_heli(v, st) if p.get("helicoptero") else draw(p, v, st)
+            if p.get("helicoptero"):                                   # vuelo: sube y baja
+                lab = np.roll(lab, -1 - (st == 1), axis=0); lab[-2:] = ""
+            out.alpha_composite(render(lab, dict(p, _blink=st == 1), mir), (col * 32, row * 32))
     OUT.mkdir(parents=True, exist_ok=True)
     out.save(OUT / f"{cid}_mapa.png")
     return out
