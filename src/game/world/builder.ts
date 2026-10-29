@@ -93,12 +93,17 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
     const p = (y % 2 ? "b" : "t") + (x % 2 ? "r" : "l");
     return `${ch === "T" ? "arbol" : "arbolv"}_${p}`;
   }
-  if (ch === "~") return frame % 64 < 32 ? "agua0" : "agua1";
+  if (ch === "~" || ch === "p" || ch === "s") {
+    const same = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === ch || (ch === "p" && c.startsWith("@muro_puerta")); };
+    const mask = (same(x, y - 1) ? 0 : 1) | (same(x + 1, y) ? 0 : 2) | (same(x, y + 1) ? 0 : 4) | (same(x - 1, y) ? 0 : 8);
+    if (ch === "~") return `agua_${mask}_${frame % 64 < 32 ? 0 : 1}`;
+    return `${ch === "p" ? "camino" : "arena"}_${mask}`;
+  }
   if (ch === "f") return frame % 64 < 32 ? "flores0" : "flores1";
   return LEGEND[ch] ?? "hierba";
 }
 
-const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", "flores0", "flores1",
+const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
   "suelo_madera", "suelo_lab", "suelo_gimnasio", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo"]);
 export function passable(tile: string) { return PASSABLE.has(tile); }
 export function isGrass(tile: string) { return tile === "hierba_alta" || tile === "hierba_oscura"; }

@@ -1,6 +1,6 @@
 // Menús: inicio, equipo, resumen, mochila, Microdex, ficha, guardado, opciones y tienda.
 import type { Game, Overlay } from "../game";
-import { Gfx, W, H } from "../gfx";
+import { Gfx, W, H, TB } from "../gfx";
 import type { Overworld } from "./overworld";
 import { SPECIES, ITEMS, getMove, getSpecies, type ItemData } from "../../engine/data";
 import { displayName, NATURES, itemEvolution, type Microo } from "../../engine/microo";
@@ -103,20 +103,20 @@ class PartyScreen implements Overlay {
     const p = game.state.party;
     p.forEach((m, i) => {
       const y = 4 + i * 22, sel = i === this.sel;
-      g.frame(4, y, 232, 21, sel ? "texto" : "menu");
+      g.frame(4, y, W - 8, 21, sel ? "texto" : "menu");
       g.icon(m.species, Math.floor(game.frame / 16) % 2, 6, y - 8);
       g.text(displayName(m), 40, y + 6, m.hp > 0 ? "dark" : "gray");
       g.text(`Nv${m.level}`, 110, y + 6);
       if (m.status) g.text(STATUS_SHORT[m.status], 140, y + 6, "red");
-      g.hpBar(160, y + 6, 48, m.hp / m.stats.hp);
-      g.text(`${m.hp}/${m.stats.hp}`, 168, y + 12);
+      g.hpBar(W - 92, y + 6, 64, m.hp / m.stats.hp);
+      g.text(`${m.hp}/${m.stats.hp}`, W - 80, y + 12);
     });
     const ny = 4 + p.length * 22;
-    g.frame(170, Math.min(ny, 136), 66, 20, this.sel === p.length ? "texto" : "menu");
-    g.text("SALIR", 186, Math.min(ny, 136) + 6);
+    g.frame(W - 70, Math.min(ny, H - 46), 66, 20, this.sel === p.length ? "texto" : "menu");
+    g.text("SALIR", W - 54, Math.min(ny, H - 46) + 6);
     const msg = this.o.prompt ?? { view: "Elige un Microo.", switch: "¿Qué Microo sacar?", replace: "¡Elige el siguiente Microo!", item: "¿En qué Microo usarlo?" }[this.o.mode];
-    g.frame(4, 138, 160, 20, "info");
-    g.text(msg, 10, 144);
+    g.frame(4, H - 22, 170, 20, "info");
+    g.text(msg, 10, H - 16);
   }
 }
 
@@ -131,31 +131,31 @@ class SummaryScreen implements Overlay {
   draw(g: Gfx) {
     const m = this.m, sp = getSpecies(m.species);
     g.clear("#e8f0e0");
-    g.frame(0, 0, 96, 104, "info");
-    g.microo(m.species, "frente", 16, 20);
+    g.frame(0, 0, 100, 112, "info");
+    g.microo(m.species, "frente", 10, 18);
     g.text(`Nº ${String(sp.dex).padStart(3, "0")}`, 8, 6, "gray");
-    g.text(displayName(m), 8, 86);
-    g.frame(96, 0, 144, 20, "menu");
+    g.text(displayName(m), 8, 98);
+    g.frame(100, 0, W - 100, 20, "menu");
     g.text(this.page === 0 ? "ESTADÍSTICAS  ◀▶" : "MOVIMIENTOS  ◀▶", 104, 6);
     if (this.page === 0) {
       const nat = NATURES[m.nature];
       const rows: [string, string][] = [["Especie", sp.name], ["Tipo", sp.types.join(" / ")], ["Nivel", `${m.level}`], ["Naturaleza", nat[0]],
         ["PS", `${m.hp}/${m.stats.hp}`], ["Ataque", `${m.stats.atk}`], ["Defensa", `${m.stats.def}`], ["At. Esp.", `${m.stats.spa}`],
         ["Def. Esp.", `${m.stats.spd}`], ["Velocidad", `${m.stats.spe}`]];
-      rows.forEach(([k, v], i) => { g.text(k, 102, 24 + i * 13, "blue"); g.text(v, 170, 24 + i * 13); });
+      rows.forEach(([k, v], i) => { g.text(k, 108, 26 + i * 15, "blue"); g.text(v, 180, 26 + i * 15); });
     } else {
       m.moves.forEach((s, i) => {
         const mv = getMove(s.id);
-        g.frame(98, 22 + i * 34, 140, 32, "info");
-        g.text(mv.name.slice(0, 16), 104, 27 + i * 34);
-        g.text(`${mv.type} · ${mv.category === "physical" ? "Físico" : mv.category === "special" ? "Especial" : "Estado"}`, 104, 39 + i * 34, "blue");
-        g.text(`${s.pp}/${s.maxPp}`, 206, 27 + i * 34, "gray");
-        if (mv.power) g.text(`${mv.power}`, 214, 39 + i * 34, "gray");
+        g.frame(102, 24 + i * 38, W - 104, 34, "info");
+        g.text(mv.name.slice(0, 18), 108, 29 + i * 38);
+        g.text(`${mv.type} · ${mv.category === "physical" ? "Físico" : mv.category === "special" ? "Especial" : "Estado"}`, 108, 42 + i * 38, "blue");
+        g.text(`${s.pp}/${s.maxPp}`, W - 36, 29 + i * 38, "gray");
+        if (mv.power) g.text(`${mv.power}`, W - 28, 42 + i * 38, "gray");
       });
     }
-    g.frame(0, 104, 96, 56, "info");
-    g.text("Organismo:", 6, 110, "blue");
-    g.wrap(sp.organism || sp.name, 84).slice(0, 2).forEach((l, i) => g.text(l, 6, 124 + i * 12));
+    g.frame(0, 112, 100, H - 112, "info");
+    g.text("Organismo:", 6, 118, "blue");
+    g.wrap(sp.organism || sp.name, 88).slice(0, 4).forEach((l, i) => g.text(l, 6, 132 + i * 12));
   }
 }
 
@@ -215,16 +215,16 @@ class BagScreen implements Overlay {
   draw(g: Gfx, game: Game) {
     g.clear("#e8c070");
     g.frame(0, 0, 90, 24, "info"); g.text(`◀ ${POCKETS[this.pocket][0]} ▶`, 8, 7);
-    g.frame(90, 0, 150, 112, "menu");
+    g.frame(90, 0, W - 90, TB, "menu");
     const its = this.items(game);
     const off = Math.max(0, this.sel - 5);
-    its.slice(off, off + 6).forEach((id, i) => { g.text(ITEMS.get(id)!.name, 106, 8 + i * 16); g.text(`×${game.state.bag[id]}`, 212, 8 + i * 16); });
+    its.slice(off, off + 7).forEach((id, i) => { g.text(ITEMS.get(id)!.name, 106, 8 + i * 16); g.text(`×${game.state.bag[id]}`, W - 28, 8 + i * 16); });
     if (its.length - off < 6) g.text("CERRAR", 106, 8 + (its.length - off) * 16);
     g.cursor(97, 8 + (this.sel - off) * 16);
-    g.frame(0, 112, W, 48, "texto");
+    g.frame(0, TB, W, 48, "texto");
     const id = its[this.sel];
     const d = id ? ITEMS.get(id)!.desc : "Cerrar la mochila.";
-    g.wrap(d, 220).slice(0, 2).forEach((l, i) => g.text(l, 10, 122 + i * 16));
+    g.wrap(d, W - 20).slice(0, 2).forEach((l, i) => g.text(l, 10, TB + 10 + i * 16));
     g.text(`${game.state.money} créditos`, 6, 34, "dark");
   }
 }
@@ -246,8 +246,8 @@ class DexScreen implements Overlay {
     g.clear("#c83c3c");
     g.frame(0, 0, 112, H, "info");
     g.text(`Vistos ${s.seen.length}  Aislados ${s.caught.length}`, 6, 4, "gray");
-    const off = Math.max(0, Math.min(this.list.length - 9, this.sel - 4));
-    this.list.slice(off, off + 9).forEach((sp, i) => {
+    const off = Math.max(0, Math.min(this.list.length - 11, this.sel - 5));
+    this.list.slice(off, off + 11).forEach((sp, i) => {
       const y = 18 + i * 15;
       const seen = s.seen.includes(sp.id), caught = s.caught.includes(sp.id);
       g.text(`${String(sp.dex).padStart(3, "0")} ${seen ? sp.name : "-----"}`, 16, y, off + i === this.sel ? "red" : "dark");
@@ -255,13 +255,13 @@ class DexScreen implements Overlay {
     });
     g.cursor(5, 18 + (this.sel - off) * 15);
     const sp = this.list[this.sel];
-    g.frame(114, 0, 126, 98, "menu");
+    g.frame(114, 0, W - 114, 110, "menu");
     if (s.seen.includes(sp.id)) {
-      g.microo(sp.id, "frente", 146, 18);
+      g.microo(sp.id, "frente", 114 + (W - 114 - 80) / 2, 22);
       g.text(sp.name, 120, 6);
-      g.frame(114, 98, 126, 62, "info");
-      g.text(sp.types.join(" / "), 120, 104, "blue");
-      g.wrap(s.caught.includes(sp.id) ? sp.organism || "Sin datos." : "Aún no aislado.", 112).slice(0, 3).forEach((l, i) => g.text(l, 120, 118 + i * 12));
+      g.frame(114, 110, W - 114, H - 110, "info");
+      g.text(sp.types.join(" / "), 120, 116, "blue");
+      g.wrap(s.caught.includes(sp.id) ? sp.organism || "Sin datos." : "Aún no aislado.", 112).slice(0, 4).forEach((l, i) => g.text(l, 120, 130 + i * 12));
     } else g.text("?", 172, 44);
   }
 }
@@ -271,9 +271,9 @@ class CardScreen implements Overlay {
   draw(g: Gfx, game: Game) {
     const s = game.state;
     g.clear("#3870a8");
-    g.frame(10, 10, 220, 140, "info");
+    g.frame(10, 10, W - 20, H - 20, "info");
     g.text("FICHA DE INVESTIGACIÓN", 22, 18, "blue");
-    g.character("protagonista", 0, 0, 180, 30);
+    g.character("protagonista", 0, 0, W - 60, 30);
     const rows: [string, string][] = [["Nombre", s.name], ["Créditos", `${s.money}`], ["Microdex", `${s.caught.length} aislados`], ["Tiempo", playTime(s)], ["Dificultad", { facil: "Fácil", normal: "Normal", dificil: "Difícil" }[s.difficulty]]];
     rows.forEach(([k, v], i) => { g.text(k, 22, 40 + i * 15); g.text(v, 100, 40 + i * 15); });
     g.text("Medallas:", 22, 118);

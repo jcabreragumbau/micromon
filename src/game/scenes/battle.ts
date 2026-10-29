@@ -1,6 +1,6 @@
 // Pantalla de combate: dibuja la placa y traduce los eventos del motor en textos y animaciones.
 import type { Game, Overlay, Scene } from "../game";
-import { Gfx, W } from "../gfx";
+import { Gfx, W, H, TB } from "../gfx";
 import { Battle, chooseActions, type Action, type BattleEvent } from "../../engine";
 import { getMove, getSpecies, ITEMS, type StatusCode } from "../../engine/data";
 import { displayName, expForLevel, replaceMove, evolve, type Microo } from "../../engine/microo";
@@ -215,53 +215,103 @@ export class BattleScene implements Scene {
 
   // ---------------------------------------------------------------- dibujo
   draw(g: Gfx) {
-    const env = this.s.env;
-    const sky = { hierba: ["#d8ecc8", "#b8d8a0"], bosque: ["#c8bce0", "#988cc0"], interior: ["#e0e4ec", "#b8c4d8"], laboratorio: ["#e4ecf4", "#b4c8dc"], gimnasio: ["#f4e8c0", "#d8c890"] }[env] ?? ["#d8ecc8", "#b8d8a0"];
-    for (let y = 0; y < 112; y++) g.rect(0, y, W, 1, y < 56 ? sky[0] : sky[1]);
-    const plat = { hierba: ["#b0c880", "#7a9a50"], bosque: ["#8a7aa8", "#5a4a80"] }[env] ?? ["#c8ccd8", "#8a90a0"];
-    const ell = (x: number, y: number, w: number, h: number) => { g.ctx.fillStyle = plat[1]; g.ctx.beginPath(); g.ctx.ellipse(x, y, w, h, 0, 0, Math.PI * 2); g.ctx.fill(); g.ctx.fillStyle = plat[0]; g.ctx.beginPath(); g.ctx.ellipse(x, y - 1, w - 2, h - 2, 0, 0, Math.PI * 2); g.ctx.fill(); };
-    ell(178, 66, 50, 12); ell(64, 108, 62, 14);
+    drawBattleBackground(g, this.s.env, this.bgCache);
     // Rival
     const f = this.disp[1][0];
-    if (this.showTrainer && this.s.trainer) g.portrait(this.s.trainer.portrait ?? "becario", 146 + Math.max(0, this.trainerSlide), -8);
+    if (this.showTrainer && this.s.trainer) g.portrait(this.s.trainer.portrait ?? "becario", 158 + Math.max(0, this.trainerSlide), 0);
     else if (f?.visible && f.mon) {
       const blink = f.flash > 0 && Math.floor(f.flash / 4) % 2 === 0;
       const sc = f.appear > 0 ? 1 - f.appear / 24 : 1;
-      if (!blink) g.alpha(f.drop > 0 ? Math.max(0, 1 - f.drop / 48) : 1, () => g.microo(f.species, "frente", 146 + 32 * (1 - sc), 8 + f.drop + 64 * (1 - sc), sc));
+      if (!blink) g.alpha(f.drop > 0 ? Math.max(0, 1 - f.drop / 48) : 1, () => g.microo(f.species, "frente", 152 + 40 * (1 - sc), 10 + f.drop + 80 * (1 - sc), sc));
     }
     // Criobola lanzada
     if (this.ballAnim > 0 || this.ballShake !== 0) {
       const t = Math.max(0, this.ballAnim) / 30;
-      const bx = 178 - t * 110 + this.ballShake * 2, by = 54 - Math.sin((1 - t) * Math.PI) * (t > 0 ? 30 : 0);
+      const bx = 192 - t * 120 + this.ballShake * 2, by = 66 - Math.sin((1 - t) * Math.PI) * (t > 0 ? 34 : 0);
       drawBallBig(g, bx, by);
     }
     // Propio
     const p = this.disp[0][0];
     if (p?.visible && p.mon) {
       const blink = p.flash > 0 && Math.floor(p.flash / 4) % 2 === 0;
-      if (!blink) g.alpha(p.drop > 0 ? Math.max(0, 1 - p.drop / 48) : 1, () => g.microo(p.species, "espalda", 32, 48 + p.drop, 1));
+      if (!blink) g.alpha(p.drop > 0 ? Math.max(0, 1 - p.drop / 48) : 1, () => g.microo(p.species, "espalda", 22, 56 + p.drop, 1.1));
     }
     // Cajas de PS
-    if (f?.visible && f.mon) this.hpBox(g, f, 8, 8, false);
-    if (p?.visible && p.mon) this.hpBox(g, p, 128, 70, true);
-    g.rect(0, 112, W, 48, "#283048");
+    if (f?.visible && f.mon) this.hpBox(g, f, 6, 10, false);
+    if (p?.visible && p.mon) this.hpBox(g, p, W - 128, TB - 46, true);
+    g.rect(0, TB, W, 48, "#283048");
   }
+  bgCache: { env?: string; c?: HTMLCanvasElement } = {};
   private hpBox(g: Gfx, d: Disp, x: number, y: number, mine: boolean) {
     const m = d.mon!;
-    g.frame(x, y, 104, mine ? 36 : 26, "info");
-    g.text(displayName(m).slice(0, 12), x + 6, y + 5);
-    g.text(`Nv${d.level}`, x + 76, y + 5);
-    g.text("PS", x + 8, y + 15, "orange", false);
-    g.hpBar(x + 24, y + 17, 72, Math.max(0, d.hp / m.stats.hp));
-    if (d.status) { const [t, c] = STATUS_TAG[d.status]; g.rect(x + 44, y + 4, 22, 9, c); g.text(t, x + 46, y + 5, "white", false); }
+    const w = 122, h = mine ? 42 : 30;
+    // Caja estilo DS: borde oscuro, relleno claro con degradado y lengüeta
+    const c = g.ctx;
+    c.fillStyle = "#2c3040"; roundRect(c, x, y, w, h, 6); c.fill();
+    const gr = c.createLinearGradient(0, y, 0, y + h);
+    gr.addColorStop(0, "#fbfbf3"); gr.addColorStop(1, "#dcdccc");
+    c.fillStyle = gr; roundRect(c, x + 2, y + 2, w - 4, h - 4, 5); c.fill();
+    c.fillStyle = mine ? "#e8d8a8" : "#c8d8e8"; c.fillRect(x + 4, y + 3, 3, h - 6);
+    g.text(displayName(m).slice(0, 12), x + 10, y + 5);
+    g.text(`Nv${d.level}`, x + w - 32, y + 5);
+    c.fillStyle = "#3a3e4c"; roundRect(c, x + 22, y + 17, w - 30, 7, 3); c.fill();
+    g.text("PS", x + 10, y + 16, "orange", false);
+    const frac = Math.max(0, d.hp / m.stats.hp);
+    const col = frac > 0.5 ? ["#70f088", "#38b858"] : frac > 0.2 ? ["#f8e058", "#c8a020"] : ["#f87070", "#c83838"];
+    c.fillStyle = col[1]; c.fillRect(x + 24, y + 19, Math.round((w - 34) * frac), 3);
+    c.fillStyle = col[0]; c.fillRect(x + 24, y + 19, Math.round((w - 34) * frac), 1);
+    if (d.status) { const [t, cc] = STATUS_TAG[d.status]; c.fillStyle = cc; roundRect(c, x + 68, y + 4, 22, 10, 3); c.fill(); g.text(t, x + 70, y + 5, "white", false); }
     if (mine) {
-      g.text(`${Math.max(0, d.hp)}/${m.stats.hp}`, x + 56, y + 22);
+      g.text(`${Math.max(0, d.hp)}/${m.stats.hp}`, x + w - 50, y + 26);
       const sp = getSpecies(m.species);
       const lo = expForLevel(sp.growth, m.level), hi = expForLevel(sp.growth, m.level + 1);
-      g.rect(x + 8, y + 31, 90, 2, "#505058");
-      g.rect(x + 8, y + 31, Math.round(90 * Math.max(0, Math.min(1, (m.exp - lo) / Math.max(1, hi - lo)))), 2, "#48a8f0");
+      c.fillStyle = "#3a3e4c"; c.fillRect(x + 10, y + h - 6, w - 20, 3);
+      c.fillStyle = "#48b0f8"; c.fillRect(x + 10, y + h - 6, Math.round((w - 20) * Math.max(0, Math.min(1, (m.exp - lo) / Math.max(1, hi - lo)))), 3);
     }
   }
+}
+
+function roundRect(c: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath();
+}
+
+/** Fondo de combate estilo DS: cielo con bandas, suelo con textura y plataformas con relieve (se cachea). */
+function drawBattleBackground(g: Gfx, env: string, cache: { env?: string; c?: HTMLCanvasElement }) {
+  if (cache.env !== env || !cache.c) {
+    const cv = document.createElement("canvas"); cv.width = W; cv.height = TB;
+    const c = cv.getContext("2d")!;
+    const pal: Record<string, string[]> = {
+      hierba: ["#9fd8f8", "#d8f0f8", "#8cd070", "#6cb058", "#a8e088", "#4a8c40"],
+      bosque: ["#6a5aa8", "#a898d8", "#5a8a68", "#3e6a50", "#78a888", "#2a4a3a"],
+      interior: ["#c8d0e0", "#e8ecf4", "#c0c8d4", "#a8b0c0", "#dce2ea", "#7c8494"],
+      laboratorio: ["#c4dcec", "#eef6fc", "#d4dce4", "#b8c4d0", "#eef2f6", "#8894a4"],
+      gimnasio: ["#f4d890", "#fff4d0", "#e8c870", "#c8a450", "#f8e098", "#a07c38"],
+    };
+    const [sky1, sky2, g1, g2, rim, dark] = pal[env] ?? pal.hierba;
+    const gr = c.createLinearGradient(0, 0, 0, 70);
+    gr.addColorStop(0, sky1); gr.addColorStop(1, sky2);
+    c.fillStyle = gr; c.fillRect(0, 0, W, 70);
+    // nubes / reflejos suaves en bandas
+    c.fillStyle = "rgba(255,255,255,0.35)";
+    for (let i = 0; i < 6; i++) { c.beginPath(); c.ellipse(20 + i * 46, 18 + (i % 3) * 9, 26, 5, 0, 0, Math.PI * 2); c.fill(); }
+    const gg = c.createLinearGradient(0, 70, 0, TB);
+    gg.addColorStop(0, g1); gg.addColorStop(1, g2);
+    c.fillStyle = gg; c.fillRect(0, 70, W, TB - 70);
+    c.fillStyle = dark; c.globalAlpha = 0.18;
+    for (let i = 0; i < 70; i++) { const x = (i * 97) % W, y = 72 + ((i * 53) % (TB - 72)); c.fillRect(x, y, 3, 1); }
+    c.globalAlpha = 1;
+    const plat = (x: number, y: number, rx: number, ry: number) => {
+      c.fillStyle = "rgba(0,0,0,0.18)"; c.beginPath(); c.ellipse(x + 4, y + 4, rx, ry, 0, 0, Math.PI * 2); c.fill();
+      c.fillStyle = dark; c.beginPath(); c.ellipse(x, y + 2, rx, ry, 0, 0, Math.PI * 2); c.fill();
+      const pg = c.createRadialGradient(x - rx * 0.3, y - ry * 0.6, 2, x, y, rx);
+      pg.addColorStop(0, rim); pg.addColorStop(1, g2);
+      c.fillStyle = pg; c.beginPath(); c.ellipse(x, y, rx - 2, ry - 2, 0, 0, Math.PI * 2); c.fill();
+      c.strokeStyle = "rgba(255,255,255,0.35)"; c.lineWidth = 1; c.beginPath(); c.ellipse(x, y - 1, rx - 6, ry - 5, 0, Math.PI * 1.05, Math.PI * 1.95); c.stroke();
+    };
+    plat(192, 84, 60, 15); plat(70, TB - 4, 76, 18);
+    cache.env = env; cache.c = cv;
+  }
+  g.ctx.drawImage(cache.c!, 0, 0);
 }
 
 function drawBallBig(g: Gfx, x: number, y: number) {
@@ -277,7 +327,7 @@ class BattleText implements Overlay {
   shown = 0; hold = 0;
   constructor(public text: string, public waitInput = false) {}
   update(game: Game) {
-    const lines = game.g.wrap(this.text, 220);
+    const lines = game.g.wrap(this.text, W - 20);
     const total = lines.join("\n").length;
     if (this.shown < total) { this.shown += game.state.textSpeed * (game.input.down("a") ? 3 : 1); if (game.input.pressed("a")) this.shown = total; return false; }
     this.hold++;
@@ -285,11 +335,11 @@ class BattleText implements Overlay {
     return !this.waitInput && this.hold > 40;
   }
   draw(g: Gfx, game: Game) {
-    g.frame(0, 112, W, 48, "oscuro");
-    const lines = g.wrap(this.text, 220);
+    g.frame(0, TB, W, 48, "oscuro");
+    const lines = g.wrap(this.text, W - 20);
     const vis = lines.join("\n").slice(0, Math.floor(this.shown)).split("\n");
-    vis.slice(-2).forEach((l, i) => g.text(l, 10, 122 + i * 16, "white"));
-    if (this.waitInput && this.shown >= lines.join("\n").length && Math.floor(game.frame / 16) % 2 === 0) g.text("▼", 224, 144, "white", false);
+    vis.slice(-2).forEach((l, i) => g.text(l, 10, TB + 10 + i * 16, "white"));
+    if (this.waitInput && this.shown >= lines.join("\n").length && Math.floor(game.frame / 16) % 2 === 0) g.text("▼", W - 16, TB + 32, "white", false);
   }
 }
 
@@ -306,12 +356,12 @@ class ActionMenu implements Overlay {
     return false;
   }
   draw(g: Gfx) {
-    g.frame(0, 112, 120, 48, "oscuro");
-    g.text("¿Qué debe hacer", 9, 122, "white");
-    g.text(`${this.name}?`, 9, 138, "white");
-    g.frame(120, 112, 120, 48, "menu");
-    ["LUCHAR", "MOCHILA", "MICROOS", "HUIR"].forEach((t, i) => g.text(t, 136 + (i % 2) * 54, 123 + Math.floor(i / 2) * 16));
-    g.cursor(128 + (this.sel % 2) * 54, 123 + Math.floor(this.sel / 2) * 16);
+    g.frame(0, TB, 128, 48, "oscuro");
+    g.text("¿Qué debe hacer", 9, TB + 10, "white");
+    g.text(`${this.name}?`, 9, TB + 26, "white");
+    g.frame(128, TB, W - 128, 48, "menu");
+    ["LUCHAR", "MOCHILA", "MICROOS", "HUIR"].forEach((t, i) => g.text(t, 144 + (i % 2) * 58, TB + 11 + Math.floor(i / 2) * 16));
+    g.cursor(136 + (this.sel % 2) * 58, TB + 11 + Math.floor(this.sel / 2) * 16);
   }
 }
 
@@ -329,15 +379,15 @@ class MoveMenu implements Overlay {
     return false;
   }
   draw(g: Gfx) {
-    g.frame(0, 112, 160, 48, "menu");
-    this.mon.moves.forEach((s, i) => g.text(getMove(s.id).name.slice(0, 13), 14 + (i % 2) * 74, 123 + Math.floor(i / 2) * 16, s.pp > 0 ? "dark" : "gray"));
-    g.cursor(6 + (this.sel % 2) * 74, 123 + Math.floor(this.sel / 2) * 16);
-    g.frame(160, 112, 80, 48, "menu");
+    g.frame(0, TB, 172, 48, "menu");
+    this.mon.moves.forEach((s, i) => g.text(getMove(s.id).name.slice(0, 14), 14 + (i % 2) * 80, TB + 11 + Math.floor(i / 2) * 16, s.pp > 0 ? "dark" : "gray"));
+    g.cursor(6 + (this.sel % 2) * 80, TB + 11 + Math.floor(this.sel / 2) * 16);
+    g.frame(172, TB, W - 172, 48, "menu");
     const s = this.mon.moves[this.sel];
     if (s) {
       const mv = getMove(s.id);
-      g.text("PP", 170, 122); g.text(`${s.pp}/${s.maxPp}`, 196, 122, s.pp === 0 ? "red" : "dark");
-      g.text(mv.type.slice(0, 11), 170, 138, "blue");
+      g.text("PP", 182, TB + 10); g.text(`${s.pp}/${s.maxPp}`, 206, TB + 10, s.pp === 0 ? "red" : "dark");
+      g.text(mv.type.slice(0, 11), 182, TB + 26, "blue");
     }
   }
 }
@@ -358,7 +408,7 @@ class TextOverlay implements Overlay {
   t = new BattleText("", true);
   constructor(text: string, public sp: string) { this.t.text = text; }
   update(game: Game) { return this.t.update(game); }
-  draw(g: Gfx, game: Game) { g.clear("#101828"); g.microo(this.sp, "frente", 88, 30); this.t.draw(g, game); }
+  draw(g: Gfx, game: Game) { g.clear("#101828"); g.microo(this.sp, "frente", (W - 80) / 2, 30); this.t.draw(g, game); }
 }
 class EvolutionOverlay implements Overlay {
   t = 0; result = true;
@@ -372,9 +422,9 @@ class EvolutionOverlay implements Overlay {
     g.clear("#101828");
     const phase = this.t < 200 ? Math.floor(this.t / Math.max(3, 24 - this.t / 9)) % 2 : 1;
     const sp = phase ? this.to : this.from;
-    g.alpha(this.t > 200 ? 1 : 0.9, () => g.microo(sp, "frente", 88, 30));
-    if (this.t < 200 && phase) g.alpha(0.6, () => g.rect(88, 30, 64, 64, "#ffffff"));
-    g.frame(0, 112, W, 48, "oscuro");
-    g.text("Pulsa B para detener la evolución.", 10, 130, "gray");
+    g.alpha(this.t > 200 ? 1 : 0.9, () => g.microo(sp, "frente", (W - 80) / 2, 30));
+    if (this.t < 200 && phase) g.alpha(0.6, () => g.rect((W - 80) / 2, 30, 80, 80, "#ffffff"));
+    g.frame(0, TB, W, 48, "oscuro");
+    g.text("Pulsa B para detener la evolución.", 10, TB + 18, "gray");
   }
 }

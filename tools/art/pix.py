@@ -121,12 +121,45 @@ def shift(m, dx, dy):
 def dilate(m):
     return m | shift(m, 1, 0) | shift(m, -1, 0) | shift(m, 0, 1) | shift(m, 0, -1)
 
+# ---------------------------------------------------------------- sombreado
+from scipy.ndimage import distance_transform_edt, gaussian_filter
+
+def _mix(a, b, t): return tuple(int(round(a[i] + (b[i] - a[i]) * t)) for i in range(3))
+def ramp6(r4):
+    """De una rampa de 4 tonos a 6: sombra profunda (hacia el violeta), sombra, medio, luz, luz alta y brillo."""
+    d, m, l, h = r4
+    deep = _mix(d, (40, 24, 64), 0.35)
+    return [deep, _mix(d, m, 0.45), m, _mix(m, l, 0.55), l, _mix(l, h, 0.75)]
+def dark_line(r): return _mix(r[0], OUTLINE, 0.55)
+
+BAYER = np.array([[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]) / 16 - 0.5
+LIGHT = np.array([-0.55, -0.7, 0.75]); LIGHT = LIGHT / np.linalg.norm(LIGHT)
+
+def shade_tones(mask, S, highlight=True):
+    d = distance_transform_edt(mask)
+    R = max(d.max(), 1.0)
+    t = np.clip(d / R, 0, 1)
+    h = np.sqrt(np.clip(1 - (1 - t) ** 2, 0, 1)) * R          # perfil de cúpula
+    h = gaussian_filter(h, sigma=max(0.6, S / 90))
+    gy, gx = np.gradient(h)
+    n = np.dstack([-gx, -gy, np.ones_like(h) * 0.9])
+    n /= np.linalg.norm(n, axis=2, keepdims=True)
+    I = n @ LIGHT
+    yy, xx = np.mgrid[0:S, 0:S]
+    I = I + BAYER[yy % 4, xx % 4] * 0.05
+    tone = np.digitize(I, [0.02, 0.28, 0.55, 0.76, 0.93 if highlight else 9])
+    # luz reflejada en el borde en sombra
+    edge = mask & (d <= 1.6) & (n[..., 0] > 0.25) & (n[..., 1] > 0.1)
+    tone = np.where(edge & (tone < 2), tone + 1, tone)
+    return tone
+
 # ---------------------------------------------------------------- lienzo
 class Sprite:
     def __init__(self, S):
         self.S = S
         self.rgba = np.zeros((S, S, 4), np.uint8)
         self.k = max(1, round(S / 32))   # grosor del sombreado
+        self.iris = (90, 70, 140)
 
     @property
     def filled(self):
@@ -135,36 +168,50 @@ class Sprite:
     def put(self, mask, color):
         self.rgba[mask] = (*color, 255)
 
-    def part(self, mask, ramp, outline=True, highlight=True, flat=False):
-        """Pinta una pieza sombreada con su propio contorno."""
-        r = RAMPS[ramp] if isinstance(ramp, str) else ramp
+    def part(self, mask, ramp, outline=True, highlight=True, flat=False, behind=False):
+        """Pinta una pieza con sombreado volumétrico (estilo sprites de DS) y contorno de su propio color.
+
+        El relieve se calcula con la distancia al borde (perfil de cúpula), de ahí las normales,
+        y se ilumina desde arriba a la izquierda con 6 tonos, tramado suave en las transiciones
+        y luz reflejada en el borde inferior derecho.
+        """
+        r = ramp6(RAMPS[ramp] if isinstance(ramp, str) else ramp)
+        if behind:
+            full = mask
+            mask = mask & ~self.filled
+            if not mask.any(): return
+            ring = dilate(full) & ~full & ~self.filled
+            self.put(ring, dark_line(r))
+            tone = shade_tones(full, self.S, highlight)
+            for t in range(6): self.put(mask & (tone == t), r[t])
+            return
         if not mask.any():
             return
         if outline:
-            self.put(dilate(mask) & ~mask, OUTLINE)
+            ring = dilate(mask) & ~mask
+            behind = ring & self.filled
+            self.put(ring & ~behind, dark_line(r))
+            self.put(behind, r[0])      # línea interior entre piezas
         if flat:
-            self.put(mask, r[1]); return
-        k = self.k
-        self.put(mask, r[1])
-        light = mask & ~shift(mask, k, k)            # cerca del borde superior izquierdo
-        dark = mask & ~shift(mask, -k, -k)           # cerca del borde inferior derecho
-        self.put(light, r[2])
-        self.put(dark, r[0])
-        if highlight:
-            ys, xs = np.where(mask)
-            cy, cx = ys.mean(), xs.mean()
-            h, w = ys.max() - ys.min() + 1, xs.max() - xs.min() + 1
-            spot = ellipse(self.S, (cx - w * 0.22) / self.S, (cy - h * 0.24) / self.S,
-                           max(0.6, w * 0.10) / self.S, max(0.6, h * 0.07) / self.S, -0.6) & mask & ~dark
-            self.put(spot, r[3])
+            self.put(mask, r[2]); self.put(mask & ~shift(mask, -1, -1), r[1]); return
+        tone = shade_tones(mask, self.S, highlight)
+        for t in range(6):
+            self.put(mask & (tone == t), r[t])
 
     def lines(self, mask, color):
         self.put(mask, color)
 
     def outline_all(self):
-        """Contorno exterior final para que la silueta se lea sobre cualquier fondo."""
+        """Contorno exterior final: oscuro y teñido del color vecino (más negro abajo a la derecha)."""
         f = self.filled
-        self.put(dilate(f) & ~f, OUTLINE)
+        ring = dilate(f) & ~f
+        ys, xs = np.where(ring)
+        S = self.S
+        for y, x in zip(ys, xs):
+            nb = [(y + dy, x + dx) for dy, dx in ((0, 1), (0, -1), (1, 0), (-1, 0)) if 0 <= y + dy < S and 0 <= x + dx < S and f[y + dy, x + dx]]
+            c = np.mean([self.rgba[a, b, :3] for a, b in nb], axis=0) if nb else np.array(OUTLINE)
+            k = 0.28 if (y, x) and any(a < y or b < x for a, b in nb) else 0.18
+            self.rgba[y, x] = (*(c * k + np.array(OUTLINE) * (1 - k)).astype(np.uint8), 255)
 
     def eyes(self, cx, cy, gap, size=0.07, mood="happy", look=(0.0, 0.0)):
         """Ojos grandes estilo Micromón con brillo blanco. A 32 px usa un patrón fijo legible."""
@@ -180,14 +227,21 @@ class Sprite:
                     self.rgba[y0 - 2, bx:bx + 3] = (*OUTLINE, 255)
                 continue
             m = ellipse(S, ex, cy, size * 0.62, size)
+            if mood == "fierce":   # párpado en ángulo: ojos de mirada fiera
+                lid = polygon(S, [(ex - side * size * 1.2, cy - size * 0.05), (ex + side * size * 1.2, cy - size * 0.75), (ex + side * size * 1.2, cy - size * 2), (ex - side * size * 1.2, cy - size * 2)])
+                m = m & ~lid
             self.put(dilate(m) & ~m, OUTLINE)
             self.put(m, EYE)
-            hl = ellipse(S, ex - size * 0.22 + look[0], cy - size * 0.38 + look[1], max(0.55 / S, size * 0.22), max(0.55 / S, size * 0.26))
+            iris = ellipse(S, ex + look[0], cy + size * 0.18 + look[1], size * 0.42, size * 0.6) & m
+            self.put(iris, self.iris)
+            self.put(ellipse(S, ex + look[0], cy + size * 0.22 + look[1], size * 0.22, size * 0.34) & m, EYE)
+            hl = ellipse(S, ex - size * 0.22 + look[0], cy - size * 0.36 + look[1], max(0.7 / S, size * 0.24), max(0.7 / S, size * 0.28))
             self.put(hl & m, WHITE)
+            self.put(ellipse(S, ex + size * 0.22, cy + size * 0.48, max(0.5 / S, size * 0.1), max(0.5 / S, size * 0.1)) & m, WHITE)
             if mood == "fierce":
-                outer = (ex + side * size * 0.95, cy - size * 1.55)
-                inner = (ex - side * size * 0.55, cy - size * 0.95)
-                self.put(stroke(S, [outer, inner], max(1.6 / S, size * 0.28)), OUTLINE)
+                outer = (ex + side * size * 1.0, cy - size * 1.05)
+                inner = (ex - side * size * 0.75, cy - size * 0.3)
+                self.put(stroke(S, [outer, inner], max(1.6 / S, size * 0.26)), OUTLINE)
 
     def filled_eye_safe(self):
         return np.zeros((self.S, self.S), bool)
@@ -208,6 +262,12 @@ class Sprite:
             m = ellipse(S, cx, cy, w * 0.75, w * 0.55)
             self.put(dilate(m) & ~m, OUTLINE); self.put(m, MOUTH)
             self.put(ellipse(S, cx, cy + w * 0.25, w * 0.4, w * 0.2) & m, (232, 110, 120))
+        elif kind == "fangs":
+            m = ellipse(S, cx, cy + w * 0.1, w * 0.9, w * 0.55) & ~ellipse(S, cx, cy - w * 0.45, w * 1.1, w * 0.45)
+            self.put(dilate(m) & ~m, OUTLINE); self.put(m, MOUTH)
+            for sd in (-1, 1):
+                f = polygon(S, [(cx + sd * w * 0.55, cy - w * 0.05), (cx + sd * w * 0.2, cy - w * 0.05), (cx + sd * w * 0.38, cy + w * 0.45)])
+                self.put(f & m, WHITE)
         elif kind == "grin":
             m = polygon(S, [(cx - w, cy - w * 0.25), (cx + w, cy - w * 0.25), (cx + w * 0.4, cy + w * 0.5), (cx - w * 0.4, cy + w * 0.5)])
             self.put(dilate(m) & ~m, OUTLINE); self.put(m, WHITE)

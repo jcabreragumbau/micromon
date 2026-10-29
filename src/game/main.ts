@@ -1,5 +1,6 @@
 // Punto de entrada del juego en el navegador.
 import { Game } from "./game";
+import { W, H } from "./gfx";
 import { loadAssets } from "./assets";
 import { TitleScene, enterWorld } from "./scenes/title";
 import { runScript, wildBattle } from "./scripts";
@@ -18,8 +19,8 @@ async function boot() {
   (window as unknown as { micromon: Game }).micromon = game;   // para pruebas automáticas
   (window as unknown as { micromonDebug: unknown }).micromonDebug = { runScript, wildBattle, enterWorld, MAPS, engine };
   const fit = () => {
-    const s = Math.max(1, Math.floor(Math.min((window.innerWidth - 32) / 240, (window.innerHeight - (pad && getComputedStyle(pad).display !== "none" ? 170 : 0)) / 160)));
-    canvas.style.width = `${240 * s}px`; canvas.style.height = `${160 * s}px`; canvas.style.maxWidth = "100%";
+    const s = Math.max(1, Math.floor(Math.min((window.innerWidth - 32) / W, (window.innerHeight - (pad && getComputedStyle(pad).display !== "none" ? 170 : 0)) / H)));
+    canvas.style.width = `${W * s}px`; canvas.style.height = `${H * s}px`; canvas.style.maxWidth = "100%";
   };
   window.addEventListener("resize", fit); fit();
 }

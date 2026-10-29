@@ -14,7 +14,7 @@ export class TitleScene implements Scene {
   }
   async menu(game: Game) {
     const opts = hasSave() ? ["CONTINUAR", "NUEVA PARTIDA"] : ["NUEVA PARTIDA"];
-    const c = await game.choose(opts, { x: 80, y: 96, cancel: 999 });
+    const c = await game.choose(opts, { x: 88, y: 110, cancel: 999 });
     if (c < 0) return;
     if (opts[c] === "CONTINUAR") {
       const s = loadGame();
@@ -25,15 +25,15 @@ export class TitleScene implements Scene {
   draw(g: Gfx, game: Game) {
     for (let y = 0; y < H; y++) g.rect(0, y, W, 1, `hsl(${150 + y / 4}, 45%, ${78 - y / 6}%)`);
     const species = ["synechoc", "butyricum", "paramec"];
-    species.forEach((sp, i) => g.microo(sp, "frente", 24 + i * 64, 62 + Math.round(Math.sin((this.t + i * 20) / 20) * 3)));
-    g.frame(30, 10, 180, 46, "info");
+    species.forEach((sp, i) => g.microo(sp, "frente", 8 + i * 84, 70 + Math.round(Math.sin((this.t + i * 20) / 20) * 3)));
+    g.frame(38, 10, 180, 46, "info");
     const title = "MICROMÓN";
     let x = 120 - g.measure(title) * 1.5;
     g.ctx.save(); g.ctx.scale(3, 3);
-    g.text(title, (120 - g.measure(title) * 1.5) / 3, 16 / 3, "red");
+    g.text(title, (W / 2 - g.measure(title) * 1.5) / 3, 16 / 3, "red");
     g.ctx.restore(); void x;
-    g.text("Edición Escherichia", 120 - g.measure("Edición Escherichia") / 2, 42, "blue");
-    if (Math.floor(this.t / 30) % 2 === 0 && !game.overlays.length) g.text("Pulsa A para empezar", 120 - g.measure("Pulsa A para empezar") / 2, 136, "white");
+    g.text("Edición Escherichia", W / 2 - g.measure("Edición Escherichia") / 2, 42, "blue");
+    if (Math.floor(this.t / 30) % 2 === 0 && !game.overlays.length) g.text("Pulsa A para empezar", W / 2 - g.measure("Pulsa A para empezar") / 2, H - 22, "white");
   }
 }
 
@@ -43,7 +43,7 @@ class IntroScene implements Scene {
   draw(g: Gfx) {
     g.clear("#101828");
     g.ctx.save(); g.ctx.scale(2, 2); g.character("profesora", 0, 0, 22, 8); g.ctx.restore();
-    g.microo(this.sp, "frente", 136, 34);
+    g.microo(this.sp, "frente", 150, 40);
   }
 }
 

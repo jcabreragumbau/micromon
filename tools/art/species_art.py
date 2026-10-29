@@ -116,27 +116,28 @@ def main():
     out = ROOT / "assets/sprites/microos"; out.mkdir(parents=True, exist_ok=True)
     at = ROOT / "assets/atlas"; at.mkdir(parents=True, exist_ok=True)
     cols = 13; rows = (len(dex) + cols - 1) // cols
-    A = Image.new("RGBA", (cols * 64, rows * 64)); B = Image.new("RGBA", (cols * 64, rows * 64)); I = Image.new("RGBA", (cols * 64, rows * 32))
+    C = 80
+    A = Image.new("RGBA", (cols * C, rows * C)); B = Image.new("RGBA", (cols * C, rows * C)); I = Image.new("RGBA", (cols * 64, rows * 32))
     index = {}
     for k, m in enumerate(dex):
         i = m["id"]
         if i in DESIGNS:
             f = DESIGNS[i]
-            fr, bk, ic = f(64).image(), back_view(f(64, face=False).image()), f(32).image()
+            fr, bk, ic = f(80).image(), back_view(f(80, face=False).image()), f(32).image()
         else:
             fam, P = ART[i]
             st, ms = sp[i]["stage"], maxstage(i)
             kw = dict(legendary=i in LEGENDARY)
-            fr = draw(i, m["types"], st, ms, fam, P, 64, True, **kw).image()
-            bk = back_view(draw(i, m["types"], st, ms, fam, P, 64, False, **kw).image())
+            fr = draw(i, m["types"], st, ms, fam, P, 80, True, **kw).image()
+            bk = back_view(draw(i, m["types"], st, ms, fam, P, 80, False, **kw).image())
             ic = draw(i, m["types"], st, ms, fam, P, 32, True, **kw).image()
         strip = Image.new("RGBA", (64, 32)); strip.alpha_composite(ic, (0, 0)); strip.alpha_composite(ic.crop((0, 1, 32, 32)), (32, 0))
         fr.save(out / f"{i}_frente.png"); bk.save(out / f"{i}_espalda.png"); strip.save(out / f"{i}_icono.png")
-        x, y = (k % cols) * 64, (k // cols)
-        A.alpha_composite(fr, (x, y * 64)); B.alpha_composite(bk, (x, y * 64)); I.alpha_composite(strip, (x, y * 32))
+        x, y = (k % cols), (k // cols)
+        A.alpha_composite(fr, (x * C, y * C)); B.alpha_composite(bk, (x * C, y * C)); I.alpha_composite(strip, (x * 64, y * 32))
         index[i] = k
     A.save(at / "microos_frente.png"); B.save(at / "microos_espalda.png"); I.save(at / "microos_iconos.png")
-    json.dump({"cols": cols, "index": index}, open(at / "microos.json", "w"))
+    json.dump({"cols": cols, "cell": C, "index": index}, open(at / "microos.json", "w"))
     print("OK", len(index), "Microos")
 
 if __name__ == "__main__":

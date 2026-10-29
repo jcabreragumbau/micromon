@@ -236,7 +236,7 @@ export class Overworld implements Scene {
     const cy = this.map.h * 16 < H ? -(H - this.map.h * 16) / 2 : Math.max(0, Math.min(this.map.h * 16 - H, camY));
     g.clear("#000");
     const x0 = Math.floor(cx / 16) - 1, y0 = Math.floor(cy / 16) - 1;
-    for (let y = y0; y < y0 + 13; y++) for (let x = x0; x < x0 + 17; x++) {
+    for (let y = y0; y < y0 + Math.ceil(H / 16) + 2; y++) for (let x = x0; x < x0 + Math.ceil(W / 16) + 2; x++) {
       if (x < 0 || y < 0 || x >= this.map.w || y >= this.map.h) continue;
       g.tile(tileAt(this.map, x, y, this.anim), x * 16 - cx, y * 16 - cy);
     }

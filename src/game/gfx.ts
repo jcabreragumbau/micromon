@@ -1,7 +1,9 @@
-// Dibujo sobre un lienzo de 240×160 sin suavizado: tiles, sprites, texto con la fuente propia y marcos.
+// Dibujo sobre un lienzo de 256×192 (pantalla de DS) sin suavizado: tiles, sprites, texto con la fuente propia y marcos.
 import { IMG, FONT, TILES, CHARS, MICRO } from "./assets";
 
-export const W = 240, H = 160;
+export const W = 256, H = 192;
+/** Parte superior de la caja de texto inferior. */
+export const TB = H - 48;
 export type TextColor = "dark" | "white" | "red" | "blue" | "gray" | "green" | "orange";
 const COLORS: Record<TextColor, [string, string]> = {
   dark: ["#383840", "#d0d0c8"], white: ["#f8f8f8", "#585860"], red: ["#d83838", "#f8c8c0"],
@@ -37,12 +39,13 @@ export class Gfx {
   }
   microo(species: string, view: "frente" | "espalda", x: number, y: number, scale = 1, flipX = false) {
     const i = MICRO.index[species] ?? 0;
+    const C = MICRO.cell ?? 64;
     const img = view === "frente" ? IMG.microos_frente : IMG.microos_espalda;
-    const sx = (i % MICRO.cols) * 64, sy = Math.floor(i / MICRO.cols) * 64;
+    const sx = (i % MICRO.cols) * C, sy = Math.floor(i / MICRO.cols) * C;
     if (flipX) {
-      this.ctx.save(); this.ctx.translate(Math.round(x) + 64 * scale, Math.round(y)); this.ctx.scale(-1, 1);
-      this.ctx.drawImage(img, sx, sy, 64, 64, 0, 0, 64 * scale, 64 * scale); this.ctx.restore();
-    } else this.ctx.drawImage(img, sx, sy, 64, 64, Math.round(x), Math.round(y), 64 * scale, 64 * scale);
+      this.ctx.save(); this.ctx.translate(Math.round(x) + C * scale, Math.round(y)); this.ctx.scale(-1, 1);
+      this.ctx.drawImage(img, sx, sy, C, C, 0, 0, C * scale, C * scale); this.ctx.restore();
+    } else this.ctx.drawImage(img, sx, sy, C, C, Math.round(x), Math.round(y), C * scale, C * scale);
   }
   icon(species: string, frame: number, x: number, y: number) {
     const i = MICRO.index[species] ?? 0;

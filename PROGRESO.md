@@ -42,5 +42,12 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Movimientos por nivel rehechos para que cada línea reciba un ataque nuevo cada 4–6 niveles.
 - Pruebas: `bun test` (motor y mapas) y partida automática con Chromium (`tools/playtest.cjs`) que recorre el tramo entero y guarda capturas.
 
+## Mejora gráfica hacia Pokémon Diamante (en curso)
+- El usuario pide calidad de Nintendo DS y que todo el arte lo haga Opus en código.
+- Pantalla a 256×192 (DS). Microos a 80×80 con sombreado volumétrico (normales desde la forma, 6 tonos, contorno teñido, luz reflejada), ojos con iris y brillos, colmillos en fases finales, patitas y bracitos.
+- Tileset nuevo de 152 tiles: autotile de caminos, arena y agua con orillas, árboles con volumen y sombra, tejados con tejas, muros con ventanas enmarcadas.
+- Combate: fondos con cielo, suelo y plataformas con relieve; cajas de PS estilo DS.
+- Pendiente: diseños a mano por especie, personajes de mapa más detallados, menús de equipo y mochila estilo DS.
+
 ## Siguiente tarea
 Fase 4: Monte Micelio en adelante (gimnasios 2–8 y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

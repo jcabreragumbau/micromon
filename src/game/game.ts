@@ -1,5 +1,5 @@
 // Núcleo: bucle de 60 fps, escena base y pila de capas (diálogos, menús, fundidos).
-import { Gfx, W, H, type TextColor } from "./gfx";
+import { Gfx, W, H, TB, type TextColor } from "./gfx";
 import { Input } from "./input";
 import { newState, type GameState } from "./state";
 
@@ -98,7 +98,7 @@ export class Dialog implements Overlay {
   private page = 0;
   private done = false;
   constructor(public text: string, public keep = false, public speaker?: string) {}
-  private wrapped(g: Gfx) { if (!this.lines.length) this.lines = g.wrap(this.text, 216); return this.lines; }
+  private wrapped(g: Gfx) { if (!this.lines.length) this.lines = g.wrap(this.text, W - 24); return this.lines; }
   update(game: Game) {
     const lines = this.wrapped(game.g);
     const pageText = lines.slice(this.page * 2, this.page * 2 + 2).join("\n");
@@ -117,11 +117,11 @@ export class Dialog implements Overlay {
   }
   draw(g: Gfx, game: Game) {
     const lines = this.wrapped(g);
-    g.frame(0, 112, W, 48, "texto");
+    g.frame(0, TB, W, 48, "texto");
     const pageText = lines.slice(this.page * 2, this.page * 2 + 2).join("\n").slice(0, Math.floor(this.shown));
-    pageText.split("\n").forEach((l, i) => g.text(l, 11, 122 + i * 16));
+    pageText.split("\n").forEach((l, i) => g.text(l, 11, TB + 10 + i * 16));
     const full = lines.slice(this.page * 2, this.page * 2 + 2).join("\n").length;
-    if (this.shown >= full && !this.keep && Math.floor(game.frame / 16) % 2 === 0) g.text("▼", 222, 142, "red", false);
+    if (this.shown >= full && !this.keep && Math.floor(game.frame / 16) % 2 === 0) g.text("▼", W - 18, TB + 30, "red", false);
   }
 }
 

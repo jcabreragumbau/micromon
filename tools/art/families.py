@@ -496,6 +496,7 @@ def luca(sp, c, P, r1, r2, seed):
     sp.put(ellipse(sp.S, *c.p(0.5, 0.66), c.r(0.08), c.r(0.05)) & core, RAMPS[r2][2])
     return (*c.p(0.5, 0.53), c.r(0.15), c.r(0.055))
 
+LIMBED = {"bacilo", "coco", "levadura", "ameba", "arquea", "colonia", "vibrio", "ciliado", "flagelado", "virus_env", "tardigrado_no"}
 FAMILIES = {f.__name__: f for f in (bacilo, coco, espirilo, vibrio, levadura, moho, actinomiceto, fago, virus_env, ciliado,
                                     flagelado, ameba, diatomea, dinoflagelado, radiolario, colonia, filamento, arquea,
                                     tardigrado, prion, viroide, legendario, luca)}
@@ -510,10 +511,30 @@ def draw(species_id, types, stage, maxstage, family, params, S, face=True, legen
     r1 = params.get("r1", types[0])
     r2 = params.get("r2", types[1] if len(types) > 1 else types[0])
     fx, fy, gap, size = FAMILIES[family](sp, c, params, r1, r2, species_id)
+    # Rasgos de criatura: patitas y bracitos por detrás del cuerpo
+    if params.get("limbs", family in LIMBED) and S >= 48:
+        f = sp.filled
+        ys, xs = np.where(f)
+        bottom = ys.max() / S
+        span = max(gap * 1.1, 0.12 * z)
+        for sd in (-1, 1):
+            if bottom > 0.9: break
+            foot = ellipse(S, fx + sd * span * 0.5, bottom - 0.01, 0.075 * z, 0.05 * z)
+            sp.part(foot, r1, behind=True, highlight=False)
+        if stage >= 2 or maxstage == 1:
+            rows = np.where(f[int(min(S - 1, (fy + size * 2.4) * S))])[0]
+            if rows.size:
+                yy = fy + size * 2.4
+                for sd, xe in ((-1, rows.min() / S), (1, rows.max() / S)):
+                    arm = capsule(S, (xe - sd * 0.02, yy), (xe + sd * 0.07 * z, yy + 0.06 * z), 0.032 * z)
+                    sp.part(arm, r1, behind=True, highlight=False)
     if face:
         mood = "fierce" if (stage == maxstage and maxstage > 1 and stage >= 2 and params.get("fierce", stage == 3)) or legendary or params.get("fierce") else "happy"
-        sp.eyes(fx, fy, max(gap, 0.08), max(size, 0.035), mood=mood)
-        mk = params.get("mouth", "grin" if mood == "fierce" and stage == 3 else "smile")
+        sp.iris = RAMPS[r2][2] if r2 != r1 else RAMPS[r1][0]
+        sp.eyes(fx, fy, max(gap, 0.08), max(size, 0.035) * (1.12 if stage == 1 else 1.0), mood=mood)
+        mk = params.get("mouth", "fangs" if mood == "fierce" and (stage == 3 or legendary) else "smile")
         sp.mouth(fx, fy + max(size, 0.035) * 1.7, 0.035 * z, mk)
+        if mood == "happy" and stage == 1:
+            sp.blush(fx, fy + max(size, 0.035) * 1.2, max(gap, 0.08) * 1.5)
     sp.outline_all()
     return sp
