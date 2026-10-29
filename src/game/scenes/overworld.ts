@@ -114,6 +114,11 @@ export class Overworld implements Scene {
   private async arrived() {
     const s = this.game.state;
     s.x = this.px; s.y = this.py; s.dir = this.dir;
+    if (this.map.safari) {
+      const left = Number(s.flags.safariSteps ?? 0) - 1;
+      s.flags.safariSteps = left;
+      if (left <= 0) { await this.lock(() => runScript(this.game, this, "finReserva")); return; }
+    }
     const w = this.warpAt(this.px, this.py);
     const tile = tileAt(this.map, this.px, this.py);
     if (w && (tile.startsWith("muro_puerta") || tile === "alfombra" || tile === "escaleras" || tile === "cueva_entrada" || this.isEdge(this.px, this.py, w))) {
@@ -274,6 +279,12 @@ export class Overworld implements Scene {
     if (isGrass(gt) && this.moving === 0 && !heli) {
       const i = TILES[gt];
       g.ctx.drawImage(IMG.tiles, (i % 16) * 16, Math.floor(i / 16) * 16 + 10, 16, 6, psx, psy + 10, 16, 6);
+    }
+    if (this.map.safari) {
+      const f = this.game.state.flags;
+      g.panel(W - 92, 2, 90, 30, "#ffffff", "#e0ecd8", "#305028", 5);
+      g.text(`Pasos ${Math.max(0, Number(f.safariSteps ?? 0))}`, W - 86, 5);
+      g.text(`Criobolas ${Number(f.safariBalls ?? 0)}`, W - 86, 18, "green");
     }
     if (this.map.fog) drawFog(g, this.anim, !!this.game.state.bag["western-blot"]);
     if (this.map.dark) drawDark(g, psx + 8, psy - 2 + jy, this.lux ? 84 : 22);

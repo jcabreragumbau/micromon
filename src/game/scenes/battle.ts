@@ -1,7 +1,7 @@
 // Pantalla de combate: dibuja la placa y traduce los eventos del motor en textos y animaciones.
 import type { Game, Overlay, Scene } from "../game";
 import { Gfx, W, H, TB } from "../gfx";
-import { Battle, chooseActions, type Action, type BattleEvent } from "../../engine";
+import { Battle, chooseActions, captureCheck, Rng, type Action, type BattleEvent } from "../../engine";
 import { getMove, getSpecies, ITEMS, type StatusCode } from "../../engine/data";
 import { displayName, expForLevel, replaceMove, evolve, type Microo } from "../../engine/microo";
 import { markCaught, markSeen } from "../state";
@@ -12,6 +12,8 @@ export interface BattleSetup {
   wild: boolean;
   trainer?: { name: string; clase: string; portrait?: string; lose?: string; money?: number };
   env: string;
+  /** Reserva Microbiana: no se lucha; se lanzan Criobolas Verdes. */
+  safari?: boolean;
 }
 export interface BattleOutcome { outcome: "win" | "lose" | "run" | "capture" | "foeFled"; captured?: Microo }
 
@@ -57,6 +59,7 @@ export class BattleScene implements Scene {
     for (const e of initial.filter((e) => e.side === 1)) await this.play(e);
     for (const e of initial.filter((e) => e.side === 0)) await this.play(e);
     for (const m of b.sides[1].party) markSeen(g.state, m.species);
+    if (this.s.safari) return this.runSafari();
     while (!b.ended) {
       const acts = await this.chooseActions();
       if (!acts) continue;
@@ -65,6 +68,43 @@ export class BattleScene implements Scene {
       await this.replacements();
     }
     return this.finish();
+  }
+
+  /** Combate de la Reserva Microbiana: Criobola Verde, Medio de Enriquecimiento, antibiótico o huir. */
+  private async runSafari(): Promise<BattleOutcome> {
+    const g = this.game, b = this.b, f = b.sides[1].active[0]!;
+    const rng = new Rng((g.state.seed ^ (g.state.playFrames * 7919)) >>> 0);
+    let calm = 0, angry = 0;
+    for (;;) {
+      const balls = Number(g.state.flags.safariBalls ?? 0);
+      const c = await g.run<number>(new SafariMenu(balls));
+      if (c === 3) { await this.text("¡Escapas sin problemas!"); return { outcome: "run" }; }
+      if (c === 0) {
+        if (balls <= 0) { await this.text("¡No te quedan Criobolas Verdes!"); continue; }
+        g.state.flags.safariBalls = balls - 1;
+        this.ballAnim = 30; await this.text("¡Lanzas una Criobola Verde!"); await g.wait(20);
+        const mult = 1.5 * (calm > 0 ? 0.75 : 1) * (angry > 0 ? 2 : 1);
+        const { caught, shakes } = captureCheck(f.mon, mult, rng);
+        this.disp[1][0].visible = false;
+        for (let i = 0; i < shakes; i++) { this.ballShake = 1; await g.wait(12); this.ballShake = -1; await g.wait(12); this.ballShake = 0; await g.wait(16); }
+        if (caught) {
+          await this.text(`¡Ya está! ¡Has aislado a ${displayName(f.mon)}!`, true);
+          b.captured = f.mon; b.outcome = "capture"; b.ended = true;
+          return this.finish();
+        }
+        this.ballAnim = 0; this.disp[1][0].visible = true;
+        await this.text(shakes === 0 ? "¡Oh, no! ¡El Microo se ha escapado!" : "¡Casi lo tenías!");
+        if (balls - 1 <= 0) { await this.text("¡Se te han acabado las Criobolas Verdes!"); return { outcome: "run" }; }
+      }
+      if (c === 1) { calm = rng.int(1, 5); angry = 0; await this.text(`¡Le ofreces un Medio de Enriquecimiento! ${displayName(f.mon)} se pone a crecer tranquilamente.`); }
+      if (c === 2) { angry = rng.int(1, 5); calm = 0; await this.text(`¡Aplicas un antibiótico suave! ${displayName(f.mon)} se estresa.`); }
+      // ¿huye el Microo?
+      const flee = Math.min(0.6, (0.06 + f.mon.stats.spe / 500) * (calm > 0 ? 0.5 : 1) * (angry > 0 ? 2 : 1));
+      if (calm > 0) calm--; if (angry > 0) angry--;
+      if (rng.chance(flee)) { await this.text(`¡${displayName(f.mon)} ha huido!`); return { outcome: "foeFled" }; }
+      if (calm > 0) await this.text(`${displayName(f.mon)} está absorbiendo nutrientes.`);
+      else if (angry > 0) await this.text(`${displayName(f.mon)} está nervioso.`);
+    }
   }
 
   private async replacements() {
@@ -480,6 +520,28 @@ class MoveMenu implements Overlay {
       g.text("PP", 182, TB + 10); g.text(`${s.pp}/${s.maxPp}`, 206, TB + 10, s.pp === 0 ? "red" : "dark");
       g.typeBadge(mv.type, 178, TB + 25, W - 184);
     }
+  }
+}
+
+class SafariMenu implements Overlay {
+  sel = 0; result = 0;
+  constructor(public balls: number) {}
+  update(game: Game) {
+    const i = game.input;
+    if (i.pressed("right") && this.sel % 2 === 0) this.sel++;
+    if (i.pressed("left") && this.sel % 2 === 1) this.sel--;
+    if (i.pressed("down") && this.sel < 2) this.sel += 2;
+    if (i.pressed("up") && this.sel >= 2) this.sel -= 2;
+    if (i.pressed("a")) { this.result = this.sel; return true; }
+    return false;
+  }
+  draw(g: Gfx) {
+    g.frame(0, TB, 112, 48, "oscuro");
+    g.text("¿Qué vas a", 9, TB + 10, "white");
+    g.text("hacer?", 9, TB + 26, "white");
+    g.frame(112, TB, W - 112, 48, "menu");
+    [`CRIOBOLA×${this.balls}`, "MEDIO", "ANTIBIÓTICO", "HUIR"].forEach((t, i) => g.text(t, 124 + (i % 2) * 72, TB + 11 + Math.floor(i / 2) * 16));
+    g.cursor(116 + (this.sel % 2) * 72, TB + 11 + Math.floor(this.sel / 2) * 16);
   }
 }
 

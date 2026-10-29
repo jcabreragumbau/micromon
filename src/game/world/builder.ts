@@ -22,6 +22,8 @@ export interface MapDef {
   dark?: boolean;
   /** Niebla de proteínas mal plegadas (Torre Prión). */
   fog?: boolean;
+  /** Reserva Microbiana: pasos y Criobolas Verdes limitados. */
+  safari?: boolean;
 }
 
 /** Leyenda de caracteres → tile. T y V son árboles de 2×2 alineados a coordenadas pares. */

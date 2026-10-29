@@ -46,10 +46,11 @@ const path = require("node:path");
       }
       if (t === "Choice") { await press("b"); continue; }
       if (t === "MoveMenu") {
-        await G(() => { const ov = window.micromon.overlays.at(-1).ov, E = micromonDebug.engine;
-          let best = ov.legal[0], bp = -1;
-          for (const i of ov.legal) { const m = E.getMove(ov.mon.moves[i].id); const p = m.category === "status" ? 0 : (m.power ?? 40); if (p > bp) { bp = p; best = i; } }
-          ov.sel = best; });
+        // el jugador de prueba usa la IA «difícil» del propio motor
+        await G(() => { const ov = window.micromon.overlays.at(-1).ov, E = micromonDebug.engine, bt = window.micromon.scene.b;
+          const acts = E.chooseActions(bt, 0, "dificil");
+          const a = acts.find((x) => bt.sides[0].active[x.slot]?.mon === ov.mon);
+          ov.sel = a && a.kind === "move" && ov.legal.includes(a.move) ? a.move : ov.legal[0]; });
       }
       await press("a", 1, 60);
     }
@@ -222,7 +223,32 @@ const path = require("node:path");
   await page.waitForTimeout(900); await shot("67-yero");
   await beat("68-yero");
   const tramo4 = { fich, guarida, blot, vir, badges: await G(() => window.micromon.state.badges) };
+  // --- Quinto tramo: Ruta 7, Ciudad Agar, Reserva Microbiana y Gimnasio 5
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-7", 20, 9, 3)); await page.waitForTimeout(800); await shot("69-ruta7");
+  await G(() => micromonDebug.enterWorld(window.micromon, "ciudad-agar", 14, 5, 1)); await page.waitForTimeout(800); await shot("70-ciudad-agar");
+  await G(() => { window.micromon.state.money = 5000; });
+  await G(() => micromonDebug.enterWorld(window.micromon, "reserva-entrada", 3, 4, 1)); await page.waitForTimeout(800);
+  await press("a", 1, 300); await press("a", 1, 300); await press("a", 1, 300); await press("a", 1, 300); await advance(); await page.waitForTimeout(500);
+  const enReserva = await G(() => [window.micromon.state.map, window.micromon.state.flags.safariBalls, window.micromon.state.flags.safariSteps]);
+  await shot("71-reserva");
+  await walk("up", 2);
+  await G(() => { const g = window.micromon; g.scene.busy = true; micromonDebug.wildBattle(g, g.scene, "tardigrad", 33).finally(() => (g.scene.busy = false)); });
+  let safariShot = false, captured = false;
+  for (let i = 0; i < 400; i++) {
+    const t = await top();
+    if (t === "SafariMenu") { if (!safariShot) { await shot("72-safari"); safariShot = true; } await press("a", 1, 120); continue; }
+    if ((await scene()) !== "BattleScene" && i > 20) break;
+    await press("a", 1, 80);
+  }
+  const reserva2 = await G(() => [window.micromon.state.caught.includes("tardigrad"), window.micromon.state.flags.safariBalls, window.micromon.state.flags.safariSteps, window.micromon.state.map]);
+  await strong();
+  await G(() => micromonDebug.enterWorld(window.micromon, "gimnasio-agar", 6, 3, 1)); await page.waitForTimeout(800);
+  await press("a", 1, 200);
+  for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
+  await page.waitForTimeout(900); await shot("73-mas");
+  await beat("74-mas");
+  const tramo5 = { enReserva, reserva2, badges: await G(() => window.micromon.state.badges) };
   if (process.env.BLOG) console.error(blog.filter((l) => l.startsWith(process.env.BLOG)).join("\n"));
-  console.log(JSON.stringify({ errors, st1, st2, trainerFlag, wild, tramo2: { hifas, enCueva, salazar, disco, rival3, st3 }, tramo3, tramo4 }, null, 0));
+  console.log(JSON.stringify({ errors, st1, st2, trainerFlag, wild, tramo2: { hifas, enCueva, salazar, disco, rival3, st3 }, tramo3, tramo4, tramo5 }, null, 0));
   await browser.close();
 })();

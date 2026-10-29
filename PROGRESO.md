@@ -72,5 +72,12 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Ciudad Gram → Ruta 5 → Pueblo Levadura (Torre Prión con niebla de priones) → Ruta 6 → Ciudad Aerobia: Casino Mutagénesis (fichas, tragaperras con rodillos de Microos y premios: Myxococcus, Pleomorph, Plásmido F), póster de Nature que abre la guarida de la Unidad de Genética (Barbadilla; Casillas en combate doble; Martínez-Urtaza, que huye y deja el Western Blot), Torre Prión de tres plantas (la Dra. Alba Hernández te sermonea; un investigador jubilado da el Plásmido Vir) y Gimnasio de Levaduras del Dr. Daniel Yero (Medalla Catalasa).
 - 25 Microos nuevos diseñados a mano (`tools/art/designs5.py`). Tiles nuevos: moqueta de casino, tragaperras y servidores animados, suelo técnico, suelo de la torre, placas contaminadas y póster.
 
+## Tipos en combate y quinto tramo (hecho)
+- Los combates muestran los tipos: etiquetas con el nombre completo en individuales y abreviadas (LEV, FOT, G+…) dentro de las cajas en dobles; el menú de movimientos muestra el tipo del movimiento con su color. Nuevo diseño compacto del combate doble.
+- Ciudad Aerobia → Ruta 7 → Ciudad Agar (Incubadora, tienda, casa) → Gimnasio Industrial del Dr. Jordi Mas (Medalla Quimiostato).
+- Reserva Microbiana (tipo Zona Safari): 500 créditos por 30 Criobolas Verdes y 500 pasos; en los encuentros no se lucha: Criobola Verde, Medio de Enriquecimiento (calma, cuesta más aislar), antibiótico suave (más fácil, pero huye antes) o huir. Contador en pantalla, fin automático. Microos únicos: Kefirgran, Spirogyra, Mixotricha, Tardigrad, Pyrolobus…; el guarda del fondo regala el Plásmido Ti.
+- 14 Microos nuevos diseñados a mano (`tools/art/designs6.py`).
+- El playtest usa la IA «difícil» del motor para el jugador.
+
 ## Siguiente tarea
-Fase 4: Ciudad Agar e Instituto de Biotecnología en adelante (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
+Fase 4: Instituto de Biotecnología en adelante (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

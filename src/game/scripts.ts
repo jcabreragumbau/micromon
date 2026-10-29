@@ -51,6 +51,11 @@ function battleFor(game: Game, foe: Microo[], wild: boolean, name?: string, foeI
 export async function wildBattle(game: Game, world: Overworld, sp: string, lv: number) {
   const m = createMicroo(sp, lv, { rng: rng(game) });
   markSeen(game.state, sp);
+  if (world.map.safari) {
+    await startBattle(game, world, { battle: battleFor(game, [m], true), wild: true, safari: true });
+    if (Number(game.state.flags.safariBalls ?? 0) <= 0) await SCRIPTS.finReserva(game, world);
+    return;
+  }
   const out = await startBattle(game, world, { battle: battleFor(game, [m], true), wild: true });
   if (out.outcome === "lose") await whiteout(game, world);
 }
@@ -556,5 +561,65 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dr. Yero: Te has ganado la MEDALLA CATALASA.");
     await game.say("¡{nombre} ha recibido la MEDALLA CATALASA del Dr. Yero!");
     await game.say("— Fin del cuarto tramo de Micromón. ¡La aventura continuará en Ciudad Agar y el Instituto de Biotecnología! —");
+  },
+
+  // ---------------------------------------------------------------- quinto tramo
+  async entrarReserva(game, world) {
+    const s = S(game);
+    await game.say("Recepción: ¡Bienvenid{o} a la Reserva Microbiana! Aquí viven extremófilos y protozoos que no verás en ningún otro sitio.");
+    await game.say("Recepción: Por 500 créditos te damos 30 Criobolas Verdes y 500 pasos. Dentro no se lucha: se ofrecen Medios de Enriquecimiento.", { keep: true });
+    const c = await game.choose(["ENTRAR · 500", "NO"], { x: 160, y: 90, cancel: 1 });
+    game.popKept();
+    if (c !== 0) return;
+    if (s.money < 500) { await game.say("Recepción: Vaya, no tienes suficientes créditos."); return; }
+    s.money -= 500; s.flags.safariBalls = 30; s.flags.safariSteps = 500;
+    await game.say("¡{nombre} ha recibido 30 CRIOBOLAS VERDES! ¡Buena suerte!");
+    await game.fade(true, 12);
+    world.load("reserva-microbiana", 14, 26, 1);
+    await game.fade(false, 12);
+  },
+
+  async finReserva(game, world) {
+    const s = S(game);
+    await game.say(Number(s.flags.safariBalls ?? 0) <= 0 ? "Altavoz: ¡Te has quedado sin Criobolas Verdes! Tu visita ha terminado." : "Altavoz: ¡Ding-dong! Se acabó el tiempo en la Reserva Microbiana.");
+    s.flags.safariBalls = 0; s.flags.safariSteps = 0;
+    await game.fade(true, 12);
+    world.load("reserva-entrada", 5, 2, 0);
+    await game.fade(false, 12);
+    await game.say("Recepción: ¿Qué tal ha ido? ¡Vuelve cuando quieras!");
+  },
+
+  async salirReserva(game) {
+    const s = S(game);
+    if (Number(s.flags.safariSteps ?? 0) > 0) {
+      s.flags.safariBalls = 0; s.flags.safariSteps = 0;
+      await game.say("Recepción: ¿Ya has terminado? ¡Vuelve cuando quieras!");
+    }
+  },
+
+  async guardaReserva(game) {
+    const s = S(game);
+    if (s.flags.plasmidoTi) { await game.say("Guarda: Aquí cada Microo es único. Cuídalos bien."); return; }
+    await game.say("Guarda: ¡Has llegado hasta la caseta del fondo! Pocos lo consiguen. Toma, se le cayó a un botánico.");
+    addItem(s, "plasmido-ti"); s.flags.plasmidoTi = true;
+    await game.say("¡{nombre} ha recibido un PLÁSMIDO TI! Es el plásmido que usa Agrobacterium para modificar plantas.");
+  },
+
+  async liderMas(game, world) {
+    const s = S(game);
+    if (s.badges.includes("quimiostato")) {
+      await game.say("Dr. Mas: Escalar un cultivo de un matraz a 10.000 litros es todo un arte. ¡Oxígeno, pH, temperatura… y paciencia!");
+      return;
+    }
+    await game.say("Dr. Jordi Mas: ¡Bienvenid{o} a mi nave de biorreactores! Soy el líder del Gimnasio de Ciudad Agar: Microbiología Industrial.");
+    await game.say("Dr. Mas: Mis Microos producen solventes, antibióticos y proteínas a escala industrial. ¿Aguantará tu cultivo la presión?");
+    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty("gym5", s.difficulty, rng(game)), false, "Dr. Mas", s.difficulty === "normal" ? { "medio-enriquecido": 1, "medio-tsb": 1 } : {}), wild: false,
+      trainer: { name: "Jordi Mas", clase: "Líder", portrait: "mas", lose: "¡Producción detenida! Has superado mi escalado.", money: 300 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    s.badges.push("quimiostato");
+    s.flags.medalla5 = true;
+    await game.say("Dr. Mas: Te has ganado la MEDALLA QUIMIOSTATO.");
+    await game.say("¡{nombre} ha recibido la MEDALLA QUIMIOSTATO del Dr. Mas!");
+    await game.say("Dr. Mas: Mi amigo Daniel Yero me ha dicho que la Unidad de Genética ha tomado el Instituto de Biotecnología, al este. ¡Tienes que ayudarles!");
   },
 };

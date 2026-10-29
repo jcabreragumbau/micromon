@@ -632,8 +632,9 @@ function torre(n: number) {
   b.sign(13, 10, "Ciudad Aerobia. «Donde todo respira oxígeno… y catalasa».");
   b.sign(17, 8, "CASINO MUTAGÉNESIS. ¡Fichas, premios y mutaciones al azar!");
   b.sign(7, 10, "Gimnasio de Ciudad Aerobia. Líder: Dr. Daniel Yero, Levaduras y Eucariotas.");
-  b.sign(26, 10, "Ruta 7: en obras de ampliación. Disculpen las molestias.");
-  b.fill(27, 11, 1, 2, "k");
+  b.fill(26, 11, 4, 2, "p");
+  b.sign(26, 10, "Ruta 7. Al este: Ciudad Agar y la Reserva Microbiana.");
+  b.warp({ x: 29, y: 11, h: 2, to: "ruta-7", tx: 1, ty: 8, dir: 3, keep: "y" });
   b.npc({ id: "aer-1", x: 12, y: 13, sprite: "chico", move: "pasear", talk: "El Dr. Yero es amigo del Dr. Conchillo, del Instituto de Biotecnología. ¡Dicen que hablan de bioinformática hasta en las comidas!" });
   b.npc({ id: "aer-2", x: 24, y: 9, sprite: "recluta", dir: 0, hideIf: "urtaza1", talk: "…¿Qué miras? Solo estoy… vigilando el casino. Por nada en especial." });
   b.npc({ id: "aer-3", x: 8, y: 13, sprite: "estudiante", dir: 1, talk: ["La catalasa rompe el agua oxigenada en agua y oxígeno. ¡Por eso burbujea en una herida!", "Los Microos aerobios la usan para no oxidarse con su propia respiración."] });
@@ -713,6 +714,108 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
     intro: "Las levaduras también pueden ser patógenas. ¡Te lo demuestro!", lose: "Necesito un antifúngico.", after: "Candida auris es resistente a casi todo. ¡El Dr. Yero tiene una!" } });
   b.npc({ id: "guia-gym4", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "El Dr. Yero usa Levaduras y Eucariotas: Pastorian, Neoformans y Auris.", "¡Auris es Levadura y Biofilm, y no hay quien la elimine!"] });
   b.warp({ x: 5, y: 16, w: 3, to: "ciudad-aerobia", tx: 6, ty: 7, dir: 0 });
+  add(b.done({ music: "gimnasio" }));
+}
+
+// ---------------------------------------------------------------- Ruta 7
+{
+  const b = new MapBuilder("ruta-7", "Ruta 7", 40, 18);
+  b.trees(0, 0, 40, 2).trees(0, 16, 40, 2).trees(0, 2, 2, 6).trees(0, 10, 2, 6).trees(38, 2, 2, 6).trees(38, 12, 2, 4);
+  b.fill(0, 8, 40, 2, "p").fill(20, 10, 2, 6, "p");
+  b.fill(3, 2, 9, 5, "g").fill(24, 2, 12, 5, "g").fill(4, 11, 12, 4, "g").fill(26, 11, 9, 4, "G");
+  b.fill(14, 3, 6, 4, "~").fill(22, 12, 3, 3, "f").fill(14, 10, 4, 1, "v");
+  b.sign(3, 10, "Ruta 7. Al este: Ciudad Agar.");
+  b.item(34, 3, "medio-enriquecido", "item:r7-enriquecido");
+  b.item(5, 13, "plasmido-col", "item:r7-col", 1, true);
+  b.item(33, 14, "criobola-amarilla", "item:r7-amarilla", 2);
+  b.npc({ id: "r7-a", x: 10, y: 7, sprite: "chico", dir: 0, trainer: {
+    name: "Arnau", clase: "Técnico de Biogás", team: [["methanosar", 31], ["sulfurreduc", 31]], sight: 1, money: 140,
+    intro: "¡Mis arqueas convierten la basura en metano! ¿Combatimos?", lose: "Se me ha apagado el digestor…", after: "El biogás es casi todo metano. ¡Lo hacen las arqueas metanógenas!" } });
+  b.npc({ id: "r7-b", x: 24, y: 10, sprite: "chica", dir: 1, trainer: {
+    name: "Paula", clase: "Médica de Urgencias", team: [["tetani", 32], ["meningitid", 32]], sight: 2, money: 140,
+    intro: "¡Esta herida tiene pinta de tétanos! Bueno, luego te vacuno. ¡Primero luchamos!", lose: "Me han dado el alta…", after: "Clostridium tetani parece una raqueta de tambor al microscopio. ¡Es la espora en un extremo!" } });
+  b.npc({ id: "r7-c", x: 33, y: 9, sprite: "estudiante", dir: 2, trainer: {
+    name: "Jan", clase: "Parasitólogo", team: [["cryptospor", 32], ["prowazekii", 32], ["pneumonia-k", 33]], sight: 3, money: 150,
+    intro: "¡Cryptosporidium resiste al cloro de las piscinas! ¿Y tú?", lose: "Me rindo… como un quiste roto.", after: "En Ciudad Agar está la Reserva Microbiana. ¡Allí hay Microos que no viven en ningún otro sitio!" } });
+  b.warp({ x: 0, y: 8, h: 2, to: "ciudad-aerobia", tx: 28, ty: 11, dir: 2, keep: "y" });
+  b.warp({ x: 39, y: 8, h: 2, to: "ciudad-agar", tx: 1, ty: 10, dir: 3, keep: "y" });
+  b.encounters([
+    { sp: "tetani", min: 31, max: 33, w: 12 }, { sp: "cryptospor", min: 31, max: 33, w: 12 }, { sp: "methanosar", min: 31, max: 33, w: 12 },
+    { sp: "sulfurreduc", min: 31, max: 33, w: 12 }, { sp: "colwellia", min: 31, max: 33, w: 10 }, { sp: "meningitid", min: 31, max: 33, w: 12 },
+    { sp: "pneumonia-k", min: 31, max: 34, w: 12 }, { sp: "prowazekii", min: 31, max: 33, w: 12 }, { sp: "perfringens", min: 30, max: 32, w: 6 },
+  ]);
+  add(b.done({ music: "ruta" }));
+}
+
+// ---------------------------------------------------------------- Ciudad Agar
+{
+  const b = new MapBuilder("ciudad-agar", "Ciudad Agar", 30, 22);
+  b.trees(0, 0, 30, 2).trees(0, 0, 2, 10).trees(0, 12, 2, 10).trees(28, 0, 2, 10).trees(28, 12, 2, 10).trees(0, 20, 30, 2);
+  b.fill(0, 10, 30, 2, "p").fill(14, 3, 2, 7, "p").fill(5, 12, 1, 4, "p").fill(22, 12, 1, 4, "p").fill(9, 7, 1, 3, "p");
+  b.building(11, 0, { kind: "lab", w: 8, color: "verde", door: 3, to: "reserva-entrada", tx: 5, ty: 8 });
+  b.building(17, 4, { kind: "gimnasio", w: 7, color: "gris", door: 3, to: "gimnasio-agar", tx: 6, ty: 15 });
+  b.building(3, 4, { kind: "incubadora", w: 5, door: 2, to: "incubadora-agar", tx: 5, ty: 6 });
+  b.building(3, 14, { kind: "tienda", w: 5, door: 2, to: "tienda-agar", tx: 4, ty: 6 });
+  b.building(20, 14, { kind: "casa", w: 5, color: "verde", door: 2, to: "casa-agar", tx: 3, ty: 5 });
+  b.fill(10, 14, 6, 4, "~").fill(17, 13, 2, 3, "f").fill(25, 3, 2, 3, "f");
+  b.sign(13, 9, "Ciudad Agar. «Sólida por fuera, nutritiva por dentro».");
+  b.sign(16, 7, "Reserva Microbiana: extremófilos y protozoos únicos. ¡Pase y vea!");
+  b.sign(19, 9, "Gimnasio de Ciudad Agar. Líder: Dr. Jordi Mas, Microbiología Industrial.");
+  b.npc({ id: "agar-1", x: 8, y: 12, sprite: "chica", move: "pasear", talk: "En la Reserva no se lucha: les ofreces Medios de Enriquecimiento para que se calmen, y luego… ¡Criobola Verde!" });
+  b.npc({ id: "agar-2", x: 24, y: 11, sprite: "chico", dir: 2, hideIf: "medalla5", talk: "El camino al Instituto de Biotecnología está cortado. Dicen que solo dejan pasar a quien tenga la Medalla Quimiostato." });
+  b.npc({ id: "agar-3", x: 26, y: 9, sprite: "estudiante", dir: 0, talk: "El agar sale de las algas rojas. Lo trajeron a los laboratorios por consejo de la mujer de un ayudante de Koch. ¡Sin ella no habría placas!" });
+  b.warp({ x: 0, y: 10, h: 2, to: "ruta-7", tx: 38, ty: 8, dir: 2, keep: "y" });
+  add(b.done({ music: "ciudad" }));
+}
+add(incubadora("incubadora-agar", "Ciudad Agar", { to: "ciudad-agar", x: 5, y: 6 }));
+add(tienda("tienda-agar", "Ciudad Agar", { to: "ciudad-agar", x: 5, y: 16 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }, [
+  { id: "agar-casa", x: 5, y: 3, sprite: "madre", dir: 0, talk: ["Fanny Hesse sugirió usar agar en vez de gelatina, porque no se derrite a 37 °C.", "¡Por eso la Profesora de tu pueblo se llama así! Es un homenaje."] },
+]));
+{
+  const b = new MapBuilder("reserva-entrada", "Entrada de la Reserva Microbiana", 11, 10, "L", "interior", false);
+  b.fill(0, 0, 11, 1, "w").fill(0, 1, 11, 1, "W").fill(2, 3, 3, 1, "c").set(0, 8, "n").set(10, 8, "n");
+  b.fill(4, 9, 3, 1, "a").fill(4, 1, 3, 1, "a");
+  b.npc({ id: "reserva-recepcion", x: 3, y: 2, sprite: "enfermera", dir: 0, script: "entrarReserva" });
+  b.npc({ id: "reserva-info", x: 8, y: 5, sprite: "becario", dir: 2, talk: ["En la Reserva hay Kefirgran, Spirogyra, Mixotricha… ¡y dicen que un Tardigrad!", "Si le das un Medio de Enriquecimiento, se queda más tiempo. Si le pones un antibiótico, es más fácil de aislar… pero puede huir."] });
+  b.warp({ x: 4, y: 9, w: 3, to: "ciudad-agar", tx: 14, ty: 4, dir: 0 });
+  add(b.done({ onEnter: "salirReserva" }));
+}
+{
+  const b = new MapBuilder("reserva-microbiana", "Reserva Microbiana", 30, 28, "G", "bosque");
+  b.trees(0, 0, 30, 2).trees(0, 0, 2, 28).trees(28, 0, 2, 28).trees(0, 26, 12, 2).trees(16, 26, 14, 2);
+  b.fill(12, 22, 4, 6, "p").fill(13, 4, 2, 18, "p").fill(4, 12, 22, 2, "p").fill(4, 4, 2, 8, "p").fill(24, 4, 2, 8, "p").fill(6, 4, 18, 2, "p");
+  b.fill(7, 15, 5, 5, "~").fill(17, 15, 6, 4, "s").fill(18, 7, 5, 4, "~");
+  b.trees(8, 7, 4, 4).trees(2, 18, 4, 4).trees(24, 20, 4, 4);
+  b.fill(3, 2, 3, 2, "f").fill(26, 14, 2, 3, "f");
+  b.set(5, 3, "m").npc({ id: "reserva-guarda", x: 4, y: 2, sprite: "dependiente", dir: 0, script: "guardaReserva" });
+  b.item(26, 6, "criobola-amarilla", "item:rm-amarilla", 2);
+  b.item(9, 22, "medio-enriquecido", "item:rm-enriquecido", 1, true);
+  b.sign(15, 22, "Reserva Microbiana. Prohibido lanzar antibióticos fuertes.");
+  b.warp({ x: 12, y: 27, w: 4, to: "reserva-entrada", tx: 5, ty: 2, dir: 0 });
+  b.encounters([
+    { sp: "kefirgran", min: 30, max: 33, w: 14 }, { sp: "spirogyra", min: 30, max: 33, w: 14 }, { sp: "mixotricha", min: 31, max: 34, w: 10 },
+    { sp: "aquaticus", min: 32, max: 34, w: 10 }, { sp: "radiodurans", min: 32, max: 34, w: 8 }, { sp: "colwellia", min: 32, max: 34, w: 10 },
+    { sp: "thermus", min: 30, max: 32, w: 12 }, { sp: "halobacter", min: 30, max: 32, w: 10 }, { sp: "tardigrad", min: 33, max: 35, w: 3 },
+    { sp: "pyrolobus", min: 34, max: 35, w: 2 }, { sp: "psychrobac", min: 30, max: 32, w: 7 },
+  ]);
+  add(b.done({ music: "reserva", safari: true }));
+}
+{
+  const b = new MapBuilder("gimnasio-agar", "Gimnasio de Ciudad Agar", 13, 17, "Y", "gimnasio", false);
+  b.fill(0, 0, 13, 1, "w").fill(0, 1, 13, 1, "W");
+  b.fill(2, 4, 9, 1, "K").fill(0, 8, 5, 1, "K").fill(7, 8, 6, 1, "K").fill(2, 12, 4, 1, "K").fill(8, 12, 5, 1, "K");
+  b.set(0, 2, "P").set(12, 2, "P").set(0, 15, "n").set(12, 15, "n");
+  b.fill(5, 16, 3, 1, "a");
+  b.npc({ id: "lider-mas", x: 6, y: 2, sprite: "mas", dir: 0, script: "liderMas" });
+  b.npc({ id: "gym5-a", x: 11, y: 6, sprite: "estudiante", dir: 2, trainer: {
+    name: "Marc", clase: "Ingeniero de Bioprocesos", team: [["mobilis", 33], ["marcescens", 33]], sight: 5, money: 150,
+    intro: "¡Mi biorreactor trabaja a pleno rendimiento! ¡Igual que yo!", lose: "Se me ha disparado el pH…", after: "En un biorreactor hay que controlar el oxígeno disuelto. ¡Si no, los aerobios se ahogan!" } });
+  b.npc({ id: "gym5-b", x: 1, y: 10, sprite: "chica", dir: 3, trainer: {
+    name: "Laura", clase: "Técnica de Fermentación", team: [["perfringens", 33], ["thermus", 33], ["acetobuty", 34]], sight: 5, money: 150,
+    intro: "¡Fermentación ABE: acetona, butanol y etanol! ¿Sabes quién la inventó?", lose: "Chaim Weizmann estaría decepcionado…", after: "La fermentación ABE se usó en la Primera Guerra Mundial para fabricar acetona." } });
+  b.npc({ id: "guia-gym5", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "El Dr. Mas usa Anaerobios, Antibióticos y Extremófilos de escala industrial.", "¡Su Coli-BL21 es una superfactoría: aguanta mucho!"] });
+  b.warp({ x: 5, y: 16, w: 3, to: "ciudad-agar", tx: 20, ty: 8, dir: 0 });
   add(b.done({ music: "gimnasio" }));
 }
 
