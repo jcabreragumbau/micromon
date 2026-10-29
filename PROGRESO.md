@@ -85,5 +85,10 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Gimnasio Bioinfo del Dr. Òscar Conchillo (Medalla Algoritmo), abierto tras el rescate.
 - 14 Microos nuevos (`tools/art/designs7.py`), incluidas las primeras líneas de virus.
 
+## Séptimo tramo (hecho)
+- Encuentros fijos con el Microo visible en el mapa (`estatico:especie|nivel|bandera`): Prion-Sc en la cima de la Torre Prión (ya no aparece salvaje), Viroid-Cad en la Central Metabólica y el Tardigrad gigante en estado tun que bloquea la Ruta 9 (se despierta con el Pulverizador de Agua que da la directora del Instituto).
+- Parque Biotecnológico → Ruta 9 (costa) → Central Metabólica opcional (dos plantas, encuentros en el suelo técnico) → Ciudad Pili (puerto con ferri) → Gimnasio Clínico de la Dra. Marina Luquin (Medalla Ziehl-Neelsen, que da el Billete de Ferri).
+- 4 Microos nuevos (`tools/art/designs8.py`).
+
 ## Siguiente tarea
-Fase 4: Central Metabólica y Ciudad Pili en adelante (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
+Fase 4: Islas Esporuladas, Isla Conjugada y Liga (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

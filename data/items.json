@@ -151,6 +151,20 @@
   "desc": "Un disco duro atado con celo. Pone «BACKUP_FINAL_v3_ESTE_SÍ». Alguien lo tiró en el Monte Micelio."
  },
  {
+  "id": "pulverizador",
+  "name": "Pulverizador de Agua",
+  "kind": "key",
+  "price": 0,
+  "desc": "Agua destilada a presión. Rehidrata a los tardígrados en estado tun."
+ },
+ {
+  "id": "billete-ferri",
+  "name": "Billete de Ferri",
+  "kind": "key",
+  "price": 0,
+  "desc": "Billete del ferri de Ciudad Pili a las Islas Esporuladas y la Isla Conjugada."
+ },
+ {
   "id": "western-blot",
   "name": "Western Blot",
   "kind": "key",

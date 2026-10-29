@@ -6,6 +6,7 @@ import { shopMenu } from "./scenes/menus";
 import { SlotMachine, fichas } from "./scenes/casino";
 import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, type Microo } from "../engine";
 import { addItem, markCaught, markSeen } from "./state";
+import { MAPS } from "./world/maps";
 
 const COUNTER: Record<string, string> = { synechoc: "butyricum", butyricum: "paramec", paramec: "synechoc" };
 
@@ -24,6 +25,7 @@ async function giveMicroo(game: Game, sp: string, lv: number) {
   await game.say(`¡{nombre} ha recibido a ${getSpecies(sp).name}!`);
   if (game.state.party.at(-1) !== m) await game.say(`${getSpecies(sp).name} se ha enviado al Congelador de cepas.`);
 }
+const MAPS_EXIST = (id: string) => !!MAPS[id];
 const displayNameOf = (m: Microo) => m.nickname ?? getSpecies(m.species).name;
 
 // ---------------------------------------------------------------- combates
@@ -48,16 +50,17 @@ function battleFor(game: Game, foe: Microo[], wild: boolean, name?: string, foeI
     inventory: {} });
 }
 
-export async function wildBattle(game: Game, world: Overworld, sp: string, lv: number) {
+export async function wildBattle(game: Game, world: Overworld, sp: string, lv: number): Promise<BattleOutcome["outcome"]> {
   const m = createMicroo(sp, lv, { rng: rng(game) });
   markSeen(game.state, sp);
   if (world.map.safari) {
     await startBattle(game, world, { battle: battleFor(game, [m], true), wild: true, safari: true });
     if (Number(game.state.flags.safariBalls ?? 0) <= 0) await SCRIPTS.finReserva(game, world);
-    return;
+    return "run";
   }
   const out = await startBattle(game, world, { battle: battleFor(game, [m], true), wild: true });
   if (out.outcome === "lose") await whiteout(game, world);
+  return out.outcome;
 }
 
 export async function trainerBattle(game: Game, world: Overworld, n: NpcState) {
@@ -693,6 +696,15 @@ const SCRIPTS: Record<string, Script> = {
       await game.say("¡{nombre} ha recibido la CRIOBOLA MORADA!");
       s.flags["instituto-libre"] = true;
       world.refreshNpcs();
+      await game.say("Directora: Y toma esto también. En la Ruta 9 hay un tardígrado gigante en estado tun que bloquea el camino.");
+      addItem(s, "pulverizador");
+      await game.say("¡{nombre} ha recibido el PULVERIZADOR DE AGUA! Rehidrata a los tardígrados deshidratados.");
+      return;
+    }
+    if (!s.bag["pulverizador"]) {
+      await game.say("Directora: Por cierto, en la Ruta 9 hay un tardígrado gigante en estado tun bloqueando el camino a Ciudad Pili.");
+      addItem(s, "pulverizador");
+      await game.say("¡{nombre} ha recibido el PULVERIZADOR DE AGUA! Rehidrata a los tardígrados deshidratados.");
       return;
     }
     await game.say("Directora: Usa la Criobola Morada con cabeza. Solo hay una.");
@@ -714,5 +726,66 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dr. Conchillo: Te has ganado la MEDALLA ALGORITMO.");
     await game.say("¡{nombre} ha recibido la MEDALLA ALGORITMO del Dr. Conchillo!");
     await game.say("Dr. Conchillo: La costa del este lleva a Ciudad Pili. Y por el camino, la Central Metabólica… dicen que allí vive algo muy raro.");
+  },
+
+  /** Encuentro fijo (legendarios, Tardigrad dormido…): «estatico:especie:nivel:bandera». */
+  async estatico(game, world, arg) {
+    const [sp, lv, flag] = String(arg).split("|");
+    const name = getSpecies(sp).name;
+    await game.say(`¡${name} te mira fijamente!`);
+    const out = await wildBattle(game, world, sp, Number(lv));
+    if (out === "capture" || out === "win") { game.state.flags[flag] = true; world.refreshNpcs(); }
+    else if (out === "foeFled") { game.state.flags[flag] = true; world.refreshNpcs(); await game.say(`${name} ha desaparecido…`); }
+  },
+
+  // ---------------------------------------------------------------- séptimo tramo
+  async tardigrado(game, world) {
+    const s = S(game);
+    await game.say("Un tardígrado gigante en estado tun bloquea el camino. Está completamente deshidratado y no se mueve.");
+    if (!s.bag["pulverizador"]) { await game.say("Haría falta agua para despertarlo…"); return; }
+    await game.say("¿Usar el Pulverizador de Agua?", { keep: true });
+    const c = await game.choose(["SÍ", "NO"], { x: 200, y: 96, cancel: 1 });
+    game.popKept();
+    if (c !== 0) return;
+    await game.say("¡{nombre} rocía al tardígrado! Se hincha, estira sus ocho patas… ¡y se despierta de muy mal humor!");
+    await SCRIPTS.estatico(game, world, "tardigrad|40|tardigrado");
+    if (!s.flags.tardigrado) { s.flags.tardigrado = true; world.refreshNpcs(); await game.say("El tardígrado se aleja pesadamente hacia el mar."); }
+  },
+
+  async liderLuquin(game, world) {
+    const s = S(game);
+    if (s.badges.includes("ziehl")) {
+      await game.say("Dra. Luquin: Las micobacterias crecen despacio, pero no se rinden nunca. Como un buen investigador.");
+      return;
+    }
+    await game.say("Dra. Marina Luquin: Bienvenid{o} a mi laboratorio BSL-3. Aquí entran Microos que resisten al alcohol, al ácido… y a casi todo.");
+    await game.say("Dra. Luquin: Tinción de Ziehl-Neelsen, fucsina caliente y mucha paciencia. ¿Estás preparad{o}?");
+    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty("gym7", s.difficulty, rng(game)), false, "Dra. Luquin", s.difficulty === "normal" ? { "medio-enriquecido": 2 } : {}), wild: false,
+      trainer: { name: "Marina Luquin", clase: "Líder", portrait: "luquin", lose: "¡Has resistido como una buena micobacteria!", money: 380 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    s.badges.push("ziehl");
+    s.flags.medalla7 = true;
+    await game.say("Dra. Luquin: Te has ganado la MEDALLA ZIEHL-NEELSEN.");
+    await game.say("¡{nombre} ha recibido la MEDALLA ZIEHL-NEELSEN de la Dra. Luquin!");
+    addItem(s, "billete-ferri");
+    await game.say("Dra. Luquin: Y toma este billete. El ferri del puerto te llevará a las islas. Dicen que Jaime se esconde en la Isla Conjugada…");
+    await game.say("¡{nombre} ha recibido el BILLETE DE FERRI!");
+  },
+
+  async ferri(game, world) {
+    const s = S(game);
+    if (!s.bag["billete-ferri"]) { await game.say("Marinero: El ferri a las islas solo admite pasajeros con billete. ¡La Dra. Luquin del gimnasio los reparte!"); return; }
+    const dest: [string, string, number, number][] = [["Islas Esporuladas", "islas-esporuladas", 10, 22], ["Isla Conjugada", "isla-conjugada", 14, 22]];
+    const opts = dest.filter(([, id]) => MAPS_EXIST(id));
+    if (!opts.length) { await game.say("Marinero: El ferri está en revisión. ¡Vuelve pronto!"); return; }
+    await game.say("Marinero: ¡Todos a bordo! ¿A dónde vamos?", { keep: true });
+    const c = await game.choose([...opts.map(([n]) => n), "QUEDARSE"], { x: 140, y: 60, cancel: opts.length });
+    game.popKept();
+    if (c < 0 || c >= opts.length) return;
+    await game.fade(true, 20);
+    await game.wait(30);
+    world.load(opts[c][1], opts[c][2], opts[c][3], 1);
+    await game.fade(false, 20);
+    await game.say(`¡Habéis llegado a ${opts[c][0]}!`);
   },
 };

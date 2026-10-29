@@ -129,7 +129,7 @@ export class Overworld implements Scene {
     const tr = this.map.triggers.find((t) => this.px >= t.x && this.px < t.x + (t.w ?? 1) && this.py >= t.y && this.py < t.y + (t.h ?? 1));
     if (tr && (!tr.once || !s.flags[tr.once])) { await this.lock(() => runScript(this.game, this, tr.script)); return; }
     if (await this.checkTrainers()) return;
-    const cave = (this.map.env === "cueva" && tile === "suelo_cueva") || (this.map.env === "torre" && tile === "suelo_torre");
+    const cave = (this.map.env === "cueva" && tile === "suelo_cueva") || (this.map.env === "torre" && tile === "suelo_torre") || this.map.floorEncounters === tile;
     if ((isGrass(tile) || cave) && this.map.grass.length) {
       this.stepsInGrass++;
       const rng = (this.game.frame * 9301 + this.px * 49297 + this.py * 233) % 1000;
@@ -263,6 +263,7 @@ export class Overworld implements Scene {
       if (n.def.sprite === "") continue;
       const sx = n.x * 16 + n.ox - cx, sy = n.y * 16 + n.oy - cy;
       if (n.def.sprite === "@criobola") { ents.push({ y: sy, d: () => drawBall(g, sx + 4, sy + 2) }); continue; }
+      if (n.def.sprite.startsWith("@microo:")) { const spc = n.def.sprite.slice(8); const bob = Math.floor(this.anim / 20) % 2; ents.push({ y: sy, d: () => g.icon(spc, bob, sx - 8, sy - 16 - bob) }); continue; }
       if (n.def.sprite.startsWith("@tile:")) { const t = n.def.sprite.slice(6); ents.push({ y: sy - 32, d: () => g.tile(t, sx, sy) }); continue; }
       const fr = n.moving > 0 ? (Math.floor(n.moving / 8) % 2 ? 1 : 2) : 0;
       ents.push({ y: sy, d: () => { g.character(n.def.sprite, n.dir, fr, sx - 8, sy - 18); if (n.emote > 0) drawEmote(g, sx + 4, sy - 26); } });

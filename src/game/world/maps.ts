@@ -573,7 +573,7 @@ function torre(n: number) {
   b.warp({ x: 0, y: 12, to: "torre-prion-3", tx: 1, ty: 12, dir: 3 });
   b.encounters([
     { sp: "rickettsia", min: 29, max: 31, w: 22 }, { sp: "genitalium", min: 29, max: 31, w: 18 }, { sp: "pneumoniae", min: 30, max: 32, w: 18 },
-    { sp: "cryptococ", min: 29, max: 31, w: 16 }, { sp: "bovis", min: 30, max: 32, w: 16 }, { sp: "prion-sc", min: 32, max: 32, w: 4 },
+    { sp: "cryptococ", min: 29, max: 31, w: 16 }, { sp: "bovis", min: 30, max: 32, w: 16 },
   ]);
   add(b.done({ music: "torre", fog: true }));
 }
@@ -584,7 +584,8 @@ function torre(n: number) {
   b.npc({ id: "torre-jubilado", x: 5, y: 3, sprite: "becario", dir: 0, script: "jubiladoTorre" });
   b.trigger({ x: 1, y: 9, w: 9, h: 2, script: "albaHernandez", once: "hernandez1" });
   b.warp({ x: 0, y: 12, to: "torre-prion-2", tx: 1, ty: 12, dir: 3 });
-  b.encounters([{ sp: "prion-sc", min: 32, max: 33, w: 30 }, { sp: "pneumoniae", min: 31, max: 33, w: 35 }, { sp: "bovis", min: 31, max: 33, w: 35 }]);
+  b.encounters([{ sp: "genitalium", min: 31, max: 33, w: 30 }, { sp: "pneumoniae", min: 31, max: 33, w: 35 }, { sp: "bovis", min: 31, max: 33, w: 35 }]);
+  b.npc({ id: "prion-legendario", x: 9, y: 4, sprite: "@microo:prion-sc", script: "estatico:prion-sc|45|prion", hideIf: "prion", solid: true });
   add(b.done({ music: "torre", fog: true }));
 }
 
@@ -870,6 +871,8 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
   b.npc({ id: "biotec-gym-cerrado", x: 23, y: 7, sprite: "becario", dir: 0, hideIf: "instituto-libre", talk: "El Dr. Conchillo no ha vuelto del Instituto. Sin él, el gimnasio está cerrado." });
   b.npc({ id: "biotec-1", x: 8, y: 13, sprite: "chica", move: "pasear", talk: "El Instituto tiene once plantas de laboratorios. ¡Y la Unidad de Genética las ha tomado todas!" });
   b.warp({ x: 0, y: 11, h: 2, to: "ruta-8", tx: 34, ty: 7, dir: 2, keep: "y" });
+  b.fill(28, 11, 2, 2, "p");
+  b.warp({ x: 29, y: 11, h: 2, to: "ruta-9", tx: 1, ty: 8, dir: 3, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 5, y: 17 }));
@@ -939,6 +942,112 @@ function planta(id: string, name: string) {
     intro: "¡Mis proteínas se pliegan perfectamente! ¿Y las tuyas?", lose: "Se me ha desnaturalizado el modelo…", after: "El Dr. Conchillo predice la estructura de las proteínas a partir de su secuencia." } });
   b.npc({ id: "guia-gym6", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "El Dr. Conchillo usa Intracelulares, Archaea y Extremófilos de genoma mínimo.", "¡Su Pyrolobus aguanta 113 °C! Busca bien sus debilidades."] });
   b.warp({ x: 5, y: 16, w: 3, to: "parque-biotec", tx: 23, ty: 8, dir: 0 });
+  add(b.done({ music: "gimnasio" }));
+}
+
+// ---------------------------------------------------------------- Ruta 9 (costa)
+{
+  const b = new MapBuilder("ruta-9", "Ruta 9", 44, 18);
+  b.trees(0, 0, 44, 2).trees(0, 2, 2, 6).trees(42, 2, 2, 6).trees(32, 2, 2, 6);
+  b.fill(0, 10, 44, 3, "s").fill(0, 13, 44, 5, "~").fill(0, 8, 44, 2, "p");
+  b.fill(32, 9, 1, 4, "r");
+  b.building(6, 3, { kind: "lab", w: 7, color: "gris", door: 3, to: "central-1", tx: 6, ty: 12 });
+  b.fill(9, 7, 1, 1, "p");
+  b.fill(16, 3, 10, 4, "g").fill(35, 3, 6, 4, "g").fill(2, 3, 3, 4, "f");
+  b.sign(4, 7, "Central Metabólica. Reactor de biogás y pilas de combustible microbianas. Peligro: alto voltaje.");
+  b.sign(28, 7, "Ruta 9. Al este: Ciudad Pili.");
+  b.item(40, 11, "medio-enriquecido", "item:r9-enriquecido", 2);
+  b.item(20, 11, "criobola-amarilla", "item:r9-amarilla", 3, true);
+  b.npc({ id: "r9-tardigrado", x: 32, y: 8, sprite: "@microo:tardigrad", script: "tardigrado", hideIf: "tardigrado", solid: true });
+  b.npc({ id: "r9-a", x: 14, y: 11, sprite: "chica", dir: 1, trainer: {
+    name: "Nerea", clase: "Bióloga Marina", team: [["cholerae", 40], ["diatomax", 41]], sight: 3, money: 190,
+    intro: "¡El mar está lleno de Vibrios! ¿Te enseño los míos?", lose: "Me ha arrastrado la corriente…", after: "Los Vibrios se pegan al plancton. ¡Viajan en copépodos!" } });
+  b.npc({ id: "r9-b", x: 24, y: 9, sprite: "chico", dir: 2, trainer: {
+    name: "Unai", clase: "Enfermero de UCI", team: [["baumannii", 41], ["aeruginosa", 41]], sight: 4, money: 200,
+    intro: "¡En la UCI vemos Microos que resisten a todo! ¿Y los tuyos?", lose: "Me toca guardia doble…", after: "Acinetobacter baumannii sobrevive semanas en las superficies secas del hospital." } });
+  b.npc({ id: "r9-c", x: 38, y: 11, sprite: "estudiante", dir: 2, trainer: {
+    name: "Gael", clase: "Surfista Científico", team: [["vulnificus", 42], ["salinarum", 41], ["shewanella", 41]], sight: 3, money: 200,
+    intro: "¡Ola perfecta y combate perfecto!", lose: "Me he comido la ola…", after: "Vibrio vulnificus vive en aguas cálidas. ¡Cuidado con las heridas abiertas en el mar!" } });
+  b.warp({ x: 0, y: 8, h: 2, to: "parque-biotec", tx: 28, ty: 11, dir: 2, keep: "y" });
+  b.warp({ x: 43, y: 8, h: 2, to: "ciudad-pili", tx: 1, ty: 9, dir: 3, keep: "y" });
+  b.encounters([
+    { sp: "cholerae", min: 40, max: 42, w: 16 }, { sp: "aeruginosa", min: 41, max: 43, w: 14 }, { sp: "baumannii", min: 41, max: 43, w: 12 },
+    { sp: "diatomax", min: 40, max: 42, w: 14 }, { sp: "shewanella", min: 40, max: 42, w: 14 }, { sp: "salinarum", min: 40, max: 42, w: 12 },
+    { sp: "vulnificus", min: 42, max: 43, w: 6 }, { sp: "pneumonia-k", min: 40, max: 42, w: 12 },
+  ]);
+  add(b.done({ music: "ruta" }));
+}
+
+// ---------------------------------------------------------------- Central Metabólica (opcional)
+{
+  const b = new MapBuilder("central-1", "Central Metabólica · Reactor", 16, 14, "N", "casino", false);
+  b.fill(0, 0, 16, 1, "w").fill(0, 1, 16, 1, "W");
+  b.fill(2, 4, 2, 2, "K").fill(6, 4, 2, 2, "K").fill(10, 4, 2, 2, "K").fill(2, 8, 5, 1, "D").fill(9, 8, 5, 1, "D").fill(13, 3, 1, 4, "D");
+  b.set(14, 2, "E").fill(5, 13, 3, 1, "a");
+  b.item(1, 11, "atp-concentrado", "item:cm-atp", 2);
+  b.npc({ id: "cm-a", x: 8, y: 6, sprite: "chica", dir: 0, trainer: {
+    name: "Èlia", clase: "Ingeniera Eléctrica", team: [["geobacter", 41], ["sulfurreduc", 42]], sight: 4, money: 200,
+    intro: "¡Estas pilas funcionan con bacterias! ¡Y mis Microos dan calambre!", lose: "Cortocircuito…", after: "Geobacter transfiere electrones a un electrodo. ¡Eso es una pila de combustible microbiana!" } });
+  b.npc({ id: "cm-tecnico", x: 12, y: 11, sprite: "becario", dir: 2, talk: ["Hace semanas que algo raro vive en la sala de control de arriba. No es una bacteria… ni un virus…", "Es solo una molécula de ARN circular. ¡Y se mueve!"] });
+  b.warp({ x: 5, y: 13, w: 3, to: "ruta-9", tx: 9, ty: 7, dir: 0 });
+  b.warp({ x: 14, y: 2, to: "central-2", tx: 13, ty: 3, dir: 0 });
+  b.encounters([
+    { sp: "geobacter", min: 40, max: 42, w: 20 }, { sp: "sulfurreduc", min: 41, max: 43, w: 18 }, { sp: "magnetospir", min: 40, max: 42, w: 18 },
+    { sp: "shewanella", min: 40, max: 42, w: 16 }, { sp: "methanosar", min: 41, max: 43, w: 18 }, { sp: "deinococ", min: 43, max: 43, w: 4 },
+  ]);
+  add(b.done({ music: "guarida", floorEncounters: "suelo_tecnico" }));
+}
+{
+  const b = new MapBuilder("central-2", "Central Metabólica · Sala de control", 16, 14, "N", "casino", false);
+  b.fill(0, 0, 16, 1, "w").fill(0, 1, 16, 1, "W");
+  b.set(13, 2, "E").fill(1, 2, 4, 1, "P").fill(3, 6, 10, 1, "D").fill(3, 7, 1, 4, "D").fill(12, 7, 1, 4, "D");
+  b.item(14, 12, "plasmido-r", "item:cm-plasmido-r");
+  b.npc({ id: "viroide-legendario", x: 7, y: 9, sprite: "@microo:viroid-cad", script: "estatico:viroid-cad|50|viroide", hideIf: "viroide", solid: true });
+  b.warp({ x: 13, y: 2, to: "central-1", tx: 14, ty: 3, dir: 0 });
+  b.encounters([{ sp: "sulfurreduc", min: 42, max: 44, w: 50 }, { sp: "deinococ", min: 43, max: 44, w: 10 }, { sp: "geobacter", min: 41, max: 43, w: 40 }]);
+  add(b.done({ music: "guarida", floorEncounters: "suelo_tecnico" }));
+}
+
+// ---------------------------------------------------------------- Ciudad Pili
+{
+  const b = new MapBuilder("ciudad-pili", "Ciudad Pili", 28, 22);
+  b.trees(0, 0, 28, 2).trees(0, 0, 2, 8).trees(0, 12, 2, 6).trees(26, 0, 2, 16);
+  b.fill(0, 16, 28, 2, "s").fill(0, 18, 28, 4, "~").fill(12, 16, 4, 4, "s");
+  b.fill(0, 9, 26, 2, "p").fill(13, 11, 2, 5, "p").fill(20, 6, 1, 3, "p").fill(6, 6, 1, 3, "p");
+  b.building(16, 2, { kind: "gimnasio", w: 8, color: "rojo", door: 4, to: "gimnasio-pili", tx: 6, ty: 15 });
+  b.building(3, 3, { kind: "incubadora", w: 5, door: 2, to: "incubadora-pili", tx: 5, ty: 6 });
+  b.building(3, 12, { kind: "tienda", w: 5, door: 2, to: "tienda-pili", tx: 4, ty: 6 });
+  b.building(19, 12, { kind: "casa", w: 5, color: "azul", door: 2, to: "casa-pili", tx: 3, ty: 5 });
+  b.fill(9, 3, 4, 3, "f");
+  b.sign(11, 8, "Ciudad Pili. «Aquí todo se pega: hasta la gente».");
+  b.sign(15, 8, "Gimnasio Clínico. Líder: Dra. Marina Luquin. Laboratorio de Bioseguridad Nivel 3.");
+  b.sign(11, 16, "Puerto de Ciudad Pili. Ferri a las Islas Esporuladas y la Isla Conjugada.");
+  b.npc({ id: "pili-marinero", x: 13, y: 19, sprite: "dependiente", dir: 1, script: "ferri" });
+  b.npc({ id: "pili-1", x: 9, y: 11, sprite: "chico", move: "pasear", talk: "La Dra. Luquin trabaja con micobacterias. ¡Hasta la tinción usa fucsina caliente!" });
+  b.npc({ id: "pili-2", x: 22, y: 10, sprite: "chica", dir: 2, talk: ["Los pili son como pelitos que usan las bacterias para pegarse a todo.", "¡Y algunos sirven para arrastrarse por las superficies, como un garfio!"] });
+  b.warp({ x: 0, y: 9, h: 2, to: "ruta-9", tx: 42, ty: 8, dir: 2, keep: "y" });
+  add(b.done({ music: "ciudad" }));
+}
+add(incubadora("incubadora-pili", "Ciudad Pili", { to: "ciudad-pili", x: 5, y: 5 }));
+add(tienda("tienda-pili", "Ciudad Pili", { to: "ciudad-pili", x: 5, y: 14 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }, [
+  { id: "pili-casa", x: 5, y: 3, sprite: "madre", dir: 0, talk: ["Mi marido trabaja en el Instituto Carlos III, en la Isla Conjugada. Reviven cepas congeladas del permafrost.", "¡Dice que algunas tienen miles de años!"] },
+]));
+{
+  const b = new MapBuilder("gimnasio-pili", "Gimnasio Clínico", 13, 17, "L", "laboratorio", false);
+  b.fill(0, 0, 13, 1, "w").fill(0, 1, 13, 1, "W");
+  b.fill(0, 5, 5, 1, "B").fill(7, 5, 6, 1, "B").fill(2, 9, 9, 1, "M").fill(0, 13, 4, 1, "i").fill(9, 13, 4, 1, "i");
+  b.set(0, 2, "K").set(12, 2, "K").set(0, 15, "n").set(12, 15, "n");
+  b.fill(5, 16, 3, 1, "a");
+  b.npc({ id: "lider-luquin", x: 6, y: 2, sprite: "luquin", dir: 0, script: "liderLuquin" });
+  b.npc({ id: "gym7-a", x: 11, y: 7, sprite: "chica", dir: 2, trainer: {
+    name: "Sílvia", clase: "Técnica de BSL-3", team: [["nocardia", 43], ["bovis", 43]], sight: 4, money: 210,
+    intro: "¡Presión negativa activada! Aquí no sale ni un aerosol… salvo mis ataques.", lose: "Me he quedado sin EPI…", after: "En un BSL-3 el aire siempre entra, nunca sale. ¡Así no escapan los patógenos!" } });
+  b.npc({ id: "gym7-b", x: 1, y: 11, sprite: "estudiante", dir: 3, trainer: {
+    name: "Àlex", clase: "Microbiólogo Clínico", team: [["pneumonia-k", 43], ["baumannii", 44], ["smegmatis", 43]], sight: 4, money: 210,
+    intro: "¡Antibiograma listo! Veamos a qué resiste tu equipo.", lose: "Halo de inhibición enorme… el mío.", after: "La tinción de Ziehl-Neelsen tiñe de rojo a las micobacterias. ¡Resisten al alcohol-ácido!" } });
+  b.npc({ id: "guia-gym7", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "La Dra. Luquin usa Ácido-Alcohol resistentes, Gram- y Biofilms de hospital.", "¡Su Tuberculos es durísimo! Prepárate bien."] });
+  b.warp({ x: 5, y: 16, w: 3, to: "ciudad-pili", tx: 20, ty: 6, dir: 0 });
   add(b.done({ music: "gimnasio" }));
 }
 

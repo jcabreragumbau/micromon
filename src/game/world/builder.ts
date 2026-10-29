@@ -24,6 +24,8 @@ export interface MapDef {
   fog?: boolean;
   /** Reserva Microbiana: pasos y Criobolas Verdes limitados. */
   safari?: boolean;
+  /** Tile de suelo (no hierba) en el que hay encuentros salvajes. */
+  floorEncounters?: string;
 }
 
 /** Leyenda de caracteres → tile. T y V son árboles de 2×2 alineados a coordenadas pares. */
