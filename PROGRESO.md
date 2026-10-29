@@ -60,5 +60,12 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - 15 Microos nuevos diseñados a mano (`tools/art/designs3.py`).
 - Arreglos: la boca de la cueva lleva dentro al pisarla; el aviso de eficacia sale antes del debilitamiento; consejo de tipos erróneo en Ciudad Petri corregido. El playtest elige bien el Microo de reemplazo (en la pantalla de 2 columnas) y espera a que acaben los diálogos.
 
+## Mando de Xbox (hecho)
+- API Gamepad sondeada cada fotograma: botón B = A (aceptar), botón A = B (cancelar / mantener para correr), Menú = START, cruceta o joystick izquierdo (solo el eje dominante) para moverse. La ayuda bajo la pantalla cambia al conectar el mando.
+
+## Tercer tramo (hecho)
+- Ciudad Cultivo → Ruta 4 → Cueva Anaeróbica (lateral, con la Máscara de Gases que da la Dra. Gajú y un guarda en la entrada) y Túnel Endospórico (mapa oscuro: círculo de luz pequeño, grande tras usar Quorum Sensing Lux con la Medalla Tapete) → Ciudad Gram → Gimnasio de la Dra. Laia Guàrdia (Hongo, laberinto de hifas, Medalla Micelio).
+- 14 Microos nuevos diseñados a mano (`tools/art/designs4.py`).
+
 ## Siguiente tarea
-Fase 4: Cueva Anaeróbica y Ciudad Gram en adelante (gimnasios 3–8 y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
+Fase 4: Pueblo Levadura y Torre Prión en adelante (gimnasios 4–8 y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

@@ -176,3 +176,5 @@ from designs2 import DESIGNS2
 DESIGNS.update(DESIGNS2)
 from designs3 import DESIGNS3
 DESIGNS.update(DESIGNS3)
+from designs4 import DESIGNS4
+DESIGNS.update(DESIGNS4)

@@ -1,4 +1,4 @@
-// Mapas: Pueblo Plaqueta → Ruta 1 → Ciudad Viral → Bosque Viral → Ciudad Petri → Ruta 2 → Monte Micelio → Ruta 3 → Ciudad Cultivo.
+// Mapas (… → Ruta 4 → Cueva Anaeróbica / Túnel Endospórico → Ciudad Gram): Pueblo Plaqueta → Ruta 1 → Ciudad Viral → Bosque Viral → Ciudad Petri → Ruta 2 → Monte Micelio → Ruta 3 → Ciudad Cultivo.
 import { MapBuilder, type MapDef } from "./builder";
 
 export const MAPS: Record<string, MapDef> = {};
@@ -326,8 +326,9 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.fill(2, 15, 4, 3, "~").fill(10, 15, 3, 2, "f").fill(20, 3, 3, 2, "f");
   b.sign(10, 14, "Ciudad Cultivo. «Donde la luz se convierte en biomasa».");
   b.sign(11, 8, "Gimnasio de Ciudad Cultivo. Líder: Dra. Núria Gajú, Microbiología Ambiental.");
-  b.sign(22, 12, "Ruta 4: en obras. Disculpen las molestias (y el olor a sulfuro).");
-  b.fill(22, 12, 2, 2, "k").set(22, 13, "k");
+  b.fill(22, 12, 4, 2, "p");
+  b.sign(22, 11, "Ruta 4. Al este: Túnel Endospórico y Ciudad Gram.");
+  b.warp({ x: 25, y: 12, h: 2, to: "ruta-4", tx: 1, ty: 8, dir: 3, keep: "y" });
   b.npc({ id: "cultivo-1", x: 13, y: 10, sprite: "chico", dir: 0, talk: ["El gimnasio es un invernadero lleno de columnas de Winogradsky.", "Arriba crecen las algas y abajo, sin oxígeno, las bacterias del azufre. ¡Cada capa es un mundo!"] });
   b.npc({ id: "cultivo-2", x: 19, y: 13, sprite: "chica", move: "pasear", talk: "La Dra. Gajú usa Fotótrofos, Algas y Anaerobios. Un buen Microo de tipo Hongo o Gram- le dará guerra." });
   b.npc({ id: "cultivo-becario", x: 6, y: 13, sprite: "becario", dir: 0, showIf: "salazar1",
@@ -356,6 +357,132 @@ add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16
     intro: "¡Mi fotobiorreactor produce biomasa sin parar! ¡Y Microos!", lose: "Se me ha apagado la lámpara…", after: "Desulfovibrio respira sulfato y suelta H₂S. ¡Por eso huele a huevo podrido!" } });
   b.npc({ id: "guia-gym2", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "La Dra. Gajú combina Algas, Anaerobios y Fotótrofos.", "Un tipo Hongo pega fuerte a los Fotótrofos… ¡pero cuidado con los Anaerobios!"] });
   b.warp({ x: 5, y: 16, w: 3, to: "ciudad-cultivo", tx: 15, ty: 8, dir: 0 });
+  add(b.done({ music: "gimnasio" }));
+}
+
+// ---------------------------------------------------------------- Ruta 4
+{
+  const b = new MapBuilder("ruta-4", "Ruta 4", 40, 18);
+  b.trees(0, 0, 40, 2).trees(0, 16, 40, 2).trees(38, 8, 2, 8).trees(0, 2, 2, 6).trees(0, 10, 2, 6);
+  b.fill(32, 2, 8, 6, "A").set(35, 7, "O");
+  b.fill(8, 11, 6, 3, "A").set(10, 13, "O");
+  b.fill(0, 8, 37, 2, "p").fill(14, 10, 1, 5, "p").fill(10, 14, 5, 1, "p");
+  b.fill(2, 3, 8, 4, "g").fill(16, 3, 10, 4, "g").fill(18, 11, 10, 4, "g").fill(2, 11, 5, 4, "g");
+  b.fill(28, 12, 6, 3, "~").fill(26, 3, 2, 2, "f").fill(30, 10, 2, 1, "f");
+  b.fill(16, 10, 4, 1, "v");
+  b.sign(3, 7, "Ruta 4. Al este: Túnel Endospórico. Al sur: Cueva Anaeróbica (aire irrespirable).");
+  b.item(24, 4, "medio-tsb", "item:r4-tsb");
+  b.item(3, 13, "criobola-azul", "item:r4-azul", 3);
+  b.item(33, 13, "atp-concentrado", "item:r4-atp", 1, true);
+  b.npc({ id: "r4-guarda", x: 10, y: 14, sprite: "dependiente", dir: 0, script: "guardaCueva", hideIf: "mascara-ok" });
+  b.npc({ id: "r4-guarda-2", x: 11, y: 14, sprite: "dependiente", dir: 2, showIf: "mascara-ok", talk: "Dentro hay metano y sulfuro. ¡No te quites la máscara!" });
+  b.npc({ id: "r4-ciclista", x: 12, y: 8, sprite: "chico", dir: 3, trainer: {
+    name: "Nil", clase: "Técnico de Depuradora", team: [["putida", 19], ["klebsi", 20]], sight: 4, money: 80,
+    intro: "¡Las Pseudomonas se comen el petróleo! ¿Te apuntas a un combate?", lose: "Me has dejado el agua más limpia que nunca…", after: "En la depuradora, las bacterias hacen todo el trabajo sucio. Literalmente." } });
+  b.npc({ id: "r4-parasit", x: 22, y: 10, sprite: "chica", dir: 1, trainer: {
+    name: "Inés", clase: "Parasitóloga", team: [["giardia", 20], ["proteus-am", 19], ["entamoeba", 21]], sight: 3, money: 85,
+    intro: "¡No bebas del estanque! Bueno, primero luchemos.", lose: "Tendré que hervir el agua…", after: "Giardia tiene dos núcleos y parece que te mira. ¡Dan escalofríos!" } });
+  b.npc({ id: "r4-micro", x: 30, y: 9, sprite: "estudiante", dir: 2, trainer: {
+    name: "Óscar", clase: "Estudiante de Máster", team: [["neisseria", 20], ["caulobac", 20], ["spirogyra", 21]], sight: 4, money: 90,
+    intro: "¡Mi TFM va de Caulobacter! ¿Sabías que se divide en dos células distintas?", lose: "Tendré que repetir el experimento…", after: "El Túnel Endospórico es oscuro como la boca de un lobo. Con la Medalla Tapete podrás iluminarlo." } });
+  b.warp({ x: 0, y: 8, h: 2, to: "ciudad-cultivo", tx: 24, ty: 12, dir: 2, keep: "y" });
+  b.warp({ x: 35, y: 7, to: "tunel-endosporico", tx: 2, ty: 12, dir: 1 });
+  b.warp({ x: 10, y: 13, to: "cueva-anaerobica", tx: 11, ty: 16, dir: 1 });
+  b.encounters([
+    { sp: "perfringens", min: 19, max: 22, w: 16 }, { sp: "klebsi", min: 19, max: 21, w: 16 }, { sp: "putida", min: 19, max: 21, w: 14 },
+    { sp: "giardia", min: 19, max: 21, w: 14 }, { sp: "neisseria", min: 19, max: 21, w: 12 }, { sp: "spirogyra", min: 20, max: 22, w: 12 },
+    { sp: "caulobac", min: 19, max: 21, w: 10 }, { sp: "kefirgran", min: 20, max: 22, w: 6 },
+  ]);
+  add(b.done({ music: "ruta" }));
+}
+
+// ---------------------------------------------------------------- Cueva Anaeróbica (lateral, con máscara)
+{
+  const b = new MapBuilder("cueva-anaerobica", "Cueva Anaeróbica", 24, 18, "X", "cueva", false);
+  b.fill(9, 12, 5, 6, "u").fill(3, 12, 6, 3, "u").fill(3, 3, 4, 9, "u").fill(3, 3, 17, 3, "u").fill(16, 6, 4, 9, "u").fill(13, 12, 7, 3, "u");
+  b.fill(9, 7, 4, 3, "u").fill(10, 5, 1, 2, "u");
+  b.set(3, 3, "o").set(19, 3, "o").set(3, 14, "h").set(19, 14, "o").set(12, 12, "h").set(16, 9, "h").set(6, 7, "h").set(9, 9, "o");
+  b.item(10, 8, "plasmido-col", "item:ca-col");
+  b.item(19, 5, "glicerol", "item:ca-glicerol", 2);
+  b.item(4, 11, "medio-tsb", "item:ca-tsb");
+  b.npc({ id: "ca-espeleo", x: 12, y: 4, sprite: "chica", dir: 0, trainer: {
+    name: "Carla", clase: "Espeleóloga", team: [["methanococ", 22], ["perfringens", 22], ["desulfovib", 23]], sight: 3, money: 110,
+    intro: "¡Aquí abajo no hay ni una molécula de oxígeno! Perfecto para mis Microos.", lose: "Me he quedado sin aire… y sin Microos.", after: "Methanococcus produce metano. ¡Es una arquea, ni bacteria ni eucariota!" } });
+  b.npc({ id: "ca-cientifico", x: 17, y: 13, sprite: "becario", dir: 2, talk: ["Estudio los metanógenos de esta cueva. Las arqueas son un dominio de la vida aparte.", "¿Sabías que la mitad del metano del planeta lo producen Microos como estos?"] });
+  b.warp({ x: 11, y: 17, to: "ruta-4", tx: 10, ty: 14, dir: 0 });
+  b.encounters([
+    { sp: "methanococ", min: 20, max: 23, w: 26 }, { sp: "perfringens", min: 20, max: 23, w: 22 }, { sp: "bacteroid", min: 20, max: 22, w: 16 },
+    { sp: "desulfovib", min: 21, max: 23, w: 16 }, { sp: "zymomonas", min: 20, max: 22, w: 12 }, { sp: "thiomargar", min: 22, max: 24, w: 8 },
+  ]);
+  add(b.done({ music: "cueva", onEnter: "entrarCuevaAnaerobica" }));
+}
+
+// ---------------------------------------------------------------- Túnel Endospórico (oscuro)
+{
+  const b = new MapBuilder("tunel-endosporico", "Túnel Endospórico", 36, 14, "X", "cueva", false);
+  b.fill(1, 10, 6, 4, "u").fill(5, 8, 2, 3, "u").fill(5, 7, 10, 2, "u").fill(13, 2, 2, 6, "u").fill(13, 2, 10, 2, "u")
+    .fill(21, 2, 2, 9, "u").fill(21, 9, 8, 2, "u").fill(27, 3, 2, 7, "u").fill(27, 3, 9, 2, "u").fill(8, 9, 4, 4, "u").fill(16, 6, 3, 5, "u").fill(15, 6, 1, 1, "u");
+  b.set(1, 10, "o").set(9, 12, "h").set(14, 7, "o").set(18, 10, "h").set(22, 2, "o").set(28, 9, "h").set(33, 4, "o");
+  b.item(10, 11, "criobola-amarilla", "item:te-amarilla");
+  b.item(17, 9, "atp-concentrado", "item:te-atp");
+  b.item(28, 5, "glicerol", "item:te-glicerol", 1, true);
+  b.npc({ id: "te-esporas-1", x: 13, y: 5, sprite: "estudiante", dir: 0, trainer: {
+    name: "Bruno", clase: "Coleccionista de Esporas", team: [["subtilis", 21], ["cereus", 22], ["mycoides", 22]], sight: 3, money: 95,
+    intro: "¡Shhh! Las endosporas duermen. Pero yo no.", lose: "Mis esporas han germinado… hacia la derrota.", after: "Una endospora puede aguantar siglos esperando. ¡Hasta millones de años en ámbar!" } });
+  b.npc({ id: "te-esporas-2", x: 24, y: 9, sprite: "chica", dir: 2, trainer: {
+    name: "Alba", clase: "Esterilizadora", team: [["lichenifor", 23], ["perfringens", 22]], sight: 3, money: 100,
+    intro: "¡Ni el autoclave a 121 °C me detiene! Bueno, a mis esporas sí, a veces.", lose: "Ciclo de esterilización fallido…", after: "Para matar endosporas hace falta autoclave: vapor a presión, 121 °C, 15 minutos." } });
+  b.warp({ x: 2, y: 13, w: 2, to: "ruta-4", tx: 35, ty: 8, dir: 0 });
+  b.warp({ x: 35, y: 3, h: 2, to: "ciudad-gram", tx: 1, ty: 9, dir: 3, keep: "y" });
+  b.encounters([
+    { sp: "subtilis", min: 21, max: 24, w: 20 }, { sp: "lichenifor", min: 22, max: 24, w: 14 }, { sp: "cereus", min: 21, max: 23, w: 16 },
+    { sp: "mycoides", min: 21, max: 24, w: 14 }, { sp: "thuringien", min: 21, max: 23, w: 14 }, { sp: "perfringens", min: 21, max: 23, w: 14 },
+    { sp: "amberspor", min: 23, max: 24, w: 4 }, { sp: "anthracis", min: 24, max: 24, w: 4 },
+  ]);
+  add(b.done({ music: "cueva", dark: true, onEnter: "entrarTunel" }));
+}
+
+// ---------------------------------------------------------------- Ciudad Gram
+{
+  const b = new MapBuilder("ciudad-gram", "Ciudad Gram", 26, 20);
+  b.trees(0, 0, 26, 2).trees(0, 0, 2, 8).trees(0, 12, 2, 8).trees(24, 0, 2, 20).trees(0, 18, 26, 2);
+  b.fill(0, 9, 22, 2, "p").fill(15, 7, 1, 2, "p").fill(5, 7, 1, 2, "p").fill(18, 11, 1, 3, "p").fill(10, 11, 1, 6, "p").fill(7, 16, 4, 1, "p");
+  b.building(12, 2, { kind: "gimnasio", w: 7, color: "morado", door: 3, to: "gimnasio-gram", tx: 6, ty: 15 });
+  b.building(3, 4, { kind: "incubadora", w: 5, door: 2, to: "incubadora-gram", tx: 5, ty: 6 });
+  b.building(16, 14, { kind: "tienda", w: 4, door: 2, to: "tienda-gram", tx: 4, ty: 6 });
+  b.building(5, 13, { kind: "casa", w: 5, color: "morado", door: 2, to: "casa-gram", tx: 3, ty: 5 });
+  b.fill(20, 4, 3, 2, "f").fill(2, 13, 2, 4, "f").fill(12, 13, 3, 3, "~");
+  b.sign(10, 8, "Ciudad Gram. «Violeta o rosa: todo depende del alcohol-acetona».");
+  b.sign(11, 6, "Gimnasio de Ciudad Gram. Líder: Dra. Laia Guàrdia, Micología.");
+  b.sign(22, 11, "Ruta 5: cerrada por fumigación. Vuelva más tarde.");
+  b.fill(22, 9, 2, 2, "k");
+  b.npc({ id: "gram-1", x: 9, y: 11, sprite: "chico", move: "pasear", talk: ["La tinción de Gram tiñe de violeta las bacterias de pared gruesa y de rosa las de pared fina.", "¡Por eso hay Microos Gram+ y Gram-!"] });
+  b.npc({ id: "gram-2", x: 20, y: 8, sprite: "chica", dir: 0, talk: "La Dra. Guàrdia es micóloga. Sus mohos odian los Antibióticos… ¡Uy, no, al revés! Mejor pregunta en el gimnasio." });
+  b.npc({ id: "gram-3", x: 14, y: 12, sprite: "estudiante", dir: 2, talk: ["Aspergillus flavus produce aflatoxinas en los cacahuetes mal guardados.", "¡Y Penicillium chrysogenum nos dio la penicilina! Los hongos son buenos y malos a la vez."] });
+  b.warp({ x: 0, y: 9, h: 2, to: "tunel-endosporico", tx: 34, ty: 3, dir: 2, keep: "y" });
+  add(b.done({ music: "ciudad" }));
+}
+add(incubadora("incubadora-gram", "Ciudad Gram", { to: "ciudad-gram", x: 5, y: 6 }));
+add(tienda("tienda-gram", "Ciudad Gram", { to: "ciudad-gram", x: 18, y: 16 }, ["criobola-roja", "criobola-azul", "criobola-amarilla", "medio-lb", "medio-tsb", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(casa("casa-gram", "Casa de Ciudad Gram", { to: "ciudad-gram", x: 7, y: 15 }, [
+  { id: "gram-casa", x: 5, y: 3, sprite: "madre", dir: 0, talk: ["Mi hijo trabaja en el Instituto de Biotecnología, más allá de Ciudad Aerobia.", "Dice que últimamente hay gente rara con portátiles por los pasillos…"] },
+]));
+{
+  const b = new MapBuilder("gimnasio-gram", "Gimnasio de Ciudad Gram", 13, 17, "u", "cueva", false);
+  b.fill(0, 0, 13, 1, "w").fill(0, 1, 13, 1, "W");
+  // laberinto de hifas fluorescentes
+  b.fill(0, 4, 9, 1, "h").fill(11, 4, 2, 1, "h").fill(4, 8, 9, 1, "h").fill(0, 8, 2, 1, "h").fill(0, 12, 7, 1, "h").fill(9, 12, 4, 1, "h");
+  b.set(0, 2, "o").set(12, 2, "o").set(0, 6, "o").set(12, 10, "o").set(0, 15, "n").set(12, 15, "n");
+  b.fill(5, 16, 3, 1, "a");
+  b.npc({ id: "lider-guardia", x: 6, y: 2, sprite: "guardia", dir: 0, script: "liderGuardia" });
+  b.npc({ id: "gym3-a", x: 10, y: 6, sprite: "estudiante", dir: 2, trainer: {
+    name: "Jordi", clase: "Micólogo", team: [["roqueforti", 23], ["niger", 24]], sight: 4, money: 110,
+    intro: "¡Bienvenid{o} a la placa de Sabouraud más grande del mundo!", lose: "Me has dejado sin conidios…", after: "A los hongos les hacen daño los Anaerobios, los Gram+ y las Algas. ¡Pero aguantan bien a los Fotótrofos!" } });
+  b.npc({ id: "gym3-b", x: 3, y: 10, sprite: "chica", dir: 3, trainer: {
+    name: "Mireia", clase: "Micóloga", team: [["albicans", 23], ["rhizopupa", 23], ["mucorin", 24]], sight: 4, money: 110,
+    intro: "¡Las hifas lo cubren todo! ¿Te atreves a atravesarlas?", lose: "Mi micelio se ha secado…", after: "La Dra. Guàrdia tiene un Aspergillus que suelta aflatoxinas. ¡Lleva Solución Salina!" } });
+  b.npc({ id: "guia-gym3", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "La Dra. Guàrdia usa Hongos: sufren contra Anaerobios, Gram+ y Algas, y resisten Fotótrofos, Antibióticos y Esporulados.", "¡Y cuidado con su Chrysogenum: produce penicilina!"] });
+  b.warp({ x: 5, y: 16, w: 3, to: "ciudad-gram", tx: 15, ty: 6, dir: 0 });
   add(b.done({ music: "gimnasio" }));
 }
 

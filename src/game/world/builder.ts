@@ -18,6 +18,8 @@ export interface MapDef {
   npcs: NpcDef[]; warps: WarpDef[]; signs: { x: number; y: number; text: string }[]; items: ItemDef[];
   triggers: TriggerDef[]; grass: Encounter[]; env: "hierba" | "bosque" | "interior" | "laboratorio" | "gimnasio" | "cueva" | "invernadero";
   outdoor: boolean; onEnter?: string; music?: string;
+  /** Mapa oscuro: solo se ve alrededor del jugador (más con Quorum Sensing Lux). */
+  dark?: boolean;
 }
 
 /** Leyenda de caracteres → tile. T y V son árboles de 2×2 alineados a coordenadas pares. */

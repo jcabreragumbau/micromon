@@ -36,8 +36,11 @@ export class Overworld implements Scene {
       .map((n) => ({ def: n, x: n.x, y: n.y, dir: n.dir ?? 0, ox: 0, oy: 0, moving: 0, timer: 60 + ((n.x * 37 + n.y * 11) % 120), home: { x: n.x, y: n.y }, emote: 0 }));
     const s = this.game.state;
     s.map = id; s.x = x; s.y = y; s.dir = this.dir;
-    if (m.outdoor) this.banner = 120;
+    if (m.outdoor || m.env === "cueva") this.banner = 120;
+    this.lux = false;
   }
+  /** En mapas oscuros: si se ha usado Quorum Sensing Lux en esta visita. */
+  lux = false;
   refreshNpcs() {
     const f = this.game.state.flags;
     this.npcs = this.npcs.filter((n) => (!n.def.showIf || f[n.def.showIf]) && (!n.def.hideIf || !f[n.def.hideIf]));
@@ -271,7 +274,8 @@ export class Overworld implements Scene {
       const i = TILES[gt];
       g.ctx.drawImage(IMG.tiles, (i % 16) * 16, Math.floor(i / 16) * 16 + 10, 16, 6, psx, psy + 10, 16, 6);
     }
-    if (this.banner > 0 && this.map.outdoor) {
+    if (this.map.dark) drawDark(g, psx + 8, psy - 2 + jy, this.lux ? 84 : 22);
+    if (this.banner > 0 && (this.map.outdoor || this.map.env === "cueva")) {
       const yb = this.banner > 100 ? (120 - this.banner) * 1.2 - 24 : this.banner < 20 ? this.banner * 1.2 - 24 : 0;
       g.frame(2, 2 + yb, g.measure(this.map.name) + 20, 20, "info");
       g.text(this.map.name, 12, 8 + yb);
@@ -290,4 +294,19 @@ export function drawBall(g: Gfx, x: number, y: number) {
 function drawEmote(g: Gfx, x: number, y: number) {
   g.frame(x - 2, y, 12, 14, "info");
   g.text("!", x + 2, y + 2, "red", false);
+}
+
+/** Oscuridad con un círculo de luz alrededor del jugador (Túnel Endospórico). */
+let darkCanvas: HTMLCanvasElement | null = null;
+export function drawDark(g: Gfx, x: number, y: number, r: number) {
+  darkCanvas ??= document.createElement("canvas");
+  const c = darkCanvas; c.width = g.canvas.width; c.height = g.canvas.height;
+  const k = c.getContext("2d")!;
+  k.fillStyle = "rgba(4,4,12,0.96)"; k.fillRect(0, 0, c.width, c.height);
+  k.globalCompositeOperation = "destination-out";
+  const gr = k.createRadialGradient(x, y, r * 0.55, x, y, r);
+  gr.addColorStop(0, "rgba(0,0,0,1)"); gr.addColorStop(1, "rgba(0,0,0,0)");
+  k.fillStyle = gr; k.beginPath(); k.arc(x, y, r, 0, Math.PI * 2); k.fill();
+  k.globalCompositeOperation = "source-over";
+  g.ctx.drawImage(c, 0, 0);
 }

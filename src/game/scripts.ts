@@ -8,6 +8,14 @@ import { addItem, markCaught, markSeen } from "./state";
 
 const COUNTER: Record<string, string> = { synechoc: "butyricum", butyricum: "paramec", paramec: "synechoc" };
 
+async function darMascara(game: Game) {
+  await game.say("Dra. Gajú: Por cierto, toma esto. En la Ruta 4 hay una cueva sin oxígeno llena de metanógenas.");
+  addItem(game.state, "mascara-de-gases");
+  await game.say("¡{nombre} ha recibido la MÁSCARA DE GASES!");
+  await game.say("Dra. Gajú: Con ella podrás entrar en la Cueva Anaeróbica. Y el Túnel Endospórico está a oscuras: ¡usa Quorum Sensing Lux!");
+}
+const displayNameOf = (m: Microo) => m.nickname ?? getSpecies(m.species).name;
+
 // ---------------------------------------------------------------- combates
 export async function startBattle(game: Game, world: Overworld, setup: Omit<BattleSetup, "env">): Promise<BattleOutcome> {
   const prev = game.scene;
@@ -326,6 +334,7 @@ const SCRIPTS: Record<string, Script> = {
   async liderGaju(game, world) {
     const s = S(game);
     if (s.badges.includes("tapete")) {
+      if (!s.bag["mascara-de-gases"]) { await darMascara(game); return; }
       await game.say("Dra. Gajú: Cada capa de una columna de Winogradsky es un ecosistema. Arriba la luz, abajo el azufre… ¡y en medio, la vida!");
       return;
     }
@@ -339,6 +348,57 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dra. Gajú: Te has ganado la MEDALLA TAPETE.");
     await game.say("¡{nombre} ha recibido la MEDALLA TAPETE de la Dra. Gajú!");
     await game.say("Dra. Gajú: Con ella podrás usar Quorum Sensing Lux fuera de combate para iluminar los lugares oscuros.");
-    await game.say("— Fin del segundo tramo de Micromón. ¡La aventura continuará en la Cueva Anaeróbica y Ciudad Gram! —");
+    await darMascara(game);
+  },
+
+  // ---------------------------------------------------------------- tercer tramo
+  async guardaCueva(game, world) {
+    const s = S(game);
+    if (!s.bag["mascara-de-gases"]) {
+      await game.say("Guarda: ¡Alto! Ahí dentro no hay oxígeno: solo metano y sulfuro de hidrógeno.");
+      await game.say("Guarda: Sin una Máscara de Gases no puedo dejarte pasar. Dicen que la Dra. Gajú tiene una.");
+      return;
+    }
+    await game.say("Guarda: ¿Eso es una Máscara de Gases? ¡Perfecto! Adelante, pero no te la quites.");
+    s.flags["mascara-ok"] = true;
+    world.refreshNpcs();
+  },
+
+  async entrarCuevaAnaerobica(game) {
+    await game.say(S(game).avatar === "apache" ? "{nombre} sella las tomas de aire del motor. Un olor a huevo podrido se filtra igualmente." : "{nombre} se ajusta la Máscara de Gases. Huele a huevo podrido incluso a través del filtro.");
+  },
+
+  async entrarTunel(game, world) {
+    const s = S(game);
+    if (!s.badges.includes("tapete")) {
+      await game.say("Está oscurísimo. Apenas se ve a un palmo… Con la Medalla Tapete podrías usar Quorum Sensing Lux.");
+      return;
+    }
+    await game.say("Está oscurísimo. ¿Usar Quorum Sensing Lux para iluminar el túnel?", { keep: true });
+    const c = await game.choose(["SÍ", "NO"], { x: 200, y: 96, cancel: 1 });
+    game.popKept();
+    if (c !== 0) return;
+    const lead = s.party.find((m) => m.hp > 0);
+    await game.say(lead ? `¡${displayNameOf(lead)} emite luz por quorum sensing! El túnel se ilumina.` : "¡El túnel se ilumina!");
+    world.lux = true;
+  },
+
+  async liderGuardia(game, world) {
+    const s = S(game);
+    if (s.badges.includes("micelio")) {
+      await game.say("Dra. Guàrdia: Los hongos descomponen, curan y envenenan. Sin ellos no habría pan, ni penicilina… ni bosques.");
+      return;
+    }
+    await game.say("Dra. Laia Guàrdia: Bienvenid{o} a mi placa de Sabouraud. Soy la líder del Gimnasio de Ciudad Gram, y estudio los hongos.");
+    await game.say("Dra. Guàrdia: Mohos, levaduras, micotoxinas… Mis Microos crecen despacio, pero no paran nunca. ¡Veamos si aguantas!");
+    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty("gym3", s.difficulty, rng(game)), false, "Dra. Guàrdia", s.difficulty === "normal" ? { "medio-tsb": 2 } : {}), wild: false,
+      trainer: { name: "Laia Guàrdia", clase: "Líder", portrait: "guardia", lose: "¡Increíble! Has atravesado mi micelio.", money: 220 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    s.badges.push("micelio");
+    s.flags.medalla3 = true;
+    await game.say("Dra. Guàrdia: Te has ganado la MEDALLA MICELIO.");
+    await game.say("¡{nombre} ha recibido la MEDALLA MICELIO de la Dra. Guàrdia!");
+    await game.say("Dra. Guàrdia: Con ella podrás usar Flagelo Polar fuera de combate cuando lo consigas.");
+    await game.say("— Fin del tercer tramo de Micromón. ¡La aventura continuará en Pueblo Levadura y la Torre Prión! —");
   },
 };
