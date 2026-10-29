@@ -775,11 +775,13 @@ const SCRIPTS: Record<string, Script> = {
   async ferri(game, world) {
     const s = S(game);
     if (!s.bag["billete-ferri"]) { await game.say("Marinero: El ferri a las islas solo admite pasajeros con billete. ¡La Dra. Luquin del gimnasio los reparte!"); return; }
-    const dest: [string, string, number, number][] = [["Islas Esporuladas", "islas-esporuladas", 10, 22], ["Isla Conjugada", "isla-conjugada", 14, 22]];
-    const opts = dest.filter(([, id]) => MAPS_EXIST(id));
-    if (!opts.length) { await game.say("Marinero: El ferri está en revisión. ¡Vuelve pronto!"); return; }
+    const all: [string, string, number, number, boolean][] = [
+      ["Ciudad Pili", "ciudad-pili", 13, 18, true], ["Islas Esporuladas", "islas-esporuladas", 10, 22, true],
+      ["Isla Conjugada", "isla-conjugada", 13, 21, true], ["Calle Selección Natural", "calle-seleccion", 3, 22, s.badges.length >= 8],
+    ];
+    const opts = all.filter(([, id, , , ok]) => ok && MAPS_EXIST(id) && id !== world.map.id);
     await game.say("Marinero: ¡Todos a bordo! ¿A dónde vamos?", { keep: true });
-    const c = await game.choose([...opts.map(([n]) => n), "QUEDARSE"], { x: 140, y: 60, cancel: opts.length });
+    const c = await game.choose([...opts.map(([n]) => n), "QUEDARSE"], { x: 120, y: 40, cancel: opts.length });
     game.popKept();
     if (c < 0 || c >= opts.length) return;
     await game.fade(true, 20);
@@ -787,5 +789,82 @@ const SCRIPTS: Record<string, Script> = {
     world.load(opts[c][1], opts[c][2], opts[c][3], 1);
     await game.fade(false, 20);
     await game.say(`¡Habéis llegado a ${opts[c][0]}!`);
+  },
+
+
+  // ---------------------------------------------------------------- octavo tramo
+  async fosil(game, world, arg) {
+    const s = S(game);
+    const name = arg === "ambar-mioceno" ? "un ÁMBAR DEL MIOCENO con una espora dentro" : "un FÓSIL DE ESTROMATOLITO";
+    await game.say(`Dentro del hielo hay ${name}. ¿Te lo llevas? (Solo puedes llevarte uno.)`, { keep: true });
+    const c = await game.choose(["SÍ", "NO"], { x: 200, y: 96, cancel: 1 });
+    game.popKept();
+    if (c !== 0) return;
+    addItem(s, String(arg)); s.flags.fosil = true;
+    world.refreshNpcs();
+    await game.say(`¡{nombre} ha recogido ${name}!`);
+  },
+
+  async carlosIII(game) {
+    const s = S(game);
+    for (const [item, sp] of [["fosil-estromatolito", "stromatol"], ["ambar-mioceno", "amberspor"]] as const) {
+      if (s.bag[item]) {
+        await game.say("Investigadora del Carlos III: ¡Eso es un fósil microbiano! Dame un momento… lo rehidratamos, le damos nutrientes y…");
+        addItem(s, item, -1);
+        await game.fade(true, 14); await game.wait(40); await game.fade(false, 14);
+        await game.say("Investigadora: ¡Ha revivido después de millones de años! Es tuyo.");
+        await giveMicroo(game, sp, 35);
+        return;
+      }
+    }
+    if (!s.flags.lokiarca && s.flags.urtaza3) {
+      await game.say("Investigadora: Gracias por detener a ese hombre. Toma: lo revivimos de un sedimento marino profundo. Es una arquea muy especial.");
+      await game.say("Investigadora: Lokiarchaeota… dicen que es pariente de nuestros antepasados eucariotas.");
+      s.flags.lokiarca = true;
+      await giveMicroo(game, "lokiarca", 45);
+      return;
+    }
+    await game.say("Investigadora: Si encuentras un fósil microbiano, tráemelo. ¡En las Islas Esporuladas hay algunos atrapados en el hielo!");
+  },
+
+  async urtazaFinal(game, world) {
+    const s = S(game);
+    await game.say("Dr. Jaime Martínez-Urtaza: Llegas tarde. Las muestras de Cádiz, el fago con la toxina Shiga y mi modelo de Machine Learning… ya está hecho.");
+    await game.say("Dr. Martínez-Urtaza: El «Proyecto PopBugGenie Global». Selección poblacional quirúrgica contra quien no cite bien el Lancet Countdown.");
+    await game.say("Dr. Martínez-Urtaza: Y tú, con tus placas de Petri, no vas a detener la genómica de poblaciones. ¡Última lección!");
+    const r = rng(game);
+    const team = [createMicroo("parahaemolyticus", 52, { rng: r }), createMicroo("vulnificus", 53, { rng: r }), createMicroo("tuberculos", 54, { rng: r }),
+      createMicroo("t4-titan", 55, { rng: r }), createMicroo("pandoravir", 57, { rng: r })];
+    const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-enriquecido": 3 }), wild: false,
+      trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "Imposible… mi modelo tenía un 99% de precisión…", money: 1200 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    await game.say("Dr. Martínez-Urtaza: No… ¡El modelo decía que ganaría! ¡Los datos no mienten!");
+    await game.say("Del tanque central sale un brillo rojizo. ¡La cepa O157:H7 ha roto el cristal!");
+    await game.say("Dr. Martínez-Urtaza: ¡Quieta! ¡Obedece al script! ¡Te he programado yo!");
+    await game.say("La cepa se revuelve contra él. La biología real no cabe en un script mal hecho.");
+    await game.say("Dr. Martínez-Urtaza: … … Me retiro. Pero esto no ha terminado: la Unidad de Genética volverá.");
+    await game.fade(true, 14);
+    s.flags.urtaza3 = true;
+    world.refreshNpcs();
+    await game.fade(false, 14);
+    await game.say("Dra. Campoy: ¡Se ha ido! Pero la cepa O157 sigue ahí… ¡Tienes que aislarla o detenerla, {nombre}! Después te espero en mi gimnasio.");
+  },
+
+  async liderCampoy(game, world) {
+    const s = S(game);
+    if (s.badges.includes("lisogenia")) {
+      await game.say("Dra. Campoy: Los fagos son los seres más abundantes del planeta. ¡Hay más fagos que estrellas en el universo!");
+      return;
+    }
+    await game.say("Dra. Susana Campoy: ¡Bienvenid{o} a mi coliseo! Gracias por lo de la Mansión. Pero aquí no hay favores: esta es la última prueba.");
+    await game.say("Dra. Campoy: Ciclo lítico, lisogenia, transducción… ¡Que empiece la infección!");
+    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty("gym8", s.difficulty, rng(game)), false, "Dra. Campoy", s.difficulty === "normal" ? { "medio-enriquecido": 2 } : {}), wild: false,
+      trainer: { name: "Susana Campoy", clase: "Líder", portrait: "campoy", lose: "¡Lisogenia rota! Eres digno de la Liga.", money: 420 } });
+    if (out.outcome === "lose") { await whiteout(game, world); return; }
+    s.badges.push("lisogenia");
+    s.flags.medalla8 = true;
+    await game.say("Dra. Campoy: Te has ganado la MEDALLA LISOGENIA. ¡Ya tienes las ocho!");
+    await game.say("¡{nombre} ha recibido la MEDALLA LISOGENIA de la Dra. Campoy!");
+    await game.say("Dra. Campoy: El ferri ya puede llevarte a la Calle Selección Natural. Al final está La UAB… y la Liga Micromón.");
   },
 };

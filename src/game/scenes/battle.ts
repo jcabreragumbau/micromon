@@ -416,6 +416,7 @@ function drawBattleBackground(g: Gfx, env: string, cache: { env?: string; c?: HT
       invernadero: ["#bfe8f0", "#f0fff4", "#a8d898", "#7cb870", "#c8f0b0", "#4a8a50"],
       casino: ["#3a1830", "#7a2840", "#9a3848", "#6a2030", "#e8c050", "#401020"],
       torre: ["#2a2438", "#6a5a88", "#5a5068", "#3a3448", "#9a88b8", "#201830"],
+      hielo: ["#a8d8f8", "#eef8ff", "#d8ecf8", "#b0d0e8", "#ffffff", "#7898b8"],
     };
     const [sky1, sky2, g1, g2, rim, dark] = pal[env] ?? pal.hierba;
     const gr = c.createLinearGradient(0, 0, 0, 70);

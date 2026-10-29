@@ -90,5 +90,11 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Parque Biotecnológico → Ruta 9 (costa) → Central Metabólica opcional (dos plantas, encuentros en el suelo técnico) → Ciudad Pili (puerto con ferri) → Gimnasio Clínico de la Dra. Marina Luquin (Medalla Ziehl-Neelsen, que da el Billete de Ferri).
 - 4 Microos nuevos (`tools/art/designs8.py`).
 
+## Octavo tramo (hecho)
+- Ferri desde Ciudad Pili (Billete de Ferri) a las Islas Esporuladas y la Isla Conjugada; con las 8 medallas, también a la Calle Selección Natural.
+- Islas Esporuladas: laberinto de hielo a -80 °C con deslizamiento (se resuelve en 12 movimientos; comprobado con un buscador BFS), dos fósiles a elegir (Estromatolito o Ámbar del Mioceno), Sputnik-V legendario.
+- Isla Conjugada: Instituto Carlos III (revive fósiles; regala Lokiarca tras la Mansión), Mansión de las Cepas (diarios sobre el origen de O157, reclutas, laboratorio profundo con el combate final contra Martínez-Urtaza y el legendario E. coli O157:H7 a Nv60) y Gimnasio Fago de la Dra. Susana Campoy (Medalla Lisogenia), cerrado hasta resolver la Mansión.
+- 16 Microos nuevos (`tools/art/designs9.py`): virus finales, fósiles, Lokiarca, LUCA, legendarios y evoluciones de Pleomorph. Quedan 20 especies con dibujo de familia (sobre todo del Alto Mando).
+
 ## Siguiente tarea
-Fase 4: Islas Esporuladas, Isla Conjugada y Liga (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
+Fase 4: Calle Selección Natural y Liga (gimnasios 5–8, Liga y mazmorras), mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

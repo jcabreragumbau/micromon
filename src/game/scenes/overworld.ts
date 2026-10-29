@@ -39,6 +39,8 @@ export class Overworld implements Scene {
     if (m.outdoor || m.env === "cueva") this.banner = 120;
     this.lux = false;
   }
+  /** Deslizándose sobre hielo (sin animación de paso, sin control). */
+  sliding = false;
   /** En mapas oscuros: si se ha usado Quorum Sensing Lux en esta visita. */
   lux = false;
   refreshNpcs() {
@@ -114,6 +116,14 @@ export class Overworld implements Scene {
   private async arrived() {
     const s = this.game.state;
     s.x = this.px; s.y = this.py; s.dir = this.dir;
+    // Hielo: se sigue deslizando en la misma dirección hasta chocar
+    if (tileAt(this.map, this.px, this.py) === "hielo" && !this.warpAt(this.px, this.py)) {
+      const nx = this.px + DX[this.dir], ny = this.py + DY[this.dir];
+      if (nx >= 0 && ny >= 0 && nx < this.map.w && ny < this.map.h && !this.blocked(nx, ny) && tileAt(this.map, nx, ny) !== "bordillo") {
+        this.sliding = true; this.startMove(this.dir, 1, false); return;
+      }
+    }
+    this.sliding = false;
     if (this.map.safari) {
       const left = Number(s.flags.safariSteps ?? 0) - 1;
       s.flags.safariSteps = left;
@@ -269,7 +279,7 @@ export class Overworld implements Scene {
       ents.push({ y: sy, d: () => { g.character(n.def.sprite, n.dir, fr, sx - 8, sy - 18); if (n.emote > 0) drawEmote(g, sx + 4, sy - 26); } });
     }
     const psx = this.px * 16 + this.ox - cx, psy = this.py * 16 + this.oy - cy;
-    const pfr = this.moving > 0 ? (Math.floor((this.px + this.py) % 2 === 0 ? (this.moving > 8 ? 1 : 0) : (this.moving > 8 ? 2 : 0))) : 0;
+    const pfr = this.moving > 0 && !this.sliding ? (Math.floor((this.px + this.py) % 2 === 0 ? (this.moving > 8 ? 1 : 0) : (this.moving > 8 ? 2 : 0))) : 0;
     const jy = this.jumping > 0 ? -Math.round(Math.sin(((32 - this.jumping) / 32) * Math.PI) * 8) : 0;
     const heli = this.game.state.avatar === "apache";
     const pf = heli ? Math.floor(this.game.frame / 3) % 3 : pfr;      // el rotor gira siempre

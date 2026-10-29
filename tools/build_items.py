@@ -30,6 +30,8 @@ items = [
  {"id":"disco-duro","name":"Disco Duro Externo","kind":"key","price":0,"desc":"Un disco duro atado con celo. Pone «BACKUP_FINAL_v3_ESTE_SÍ». Alguien lo tiró en el Monte Micelio."},
  {"id":"pulverizador","name":"Pulverizador de Agua","kind":"key","price":0,"desc":"Agua destilada a presión. Rehidrata a los tardígrados en estado tun."},
  {"id":"billete-ferri","name":"Billete de Ferri","kind":"key","price":0,"desc":"Billete del ferri de Ciudad Pili a las Islas Esporuladas y la Isla Conjugada."},
+ {"id":"fosil-estromatolito","name":"Fósil de Estromatolito","kind":"key","price":0,"desc":"Capas de cianobacterias de hace millones de años. En el Instituto Carlos III pueden revivirlo."},
+ {"id":"ambar-mioceno","name":"Ámbar del Mioceno","kind":"key","price":0,"desc":"Una gota de resina fósil con una endospora dentro. En el Instituto Carlos III pueden revivirla."},
  {"id":"western-blot","name":"Western Blot","kind":"key","price":0,"desc":"Identifica los priones de la Torre Prión."},
 ]
 (ROOT/"data"/"items.json").write_text(json.dumps(items, ensure_ascii=False, indent=1), encoding="utf-8")

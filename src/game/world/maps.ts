@@ -1051,6 +1051,140 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
   add(b.done({ music: "gimnasio" }));
 }
 
+// ---------------------------------------------------------------- Islas Esporuladas (laberinto de hielo a -80 °C)
+{
+  const b = new MapBuilder("islas-esporuladas", "Islas Esporuladas", 24, 24, "R", "hielo", false);
+  b.rows(0, 0, [
+    "RRRRRRRRRRRRRRRRRRRRRRRR",
+    "RyyyyyyyyyyyyyyyyyyyyyyR",
+    "RyyyyyyyyyyyyyyyyyyyyyyR",
+    "RyyyyyyyyyyyyyyyyyyyyyyR",
+    "RRRRRRRRRRRyyRRRRRRRRRRR",
+    "RHHHHHHUHHHHHHHHHHHHHHHR",
+    "RHHHHHHHHHHHHHHHUHHUHHHR",
+    "RUHHHHHHHHHHHHHHHHHUHHUR",
+    "RHHUHHHHHHHHHHHHHHHUHHHR",
+    "RHHHHHHHHHHUHHHHHHHHHHHR",
+    "RHHHHHHHHHHUHHHUHUHHHHHR",
+    "RHHHHHHHHHHHHHHHHHHHHHHR",
+    "RHHHHHUHHHHHHHHHHHHHHHHR",
+    "RHHHHHHHHHHHHUHHHHHHHHHR",
+    "RHHHHHHHHHUHUHHHHHHHHHHR",
+    "RHHHHHHHHHHHHHHHHHHHHHHR",
+    "RHHHHHHHHHHHHHHHHHHHHHHR",
+    "RRRRRRRRRRyyyRRRRRRRRRRR",
+    "RyyyyyyyyyyyyyyyyyyyyyyR",
+    "RyyyyyyyyyyyyyyyyyyyyyyR",
+    "RyyyyyyyyyyyyyyyyyyyyyyR",
+    "RyyyyyyyyyyyyyyyyyyyyyyR",
+    "RyyyyyyyyyyyyyyyyyyyyyyR",
+    "RRRRRRRRRRRRRRRRRRRRRRRR"
+  ]);
+  b.npc({ id: "ie-marinero", x: 9, y: 22, sprite: "dependiente", dir: 3, script: "ferri" });
+  b.npc({ id: "ie-crio", x: 16, y: 20, sprite: "becario", dir: 2, talk: ["Esto es nitrógeno líquido evaporándose… estamos a -80 °C. ¡Abrígate!", "El hielo resbala muchísimo: una vez empiezas a deslizarte no paras hasta chocar con algo."] });
+  b.npc({ id: "ie-a", x: 4, y: 19, sprite: "chica", dir: 3, trainer: {
+    name: "Greta", clase: "Crióloga", team: [["colwellia", 46], ["psychrobac", 46], ["radiodurans", 47]], sight: 4, money: 220,
+    intro: "¡A -80 °C solo sobreviven los mejores! ¿Lo son los tuyos?", lose: "Me he quedado congelada…", after: "Las bacterias psicrófilas tienen enzimas que funcionan con frío extremo. ¡Se usan en detergentes!" } });
+  b.npc({ id: "ie-fosil-1", x: 6, y: 2, sprite: "@tile:roca_hielo", script: "fosil:fosil-estromatolito", hideIf: "fosil", solid: true });
+  b.npc({ id: "ie-fosil-2", x: 9, y: 2, sprite: "@tile:roca_hielo", script: "fosil:ambar-mioceno", hideIf: "fosil", solid: true });
+  b.npc({ id: "ie-paleo", x: 7, y: 1, sprite: "estudiante", dir: 0, talk: "Paleomicrobiólogo: ¡Dos fósiles! Un estromatolito y un ámbar con una espora dentro. Solo puedes llevarte uno… ¡Elige bien!" });
+  b.npc({ id: "sputnik-legendario", x: 18, y: 2, sprite: "@microo:sputnik-v", script: "estatico:sputnik-v|55|sputnik", hideIf: "sputnik", solid: true });
+  b.item(21, 3, "glicerol", "item:ie-glicerol", 2);
+  b.item(1, 18, "atp-concentrado", "item:ie-atp", 1, true);
+  b.encounters([
+    { sp: "colwellia", min: 46, max: 48, w: 24 }, { sp: "psychrobac", min: 45, max: 47, w: 22 }, { sp: "deinococ", min: 46, max: 48, w: 16 },
+    { sp: "radiodurans", min: 46, max: 48, w: 18 }, { sp: "tardigrad", min: 47, max: 48, w: 6 }, { sp: "thiomargar", min: 46, max: 48, w: 14 },
+  ]);
+  add(b.done({ music: "cueva", floorEncounters: "nieve" }));
+}
+
+// ---------------------------------------------------------------- Isla Conjugada
+{
+  const b = new MapBuilder("isla-conjugada", "Isla Conjugada", 30, 26);
+  b.trees(0, 0, 30, 2).trees(0, 0, 2, 20).trees(28, 0, 2, 20);
+  b.fill(0, 20, 30, 2, "s").fill(0, 22, 30, 4, "~").fill(12, 20, 4, 3, "s");
+  b.fill(14, 7, 2, 13, "p").fill(3, 12, 24, 2, "p").fill(6, 8, 1, 4, "p").fill(23, 8, 1, 4, "p").fill(9, 14, 1, 3, "p").fill(20, 14, 1, 3, "p");
+  b.building(11, 2, { kind: "gimnasio", w: 8, color: "morado", door: 4, to: "gimnasio-conjugada", tx: 6, ty: 15 });
+  b.building(3, 5, { kind: "lab", w: 6, color: "azul", door: 3, to: "carlos-iii", tx: 5, ty: 8 });
+  b.building(20, 5, { kind: "casa", w: 7, color: "gris", door: 3, to: "mansion-1", tx: 7, ty: 12 });
+  b.building(7, 15, { kind: "incubadora", w: 5, door: 2, to: "incubadora-conjugada", tx: 5, ty: 6 });
+  b.building(18, 15, { kind: "tienda", w: 5, door: 2, to: "tienda-conjugada", tx: 4, ty: 6 });
+  b.fill(24, 15, 3, 3, "f").fill(2, 15, 3, 3, "f");
+  b.sign(13, 19, "Isla Conjugada. «Aquí los genes cambian de dueño».");
+  b.sign(5, 10, "Instituto Carlos III. Revivimos cepas del permafrost y fósiles microbianos.");
+  b.sign(22, 10, "Mansión de las Cepas. Propiedad privada. (La puerta está forzada…)");
+  b.sign(16, 6, "Gimnasio Fago. Líder: Dra. Susana Campoy.");
+  b.npc({ id: "conj-marinero", x: 12, y: 22, sprite: "dependiente", dir: 3, script: "ferri" });
+  b.npc({ id: "conj-gym-cerrado", x: 15, y: 5, sprite: "becario", dir: 0, hideIf: "urtaza3", talk: "La Dra. Campoy ha cerrado el gimnasio. Ha ido a la Mansión de las Cepas: dice que ahí dentro está pasando algo terrible." });
+  b.npc({ id: "conj-1", x: 9, y: 11, sprite: "chica", move: "pasear", talk: "La conjugación bacteriana es como un intercambio de genes con un puente de pilus. ¡Por eso la isla se llama así!" });
+  b.encounters([
+    { sp: "marburg-v", min: 47, max: 49, w: 16 }, { sp: "mimivir", min: 47, max: 49, w: 16 }, { sp: "lambda-v", min: 46, max: 48, w: 16 },
+    { sp: "bacteriovor", min: 46, max: 48, w: 16 }, { sp: "retrovir-x", min: 50, max: 50, w: 4 }, { sp: "lentivir", min: 46, max: 48, w: 16 },
+    { sp: "pleomorph", min: 45, max: 46, w: 6 }, { sp: "coli-bl21", min: 46, max: 48, w: 10 },
+  ]);
+  b.fill(2, 2, 8, 3, "g").fill(22, 2, 5, 3, "g").fill(24, 18, 4, 2, "g").fill(2, 18, 4, 2, "g");
+  add(b.done({ music: "ciudad" }));
+}
+add(incubadora("incubadora-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 9, y: 17 }));
+add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, y: 17 }, ["criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+{
+  const b = new MapBuilder("carlos-iii", "Instituto Carlos III", 11, 10, "L", "laboratorio", false);
+  b.fill(0, 0, 11, 1, "w").fill(0, 1, 11, 1, "W").fill(0, 1, 3, 1, "i").fill(8, 1, 3, 1, "i").set(0, 5, "M").set(10, 5, "B").set(0, 8, "n").set(10, 8, "n");
+  b.fill(3, 3, 5, 1, "c").fill(4, 9, 3, 1, "a");
+  b.npc({ id: "c3-cientifica", x: 5, y: 2, sprite: "profesora", dir: 0, script: "carlosIII" });
+  b.npc({ id: "c3-becario", x: 8, y: 6, sprite: "becario", dir: 2, talk: ["Aquí revivimos microorganismos congelados en el permafrost. ¡Algunos llevan miles de años dormidos!", "El Dr. Martínez-Urtaza vino hace poco a robar muestras liofilizadas… para la Mansión."] });
+  b.warp({ x: 4, y: 9, w: 3, to: "isla-conjugada", tx: 6, ty: 9, dir: 0 });
+  add(b.done());
+}
+
+// ---------------------------------------------------------------- Mansión de las Cepas
+{
+  const b = new MapBuilder("mansion-1", "Mansión de las Cepas", 16, 14, "m", "interior", false);
+  b.fill(0, 0, 16, 1, "w").fill(0, 1, 16, 1, "W").fill(1, 1, 3, 1, "e").fill(12, 1, 3, 1, "e");
+  b.fill(4, 4, 1, 5, "e").fill(11, 4, 1, 5, "e").fill(6, 9, 4, 1, "t").set(15, 2, "E").fill(6, 13, 3, 1, "a");
+  b.sign(5, 4, "Diario, 5 de julio: Nuestra cepa K-12 crece de maravilla. Docilísima. Perfecta para el laboratorio.");
+  b.sign(10, 4, "Diario, 12 de agosto: Un fago portador de la toxina Shiga se ha colado en un cultivo. La cepa ha cambiado…");
+  b.sign(8, 9, "Diario, 3 de septiembre: La nueva cepa produce toxina. La llamamos O157:H7. Ya no podemos controlarla.");
+  b.npc({ id: "m1-r1", x: 2, y: 6, sprite: "recluta", dir: 3, trainer: {
+    name: "Doctorando", clase: "Recluta de la Unidad", team: [["marburg-v", 48], ["retrovir-x", 50]], sight: 4, money: 230,
+    intro: "¡El jefe está a punto de despertar al Microo definitivo! ¡No pasarás!", lose: "Bueno… yo solo hacía los gráficos.", after: "El jefe dice que con Machine Learning controlará la selección poblacional. Yo ya no sé qué pensar." } });
+  b.npc({ id: "m1-r2", x: 13, y: 10, sprite: "recluta-b", dir: 2, trainer: {
+    name: "Postdoc", clase: "Recluta de la Unidad", team: [["mimivir", 49], ["pneumonia-k", 49], ["bacteriovor", 49]], sight: 4, money: 230,
+    intro: "¡Tres años de postdoc para esto! ¡Al menos déjame ganar un combate!", lose: "Ni eso…", after: "Arriba está el laboratorio profundo. Y el jefe. Y… eso." } });
+  b.warp({ x: 6, y: 13, w: 3, to: "isla-conjugada", tx: 23, ty: 8, dir: 0 });
+  b.warp({ x: 15, y: 2, to: "mansion-2", tx: 14, ty: 3, dir: 0 });
+  b.encounters([{ sp: "coli-k12", min: 45, max: 47, w: 30 }, { sp: "coli-bl21", min: 46, max: 48, w: 30 }, { sp: "lambda-v", min: 46, max: 48, w: 25 }, { sp: "marburg-v", min: 47, max: 49, w: 15 }]);
+  add(b.done({ music: "guarida", floorEncounters: "suelo_madera" }));
+}
+{
+  const b = new MapBuilder("mansion-2", "Mansión de las Cepas · Laboratorio profundo", 16, 14, "L", "laboratorio", false);
+  b.fill(0, 0, 16, 1, "w").fill(0, 1, 16, 1, "W");
+  b.set(15, 2, "E").fill(2, 2, 3, 1, "K").fill(11, 2, 3, 1, "D").fill(3, 7, 1, 5, "B").fill(12, 7, 1, 5, "B").set(1, 12, "i").set(14, 12, "i");
+  b.npc({ id: "m2-campoy", x: 10, y: 9, sprite: "campoy", dir: 2, hideIf: "urtaza3", talk: "Dra. Susana Campoy: ¡Ha usado un fago con la toxina Shiga para crear una cepa nueva! Yo no puedo detenerle sola… ¡Ayúdame!" });
+  b.npc({ id: "m2-urtaza", x: 7, y: 5, sprite: "urtaza", dir: 0, script: "urtazaFinal", hideIf: "urtaza3", solid: true });
+  b.npc({ id: "o157-legendario", x: 7, y: 3, sprite: "@microo:ecoli-o157", script: "estatico:ecoli-o157|60|o157", showIf: "urtaza3", hideIf: "o157", solid: true });
+  b.sign(5, 3, "Diario del Dr. Martínez-Urtaza: «La biología es solo un problema de datos. Con suficientes muestras de Cádiz, la controlaré».");
+  b.warp({ x: 15, y: 2, to: "mansion-1", tx: 14, ty: 2, dir: 2 });
+  add(b.done({ music: "guarida" }));
+}
+{
+  const b = new MapBuilder("gimnasio-conjugada", "Gimnasio Fago", 13, 17, "Y", "gimnasio", false);
+  b.fill(0, 0, 13, 1, "w").fill(0, 1, 13, 1, "W");
+  b.fill(0, 5, 4, 1, "1").fill(6, 5, 7, 1, "1").fill(0, 9, 8, 1, "1").fill(10, 9, 3, 1, "1").fill(3, 13, 7, 1, "1");
+  b.set(0, 2, "1").set(12, 2, "1").set(0, 15, "n").set(12, 15, "n");
+  b.fill(5, 16, 3, 1, "a");
+  b.npc({ id: "lider-campoy", x: 6, y: 2, sprite: "campoy", dir: 0, script: "liderCampoy" });
+  b.npc({ id: "gym8-a", x: 9, y: 7, sprite: "chica", dir: 2, trainer: {
+    name: "Mireia", clase: "Fagóloga", team: [["lambda-v", 49], ["phage-x174", 49], ["marburg-v", 50]], sight: 4, money: 240,
+    intro: "¡Ciclo lítico o lisogénico! ¿Cuál prefieres sufrir?", lose: "Me has dejado en latencia…", after: "La terapia fágica usa virus para matar bacterias resistentes. ¡Es el futuro!" } });
+  b.npc({ id: "gym8-b", x: 2, y: 11, sprite: "estudiante", dir: 3, trainer: {
+    name: "Nil", clase: "Ingeniero Genético", team: [["mimivir", 50], ["retrovir-x", 50], ["bacteriovor", 50]], sight: 4, money: 240,
+    intro: "¡Transducción generalizada! ¡Te inyecto mis genes!", lose: "Error de empaquetado…", after: "La Dra. Campoy estudia cómo los fagos mueven genes entre bacterias. ¡Hasta genes de resistencia!" } });
+  b.npc({ id: "guia-gym8", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! El último consejo.", "La Dra. Campoy usa Virus: Lambda-V, Bacteriovor, Marburg-V y su gran T4-Titan.", "¡T4-Titan es Virus y Biofilm, y golpea como un ariete!"] });
+  b.warp({ x: 5, y: 16, w: 3, to: "isla-conjugada", tx: 15, ty: 6, dir: 0 });
+  add(b.done({ music: "gimnasio" }));
+}
+
 /** Comprueba coherencia de mapas: destinos de warps dentro de los mapas existentes. */
 export function checkMaps(): string[] {
   const errs: string[] = [];

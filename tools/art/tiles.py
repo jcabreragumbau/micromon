@@ -445,6 +445,39 @@ def poster():
     t.hline(5, 10, 6, H("#606060")); t.hline(5, 9, 8, H("#606060")); t.hline(5, 10, 10, H("#606060"))
     return t
 
+# ---------------------------------------------------------------- Islas Esporuladas (hielo a -80 °C) y coliseo fago
+def ice():
+    t = T(H("#b8e0f4"))
+    t.mask(((XX - YY) % 9 == 0) & (XX > 2), H("#e4f6ff")); t.mask(((XX - YY) % 9 == 1) & (XX > 3), H("#f8feff"))
+    t.hline(0, 15, 15, H("#9ccce8")); t.vline(15, 0, 15, H("#9ccce8"))
+    return t
+def snow(seed=3):
+    t = T(H("#eef4fa"))
+    for i in range(6):
+        x, y = int(rnd(seed + 60, i) * 15), int(rnd(seed + 61, i) * 15)
+        t.px(x, y, H("#cfdcea")); t.px(x + 1, y, H("#dce6f0"))
+    return t
+def ice_rock():
+    t = snow(5)
+    t.mask(circ(8, 9, 7), O); t.mask(circ(8, 9, 6), H("#7aa8d0")); t.mask(circ(7, 8, 4.4), H("#a8d0ec")); t.mask(circ(5.5, 6, 2), H("#e8f8ff"))
+    return t
+def ice_wall():
+    t = T(H("#5a88b8"))
+    t.rect(0, 0, 15, 3, H("#8ab8e0")); t.hline(0, 15, 0, H("#c8e8ff"))
+    for x0 in (0, 6, 11): t.vline(x0, 4, 15, H("#3a5a88")); t.rect(x0 + 1, 4, x0 + 2, 9, H("#7aa8d0"))
+    t.hline(0, 15, 4, H("#3a5a88")); t.hline(0, 15, 10, H("#3a5a88")); t.hline(0, 15, 15, H("#2a4068"))
+    return t
+def holo_capsid(frame=0):
+    t = floor_gym()
+    c = [H("#58e8ff"), H("#a8f8ff")] if frame == 0 else [H("#a8f8ff"), H("#58e8ff")]
+    pts = [(8 + 6 * np.cos(a), 8 + 6 * np.sin(a)) for a in np.linspace(np.pi / 6, np.pi / 6 + 2 * np.pi, 7)]
+    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+        for k in range(10):
+            x = x0 + (x1 - x0) * k / 10; y = y0 + (y1 - y0) * k / 10
+            t.px(int(x), int(y), c[0]); t.px(8 + int((x - 8) * 0.5), 8 + int((y - 8) * 0.5), c[1])
+    t.mask(circ(8, 8, 1.2), c[1])
+    return t
+
 def black(): return T(H("#000000"))
 
 def build():
@@ -471,7 +504,8 @@ def build():
                   "hifas_bloqueo": hyphae_block(), "winogradsky": winogradsky(), "suelo_invernadero": floor_greenhouse(),
                   "piscina0": pool(0), "piscina1": pool(1),
                   "suelo_casino": casino_floor(), "tragaperras0": slot_machine(0), "tragaperras1": slot_machine(1), "suelo_tecnico": tech_floor(),
-                  "servidor0": server(0), "servidor1": server(1), "suelo_torre": tower_floor(), "placa_contaminada": cont_plate(), "poster": poster()})
+                  "servidor0": server(0), "servidor1": server(1), "suelo_torre": tower_floor(), "placa_contaminada": cont_plate(), "poster": poster(),
+                  "hielo": ice(), "nieve": snow(), "roca_hielo": ice_rock(), "pared_hielo": ice_wall(), "holo0": holo_capsid(0), "holo1": holo_capsid(1)})
     names = list(tiles)
     cols = 16; rows = (len(names) + cols - 1) // cols
     atlas = Image.new("RGBA", (cols * 16, rows * 16))
