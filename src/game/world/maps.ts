@@ -49,7 +49,7 @@ function tienda(id: string, ciudad: string, back: { to: string; x: number; y: nu
   b.fill(14, 11, 3, 3, "~").fill(3, 8, 2, 1, "f").fill(15, 8, 2, 1, "f").fill(3, 13, 2, 1, "f");
   b.building(3, 3, { kind: "casa", w: 5, door: 2, to: "casa-jugador", tx: 3, ty: 5 });
   b.building(12, 3, { kind: "casa", w: 5, color: "azul", door: 2, to: "casa-vecina", tx: 3, ty: 5 });
-  b.building(5, 9, { kind: "lab", w: 8, door: 4, to: "laboratorio", tx: 5, ty: 8 });
+  b.building(5, 9, { kind: "lab", w: 8, door: 4, to: "laboratorio", tx: 5, ty: 8, sprite: "laboratorio" });
   b.sign(7, 7, "Pueblo Plaqueta. «Donde germinan las grandes cepas».");
   b.sign(11, 13, "Laboratorio de Microbiología de la Profesora Hesse.");
   b.npc({ id: "chico-plaqueta", x: 12, y: 8, sprite: "chico", move: "pasear", talk: "¿Sabías que los Microos viven en todas partes? ¡Hasta en tu nevera!" });
@@ -634,7 +634,7 @@ function torre(n: number) {
   b.trees(0, 0, 30, 2).trees(0, 0, 2, 10).trees(0, 14, 2, 10).trees(28, 0, 2, 24).trees(0, 22, 30, 2);
   b.fill(0, 11, 28, 2, "p").fill(14, 2, 2, 9, "p").fill(14, 13, 2, 9, "p");
   b.building(3, 3, { kind: "gimnasio", w: 7, color: "naranja", door: 3, to: "gimnasio-aerobia", tx: 6, ty: 15 });
-  b.building(18, 3, { kind: "casa", w: 8, color: "rojo", door: 4, to: "casino", tx: 6, ty: 10 });
+  b.building(18, 3, { kind: "casa", w: 8, color: "rojo", door: 4, to: "casino", tx: 6, ty: 10, sprite: "" });
   b.building(3, 15, { kind: "incubadora", w: 5, door: 2, to: "incubadora-aerobia", tx: 5, ty: 6 });
   b.building(18, 15, { kind: "tienda", w: 6, door: 3, to: "tienda-aerobia", tx: 4, ty: 6 });
   b.building(9, 16, { kind: "casa", w: 4, color: "azul", door: 1, to: "casa-aerobia", tx: 3, ty: 5 });
@@ -1117,7 +1117,7 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
   b.fill(14, 7, 2, 13, "p").fill(3, 12, 24, 2, "p").fill(6, 8, 1, 4, "p").fill(23, 8, 1, 4, "p").fill(9, 14, 1, 3, "p").fill(20, 14, 1, 3, "p");
   b.building(11, 2, { kind: "gimnasio", w: 8, color: "morado", door: 4, to: "gimnasio-conjugada", tx: 6, ty: 15 });
   b.building(3, 5, { kind: "lab", w: 6, color: "azul", door: 3, to: "carlos-iii", tx: 5, ty: 8 });
-  b.building(20, 5, { kind: "casa", w: 7, color: "gris", door: 3, to: "mansion-1", tx: 7, ty: 12 });
+  b.building(20, 5, { kind: "casa", w: 7, color: "gris", door: 3, to: "mansion-1", tx: 7, ty: 12, sprite: "laboratorio" });
   b.building(7, 15, { kind: "incubadora", w: 5, door: 2, to: "incubadora-conjugada", tx: 5, ty: 6 });
   b.building(18, 15, { kind: "tienda", w: 5, door: 2, to: "tienda-conjugada", tx: 4, ty: 6 });
   b.fill(24, 15, 3, 3, "f").fill(2, 15, 3, 3, "f");

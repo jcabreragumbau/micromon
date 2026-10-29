@@ -5,6 +5,7 @@ import fontMeta from "../../assets/atlas/font.json";
 import tilesMeta from "../../assets/atlas/tiles.json";
 import charMeta from "../../assets/atlas/personajes.json";
 import microMeta from "../../assets/atlas/microos.json";
+import propsMeta from "../../assets/atlas/props_hd.json";
 
 export const IMG: Record<string, HTMLImageElement> = {};
 export const FONT = fontMeta as unknown as { cell: [number, number]; cols: number; height: number; glyphs: Record<string, [number, number]> };
@@ -20,3 +21,5 @@ export async function loadAssets(): Promise<void> {
     im.src = url;
   })));
 }
+/** Ilustraciones HD de edificios y árboles (rectángulo en el atlas, puerta y fachada en px del atlas). */
+export const PROPS = propsMeta as unknown as Record<string, { x: number; y: number; w: number; h: number; door?: [number, number]; wall?: [number, number] }>;

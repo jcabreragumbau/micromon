@@ -10,7 +10,7 @@ import { runScript, talkNpc, trainerBattle, wildBattle } from "../scripts";
 import { openStartMenu } from "./menus";
 import { addItem } from "../state";
 import { ITEMS } from "../../engine/data";
-import { IMG, TILES } from "../assets";
+import { IMG, TILES, PROPS } from "../assets";
 
 const DX = [0, 0, -1, 1], DY = [1, -1, 0, 0]; // abajo, arriba, izquierda, derecha
 
@@ -133,9 +133,9 @@ export class Overworld implements Scene {
     }
     const w = this.warpAt(this.px, this.py);
     const tile = tileAt(this.map, this.px, this.py);
-    if (w && (tile.startsWith("muro_puerta") || tile === "alfombra" || tile === "escaleras" || tile === "cueva_entrada" || this.isEdge(this.px, this.py, w))) {
+    if (w && (tile.startsWith("muro_puerta") || tile === "puerta_hd" || tile === "alfombra" || tile === "escaleras" || tile === "cueva_entrada" || this.isEdge(this.px, this.py, w))) {
       if (tile === "alfombra" && this.dir !== 0) return;
-      if (this.isEdge(this.px, this.py, w) && !tile.startsWith("muro_puerta") && tile !== "alfombra") return; // los bordes se cruzan al seguir andando
+      if (this.isEdge(this.px, this.py, w) && !tile.startsWith("muro_puerta") && tile !== "puerta_hd" && tile !== "alfombra") return; // los bordes se cruzan al seguir andando
       this.doWarp(w, this.px, this.py); return;
     }
     const tr = this.map.triggers.find((t) => this.px >= t.x && this.px < t.x + (t.w ?? 1) && this.py >= t.y && this.py < t.y + (t.h ?? 1));
@@ -259,18 +259,37 @@ export class Overworld implements Scene {
     const cy = this.map.h * 16 < H ? -(H - this.map.h * 16) / 2 : Math.max(0, Math.min(this.map.h * 16 - H, camY));
     g.clear("#000");
     const x0 = Math.floor(cx / 16) - 1, y0 = Math.floor(cy / 16) - 1;
+    const hd = !!IMG.props_hd;
+    const trees: [string, number, number][] = [];
     for (let y = y0; y < y0 + Math.ceil(H / 16) + 2; y++) for (let x = x0; x < x0 + Math.ceil(W / 16) + 2; x++) {
       if (x < 0 || y < 0 || x >= this.map.w || y >= this.map.h) continue;
-      g.tile(tileAt(this.map, x, y, this.anim), x * 16 - cx, y * 16 - cy);
+      let t = tileAt(this.map, x, y, this.anim);
+      if (hd && t.startsWith("arbol")) {
+        // árbol HD de 2×2 casillas: suelo en las cuatro y la ilustración desde la esquina superior izquierda
+        if (t.endsWith("_tl")) trees.push([t.startsWith("arbolv") ? "arbolv" : "arbol", x * 16 - cx, y * 16 - cy]);
+        t = t.startsWith("arbolv") ? "hierba_oscura" : "hierba";
+        if (t === "hierba_oscura" && TILES[t] === undefined) t = "hierba";
+      }
+      if (t === "bloque" || t === "puerta_hd") t = "hierba";
+      g.tile(t, x * 16 - cx, y * 16 - cy);
     }
+    for (const [n, x, y] of trees) drawProp(g, n, x - 1, y - 2, 34);
     // objetos del suelo
     for (const it of this.map.items) {
       if (it.hidden || game.state.flags[it.flag]) continue;
       drawBall(g, it.x * 16 - cx + 4, it.y * 16 - cy + 4);
     }
-    // personajes ordenados por profundidad
+    // personajes y edificios HD ordenados por profundidad
     type E = { y: number; d: () => void };
     const ents: E[] = [];
+    if (hd) for (const p of this.map.props ?? []) {
+      const m = PROPS[p.sprite];
+      if (!m?.door || !m.wall) continue;
+      const k = (p.sprite === "laboratorio" ? p.w - 1.5 : Math.max(p.w, 5)) * 16 / (m.wall[1] - m.wall[0]);
+      const dx = (p.x + p.door) * 16 + 8 - cx - m.door[0] * k, dy = (p.y + p.h) * 16 - cy - m.door[1] * k;
+      if (dx > W || dy > H || dx + m.w * k < 0 || dy + m.h * k < 0) continue;
+      ents.push({ y: (p.y + p.h - 1) * 16 - cy - 1, d: () => drawProp(g, p.sprite, dx, dy, m.w * k) });
+    }
     for (const n of this.npcs) {
       if (n.def.sprite === "") continue;
       const sx = n.x * 16 + n.ox - cx, sy = n.y * 16 + n.oy - cy;
@@ -317,6 +336,16 @@ export function drawBall(g: Gfx, x: number, y: number) {
   c.fillStyle = "#1a1420"; c.fillRect(x + 1, y + 4, 6, 1);
   c.fillStyle = "#f8f8f8"; c.fillRect(x + 3, y + 3, 2, 2); c.fillStyle = "#ffb0b0"; c.fillRect(x + 2, y + 1, 1, 1);
 }
+/** Dibuja una ilustración HD del atlas de edificios con ancho w (la altura sale de la proporción). */
+function drawProp(g: Gfx, name: string, x: number, y: number, w: number) {
+  const m = PROPS[name];
+  if (!m) return;
+  const c = g.ctx;
+  c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+  c.drawImage(IMG.props_hd, m.x, m.y, m.w, m.h, Math.round(x * 4) / 4, Math.round(y * 4) / 4, w, (w * m.h) / m.w);
+  c.imageSmoothingEnabled = false;
+}
+
 function drawEmote(g: Gfx, x: number, y: number) {
   g.frame(x - 2, y, 12, 14, "info");
   g.text("!", x + 2, y + 2, "red", false);

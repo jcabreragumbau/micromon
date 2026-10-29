@@ -26,6 +26,16 @@ export interface MapDef {
   safari?: boolean;
   /** Tile de suelo (no hierba) en el que hay encuentros salvajes. */
   floorEncounters?: string;
+  /** Edificios dibujados con una ilustración HD sobre su planta (casilla x,y; ancho w; filas h; puerta en x+door). */
+  props?: PropDef[];
+}
+export interface PropDef { sprite: string; x: number; y: number; w: number; h: number; door: number }
+/** Ilustración HD por defecto de cada tipo de edificio ("" = dibujarlo con tiles). */
+export function buildingSprite(kind: string, color: string): string {
+  if (kind === "casa") return color === "rojo" || color === "naranja" ? "casa_roja" : "casa_azul";
+  if (kind === "incubadora") return "centro";
+  if (kind === "tienda") return "tienda";
+  return "";
 }
 
 /** Leyenda de caracteres → tile. T y V son árboles de 2×2 alineados a coordenadas pares. */
@@ -63,9 +73,19 @@ export class MapBuilder {
     return this;
   }
   /** Edificio: tejado de 2 filas + muro. kind decide colores e iconos. Devuelve la casilla de la puerta. */
-  building(x: number, y: number, o: { kind: "casa" | "lab" | "incubadora" | "tienda" | "gimnasio"; w: number; color?: string; door: number; to: string; tx: number; ty: number }) {
+  building(x: number, y: number, o: { kind: "casa" | "lab" | "incubadora" | "tienda" | "gimnasio"; w: number; color?: string; door: number; to: string; tx: number; ty: number; sprite?: string }) {
     const color = o.color ?? { casa: "rojo", lab: "gris", incubadora: "naranja", tienda: "azul", gimnasio: "verde" }[o.kind];
     const wallRows = o.kind === "lab" || o.kind === "gimnasio" ? 2 : 1;
+    const sprite = o.sprite ?? buildingSprite(o.kind, color);
+    if (sprite) {
+      // Planta sólida invisible bajo la ilustración; la puerta sigue siendo la casilla de entrada.
+      const rows = 2 + wallRows, dy = y + rows - 1;
+      this.fill(x, y, o.w, rows, "@bloque");
+      this.set(x + o.door, dy, "@puerta_hd");
+      (this.def.props ??= []).push({ sprite, x, y, w: o.w, h: rows, door: o.door });
+      this.def.warps.push({ x: x + o.door, y: dy, to: o.to, tx: o.tx, ty: o.ty, dir: 1 });
+      return { x: x + o.door, y: dy };
+    }
     for (let r = 0; r < 2; r++) for (let i = 0; i < o.w; i++) {
       const pos = i === 0 ? "l" : i === o.w - 1 ? "r" : "m";
       this.set(x + i, y + r, `@tejado_${color}_${pos}${r}`);
@@ -105,7 +125,7 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
     return `${ch === "T" ? "arbol" : "arbolv"}_${p}`;
   }
   if (ch === "~" || ch === "p" || ch === "s") {
-    const same = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === ch || (ch === "p" && c.startsWith("@muro_puerta")); };
+    const same = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === ch || (ch === "p" && (c.startsWith("@muro_puerta") || c === "@puerta_hd")); };
     const mask = (same(x, y - 1) ? 0 : 1) | (same(x + 1, y) ? 0 : 2) | (same(x, y + 1) ? 0 : 4) | (same(x - 1, y) ? 0 : 8);
     if (ch === "~") return `agua_${mask}_${frame % 64 < 32 ? 0 : 1}`;
     return `${ch === "p" ? "camino" : "arena"}_${mask}`;
@@ -121,6 +141,6 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
 }
 
 const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
-  "suelo_madera", "suelo_lab", "suelo_gimnasio", "suelo_cueva", "suelo_invernadero", "cueva_entrada", "suelo_casino", "suelo_tecnico", "suelo_torre", "hielo", "nieve", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo"]);
+  "suelo_madera", "suelo_lab", "suelo_gimnasio", "suelo_cueva", "suelo_invernadero", "cueva_entrada", "suelo_casino", "suelo_tecnico", "suelo_torre", "hielo", "nieve", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo", "puerta_hd"]);
 export function passable(tile: string) { return PASSABLE.has(tile); }
 export function isGrass(tile: string) { return tile === "hierba_alta" || tile === "hierba_oscura"; }
