@@ -47,8 +47,8 @@ export class Game {
   draw() {
     this.g.clear("#000");
     this.scene?.draw(this.g, this);
-    for (const o of this.overlays) o.ov.draw(this.g, this);
     if (this.blackout > 0) this.g.alpha(Math.min(1, this.blackout), () => this.g.rect(0, 0, W, H, "#000"));
+    for (const o of this.overlays) o.ov.draw(this.g, this);
   }
   run<T = unknown>(ov: Overlay): Promise<T> {
     return new Promise((resolve) => this.overlays.push({ ov, resolve: resolve as (v: unknown) => void }));

@@ -145,8 +145,8 @@ export class Overworld implements Scene {
     this.lock(async () => {
       await this.game.fade(true, 10);
       this.load(w.to, tx, ty, w.dir ?? this.dir);
-      if (this.map.onEnter) await runScript(this.game, this, this.map.onEnter);
       await this.game.fade(false, 10);
+      if (this.map.onEnter) await runScript(this.game, this, this.map.onEnter);
       await this.checkTrainers();
     });
   }
