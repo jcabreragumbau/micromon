@@ -3,11 +3,12 @@ import type { Game } from "./game";
 import { audio } from "./audio";
 import type { Overworld, NpcState } from "./scenes/overworld";
 import { BattleScene, type BattleSetup, type BattleOutcome } from "./scenes/battle";
-import { shopMenu, congeladorMenu } from "./scenes/menus";
+import { shopMenu, congeladorMenu, partyMenu } from "./scenes/menus";
+import { evolutionSequence } from "./scenes/battle";
 import { SlotMachine, fichas } from "./scenes/casino";
 import { HallOfFame, Credits } from "./scenes/creditos";
 import { saveGame } from "./state";
-import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, TRAINERS, type Microo } from "../engine";
+import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, TRAINERS, conjugationEvolution, type Microo } from "../engine";
 import { addItem, markCaught, markSeen } from "./state";
 import { MAPS } from "./world/maps";
 
@@ -151,6 +152,14 @@ const SCRIPTS: Record<string, Script> = {
     const s = S(game);
     if (!s.flags.inicial) { await game.say("Profesora Hesse: Elige uno de los tres Inóculos de la mesa. Acércate y pulsa A."); return; }
     if (!s.flags.microdex) { await SCRIPTS.darMicrodex(game, undefined as never); return; }
+    if (s.flags.campeon && !s.flags.iniciales2) {
+      s.flags.iniciales2 = true;
+      await game.say(`Profesora Hesse: ¡${s.avatar === "chica" ? "Campeona" : "Campeón"} de La UAB! Estoy orgullosísima. Toma: los dos Inóculos que no elegiste aquel primer día.`);
+      for (const sp of ["synechoc", "butyricum", "paramec"]) if (sp !== s.flags.starter) await giveMicroo(game, sp, 5);
+      await game.say("Profesora Hesse: Por cierto… dicen que una Salmonella muy rara ronda los jardines de La UAB desde tu victoria.");
+      return;
+    }
+    if (s.caught.length >= 162) { await game.say("Profesora Hesse: ¡162 especies! ¡Has completado la Microdex! Eres la persona que más sabe de microbios del mundo."); return; }
     await game.say(`Profesora Hesse: Llevas ${s.caught.length} especies aisladas. ¡Hay muchísimas más ahí fuera!`);
     await game.say("Profesora Hesse: Debilita a los Microos salvajes antes de lanzar una Criobola. Y si los dejas en latencia, mejor aún.");
   },
@@ -970,5 +979,19 @@ const SCRIPTS: Record<string, Script> = {
 
   async congelador(game) {
     await congeladorMenu(game);
+  },
+
+  /** Estación de Conjugación: evoluciones que en el GDD requieren intercambio (conjugación bacteriana). */
+  async conjugacion(game, world) {
+    const s = S(game);
+    await game.say("Técnica de Conjugación: ¡Hola! Aquí ponemos a tu Microo junto a una cepa donadora. Con un pilus de conjugación, ¡pasan genes de una a otra!");
+    await game.say("Técnica: Algunos Microos solo evolucionan así: Genitalium, Pyogenes, Bovis y Methanosar. ¿Probamos con alguno?");
+    const i = await partyMenu(game, { mode: "item", prompt: "¿Qué Microo pones a conjugar?" });
+    if (i < 0) return;
+    const m = s.party[i];
+    const to = conjugationEvolution(m);
+    if (!to) { await game.say(`Técnica: Vaya… ${displayNameOf(m)} no ha aceptado ningún plásmido nuevo. No evoluciona por conjugación.`); return; }
+    await game.say("Técnica: ¡El pilus se ha extendido! Transfiriendo el plásmido…");
+    await evolutionSequence(game, m, to);
   },
 };

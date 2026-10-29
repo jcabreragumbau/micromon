@@ -16,7 +16,7 @@ export type Growth = "fast" | "medium_fast" | "medium_slow" | "slow";
 export interface Evolution { method: "level" | "item" | "conjugation"; level?: number; item?: string }
 
 export interface Species {
-  id: string; dex: number; name: string; organism: string; types: TypeName[];
+  id: string; dex: number; name: string; organism: string; scientific: string; entry: string; types: TypeName[];
   evolvesFrom: string | null; evolution: Evolution | null;
   baseStats: Stats; bst: number; growth: Growth; catchRate: number; expYield: number;
   size: number; stage: number; learnset: { level: number; move: string }[]; mo: string[];
@@ -54,7 +54,7 @@ export const SPECIES: Map<string, Species> = new Map(
   (speciesJson as any[]).map((s) => {
     const m = dexById.get(s.id)!;
     return [s.id, {
-      id: s.id, dex: m.dex, name: m.name, organism: m.organism, types: m.types,
+      id: s.id, dex: m.dex, name: m.name, organism: m.organism, scientific: m.scientific, entry: m.entry, types: m.types,
       evolvesFrom: m.evolves_from, evolution: m.evolution,
       baseStats: s.baseStats, bst: s.bst, growth: s.growth, catchRate: s.catchRate,
       expYield: s.expYield, size: s.size, stage: s.stage, learnset: s.learnset, mo: s.mo,

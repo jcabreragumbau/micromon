@@ -1,5 +1,6 @@
 // Menús: inicio, equipo, resumen, mochila, Microdex, ficha, guardado, opciones y tienda.
 import type { Game, Overlay } from "../game";
+import { MAPS } from "../world/maps";
 import { audio } from "../audio";
 import { Gfx, W, H, TB, shade, TYPE_COLORS } from "../gfx";
 import type { Overworld } from "./overworld";
@@ -314,6 +315,7 @@ class DexScreen implements Overlay {
     if (game.input.repeat("up")) this.sel = Math.max(0, this.sel - 1);
     if (game.input.repeat("right")) this.sel = Math.min(n - 1, this.sel + 8);
     if (game.input.repeat("left")) this.sel = Math.max(0, this.sel - 8);
+    if (game.input.pressed("a") && game.state.seen.includes(this.list[this.sel].id)) game.run(new DexDetail(this.list[this.sel].id));
     return game.input.pressed("b");
   }
   draw(g: Gfx, game: Game) {
@@ -502,5 +504,40 @@ class BoxScreen implements Overlay {
       g.text(g.fit(displayName(x), 70), 148, y + 2);
       g.text(`${x.level}`, W - 12 - g.measure(`${x.level}`), y + 2, "gray");
     });
+  }
+}
+
+/** Mapas donde aparece cada especie (según las tablas de encuentros). */
+function habitats(sp: string): string[] {
+  const out: string[] = [];
+  for (const m of Object.values(MAPS)) if (m.grass.some((e) => e.sp === sp) && !out.includes(m.name)) out.push(m.name);
+  return out;
+}
+export class DexDetail implements Overlay {
+  page = 0;
+  constructor(public sp: string) {}
+  update(game: Game) {
+    if (game.input.pressed("left") || game.input.pressed("right")) this.page = 1 - this.page;
+    return game.input.pressed("a") || game.input.pressed("b");
+  }
+  draw(g: Gfx, game: Game) {
+    const sp = getSpecies(this.sp), caught = game.state.caught.includes(this.sp);
+    g.clear("#c83838");
+    g.rect(0, 0, W, 20, "#a02828");
+    g.text(`Nº${String(sp.dex).padStart(3, "0")}  ${g.fit(sp.name, 150)}`, 8, 5, "white");
+    g.text(this.page === 0 ? "DATOS 1/2" : "HÁBITAT 2/2", W - 70, 5, "white");
+    g.panel(4, 24, 96, 92, shade(TYPE_C(sp.types[0]), 0.6), shade(TYPE_C(sp.types[0]), 0.15), "#283040", 6);
+    g.microo(this.sp, "frente", 20 - 4, 36 + (Math.floor(game.frame / 24) % 2));
+    g.panel(104, 24, W - 108, 92, "#ffffff", "#e8e8f0", "#384058", 5);
+    g.text(g.fit(caught ? sp.scientific : "Especie sin identificar", W - 120), 110, 29, "blue");
+    g.typeBadges(sp.types, 110, 46, W - 122);
+    g.text(caught ? "AISLADO" : "VISTO", 110, 98, caught ? "green" : "gray");
+    const evo = sp.evolvesFrom ? `Evoluciona de ${getSpecies(sp.evolvesFrom).name}` : "";
+    if (evo) g.text(g.fit(evo, W - 120), 110, 80, "gray");
+    g.panel(4, 120, W - 8, 68, "#ffffff", "#e8e8f0", "#384058", 5);
+    let lines: string[];
+    if (this.page === 0) lines = caught ? g.wrap(sp.entry, W - 24) : ["Aíslalo con una Criobola para", "completar su entrada."];
+    else { const h = habitats(this.sp); lines = h.length ? ["Se encuentra en:", ...g.wrap(h.join(", "), W - 24)] : ["No aparece en estado salvaje."]; }
+    lines.slice(0, 4).forEach((l, k) => g.text(l, 12, 125 + k * 14));
   }
 }

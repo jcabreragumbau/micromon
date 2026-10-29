@@ -12,7 +12,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Synechococcus elongatus",
+  "entry": "Cianobacteria diminuta que flota en lagos y mares. Juntas fijan una parte enorme del CO₂ del planeta."
  },
  {
   "dex": 2,
@@ -31,7 +33,9 @@
    "method": "level",
    "level": 16
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Anabaena cylindrica",
+  "entry": "Forma cadenas de células. Algunas se vuelven heterocistos, salas blindadas donde fija nitrógeno sin oxígeno."
  },
  {
   "dex": 3,
@@ -50,7 +54,9 @@
    "method": "level",
    "level": 32
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Arthrospira platensis",
+  "entry": "Filamento en espiral rico en proteínas. Los aztecas lo recogían de los lagos y hoy se vende como superalimento."
  },
  {
   "dex": 4,
@@ -65,7 +71,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Clostridium butyricum",
+  "entry": "Fermenta azúcares y desprende ácido butírico, el olor de la mantequilla rancia. Odia el oxígeno."
  },
  {
   "dex": 5,
@@ -84,7 +92,9 @@
    "method": "level",
    "level": 16
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Clostridium acetobutylicum",
+  "entry": "En la Primera Guerra Mundial fermentaba maíz para producir acetona. Cuando las cosas van mal, esporula."
  },
  {
   "dex": 6,
@@ -103,7 +113,9 @@
    "method": "level",
    "level": 36
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Hungateiclostridium thermocellum",
+  "entry": "Degrada celulosa a 60 °C con su celulosoma, una navaja suiza de enzimas pegadas a su superficie."
  },
  {
   "dex": 7,
@@ -118,7 +130,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Paramecium caudatum",
+  "entry": "Ciliado con forma de zapatilla. Nada con miles de cilios coordinados y dispara tricocistos si lo molestan."
  },
  {
   "dex": 8,
@@ -136,7 +150,9 @@
    "method": "level",
    "level": 16
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Vorticella campanula",
+  "entry": "Campanilla con tallo. Cuando se asusta, su mionema se contrae como un muelle a una velocidad brutal."
  },
  {
   "dex": 9,
@@ -155,7 +171,9 @@
    "method": "level",
    "level": 36
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Stentor coeruleus",
+  "entry": "Trompeta azul gigante, visible a simple vista. Si lo cortas en trozos, cada uno regenera un Stentor entero."
  },
  {
   "dex": 10,
@@ -170,7 +188,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Mucor mucedo",
+  "entry": "Moho del pan viejo. Sus esporangios negros parecen alfileres plantados sobre una pelusa blanca."
  },
  {
   "dex": 11,
@@ -188,7 +208,9 @@
    "method": "level",
    "level": 7
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Rhizopus stolonifer",
+  "entry": "Se extiende con estolones y se ancla con rizoides. En unas horas convierte una fresa en un algodón gris."
  },
  {
   "dex": 12,
@@ -207,7 +229,9 @@
    "method": "level",
    "level": 10
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Pilobolus crystallinus",
+  "entry": "Vive en estiércol. Dispara su esporangio con una aceleración de 20 000 g apuntando hacia la luz."
  },
  {
   "dex": 13,
@@ -223,7 +247,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Streptomyces griseus",
+  "entry": "Bacteria filamentosa del suelo. De ella salió la estreptomicina, el primer fármaco eficaz contra la tuberculosis."
  },
  {
   "dex": 14,
@@ -242,7 +268,9 @@
    "method": "level",
    "level": 7
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Streptomyces coelicolor",
+  "entry": "Produce un antibiótico azul y otro rojo. Su genoma es un catálogo de armas químicas aún por descubrir."
  },
  {
   "dex": 15,
@@ -261,7 +289,9 @@
    "method": "level",
    "level": 10
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Streptomyces avermitilis",
+  "entry": "Hallado en un campo de golf japonés. Su avermectina salvó a millones de la ceguera de los ríos. Nobel en 2015."
  },
  {
   "dex": 16,
@@ -276,7 +306,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Saccharomyces cerevisiae",
+  "entry": "La levadura del pan, la cerveza y el vino. Lleva miles de años trabajando para la humanidad sin pedir nada."
  },
  {
   "dex": 17,
@@ -295,7 +327,9 @@
    "method": "level",
    "level": 18
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Saccharomyces pastorianus",
+  "entry": "Híbrido nacido en las frías bodegas de Baviera. Fermenta a baja temperatura y da la cerveza lager."
  },
  {
   "dex": 18,
@@ -314,7 +348,9 @@
    "method": "level",
    "level": 36
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Komagataella phaffii",
+  "entry": "Antes llamada Pichia pastoris. Se alimenta de metanol y fabrica proteínas humanas a escala industrial."
  },
  {
   "dex": 19,
@@ -329,7 +365,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Staphylococcus epidermidis",
+  "entry": "Vive en tu piel ahora mismo. Suele ser inofensivo, pero coloniza catéteres con biofilms tenaces."
  },
  {
   "dex": 20,
@@ -348,7 +386,9 @@
    "method": "level",
    "level": 20
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Staphylococcus aureus",
+  "entry": "Racimo dorado. Un tercio de la gente lo lleva en la nariz; su variante MRSA se ríe de la meticilina."
  },
  {
   "dex": 21,
@@ -363,7 +403,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Navicula sp.",
+  "entry": "Diatomea con forma de barca. Se desliza sobre el fondo segregando mucílago por una ranura de su caparazón."
  },
  {
   "dex": 22,
@@ -382,7 +424,9 @@
    "method": "level",
    "level": 20
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Pinnularia viridis",
+  "entry": "Diatomea con costillas de sílice pintadas como un peine. Su caparazón de vidrio sobrevive millones de años."
  },
  {
   "dex": 23,
@@ -397,7 +441,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Proteus mirabilis",
+  "entry": "Tan móvil que invade toda la placa en oleadas concéntricas. Causa piedras en las vías urinarias."
  },
  {
   "dex": 24,
@@ -416,7 +462,9 @@
    "method": "level",
    "level": 22
   },
-  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)"
+  "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
+  "scientific": "Proteus vulgaris",
+  "entry": "Pariente de Mirabilis. Su enjambre forma anillos en el agar y descompone urea con un olor inconfundible."
  },
  {
   "dex": 25,
@@ -431,7 +479,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Leptospira biflexa",
+  "entry": "Espiral finísima con ganchos en los extremos. Vive libre en charcas y nada como un sacacorchos."
  },
  {
   "dex": 26,
@@ -450,7 +500,9 @@
    "method": "item",
    "item": "Plásmido Vir"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Leptospira interrogans",
+  "entry": "Su forma de signo de interrogación da nombre a la especie. Se transmite por orina de rata en aguas encharcadas."
  },
  {
   "dex": 27,
@@ -465,7 +517,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Micrococcus luteus",
+  "entry": "Coco amarillo que aparece en placas abiertas al aire. Fleming descubrió con él la lisozima."
  },
  {
   "dex": 28,
@@ -484,7 +538,9 @@
    "method": "level",
    "level": 22
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Sarcina ventriculi",
+  "entry": "Se divide en tres planos y forma paquetes cúbicos de ocho células. Aguanta el ácido del estómago."
  },
  {
   "dex": 29,
@@ -499,7 +555,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bacillus subtilis",
+  "entry": "La bacteria modelo de las Gram+. Cuando hay hambre, fabrica una endospora casi indestructible."
  },
  {
   "dex": 30,
@@ -517,7 +575,9 @@
    "method": "level",
    "level": 16
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bacillus licheniformis",
+  "entry": "Produce las proteasas de los detergentes. Sus colonias rugosas parecen líquenes sobre el agar."
  },
  {
   "dex": 31,
@@ -536,7 +596,9 @@
    "method": "item",
    "item": "Plásmido Ti"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bacillus thuringiensis",
+  "entry": "Fabrica cristales de toxina que solo matan larvas de insectos. Es el insecticida biológico más usado."
  },
  {
   "dex": 32,
@@ -551,7 +613,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bacillus cereus",
+  "entry": "Culpable del síndrome del arroz frito recalentado. Sus esporas sobreviven a la cocción."
  },
  {
   "dex": 33,
@@ -570,7 +634,9 @@
    "method": "level",
    "level": 16
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bacillus mycoides",
+  "entry": "Sus colonias crecen en remolinos que imitan a un hongo. Siempre giran en el mismo sentido."
  },
  {
   "dex": 34,
@@ -589,7 +655,9 @@
    "method": "item",
    "item": "Plásmido Vir"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bacillus anthracis",
+  "entry": "Causante del carbunco. Robert Koch probó con él que un microbio concreto causa una enfermedad concreta."
  },
  {
   "dex": 35,
@@ -604,7 +672,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Lacticaseibacillus casei",
+  "entry": "Bacilo del ácido láctico que madura quesos y protagoniza los yogures probióticos."
  },
  {
   "dex": 36,
@@ -622,7 +692,9 @@
    "method": "item",
    "item": "Plásmido F"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Lactobacillus acidophilus",
+  "entry": "Amante del ácido. Vive en el intestino y la boca, bajando el pH para que no crezcan rivales."
  },
  {
   "dex": 37,
@@ -637,7 +709,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Thermus thermophilus",
+  "entry": "Crece a 75 °C en fuentes termales. Sus proteínas son tan estables que sirven de modelo en biología estructural."
  },
  {
   "dex": 38,
@@ -656,7 +730,9 @@
    "method": "item",
    "item": "Plásmido R"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Thermus aquaticus",
+  "entry": "Aislado en Yellowstone. Su ADN polimerasa Taq aguanta el calor y hizo posible la PCR."
  },
  {
   "dex": 39,
@@ -672,7 +748,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bifidobacterium bifidum",
+  "entry": "Bacilo con forma de Y. Es de los primeros en colonizar el intestino de los bebés lactantes."
  },
  {
   "dex": 40,
@@ -691,7 +769,9 @@
    "method": "item",
    "item": "Plásmido F"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bifidobacterium longum",
+  "entry": "Digiere los azúcares de la leche materna que el bebé no puede. Guardián del intestino joven."
  },
  {
   "dex": 41,
@@ -706,7 +786,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Serratia liquefaciens",
+  "entry": "Bacteria del suelo y las plantas. Licua la gelatina y se adapta tanto al frío como al calor."
  },
  {
   "dex": 42,
@@ -725,7 +807,9 @@
    "method": "level",
    "level": 22
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Serratia marcescens",
+  "entry": "Pigmento rojo sangre. En la Edad Media hacía 'sangrar' hostias consagradas guardadas en sitios húmedos."
  },
  {
   "dex": 43,
@@ -741,7 +825,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Rhizobium leguminosarum",
+  "entry": "Entra en las raíces de guisantes y habas y forma nódulos donde convierte N₂ en amonio para la planta."
  },
  {
   "dex": 44,
@@ -760,7 +846,9 @@
    "method": "level",
    "level": 21
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Sinorhizobium meliloti",
+  "entry": "Socio de la alfalfa. Intercambia señales químicas con la raíz antes de instalarse en sus nódulos."
  },
  {
   "dex": 45,
@@ -779,7 +867,9 @@
    "method": "item",
    "item": "Plásmido Ti"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Agrobacterium tumefaciens",
+  "entry": "Inyecta un trozo de su plásmido Ti en el ADN de la planta. Los biólogos lo usan para crear transgénicos."
  },
  {
   "dex": 46,
@@ -794,7 +884,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Penicillium roqueforti",
+  "entry": "Responsable de las vetas azules del Roquefort y del Cabrales. Crece en las grietas de las cuevas."
  },
  {
   "dex": 47,
@@ -813,7 +905,9 @@
    "method": "level",
    "level": 24
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Penicillium chrysogenum",
+  "entry": "Una cepa hallada en un melón mohoso de Illinois multiplicó la producción de penicilina en 1943."
  },
  {
   "dex": 48,
@@ -828,7 +922,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Aspergillus niger",
+  "entry": "Moho negro que fabrica casi todo el ácido cítrico del mundo. Lo encontrarás en cebollas viejas."
  },
  {
   "dex": 49,
@@ -847,7 +943,9 @@
    "method": "level",
    "level": 25
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Aspergillus flavus",
+  "entry": "Moho verde-amarillo de cacahuetes y maíz mal guardados. Su aflatoxina es de los cancerígenos más potentes."
  },
  {
   "dex": 50,
@@ -863,7 +961,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bacteroides thetaiotaomicron",
+  "entry": "Domina el intestino humano. Tiene cientos de enzimas para romper la fibra que nosotros no digerimos."
  },
  {
   "dex": 51,
@@ -882,7 +982,9 @@
    "method": "level",
    "level": 26
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Bacteroides fragilis",
+  "entry": "Útil en el intestino, peligroso fuera. Se esconde tras una cápsula que cambia de forma."
  },
  {
   "dex": 52,
@@ -897,7 +999,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Candida albicans",
+  "entry": "Levadura que vive en la boca y la piel. Cambia a forma de hifa para invadir cuando las defensas bajan."
  },
  {
   "dex": 53,
@@ -916,7 +1020,9 @@
    "method": "level",
    "level": 28
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Candida auris",
+  "entry": "Levadura emergente que resiste muchos antifúngicos y persiste en superficies de hospital durante semanas."
  },
  {
   "dex": 54,
@@ -932,7 +1038,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Euglena gracilis",
+  "entry": "Ni planta ni animal: hace fotosíntesis, pero si falta luz caza. Busca la luz con su mancha ocular roja."
  },
  {
   "dex": 55,
@@ -951,7 +1059,9 @@
    "method": "level",
    "level": 33
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Volvox aureus",
+  "entry": "Esfera hueca de miles de algas que reman juntas. Las colonias hijas giran dentro de la madre."
  },
  {
   "dex": 56,
@@ -966,7 +1076,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Zymomonas mobilis",
+  "entry": "Fermenta azúcar a etanol más deprisa que la levadura. En México fermenta el pulque."
  },
  {
   "dex": 57,
@@ -985,7 +1097,9 @@
    "method": "level",
    "level": 28
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Zymomonas mobilis subsp. pomaceae",
+  "entry": "Variante de la sidra. Si se descontrola, la vuelve turbia y con un olor a plátano podrido."
  },
  {
   "dex": 58,
@@ -1001,7 +1115,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Vibrio cholerae",
+  "entry": "Bacilo en forma de coma. John Snow lo persiguió hasta una fuente de Londres en 1854."
  },
  {
   "dex": 59,
@@ -1020,7 +1136,9 @@
    "method": "item",
    "item": "Plásmido Vir"
   },
-  "gdd_section": "Lore Vibrio"
+  "gdd_section": "Lore Vibrio",
+  "scientific": "Vibrio parahaemolyticus",
+  "entry": "Vive en aguas costeras templadas. Responsable de intoxicaciones por marisco crudo en verano."
  },
  {
   "dex": 60,
@@ -1035,7 +1153,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Amoeba proteus",
+  "entry": "Ameba gigante que cambia de forma constantemente. Engulle a sus presas rodeándolas con pseudópodos."
  },
  {
   "dex": 61,
@@ -1053,7 +1173,9 @@
    "method": "level",
    "level": 25
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Entamoeba histolytica",
+  "entry": "Ameba intestinal que destruye tejido a mordiscos. Sus quistes viajan en agua contaminada."
  },
  {
   "dex": 62,
@@ -1072,7 +1194,9 @@
    "method": "item",
    "item": "Plásmido Vir"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Naegleria fowleri",
+  "entry": "Vive en aguas templadas. Si entra por la nariz, sube por el nervio olfativo. Por suerte es rarísima."
  },
  {
   "dex": 63,
@@ -1087,7 +1211,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Mycoplasma mycoides",
+  "entry": "Sin pared celular y con un genoma mínimo. Fue la primera bacteria con un genoma totalmente sintético."
  },
  {
   "dex": 64,
@@ -1105,7 +1231,9 @@
    "method": "level",
    "level": 16
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Mycoplasma genitalium",
+  "entry": "Uno de los genomas más pequeños de un ser de vida libre: unos 480 genes. Se desliza con una punta adhesiva."
  },
  {
   "dex": 65,
@@ -1122,7 +1250,9 @@
   "evolution": {
    "method": "conjugation"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Mycoplasma pneumoniae",
+  "entry": "Causa la 'neumonía ambulante'. Al no tener pared, la penicilina no le hace nada."
  },
  {
   "dex": 66,
@@ -1138,7 +1268,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Streptococcus mutans",
+  "entry": "Convierte el azúcar en ácido y pegamento. Construye la placa dental y excava caries."
  },
  {
   "dex": 67,
@@ -1157,7 +1289,9 @@
    "method": "level",
    "level": 28
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Streptococcus pyogenes",
+  "entry": "Cadenas de cocos que causan anginas y escarlatina. Sigue sensible a la penicilina tras 80 años."
  },
  {
   "dex": 68,
@@ -1175,7 +1309,9 @@
   "evolution": {
    "method": "conjugation"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Streptococcus agalactiae",
+  "entry": "Estreptococo del grupo B. Se vigila en el embarazo porque puede pasar al recién nacido."
  },
  {
   "dex": 69,
@@ -1190,7 +1326,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Noctiluca scintillans",
+  "entry": "Dinoflagelado que brilla en azul cuando se agita el agua. Crea las playas luminosas de noche."
  },
  {
   "dex": 70,
@@ -1208,7 +1346,9 @@
    "method": "level",
    "level": 21
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Tripos hirundinella",
+  "entry": "Dinoflagelado con cuernos de celulosa. Gira sobre sí mismo gracias a un flagelo enrollado en su cintura."
  },
  {
   "dex": 71,
@@ -1227,7 +1367,9 @@
    "method": "item",
    "item": "Plásmido Vir"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Alexandrium minutum",
+  "entry": "Sus floraciones tiñen el mar de rojo. Su saxitoxina se acumula en mejillones y paraliza nervios."
  },
  {
   "dex": 72,
@@ -1243,7 +1385,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Pelagibacter ubique",
+  "entry": "Quizá el ser vivo más abundante del planeta: uno de cada tres microbios del océano superficial."
  },
  {
   "dex": 73,
@@ -1262,7 +1406,9 @@
    "method": "level",
    "level": 30
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Prochloron didemni",
+  "entry": "Cianobacteria que vive dentro de ascidias tropicales. Tiene clorofila b como las plantas."
  },
  {
   "dex": 74,
@@ -1277,7 +1423,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Mycolicibacterium smegmatis",
+  "entry": "Pariente rápido e inofensivo de la tuberculosis. Los laboratorios lo usan para estudiar sus defensas."
  },
  {
   "dex": 75,
@@ -1295,7 +1443,9 @@
    "method": "level",
    "level": 25
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Mycobacterium bovis BCG",
+  "entry": "Cultivada 230 veces seguidas por Calmette y Guérin hasta perder su virulencia. Es la vacuna BCG."
  },
  {
   "dex": 76,
@@ -1312,7 +1462,9 @@
   "evolution": {
    "method": "conjugation"
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Mycobacterium tuberculosis",
+  "entry": "El bacilo de Koch. Su pared de ácidos micólicos resiste la tinción y casi todo lo demás."
  },
  {
   "dex": 77,
@@ -1327,7 +1479,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Borrelia burgdorferi",
+  "entry": "Espiroqueta de la enfermedad de Lyme. Viaja en garrapatas y deja una mancha en forma de diana."
  },
  {
   "dex": 78,
@@ -1345,7 +1499,9 @@
    "method": "level",
    "level": 40
   },
-  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)"
+  "gdd_section": "Bosque Viral, Monte Micelio y Rutas Medias (#025 - #078)",
+  "scientific": "Treponema pallidum",
+  "entry": "Tan fina que solo se ve en campo oscuro. Causa la sífilis y no se deja cultivar en placa."
  },
  {
   "dex": 79,
@@ -1361,7 +1517,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Klebsiella oxytoca",
+  "entry": "Bacilo encapsulado del intestino y del suelo. Forma colonias brillantes y mucosas."
  },
  {
   "dex": 80,
@@ -1380,7 +1538,9 @@
    "method": "level",
    "level": 37
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Klebsiella pneumoniae",
+  "entry": "Cápsula tan densa que la colonia se estira como un chicle. Experta en coleccionar genes de resistencia."
  },
  {
   "dex": 81,
@@ -1396,7 +1556,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Geobacter metallireducens",
+  "entry": "Respira hierro en lugar de oxígeno. Puede generar electricidad en una pila de combustible microbiana."
  },
  {
   "dex": 82,
@@ -1415,7 +1577,9 @@
    "method": "level",
    "level": 30
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Geobacter sulfurreducens",
+  "entry": "Transmite electrones por nanocables proteicos a distancias enormes para su tamaño."
  },
  {
   "dex": 83,
@@ -1431,7 +1595,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Deinococcus radiodurans",
+  "entry": "Aguanta mil veces la radiación que mataría a un humano: repara su ADN hecho pedazos en horas."
  },
  {
   "dex": 84,
@@ -1447,7 +1613,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Clostridium perfringens",
+  "entry": "Se duplica en solo diez minutos. Causa la gangrena gaseosa y las intoxicaciones de los guisos de banquete."
  },
  {
   "dex": 85,
@@ -1466,7 +1634,9 @@
    "method": "level",
    "level": 31
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Clostridium tetani",
+  "entry": "Su espora terminal le da forma de baqueta de tambor. Su toxina bloquea la relajación de los músculos."
  },
  {
   "dex": 86,
@@ -1481,7 +1651,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Psychrobacter arcticus",
+  "entry": "Aislado del permafrost siberiano. Se divide a -10 °C y no soporta el calor de una mano."
  },
  {
   "dex": 87,
@@ -1500,7 +1672,9 @@
    "method": "level",
    "level": 34
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Colwellia psychrerythraea",
+  "entry": "Vive en el hielo marino antártico. Sus enzimas funcionan donde las nuestras se congelarían."
  },
  {
   "dex": 88,
@@ -1516,7 +1690,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Pseudomonas putida",
+  "entry": "Come tolueno, petróleo y plásticos. Una aliada para limpiar suelos contaminados."
  },
  {
   "dex": 89,
@@ -1535,7 +1711,9 @@
    "method": "level",
    "level": 38
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Pseudomonas aeruginosa",
+  "entry": "Pigmento verde azulado y olor a uva. Forma biofilms en pulmones y resiste casi todos los antibióticos."
  },
  {
   "dex": 90,
@@ -1550,7 +1728,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Giardia intestinalis",
+  "entry": "Parece una cara sonriente con dos núcleos por ojos. Se pega al intestino con un disco ventosa."
  },
  {
   "dex": 91,
@@ -1569,7 +1749,9 @@
    "method": "item",
    "item": "Plásmido Col"
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Cryptosporidium parvum",
+  "entry": "Su ooquiste resiste el cloro de las piscinas. Bastan diez para causar una diarrea."
  },
  {
   "dex": 92,
@@ -1584,7 +1766,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Methanocaldococcus jannaschii",
+  "entry": "Arquea de chimeneas submarinas. Fue el primer genoma de arquea secuenciado en 1996."
  },
  {
   "dex": 93,
@@ -1602,7 +1786,9 @@
    "method": "level",
    "level": 25
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Methanosarcina barkeri",
+  "entry": "Forma racimos y produce metano a partir de acetato, metanol o CO₂. Medio pantano huele gracias a ella."
  },
  {
   "dex": 94,
@@ -1620,7 +1806,9 @@
   "evolution": {
    "method": "conjugation"
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Pyrolobus fumarii",
+  "entry": "Crece a 113 °C en fumarolas abisales y se detiene si baja a 90: para él, eso es demasiado frío."
  },
  {
   "dex": 95,
@@ -1636,7 +1824,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Magnetospirillum magneticum",
+  "entry": "Lleva una cadena de cristales de magnetita y se orienta con el campo magnético de la Tierra."
  },
  {
   "dex": 96,
@@ -1651,7 +1841,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Rickettsia rickettsii",
+  "entry": "Solo vive dentro de células. Las garrapatas la transmiten y causa la fiebre de las Montañas Rocosas."
  },
  {
   "dex": 97,
@@ -1669,7 +1861,9 @@
    "method": "level",
    "level": 26
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Rickettsia prowazekii",
+  "entry": "Causante del tifus epidémico de las guerras. Pariente de los ancestros de nuestras mitocondrias."
  },
  {
   "dex": 98,
@@ -1685,7 +1879,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Halobacterium salinarum",
+  "entry": "Arquea que necesita agua cuatro veces más salada que el mar. Tiñe de rosa las salinas."
  },
  {
   "dex": 99,
@@ -1704,7 +1900,9 @@
    "method": "level",
    "level": 28
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Halobacterium salinarum (púrpura)",
+  "entry": "Su membrana púrpura de bacteriorrodopsina bombea protones con luz, sin clorofila."
  },
  {
   "dex": 100,
@@ -1719,7 +1917,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Neisseria sicca",
+  "entry": "Diplococo con forma de dos granos de café enfrentados. Vive tranquilo en la garganta."
  },
  {
   "dex": 101,
@@ -1737,7 +1937,9 @@
    "method": "level",
    "level": 30
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Neisseria meningitidis",
+  "entry": "Puede cruzar a las meninges en horas. La vacunación lo ha vuelto mucho más raro."
  },
  {
   "dex": 102,
@@ -1752,7 +1954,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Cryptococcus albidus",
+  "entry": "Levadura envuelta en una cápsula gruesa. Vive en el suelo y en hojas."
  },
  {
   "dex": 103,
@@ -1771,7 +1975,9 @@
    "method": "item",
    "item": "Plásmido Vir"
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Cryptococcus neoformans",
+  "entry": "Cápsula enorme que el sistema inmune no logra tragar. Crece en excrementos de paloma."
  },
  {
   "dex": 104,
@@ -1786,7 +1992,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Bdellovibrio exovorus",
+  "entry": "Depredador diminuto que se engancha por fuera a otras bacterias y las vacía."
  },
  {
   "dex": 105,
@@ -1805,7 +2013,9 @@
    "method": "level",
    "level": 28
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Bdellovibrio bacteriovorus",
+  "entry": "Perfora la pared de una Gram-, se mete dentro y la devora. Un antibiótico vivo."
  },
  {
   "dex": 106,
@@ -1821,7 +2031,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Nocardia asteroides",
+  "entry": "Filamentos ramificados parcialmente ácido-alcohol resistentes. Vive en el suelo y produce antibióticos."
  },
  {
   "dex": 107,
@@ -1837,7 +2049,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Actinomyces israelii",
+  "entry": "Forma 'gránulos de azufre' amarillos en abscesos. Habita la boca en paz casi siempre."
  },
  {
   "dex": 108,
@@ -1853,7 +2067,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Lore Vibrio"
+  "gdd_section": "Lore Vibrio",
+  "scientific": "Vibrio vulnificus",
+  "entry": "Vibrio de aguas cálidas y salobres. Peligroso en heridas abiertas en el mar."
  },
  {
   "dex": 109,
@@ -1869,7 +2085,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Desulfovibrio vulgaris",
+  "entry": "Respira sulfato y desprende ácido sulfhídrico. El olor a huevo podrido de los lodos es suyo."
  },
  {
   "dex": 110,
@@ -1888,7 +2106,9 @@
    "method": "level",
    "level": 35
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Thiomargarita magnifica",
+  "entry": "Una sola célula de hasta 2 cm, visible sin microscopio. Su ADN va empaquetado en membranas."
  },
  {
   "dex": 111,
@@ -1903,7 +2123,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Acinetobacter baylyi",
+  "entry": "Toma ADN del ambiente con una facilidad asombrosa. Un juguete perfecto para ingeniería genética."
  },
  {
   "dex": 112,
@@ -1922,7 +2144,9 @@
    "method": "level",
    "level": 42
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Acinetobacter baumannii",
+  "entry": "Sobrevive meses en superficies secas de hospital. La OMS lo pone en lo más alto de su lista de amenazas."
  },
  {
   "dex": 113,
@@ -1938,7 +2162,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Consorcio del kéfir",
+  "entry": "Gránulo de bacterias lácticas y levaduras unidas por kefirano. Nadie ha logrado crearlo desde cero."
  },
  {
   "dex": 114,
@@ -1954,7 +2180,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Spirogyra sp.",
+  "entry": "Alga verde filamentosa. Sus cloroplastos forman una cinta en espiral, como un muelle de jade."
  },
  {
   "dex": 115,
@@ -1970,7 +2198,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Mixotricha paradoxa",
+  "entry": "Vive en el intestino de termitas. No nada por sí misma: la empujan miles de espiroquetas pegadas."
  },
  {
   "dex": 116,
@@ -1985,7 +2215,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Caulobacter vibrioides",
+  "entry": "Cada división da dos hijas distintas: una nadadora y otra con tallo, fija al sustrato."
  },
  {
   "dex": 117,
@@ -2004,7 +2236,9 @@
    "method": "level",
    "level": 32
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Caulobacter crescentus",
+  "entry": "Su pegamento polar es de los adhesivos naturales más fuertes conocidos."
  },
  {
   "dex": 118,
@@ -2019,7 +2253,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Leishmania major",
+  "entry": "Viaja en flebotomos y se esconde dentro de los macrófagos que deberían destruirla."
  },
  {
   "dex": 119,
@@ -2038,7 +2274,9 @@
    "method": "level",
    "level": 33
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Trypanosoma brucei",
+  "entry": "Cambia su abrigo de proteínas una y otra vez para despistar al sistema inmune. Causa la enfermedad del sueño."
  },
  {
   "dex": 120,
@@ -2054,7 +2292,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Acantharia sp.",
+  "entry": "Radiolario con 20 espinas de sulfato de estroncio dispuestas con geometría perfecta."
  },
  {
   "dex": 121,
@@ -2073,7 +2313,9 @@
    "method": "item",
    "item": "Plásmido Col"
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Radiolaria (Polycystina)",
+  "entry": "Esqueleto de sílice con forma de cristal. Haeckel los dibujó como joyas del fondo marino."
  },
  {
   "dex": 122,
@@ -2089,7 +2331,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Chlamydia trachomatis",
+  "entry": "Alterna entre cuerpo elemental infeccioso y cuerpo reticulado que se divide dentro de una vacuola."
  },
  {
   "dex": 123,
@@ -2105,7 +2349,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Plasmodium falciparum",
+  "entry": "Parásito de la malaria. Se esconde en glóbulos rojos y los pega a los vasos sanguíneos."
  },
  {
   "dex": 124,
@@ -2121,7 +2367,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Toxoplasma gondii",
+  "entry": "Hace que los roedores pierdan el miedo a los gatos, su hospedador definitivo."
  },
  {
   "dex": 125,
@@ -2137,7 +2385,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Shewanella oneidensis",
+  "entry": "Respira metales pesados como el uranio, volviéndolos insolubles. Una limpiadora de lujo."
  },
  {
   "dex": 126,
@@ -2153,7 +2403,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Saccharolobus solfataricus",
+  "entry": "Arquea de fuentes volcánicas a pH 2 y 80 °C. Come azufre y lo convierte en ácido."
  },
  {
   "dex": 127,
@@ -2169,7 +2421,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Yersinia pestis",
+  "entry": "La peste negra. Viaja en pulgas de rata y bloquea su estómago para que piquen sin parar."
  },
  {
   "dex": 128,
@@ -2185,7 +2439,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Listeria monocytogenes",
+  "entry": "Crece en la nevera. Dentro de las células se propulsa con una cola de actina como un cohete."
  },
  {
   "dex": 129,
@@ -2200,7 +2456,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Bacteriófago phi-X174",
+  "entry": "Virus diminuto de ADN monocatenario. Su genoma fue el primero de ADN secuenciado entero, en 1977."
  },
  {
   "dex": 130,
@@ -2219,7 +2477,9 @@
    "method": "level",
    "level": 28
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Bacteriófago lambda",
+  "entry": "Decide entre destruir la bacteria o esconder su ADN en el de ella. El virus de los manuales."
  },
  {
   "dex": 131,
@@ -2238,7 +2498,9 @@
    "method": "level",
    "level": 48
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Bacteriófago T4",
+  "entry": "Cabeza icosaédrica, cola contráctil y seis patas. Aterriza en E. coli e inyecta su ADN como una jeringa."
  },
  {
   "dex": 132,
@@ -2253,7 +2515,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Virus del sarcoma de Rous",
+  "entry": "El primer virus que se demostró capaz de causar cáncer. Peyton Rous lo describió en pollos en 1911."
  },
  {
   "dex": 133,
@@ -2272,7 +2536,9 @@
    "method": "level",
    "level": 30
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Lentivirus",
+  "entry": "Retrovirus lento capaz de infectar células que no se dividen. Base de muchos vectores de terapia génica."
  },
  {
   "dex": 134,
@@ -2291,7 +2557,9 @@
    "method": "level",
    "level": 50
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Retrovirus",
+  "entry": "Copia su ARN a ADN con la transcriptasa inversa y lo integra para siempre en el genoma del hospedador."
  },
  {
   "dex": 135,
@@ -2306,7 +2574,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Virus de la rabia",
+  "entry": "Con forma de bala. Viaja por los nervios hasta el cerebro. Pasteur creó su vacuna en 1885."
  },
  {
   "dex": 136,
@@ -2325,7 +2595,9 @@
    "method": "level",
    "level": 32
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Virus de Marburgo",
+  "entry": "Filovirus con forma de hilo enroscado. Lo albergan murciélagos frugívoros africanos."
  },
  {
   "dex": 137,
@@ -2344,7 +2616,9 @@
    "method": "level",
    "level": 52
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Virus del Ébola",
+  "entry": "Filamento que a veces se curva como un cayado. Uno de los patógenos más letales conocidos."
  },
  {
   "dex": 138,
@@ -2359,7 +2633,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Virus de la viruela",
+  "entry": "Gran virus de ADN. Erradicado en 1980 gracias a la vacuna: la mayor victoria de la salud pública."
  },
  {
   "dex": 139,
@@ -2378,7 +2654,9 @@
    "method": "level",
    "level": 35
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Acanthamoeba polyphaga mimivirus",
+  "entry": "Tan grande que se confundió con una bacteria. Infecta amebas y tiene genes que ningún virus debería tener."
  },
  {
   "dex": 140,
@@ -2397,7 +2675,9 @@
    "method": "level",
    "level": 55
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Pandoravirus salinus",
+  "entry": "Virus gigante con forma de ánfora. Más del 90 % de sus genes no se parecen a nada conocido."
  },
  {
   "dex": 141,
@@ -2412,7 +2692,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Escherichia coli K-12",
+  "entry": "Cepa de laboratorio aislada en 1922. Inofensiva y dócil: la bacteria más estudiada de la historia."
  },
  {
   "dex": 142,
@@ -2431,7 +2713,9 @@
    "method": "level",
    "level": 20
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Escherichia coli BL21(DE3)",
+  "entry": "Fábrica de proteínas: sin proteasas molestas y con la polimerasa T7 lista para producir a toda máquina."
  },
  {
   "dex": 143,
@@ -2447,7 +2731,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Coscinodiscus sp.",
+  "entry": "Diatomea gigante en forma de caja de Petri. Su frústula de vidrio está perforada como un encaje."
  },
  {
   "dex": 144,
@@ -2462,7 +2748,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Myxococcus xanthus",
+  "entry": "Cazan en manada, como lobos. Cuando falta comida, miles se juntan y forman un cuerpo fructífero."
  },
  {
   "dex": 145,
@@ -2477,7 +2765,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Forma L bacteriana",
+  "entry": "Bacteria que ha perdido la pared. Sin forma fija, puede adaptarse a cualquier ambiente."
  },
  {
   "dex": 146,
@@ -2496,7 +2786,9 @@
    "method": "item",
    "item": "Plásmido Col"
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Forma L halófila",
+  "entry": "Pleomorph adaptado a la salmuera. Equilibra la sal de dentro y de fuera para no secarse."
  },
  {
   "dex": 147,
@@ -2514,7 +2806,9 @@
    "method": "item",
    "item": "Plásmido F"
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Forma L electrogénica",
+  "entry": "Pleomorph que aprendió a sacar electrones al exterior, como Geobacter."
  },
  {
   "dex": 148,
@@ -2533,7 +2827,9 @@
    "method": "item",
    "item": "Plásmido R"
   },
-  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)"
+  "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
+  "scientific": "Forma L termófila",
+  "entry": "Pleomorph que se refugió en las fuentes termales y endureció sus proteínas."
  },
  {
   "dex": 149,
@@ -2549,7 +2845,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Estromatolito fósil",
+  "entry": "Capas de roca construidas por cianobacterias hace 3500 millones de años. Revivido en el Carlos III."
  },
  {
   "dex": 150,
@@ -2568,7 +2866,9 @@
    "method": "level",
    "level": 40
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Cianobacteria arcaica",
+  "entry": "Las responsables de la Gran Oxidación: llenaron de oxígeno la atmósfera del planeta."
  },
  {
   "dex": 151,
@@ -2584,7 +2884,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Espora en ámbar",
+  "entry": "Espora atrapada en ámbar del Mioceno. Se afirma que se reactivó tras 25 millones de años."
  },
  {
   "dex": 152,
@@ -2603,7 +2905,9 @@
    "method": "level",
    "level": 40
   },
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Bacillus fósil",
+  "entry": "El bacilo prehistórico que salió del ámbar. Sus enzimas no se parecen a las de ningún Bacillus actual."
  },
  {
   "dex": 153,
@@ -2619,7 +2923,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Prometheoarchaeum syntrophicum",
+  "entry": "Asgard arquea con genes eucariotas. Sus antepasados quizá dieron origen a nuestras células."
  },
  {
   "dex": 154,
@@ -2634,7 +2940,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Hypsibius dujardini",
+  "entry": "No es un microbio, pero es microscópico. En tun aguanta el vacío espacial, el hielo y la sequía."
  },
  {
   "dex": 155,
@@ -2650,7 +2958,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Prion PrPSc",
+  "entry": "Proteína mal plegada que obliga a las normales a plegarse mal. No tiene genes y aun así se propaga."
  },
  {
   "dex": 156,
@@ -2666,7 +2976,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Viroide del cadang-cadang",
+  "entry": "Un anillo de ARN desnudo de 246 nucleótidos que mata cocoteros. Ni siquiera tiene cápside."
  },
  {
   "dex": 157,
@@ -2682,7 +2994,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Virófago Sputnik",
+  "entry": "Un virus que parasita a otro virus. Se cuela en las fábricas de Mimivirus y las sabotea."
  },
  {
   "dex": 158,
@@ -2698,7 +3012,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Deinococcus radiodurans (tétrada)",
+  "entry": "Forma tétradas que comparten copias de ADN y se reparan entre ellas. Conan la bacteria."
  },
  {
   "dex": 159,
@@ -2714,7 +3030,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Pyrococcus furiosus",
+  "entry": "'Bola de fuego furiosa'. Se duplica en 37 minutos a 100 °C y nada con 50 flagelos."
  },
  {
   "dex": 160,
@@ -2730,7 +3048,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Escherichia coli O157:H7",
+  "entry": "Lleva la toxina Shiga, robada a un fago. La E. coli rebelde que da nombre a esta edición."
  },
  {
   "dex": 161,
@@ -2746,7 +3066,9 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Salmonella enterica serovar Typhimurium",
+  "entry": "Inyecta proteínas con su jeringa molecular y obliga a la célula a tragársela."
  },
  {
   "dex": 162,
@@ -2762,6 +3084,8 @@
   ],
   "evolves_from": null,
   "evolution": null,
-  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)"
+  "gdd_section": "Fósiles del Instituto Carlos III, Las 4 Líneas de Virus y Legendarios (#137 - #150)",
+  "scientific": "Último antepasado común universal",
+  "entry": "El organismo del que descendemos todos: bacterias, arqueas y eucariotas. Vivía en fuentes hidrotermales."
  }
 ]

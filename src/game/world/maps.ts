@@ -239,7 +239,7 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.encounters([
     { sp: "rhizobi", min: 9, max: 12, w: 22 }, { sp: "serratia", min: 9, max: 12, w: 18 }, { sp: "thuringien", min: 10, max: 12, w: 14 },
     { sp: "bifidum", min: 9, max: 11, w: 14 }, { sp: "euglena", min: 10, max: 12, w: 12 }, { sp: "casei", min: 10, max: 12, w: 12 },
-    { sp: "roqueforti", min: 11, max: 12, w: 8 },
+    { sp: "roqueforti", min: 11, max: 12, w: 8 }, { sp: "mirabilis", min: 9, max: 11, w: 8 },
   ]);
   add(b.done({ music: "ruta" }));
 }
@@ -309,7 +309,7 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.encounters([
     { sp: "euglena", min: 14, max: 17, w: 20 }, { sp: "noctiluca", min: 14, max: 16, w: 15 }, { sp: "ceratium", min: 14, max: 16, w: 15 },
     { sp: "zymomonas", min: 14, max: 16, w: 14 }, { sp: "rhizobi", min: 14, max: 16, w: 12 }, { sp: "albicans", min: 15, max: 17, w: 12 },
-    { sp: "desulfovib", min: 15, max: 17, w: 6 }, { sp: "navicula", min: 14, max: 16, w: 6 },
+    { sp: "desulfovib", min: 15, max: 17, w: 6 }, { sp: "navicula", min: 14, max: 16, w: 6 }, { sp: "pelagibac", min: 14, max: 16, w: 8 },
   ]);
   add(b.done({ music: "ruta" }));
 }
@@ -848,7 +848,7 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
   b.encounters([
     { sp: "rous-v", min: 34, max: 36, w: 12 }, { sp: "lentivir", min: 35, max: 37, w: 10 }, { sp: "poxvir", min: 34, max: 36, w: 12 },
     { sp: "lyssavir", min: 34, max: 36, w: 12 }, { sp: "nocardia", min: 35, max: 37, w: 12 }, { sp: "shewanella", min: 35, max: 37, w: 12 },
-    { sp: "chlamydia", min: 35, max: 37, w: 12 }, { sp: "acantharia", min: 34, max: 36, w: 12 }, { sp: "bdellovib", min: 34, max: 36, w: 6 },
+    { sp: "chlamydia", min: 35, max: 37, w: 12 }, { sp: "acantharia", min: 34, max: 36, w: 12 }, { sp: "bdellovib", min: 34, max: 36, w: 6 }, { sp: "listeria", min: 35, max: 37, w: 6 },
   ]);
   add(b.done({ music: "ruta" }));
 }
@@ -876,7 +876,7 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 5, y: 17 }));
-add(tienda("tienda-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 22, y: 18 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(tienda("tienda-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 22, y: 18 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "plasmido-r", "plasmido-f", "plasmido-col"]));
 
 // ---------------------------------------------------------------- Instituto de Biotecnología (asedio)
 function planta(id: string, name: string) {
@@ -993,7 +993,7 @@ function planta(id: string, name: string) {
   b.warp({ x: 14, y: 2, to: "central-2", tx: 13, ty: 3, dir: 0 });
   b.encounters([
     { sp: "geobacter", min: 40, max: 42, w: 20 }, { sp: "sulfurreduc", min: 41, max: 43, w: 18 }, { sp: "magnetospir", min: 40, max: 42, w: 18 },
-    { sp: "shewanella", min: 40, max: 42, w: 16 }, { sp: "methanosar", min: 41, max: 43, w: 18 }, { sp: "deinococ", min: 43, max: 43, w: 4 },
+    { sp: "shewanella", min: 40, max: 42, w: 16 }, { sp: "methanosar", min: 41, max: 43, w: 18 }, { sp: "deinococ", min: 43, max: 43, w: 4 }, { sp: "pyrococcus", min: 42, max: 44, w: 5 },
   ]);
   add(b.done({ music: "guarida", floorEncounters: "suelo_tecnico" }));
 }
@@ -1116,6 +1116,7 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
   b.sign(16, 6, "Gimnasio Fago. Líder: Dra. Susana Campoy.");
   b.npc({ id: "conj-marinero", x: 12, y: 22, sprite: "dependiente", dir: 3, script: "ferri" });
   b.npc({ id: "conj-gym-cerrado", x: 15, y: 5, sprite: "becario", dir: 0, hideIf: "urtaza3", talk: "La Dra. Campoy ha cerrado el gimnasio. Ha ido a la Mansión de las Cepas: dice que ahí dentro está pasando algo terrible." });
+  b.npc({ id: "conj-tecnica", x: 11, y: 11, sprite: "profesora", dir: 0, script: "conjugacion" });
   b.npc({ id: "conj-1", x: 9, y: 11, sprite: "chica", move: "pasear", talk: "La conjugación bacteriana es como un intercambio de genes con un puente de pilus. ¡Por eso la isla se llama así!" });
   b.encounters([
     { sp: "marburg-v", min: 47, max: 49, w: 16 }, { sp: "mimivir", min: 47, max: 49, w: 16 }, { sp: "lambda-v", min: 46, max: 48, w: 16 },
@@ -1126,7 +1127,7 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 9, y: 17 }));
-add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, y: 17 }, ["criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, y: 17 }, ["criobola-amarilla", "medio-enriquecido", "glicerol", "plasmido-r", "plasmido-f", "plasmido-ti", "plasmido-col", "plasmido-vir"]));
 {
   const b = new MapBuilder("carlos-iii", "Instituto Carlos III", 11, 10, "L", "laboratorio", false);
   b.fill(0, 0, 11, 1, "w").fill(0, 1, 11, 1, "W").fill(0, 1, 3, 1, "i").fill(8, 1, 3, 1, "i").set(0, 5, "M").set(10, 5, "B").set(0, 8, "n").set(10, 8, "n");
@@ -1214,7 +1215,7 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
   b.encounters([
     { sp: "pyogenes", min: 52, max: 55, w: 12 }, { sp: "agalactiae", min: 53, max: 55, w: 10 }, { sp: "treponema", min: 52, max: 55, w: 12 },
     { sp: "trypanosom", min: 52, max: 55, w: 12 }, { sp: "yersinia", min: 53, max: 55, w: 8 }, { sp: "sulfolobus", min: 52, max: 55, w: 12 },
-    { sp: "alexandrium", min: 52, max: 54, w: 12 }, { sp: "agrobacter", min: 52, max: 54, w: 12 }, { sp: "filovir-z", min: 55, max: 55, w: 4 },
+    { sp: "alexandrium", min: 52, max: 54, w: 12 }, { sp: "agrobacter", min: 52, max: 54, w: 12 }, { sp: "filovir-z", min: 55, max: 55, w: 4 }, { sp: "plasmodium", min: 52, max: 55, w: 8 }, { sp: "toxoplasma", min: 53, max: 55, w: 6 },
     { sp: "pichiamax", min: 54, max: 55, w: 6 },
   ]);
   add(b.done({ music: "ruta" }));
@@ -1229,6 +1230,7 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
   b.fill(2, 10, 4, 2, "f").fill(16, 10, 4, 2, "f").fill(3, 14, 4, 2, "~");
   b.sign(14, 8, "Facultad de Biociencias de La UAB. Liga Micromón. Solo con las 8 medallas.");
   b.npc({ id: "uab-estudiante", x: 15, y: 12, sprite: "estudiante", move: "pasear", talk: "Dicen que el Campeón es el mismísimo Louis Pasteur. ¡Con sus matraces de cuello de cisne!" });
+  b.npc({ id: "salmonella-legendario", x: 18, y: 13, sprite: "@microo:salmonella-typhimurium", script: "estatico:salmonella-typhimurium|70|salmonella", showIf: "campeon", hideIf: "salmonella", solid: true });
   b.warp({ x: 8, y: 15, w: 6, to: "calle-seleccion", tx: 10, ty: 1, dir: 0, keep: "x" });
   add(b.done({ music: "ciudad" }));
 }

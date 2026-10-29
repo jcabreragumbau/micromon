@@ -157,6 +157,11 @@ for i, r in enumerate(canon, 1):
         "gdd_section": r["section"],
     })
 ids = [o["id"] for o in out]
+import sys; sys.path.insert(0, str(Path(__file__).parent))
+from dex_text import DEX
+for o in out:
+    o["scientific"], o["entry"] = DEX[o["id"]]
+    assert len(o["entry"]) <= 150, (o["id"], len(o["entry"]))
 assert len(set(ids)) == 162, "ids duplicados"
 
 (ROOT / "data").mkdir(exist_ok=True)
