@@ -16,10 +16,11 @@ export interface BattleSetup {
   /** Reserva Microbiana: no se lucha; se lanzan Criobolas Verdes. */
   safari?: boolean;
 }
-/** Tema del combate: salvaje, entrenador (MP3 del usuario) o líder. */
+/** Tema del combate: salvaje o contra un investigador (MP3 del usuario). */
 export function battleTrack(s: { wild?: boolean; trainer?: { clase?: string } }) {
-  const c = s.trainer?.clase ?? "";
-  return s.wild ? "combate" : ["Líder", "Campeón", "Alto Mando", "Líder de la Unidad"].includes(c) ? "lider" : "entrenador";
+  // de momento el tema del usuario suena en todos los combates contra investigadores
+  // (entrenadores, rival, líderes, Alto Mando, Pasteur y la Unidad de Genética)
+  return s.wild ? "combate" : "entrenador";
 }
 export interface BattleOutcome { outcome: "win" | "lose" | "run" | "capture" | "foeFled"; captured?: Microo }
 

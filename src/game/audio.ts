@@ -51,6 +51,8 @@ class Audio {
   /** Bus del tema que suena: al cambiar de tema se apaga entero (también las notas ya programadas). */
   private bus: GainNode | null = null;
   private src: AudioBufferSourceNode | null = null;
+  /** Estado del último tema grabado (para depurar): "cargando", "sonando" o "error". */
+  fileState = "";
   private buffers = new Map<string, Promise<AudioBuffer | null>>();
   musicOn = true; sfxOn = true;
   current = ""; private timer: number | null = null; private gen = 0;
@@ -60,6 +62,8 @@ class Audio {
     this.ctx = new AudioContext();
     this.master = this.ctx.createGain(); this.master.gain.value = 0.18; this.master.connect(this.ctx.destination);
     if (this.current) { const c = this.current; this.current = ""; this.music(c); }
+    // descodifica ya los temas grabados para que suenen sin espera al empezar un combate
+    for (const k of Object.keys(FILES)) void this.loadFile(k);
   }
   private tone(type: OscillatorType, f: number, t0: number, dur: number, vol: number, dest: AudioNode = this.master!) {
     const c = this.ctx!, o = c.createOscillator(), g = c.createGain();
@@ -80,7 +84,14 @@ class Audio {
     let p = this.buffers.get(name);
     if (!p) {
       const url = (FILES as Record<string, string>)[name];
-      p = fetch(url).then((r) => r.arrayBuffer()).then((ab) => this.ctx!.decodeAudioData(ab)).catch(() => null);
+      // sin fetch(): en algunos entornos (la página publicada) no se permite pedir data URL
+      p = new Promise<AudioBuffer | null>((res) => {
+        try {
+          const bin = atob(url.slice(url.indexOf(",") + 1)), bytes = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+          this.ctx!.decodeAudioData(bytes.buffer, (b) => res(b), () => res(null));
+        } catch { res(null); }
+      });
       this.buffers.set(name, p);
     }
     return p;
@@ -106,9 +117,12 @@ class Audio {
     if ((FILES as Record<string, string>)[n]) {
       // tema grabado: bucle de un MP3 directo a la salida
       const bus = this.ctx.createGain(); bus.gain.value = FILE_VOL[n] ?? 0.5; bus.connect(this.ctx.destination); this.bus = bus;
+      this.fileState = "cargando";
       this.loadFile(n).then((buf) => {
-        if (!buf || gen !== this.gen || !this.ctx) return;
+        if (!buf) { this.fileState = "error"; return; }
+        if (gen !== this.gen || !this.ctx) return;
         const src = this.ctx.createBufferSource(); src.buffer = buf; src.loop = true; src.connect(bus); src.start(); this.src = src;
+        this.fileState = "sonando";
       });
       return;
     }
