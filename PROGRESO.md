@@ -133,6 +133,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Menú de ataques en combate: 4 celdas coloreadas por tipo con icono de categoría; a la derecha, PP, tipo, categoría y potencia del seleccionado.
 - ▲▼ cambia de Microo en el resumen del equipo y de especie (vistas) en la ficha de la Microdex.
 - PNJ genéricos con hojas del usuario (`assets/reference/npcs/`, 12 fotogramas propios): becario, recluta, recluta-b, enfermera (microbióloga), chica, chico, dependiente, estudiante, madre y jubilado. `tools/art/npc_sheets.py` quita el fondo verde y las sombras y los encaja en celdas HD de 128×128 con escala común; `char_atlas.py` los añade al atlas HD. Los entrenadores sin retrato usan su fotograma de frente HD en combate. Los reclutas (chico y chica) tienen retrato de combate propio del usuario (`reclutas_combate.png`).
+- Escenarios de combate del usuario (`assets/reference/props/fondos_combate.png` → `tools/art/fondos_combate.py` → `fondo_<entorno>.jpg`, 512×288): hierba, bosque, interior, laboratorio, gimnasio, cueva, invernadero, casino, torre y hielo, con sus propias plataformas (subidos 14 px para que la plataforma rival quede bajo el Microo). Los fondos dibujados por código quedan de reserva.
 - Las 162 especies son obtenibles: Mirabilis (Ruta 2), Pelagibac (Ruta 3), Listeria (Ruta 8), Pyrococcus (Central Metabólica), Plasmodium y Toxoplasma (Calle Selección Natural); Salmonella legendaria en los jardines de La UAB tras ser Campeón; la Profesora regala los otros dos iniciales tras la Liga.
 
 ## Siguiente tarea

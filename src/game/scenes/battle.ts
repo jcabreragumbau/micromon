@@ -1,5 +1,6 @@
 // Pantalla de combate: dibuja la placa y traduce los eventos del motor en textos y animaciones.
 import type { Game, Overlay, Scene } from "../game";
+import { IMG } from "../assets";
 import { audio } from "../audio";
 import { Gfx, W, H, TB, TYPE_COLORS, shade } from "../gfx";
 import { ponerMote } from "./nombre";
@@ -475,6 +476,14 @@ function roundRect(c: CanvasRenderingContext2D, x: number, y: number, w: number,
 
 /** Fondo de combate estilo DS: cielo con bandas, suelo con textura y plataformas con relieve (se cachea). */
 export function drawBattleBackground(g: Gfx, env: string, cache: { env?: string; c?: HTMLCanvasElement }) {
+  // escenario ilustrado por el usuario (con sus propias plataformas)
+  const ilu = IMG[`fondo_${env}`] ?? IMG.fondo_hierba;
+  if (ilu) {
+    const c = g.ctx; c.save(); c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+    // subido un poco para que la plataforma rival quede bajo el Microo rival
+    c.drawImage(ilu, 0, -14, W, TB + 14); c.restore();
+    return;
+  }
   if (cache.env !== env || !cache.c) {
     const cv = document.createElement("canvas"); cv.width = W; cv.height = TB;
     const c = cv.getContext("2d")!;
