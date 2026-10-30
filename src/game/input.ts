@@ -1,7 +1,7 @@
 // Entrada: teclado, botones táctiles y mando (API Gamepad).
 // Teclado: A = Z/Espacio, B = X/Escape/Retroceso (correr), START = Intro.
 // Mando de Xbox (disposición estándar): botón B = A, botón A = B (correr/cancelar), Menú = START,
-// cruceta o joystick izquierdo = moverse, Y o RB = velocidad ×2. Teclado: Tab o V = velocidad ×2.
+// cruceta o joystick izquierdo = moverse, Y o Menú = START, RB = velocidad ×2. Teclado: Tab o V = velocidad ×2.
 export type Key = "up" | "down" | "left" | "right" | "a" | "b" | "start";
 const MAP: Record<string, Key> = {
   ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right",
@@ -18,7 +18,7 @@ export class Input {
   private padHeld = new Set<Key>();
   /** Nombre del mando conectado (o null). */
   pad: string | null = null;
-  /** Pulsación pendiente del botón de velocidad ×2 (Tab / V, botón Y o RB del mando, botón táctil). */
+  /** Pulsación pendiente del botón de velocidad ×2 (Tab / V, RB del mando, botón táctil). */
   speedToggle = false;
   private padSpeed = false;
 
@@ -59,8 +59,8 @@ export class Input {
       const btn = (i: number) => !!gp.buttons[i]?.pressed;
       if (btn(1)) now.add("a");        // B del mando de Xbox: confirmar
       if (btn(0)) now.add("b");        // A del mando de Xbox: correr / cancelar
-      if (btn(9)) now.add("start");    // Menú
-      if (btn(3) || btn(5)) speed = true; // Y o RB: velocidad ×2
+      if (btn(9) || btn(3)) now.add("start"); // Menú o Y: abrir el menú
+      if (btn(5)) speed = true;                // RB: velocidad ×2
       if (btn(12)) now.add("up"); if (btn(13)) now.add("down"); if (btn(14)) now.add("left"); if (btn(15)) now.add("right");
       // joystick izquierdo: solo el eje dominante, para no moverse en diagonal
       const x = gp.axes[0] ?? 0, y = gp.axes[1] ?? 0, DEAD = 0.5;

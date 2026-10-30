@@ -32,7 +32,7 @@ boot().catch((e) => { document.body.insertAdjacentHTML("beforeend", `<pre style=
 // Al conectar un mando, la ayuda muestra sus botones.
 window.addEventListener("gamepadconnected", () => {
   const el = document.getElementById("ayuda");
-  if (el) el.textContent = "Mando: joystick o cruceta para moverse · B: aceptar (A) · A: cancelar / mantener para correr · Menú: START · Y o RB: velocidad ×2";
+  if (el) el.textContent = "Mando: joystick o cruceta para moverse · B: aceptar (A) · A: cancelar / mantener para correr · Menú o Y: abrir el menú (START) · RB: velocidad ×2";
 });
 window.addEventListener("gamepaddisconnected", () => {
   const el = document.getElementById("ayuda");
