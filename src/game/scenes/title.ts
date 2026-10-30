@@ -4,7 +4,7 @@ import { audio } from "../audio";
 import { Gfx, W, H } from "../gfx";
 import { IMG } from "../assets";
 import { Overworld } from "./overworld";
-import { newState, loadGame, hasSave, AVATAR_SPRITE, type Avatar } from "../state";
+import { newState, loadGame, hasSave, AVATAR_SPRITE, levelCap, type Avatar } from "../state";
 import { runScript } from "../scripts";
 import { NameEntry } from "./nombre";
 
@@ -90,6 +90,7 @@ async function newGame(game: Game) {
   await say(`¡Así que te llamas ${name}! Encantada.`);
   const d = await game.choose(["Fácil · Medio Rico", "Normal · Medio Selectivo", "Difícil · Presión Antibiótica"], { prompt: "¿Qué condiciones de incubación prefieres? (Dificultad)", x: 60, y: 30, cancel: 999 });
   game.state.difficulty = (["facil", "normal", "dificil"] as const)[d < 0 ? 1 : d];
+  if (game.state.difficulty === "dificil") await say(`Presión Antibiótica: tus Microos no podrán pasar del nivel del siguiente líder de gimnasio (ahora, nivel ${levelCap(game.state)}). ¡Cada medalla sube el límite!`);
   await say("Y este es mi otro alumno. Siempre ha competido contigo… ¿Cómo se llamaba? ¡Ah, sí! Se llama Koch.");
   await say(`¡${name}! Tu aventura con los Microos está a punto de empezar. ¡Te espero en mi laboratorio!`);
   await enterWorld(game, "casa-jugador", 4, 4, 0);

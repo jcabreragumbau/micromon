@@ -12,7 +12,7 @@ import { SlotMachine, fichas } from "./scenes/casino";
 import { HallOfFame, Credits } from "./scenes/creditos";
 import { saveGame } from "./state";
 import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, TRAINERS, ITEMS, conjugationEvolution, type Microo } from "../engine";
-import { addItem, markCaught, markSeen, obeyCap } from "./state";
+import { addItem, markCaught, markSeen, obeyCap, levelCap } from "./state";
 import { MAPS } from "./world/maps";
 
 const COUNTER: Record<string, string> = { synechoc: "butyricum", butyricum: "paramec", paramec: "synechoc" };
@@ -28,6 +28,10 @@ async function avisoObediencia(game: Game) {
   const c = obeyCap(game.state);
   if (c >= 100) await game.say("¡Con las ocho medallas, todos los Microos te obedecerán, tengan el nivel que tengan!");
   else await game.say(`Con ${game.state.badges.length === 1 ? "esta medalla" : `${game.state.badges.length} medallas`}, los Microos de hasta nivel ${c} te obedecerán en combate.`);
+  if (game.state.difficulty === "dificil") {
+    const lc = levelCap(game.state);
+    await game.say(lc >= 100 ? "Presión Antibiótica: ya no hay límite de nivel." : `Presión Antibiótica: tus Microos ya pueden crecer hasta el nivel ${lc}.`);
+  }
 }
 /** Regala un Microo al jugador (al equipo o al Congelador si está lleno). */
 async function giveMicroo(game: Game, sp: string, lv: number) {
@@ -66,7 +70,7 @@ export async function startBattle(game: Game, world: Overworld, setup: Omit<Batt
 function rng(game: Game) { return new Rng((game.state.seed + game.state.playFrames) >>> 0); }
 function battleFor(game: Game, foe: Microo[], wild: boolean, name?: string, foeItems?: Record<string, number>, format: "single" | "double" = "single") {
   return new Battle({ player: game.state.party, foe, wild, format, seed: (game.state.seed ^ game.state.playFrames) >>> 0,
-    difficulty: game.state.difficulty, playerName: game.state.name, foeName: name, foeItems, obeyCap: game.noObey ? 100 : obeyCap(game.state),
+    difficulty: game.state.difficulty, playerName: game.state.name, foeName: name, foeItems, obeyCap: game.noObey ? 100 : obeyCap(game.state), levelCap: levelCap(game.state),
     inventory: {} });
 }
 

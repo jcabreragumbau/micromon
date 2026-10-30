@@ -1,4 +1,5 @@
 // Estado de la partida y guardado en el navegador.
+import { TRAINERS } from "../engine/data";
 import type { Microo } from "../engine/microo";
 import type { Difficulty } from "../engine/battle";
 
@@ -68,3 +69,12 @@ export function playTime(s: GameState): string {
  *  Cada tope deja llegar al as del siguiente líder con un nivel de margen. */
 export const OBEY_CAPS = [15, 22, 28, 34, 42, 46, 51, 56, 100];
 export function obeyCap(s: GameState) { return OBEY_CAPS[Math.min(8, s.badges.length)]; }
+
+/** Level Cap estricto de la dificultad Difícil: tus Microos no pueden superar el nivel del Microo más fuerte
+ *  del siguiente líder (ya ajustado a Difícil). Con las 8 medallas, el del Campeón; tras ser Campeón, sin límite. */
+const LIDERES = ["gym1", "gym2", "gym3", "gym4", "gym5", "gym6", "gym7", "gym8", "champion"];
+export function levelCap(s: GameState): number {
+  if (s.difficulty !== "dificil" || s.flags.campeon) return 100;
+  const t = TRAINERS.get(LIDERES[Math.min(8, s.badges.length)]);
+  return t ? Math.max(...t.team.map((m) => m.level)) + 4 : 100;
+}

@@ -555,12 +555,15 @@ export class Battle {
       const dealt = this.applyDamage(t, res.dmg, b, move, () => {
         if (res.crit) this.emit("crit", "¡Un golpe crítico!");
         if (hits === 1) this.effMsg(eff);
+        // golpes múltiples: el recuento y la eficacia, tras el último golpe y antes de que caiga
+        else if (t.mon.hp <= 0 || i === hits - 1) {
+          this.emit("msg", landed + 1 === 1 ? "¡Ha golpeado 1 vez!" : `¡Ha golpeado ${landed + 1} veces!`);
+          this.effMsg(eff);
+        }
       });
       total += dealt; landed++;
       if (move.orig === "payday") this.payDay += 5 * b.mon.level;
     }
-    if (hits > 1) this.emit("msg", landed === 1 ? "¡Ha golpeado 1 vez!" : `¡Ha golpeado ${landed} veces!`);
-    if (hits > 1) this.effMsg(eff);
     // Drenaje y retroceso
     if (move.drain && total > 0 && b.mon.hp > 0) {
       const heal = Math.max(1, Math.floor((total * move.drain[0]) / move.drain[1]));
@@ -847,6 +850,7 @@ export class Battle {
     }
   }
   evolutionsPending: { uid: number; to: string }[] = [];
+  private capWarned = new Set<number>();
   private finishEvolutions() {
     if (this.evolutionsPending.length) return;
     for (const m of this.sides[0].party) {
@@ -864,7 +868,12 @@ export class Battle {
     const a = this.wild ? 1 : 1.5;
     const mult = this.difficulty === "facil" ? 1.2 : 1;
     for (const m of this.sides[0].party) {
-      if (m.hp <= 0 || m.level >= this.levelCap) continue;
+      if (m.hp <= 0) continue;
+      if (m.level >= this.levelCap) {
+        // Level Cap estricto (Difícil): avisa una vez por combate a los que participaron
+        if (parts.has(m.uid) && !this.capWarned.has(m.uid)) { this.capWarned.add(m.uid); this.emit("msg", `${displayName(m)} ha llegado al límite de nivel (Nv${this.levelCap}): no gana experiencia hasta la próxima medalla.`); }
+        continue;
+      }
       const L = fainted.level, Lp = m.level;
       const base = ((a * sp.expYield * L) / 5) * Math.pow((2 * L + 10) / (L + Lp + 10), 2.5) + 1;
       const share = parts.has(m.uid) ? 1 : 0.5;

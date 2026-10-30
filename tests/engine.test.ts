@@ -233,3 +233,14 @@ describe("Obediencia", () => {
     expect(run(15)).toBeGreaterThan(10);
   });
 });
+
+describe("Level Cap", () => {
+  test("con levelCap, los Microos en el tope no ganan experiencia y se avisa", () => {
+    const a = createMicroo("anthracis", 20, { rng: new Rng(3) }), lvl = a.level, exp = a.exp;
+    const b = new Battle({ player: [a], foe: [createMicroo("coli-k12", 5, { rng: new Rng(4) })], wild: true, seed: 5, levelCap: 20 });
+    b.drain();
+    for (let t = 0; t < 6 && !b.ended; t++) b.playTurn([{ kind: "move", slot: 0, move: 0, target: { side: 1, slot: 0 } }], [{ kind: "move", slot: 0, move: 0, target: { side: 0, slot: 0 } }]);
+    expect(b.outcome).toBe("win");
+    expect(a.level).toBe(lvl); expect(a.exp).toBe(exp);
+  });
+});

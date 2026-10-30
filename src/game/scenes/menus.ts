@@ -7,7 +7,7 @@ import type { Overworld } from "./overworld";
 import { SPECIES, ITEMS, TRAINERS, getMove, getSpecies, type ItemData } from "../../engine/data";
 import { displayName, NATURES, itemEvolution, expForLevel, plasmidCompatible, replaceMove, type Microo } from "../../engine/microo";
 import { applyItemOutOfBattleLike, type Battle } from "../../engine/battle";
-import { saveGame, playTime, addItem, AVATAR_SPRITE, OBEY_CAPS } from "../state";
+import { saveGame, playTime, addItem, AVATAR_SPRITE, OBEY_CAPS, levelCap } from "../state";
 import { evolutionSequence } from "./battle";
 import { ponerMote } from "./nombre";
 
@@ -73,6 +73,7 @@ async function options(game: Game) {
   if (sp >= 0) s.textSpeed = ([1, 2, 4] as const)[sp];
   const d = await game.choose(["Fácil · Medio Rico", "Normal · Medio Selectivo", "Difícil · Presión Antibiótica"], { prompt: "Dificultad (Condiciones de Incubación):", x: 70, y: 40, cancel: 999 });
   if (d >= 0) s.difficulty = (["facil", "normal", "dificil"] as const)[d];
+  if (d === 2) await game.say(`Presión Antibiótica: tus Microos no pasarán del nivel ${levelCap(s) >= 100 ? "100" : levelCap(s)} hasta la próxima medalla.`);
   const mu = await game.choose(["Música: SÍ", "Música: NO"], { prompt: "¿Música?", x: 150, y: 50, cancel: 999 });
   if (mu >= 0) { s.flags.sinMusica = mu === 1; audio.musicOn = mu === 0; if (mu === 1) audio.stopMusic(); }
   const fx = await game.choose(["Efectos: SÍ", "Efectos: NO"], { prompt: "¿Efectos de sonido?", x: 150, y: 50, cancel: 999 });
@@ -591,7 +592,8 @@ export class BadgeCase implements Overlay {
     g.pattern("#5a2a30", "#622f36", game.frame, "#3a1418");
     g.panel(4, 4, W - 8, 20, "#f8d860", "#c89020", "#5a3a08", 5);
     const cap = OBEY_CAPS[Math.min(8, s.badges.length)];
-    const title = `MEDALLERO · ${s.badges.length}/8 · ${cap >= 100 ? "Te obedecen todos" : `Obedecen hasta Nv${cap}`}`;
+    const lc = levelCap(s);
+    const title = `MEDALLERO · ${s.badges.length}/8 · ${cap >= 100 ? "Te obedecen todos" : `Obedecen hasta Nv${cap}`}${lc < 100 ? ` · Tope Nv${lc}` : ""}`;
     g.text(title, W / 2 - g.measure(title) / 2, 8, "dark");
     // estuche
     g.panel(6, 28, W - 12, 104, "#3a2028", "#2a141a", "#c89020", 8);
