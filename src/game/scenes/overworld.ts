@@ -42,6 +42,13 @@ export class Overworld implements Scene {
     audio.music(m.music ?? (m.outdoor ? "ruta" : "pueblo"));
     this.lux = false;
   }
+  /** Modo cinemática: muestra un mapa sin jugador, sin música ni efectos en la partida. */
+  cine = false;
+  vista(id: string) {
+    const m = MAPS[id]; this.map = m; this.cine = true; this.banner = 0; this.px = 0; this.py = 0;
+    this.npcs = m.npcs.filter((n) => !n.showIf && n.sprite !== "" && !n.sprite.startsWith("@"))
+      .map((n) => ({ def: { ...n, move: n.trainer ? n.move : n.move ?? "pasear" }, x: n.x, y: n.y, dir: n.dir ?? 0, ox: 0, oy: 0, moving: 0, timer: 20 + ((n.x * 37 + n.y * 11) % 90), home: { x: n.x, y: n.y }, emote: 0 }));
+  }
   /** Deslizándose sobre hielo (sin animación de paso, sin control). */
   sliding = false;
   /** En mapas oscuros: si se ha usado Quorum Sensing Lux en esta visita. */
@@ -309,7 +316,7 @@ export class Overworld implements Scene {
     const jy = this.jumping > 0 ? -Math.round(Math.sin(((32 - this.jumping) / 32) * Math.PI) * 8) : 0;
     const heli = this.game.state.avatar === "apache";
     const pf = heli ? Math.floor(this.game.frame / 3) % 3 : pfr;      // el rotor gira siempre
-    ents.push({ y: psy, d: () => g.character(AVATAR_SPRITE[this.game.state.avatar], this.dir, pf, psx - 8, psy - 18 + jy) });
+    if (!this.cine) ents.push({ y: psy, d: () => g.character(AVATAR_SPRITE[this.game.state.avatar], this.dir, pf, psx - 8, psy - 18 + jy) });
     ents.sort((a, b) => a.y - b.y).forEach((e) => e.d());
     // la hierba alta tapa los pies del jugador
     const gt = tileAt(this.map, this.px, this.py);

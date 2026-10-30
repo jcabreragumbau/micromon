@@ -27,6 +27,13 @@ const T: Record<string, Track> = {
     bass: "A2:2 A3:2 A2:2 A3:2 A2:2 A3:2 A2:2 A3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 D2:2 D3:2 D2:2 D3:2 G2:2 G3:2 G2:2 G3:2 E2:2 E3:2 E2:2 E3:2 E2:2 E3:2 E2:2 E3:2" },
   victoria: { bpm: 140, loop: false, lead: "C5:2 E5:2 G5:2 C6:6 -:2 B5:2 C6:8", bass: "C3:4 G2:4 C3:8 C2:8" },
 };
+// Introducción: destellos del logotipo, tema principal (fanfarria) y el tono solemne del Monte
+T.intro_brillo = { bpm: 84, leadWave: "triangle", lead: "C5:2 E5:2 G5:2 B5:2 C6:4 G5:4 A5:2 C6:2 E6:2 D6:2 C6:8 B5:2 G5:2 E5:2 D5:2 E5:8 F5:4 A5:4 G5:8",
+  bass: "C3:16 A2:16 F2:16 G2:16" };
+T.tema = { bpm: 132, drums: true, lead: "G4:2 C5:2 E5:2 G5:4 E5:2 G5:2 C6:6 -:2 B5:2 A5:2 G5:2 E5:2 F5:4 A5:4 G5:8 E5:2 F5:2 G5:2 A5:2 B5:4 G5:2 B5:2 D6:6 -:2 C6:2 B5:2 A5:2 B5:2 C6:4 E6:4 C6:6 -:4",
+  bass: "C3:4 G2:4 C3:4 G2:4 A2:4 E2:4 F2:4 G2:4 E2:4 B2:4 G2:4 D3:4 A2:4 E2:4 F2:4 G2:4 C3:4 G2:4 C3:4 G2:4 F2:4 G2:4 C3:8" };
+T.oscuro = { bpm: 66, leadWave: "triangle", lead: "A4:4 C5:4 B4:4 G#4:4 A4:8 E4:8 F4:4 E4:4 D#4:4 E4:4 A3:16",
+  bass: "A2:16 F2:16 D2:8 E2:8 A1:16" };
 T.reserva = T.bosque;
 T.entrenador = { ...T.combate, bpm: 160 };
 T.lider = { ...T.gimnasio, bpm: 172 };

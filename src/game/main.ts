@@ -1,5 +1,6 @@
 // Punto de entrada del juego en el navegador.
 import { audio } from "./audio";
+import { IntroCine } from "./scenes/intro";
 import { drawBattleBackground } from "./scenes/battle";
 import { Game } from "./game";
 import { DexDetail, BadgeGet, enseñarPlasmido } from "./scenes/menus";
@@ -17,7 +18,8 @@ async function boot() {
   const pad = document.getElementById("mando");
   if (pad) game.input.attachTouch(pad);
   await loadAssets();
-  game.scene = new TitleScene();
+  // introducción (START la salta) y después la pantalla de título
+  game.scene = new IntroCine(game, () => { game.scene = new TitleScene(); });
   game.start();
   (window as unknown as { micromon: Game }).micromon = game;   // para pruebas automáticas
   (window as unknown as { micromonDebug: unknown }).micromonDebug = { runScript, wildBattle, enterWorld, MAPS, engine, startBattle, battleFor, DexDetail, BadgeGet, audio, enseñarPlasmido, drawBattleBackground };
