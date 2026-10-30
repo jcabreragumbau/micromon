@@ -104,8 +104,10 @@ def main():
         A.alpha_composite(sheet, (0, i * 128 * K))
     A.save(out / "personajes_hd.png", optimize=True)
     hdp = [cid for cid, pre in REFS.items() if (CHD / f"{pre}_combate.png").exists()]
+    # retratos de combate de PNJ genéricos dibujados por el usuario
+    hdp += [n for n in npc if (CHD / f"{n}_combate.png").exists() and n not in hdp]
     R = Image.new("RGBA", (64 * K * len(hdp), 96 * K))
-    for i, cid in enumerate(hdp): R.alpha_composite(Image.open(CHD / f"{REFS[cid]}_combate.png").convert("RGBA"), (i * 64 * K, 0))
+    for i, cid in enumerate(hdp): R.alpha_composite(Image.open(CHD / f"{REFS.get(cid, cid)}_combate.png").convert("RGBA"), (i * 64 * K, 0))
     R.save(out / "retratos_hd.png", optimize=True)
     json.dump({"sheets": idx, "portraits": {c: i for i, c in enumerate(ports)}, "hdScale": K,
                "hd": {c: i for i, c in enumerate(hd)}, "hdPortraits": {c: i for i, c in enumerate(hdp)}}, open(out / "personajes.json", "w"))
