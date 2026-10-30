@@ -474,7 +474,7 @@ function roundRect(c: CanvasRenderingContext2D, x: number, y: number, w: number,
 }
 
 /** Fondo de combate estilo DS: cielo con bandas, suelo con textura y plataformas con relieve (se cachea). */
-function drawBattleBackground(g: Gfx, env: string, cache: { env?: string; c?: HTMLCanvasElement }) {
+export function drawBattleBackground(g: Gfx, env: string, cache: { env?: string; c?: HTMLCanvasElement }) {
   if (cache.env !== env || !cache.c) {
     const cv = document.createElement("canvas"); cv.width = W; cv.height = TB;
     const c = cv.getContext("2d")!;
