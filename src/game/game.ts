@@ -94,6 +94,8 @@ export class Game {
   noEncounters = false;
   /** Pruebas automáticas: no preguntar motes. */
   noNicknames = false;
+  /** Pruebas automáticas: los Microos obedecen siempre. */
+  noObey = false;
   /** Sustituye {nombre}, {rival} y {o} (terminación de género: o / a). */
   fill(t: string) {
     return t.replaceAll("{nombre}", this.state.name).replaceAll("{rival}", this.state.rival)

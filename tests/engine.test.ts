@@ -216,3 +216,20 @@ describe("Simulador: miles de combates sin errores", () => {
     expect(finished).toBeGreaterThan(1980);
   }, 120000);
 });
+
+describe("Obediencia", () => {
+  test("por encima del tope de medallas, el Microo a veces no obedece; por debajo, siempre", () => {
+    const run = (cap: number) => {
+      let rebeld = 0;
+      for (let seed = 1; seed <= 40; seed++) {
+        const b = new Battle({ player: [createMicroo("anthracis", 60, { rng: new Rng(seed) })], foe: [createMicroo("coli-k12", 60, { rng: new Rng(seed + 99) })], wild: true, seed, obeyCap: cap });
+        b.drain();
+        b.playTurn([{ kind: "move", slot: 0, move: 0, target: { side: 1, slot: 0 } }], [{ kind: "move", slot: 0, move: 0, target: { side: 0, slot: 0 } }]);
+        if (b.drain().some((e) => /no te hace caso|pasa de tus|remolón|otra parte/.test(e.text))) rebeld++;
+      }
+      return rebeld;
+    };
+    expect(run(100)).toBe(0);
+    expect(run(15)).toBeGreaterThan(10);
+  });
+});

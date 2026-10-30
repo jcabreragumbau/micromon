@@ -45,6 +45,8 @@ interface Side {
 export interface BattleOptions {
   player: Microo[]; foe: Microo[]; format?: Format; wild?: boolean; seed?: number;
   difficulty?: Difficulty; playerName?: string; foeName?: string; levelCap?: number;
+  /** Nivel máximo al que obedecen los Microos del jugador (según sus medallas). */
+  obeyCap?: number;
   inventory?: Record<string, number>; foeItems?: Record<string, number>;
 }
 
@@ -66,6 +68,7 @@ export class Battle {
   rng: Rng;
   difficulty: Difficulty;
   levelCap: number;
+  obeyCap: number;
   turn = 0;
   log: BattleEvent[] = [];
   ended = false;
@@ -84,6 +87,7 @@ export class Battle {
     this.rng = new Rng(o.seed ?? 1);
     this.difficulty = o.difficulty ?? "normal";
     this.levelCap = o.levelCap ?? 100;
+    this.obeyCap = o.obeyCap ?? 100;
     this.inventory = o.inventory ?? {};
     this.foeItems = o.foeItems ?? {};
     const n = this.format === "double" ? 2 : 1;
@@ -324,6 +328,33 @@ export class Battle {
       const tgt = bide.from ? this.battler(bide.from) : null;
       if (!bide.damage || !tgt || tgt.mon.hp <= 0) { this.emit("msg", "¡Pero ha fallado!"); return; }
       this.applyDamage(tgt, bide.damage * 2, b); return;
+    }
+    // Obediencia: por encima del nivel que permiten las medallas, el Microo puede ir por libre
+    if (r.side === 0 && b.mon.level > this.obeyCap && !b.vol.locked && !b.vol.charging) {
+      const roll = Math.floor(this.rng.next() * 256), A = Math.floor(((b.mon.level + this.obeyCap) * roll) / 256);
+      if (A >= this.obeyCap) {
+        const n = this.name(b), q = this.rng.int(0, 3);
+        const otros = b.mon.moves.map((m, i) => i).filter((i) => i !== a.move && b.mon.moves[i].pp > 0);
+        if (q === 0 && !b.mon.status) {
+          this.emit("msg", `¡${n} no te hace caso y se pone a dormir la siesta!`);
+          b.mon.status = "slp"; b.mon.sleepTurns = this.rng.int(1, 3);
+          this.emit("status", "", { ...r, status: "slp" });
+          return;
+        }
+        if (q === 1) {
+          this.emit("msg", `¡${n} no te hace caso!`);
+          this.emit("msg", "¡Se ha liado y se ha herido a sí mismo!");
+          this.applyDamage(b, this.rawDamage(b, b, 40, "physical", false), null);
+          return;
+        }
+        if (q === 2 && otros.length) {
+          this.emit("msg", `¡${n} no te hace caso y hace lo que le da la gana!`);
+          a = { ...a, move: otros[this.rng.int(0, otros.length - 1)] };
+        } else {
+          this.emit("msg", [`¡${n} pasa de tus órdenes!`, `${n} se hace el remolón…`, `¡${n} está mirando a otra parte!`][this.rng.int(0, 2)]);
+          return;
+        }
+      }
     }
     let move = this.chosenMove(b, a);
     const continuing = !!(b.vol.locked || b.vol.charging);

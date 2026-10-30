@@ -63,3 +63,8 @@ export function playTime(s: GameState): string {
   const m = Math.floor(s.playFrames / 3600);
   return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")}`;
 }
+
+/** Nivel máximo al que te obedecen los Microos según las medallas conseguidas (como en Pokémon).
+ *  Cada tope deja llegar al as del siguiente líder con un nivel de margen. */
+export const OBEY_CAPS = [15, 22, 28, 34, 42, 46, 51, 56, 100];
+export function obeyCap(s: GameState) { return OBEY_CAPS[Math.min(8, s.badges.length)]; }

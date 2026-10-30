@@ -12,7 +12,7 @@ import { SlotMachine, fichas } from "./scenes/casino";
 import { HallOfFame, Credits } from "./scenes/creditos";
 import { saveGame } from "./state";
 import { Battle, Rng, createMicroo, trainerParty, fullHeal, getSpecies, SPECIES, TRAINERS, ITEMS, conjugationEvolution, type Microo } from "../engine";
-import { addItem, markCaught, markSeen } from "./state";
+import { addItem, markCaught, markSeen, obeyCap } from "./state";
 import { MAPS } from "./world/maps";
 
 const COUNTER: Record<string, string> = { synechoc: "butyricum", butyricum: "paramec", paramec: "synechoc" };
@@ -22,6 +22,12 @@ async function darMascara(game: Game) {
   addItem(game.state, "mascara-de-gases");
   await game.say("¡{nombre} ha recibido la MÁSCARA DE GASES!");
   await game.say("Dra. Gajú: Con ella podrás entrar en la Cueva Anaeróbica. Y el Túnel Endospórico está a oscuras: ¡usa Quorum Sensing Lux!");
+}
+/** Tras ganar una medalla: hasta qué nivel obedecen ahora los Microos. */
+async function avisoObediencia(game: Game) {
+  const c = obeyCap(game.state);
+  if (c >= 100) await game.say("¡Con las ocho medallas, todos los Microos te obedecerán, tengan el nivel que tengan!");
+  else await game.say(`Con ${game.state.badges.length === 1 ? "esta medalla" : `${game.state.badges.length} medallas`}, los Microos de hasta nivel ${c} te obedecerán en combate.`);
 }
 /** Regala un Microo al jugador (al equipo o al Congelador si está lleno). */
 async function giveMicroo(game: Game, sp: string, lv: number) {
@@ -60,7 +66,7 @@ export async function startBattle(game: Game, world: Overworld, setup: Omit<Batt
 function rng(game: Game) { return new Rng((game.state.seed + game.state.playFrames) >>> 0); }
 function battleFor(game: Game, foe: Microo[], wild: boolean, name?: string, foeItems?: Record<string, number>, format: "single" | "double" = "single") {
   return new Battle({ player: game.state.party, foe, wild, format, seed: (game.state.seed ^ game.state.playFrames) >>> 0,
-    difficulty: game.state.difficulty, playerName: game.state.name, foeName: name, foeItems,
+    difficulty: game.state.difficulty, playerName: game.state.name, foeName: name, foeItems, obeyCap: game.noObey ? 100 : obeyCap(game.state),
     inventory: {} });
 }
 
@@ -225,6 +231,8 @@ const SCRIPTS: Record<string, Script> = {
     addItem(s, "criobola-roja", 5);
     await game.say("¡Y también 5 Criobolas Rojas! Sirven para aislar Microos salvajes.");
     await game.say("Profesora Hesse: Tu misión: viajar por la región, aislar todas las especies y desafiar a los gimnasios.");
+    await game.say("Profesora Hesse: Un consejo: los Microos muy crecidos no respetan a un investigador novato. Por encima de nivel 15 no te harán caso…");
+    await game.say("Profesora Hesse: …hasta que ganes medallas de gimnasio. Cada medalla demuestra tu experiencia y sube ese límite.");
     await game.say("Profesora Hesse: El primero está en Ciudad Petri, pasando Ciudad Viral y el Bosque Viral. ¡Buena suerte!");
   },
 
@@ -312,6 +320,7 @@ const SCRIPTS: Record<string, Script> = {
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("probiotico");
     await game.run(new BadgeGet("probiotico"));
+    await avisoObediencia(game);
     s.flags.medalla1 = true;
     await game.say("Dr. Solé: Te has ganado la MEDALLA PROBIÓTICO.");
     await game.say("¡{nombre} ha recibido la MEDALLA PROBIÓTICO del Dr. Solé!");
@@ -398,6 +407,7 @@ const SCRIPTS: Record<string, Script> = {
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("tapete");
     await game.run(new BadgeGet("tapete"));
+    await avisoObediencia(game);
     s.flags.medalla2 = true;
     await game.say("Dra. Gajú: Te has ganado la MEDALLA TAPETE.");
     await game.say("¡{nombre} ha recibido la MEDALLA TAPETE de la Dra. Gajú!");
@@ -450,6 +460,7 @@ const SCRIPTS: Record<string, Script> = {
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("micelio");
     await game.run(new BadgeGet("micelio"));
+    await avisoObediencia(game);
     s.flags.medalla3 = true;
     await game.say("Dra. Guàrdia: Te has ganado la MEDALLA MICELIO.");
     await game.say("¡{nombre} ha recibido la MEDALLA MICELIO de la Dra. Guàrdia!");
@@ -597,6 +608,7 @@ const SCRIPTS: Record<string, Script> = {
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("catalasa");
     await game.run(new BadgeGet("catalasa"));
+    await avisoObediencia(game);
     s.flags.medalla4 = true;
     await game.say("Dr. Yero: Te has ganado la MEDALLA CATALASA.");
     await game.say("¡{nombre} ha recibido la MEDALLA CATALASA del Dr. Yero!");
@@ -658,6 +670,7 @@ const SCRIPTS: Record<string, Script> = {
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("quimiostato");
     await game.run(new BadgeGet("quimiostato"));
+    await avisoObediencia(game);
     s.flags.medalla5 = true;
     await game.say("Dr. Mas: Te has ganado la MEDALLA QUIMIOSTATO.");
     await game.say("¡{nombre} ha recibido la MEDALLA QUIMIOSTATO del Dr. Mas!");
@@ -761,6 +774,7 @@ const SCRIPTS: Record<string, Script> = {
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("algoritmo");
     await game.run(new BadgeGet("algoritmo"));
+    await avisoObediencia(game);
     s.flags.medalla6 = true;
     await game.say("Dr. Conchillo: Te has ganado la MEDALLA ALGORITMO.");
     await game.say("¡{nombre} ha recibido la MEDALLA ALGORITMO del Dr. Conchillo!");
@@ -804,6 +818,7 @@ const SCRIPTS: Record<string, Script> = {
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("ziehl");
     await game.run(new BadgeGet("ziehl"));
+    await avisoObediencia(game);
     s.flags.medalla7 = true;
     await game.say("Dra. Luquin: Te has ganado la MEDALLA ZIEHL-NEELSEN.");
     await game.say("¡{nombre} ha recibido la MEDALLA ZIEHL-NEELSEN de la Dra. Luquin!");
@@ -902,6 +917,7 @@ const SCRIPTS: Record<string, Script> = {
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     s.badges.push("lisogenia");
     await game.run(new BadgeGet("lisogenia"));
+    await avisoObediencia(game);
     s.flags.medalla8 = true;
     await game.say("Dra. Campoy: Te has ganado la MEDALLA LISOGENIA. ¡Ya tienes las ocho!");
     await game.say("¡{nombre} ha recibido la MEDALLA LISOGENIA de la Dra. Campoy!");

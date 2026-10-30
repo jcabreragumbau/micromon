@@ -7,7 +7,7 @@ import type { Overworld } from "./overworld";
 import { SPECIES, ITEMS, TRAINERS, getMove, getSpecies, type ItemData } from "../../engine/data";
 import { displayName, NATURES, itemEvolution, expForLevel, plasmidCompatible, replaceMove, type Microo } from "../../engine/microo";
 import { applyItemOutOfBattleLike, type Battle } from "../../engine/battle";
-import { saveGame, playTime, addItem, AVATAR_SPRITE } from "../state";
+import { saveGame, playTime, addItem, AVATAR_SPRITE, OBEY_CAPS } from "../state";
 import { evolutionSequence } from "./battle";
 import { ponerMote } from "./nombre";
 
@@ -590,7 +590,8 @@ export class BadgeCase implements Overlay {
     const s = game.state;
     g.pattern("#5a2a30", "#622f36", game.frame, "#3a1418");
     g.panel(4, 4, W - 8, 20, "#f8d860", "#c89020", "#5a3a08", 5);
-    const title = `MEDALLERO · ${s.badges.length}/8`;
+    const cap = OBEY_CAPS[Math.min(8, s.badges.length)];
+    const title = `MEDALLERO · ${s.badges.length}/8 · ${cap >= 100 ? "Te obedecen todos" : `Obedecen hasta Nv${cap}`}`;
     g.text(title, W / 2 - g.measure(title) / 2, 8, "dark");
     // estuche
     g.panel(6, 28, W - 12, 104, "#3a2028", "#2a141a", "#c89020", 8);
