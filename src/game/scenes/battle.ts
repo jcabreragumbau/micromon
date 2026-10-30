@@ -1,8 +1,9 @@
 // Pantalla de combate: dibuja la placa y traduce los eventos del motor en textos y animaciones.
 import type { Game, Overlay, Scene } from "../game";
 import { audio } from "../audio";
-import { Gfx, W, H, TB } from "../gfx";
+import { Gfx, W, H, TB, TYPE_COLORS, shade } from "../gfx";
 import { ponerMote } from "./nombre";
+import { MoveForget, MoveDetail, iconoCategoria, nombreCategoria } from "./movinfo";
 import { crearFx, dibujarFx, embestida, type Fx } from "./anim_ataques";
 import { Battle, chooseActions, captureCheck, Rng, type Action, type BattleEvent } from "../../engine";
 import { getMove, getSpecies, ITEMS, type StatusCode } from "../../engine/data";
@@ -327,7 +328,7 @@ export class BattleScene implements Scene {
     const name = getMove(move).name;
     await this.text(`${displayName(m)} quiere aprender ${name}, pero ya conoce cuatro movimientos.`, true);
     if (!(await g.yesno(`¿Olvidar un movimiento para aprender ${name}?`))) { await this.text(`${displayName(m)} no ha aprendido ${name}.`, true); return; }
-    const idx = await g.choose(m.moves.map((s) => getMove(s.id).name), { prompt: "¿Qué movimiento olvidar?", x: 120, y: 30, cancel: 999 });
+    const idx = await g.run<number>(new MoveForget(m, move));
     if (idx < 0) { await this.text(`${displayName(m)} no ha aprendido ${name}.`, true); return; }
     const old = getMove(m.moves[idx].id).name;
     replaceMove(m, idx, move);
@@ -577,21 +578,40 @@ class MoveMenu implements Overlay {
     if (i.pressed("left") && this.sel % 2 === 1) this.sel--;
     if (i.pressed("down") && this.sel + 2 < n) this.sel += 2;
     if (i.pressed("up") && this.sel >= 2) this.sel -= 2;
+    // START: ficha completa del movimiento sin usarlo
+    if (i.pressed("start") && this.mon.moves[this.sel]) { const s = this.mon.moves[this.sel]; void game.run(new MoveDetail(s.id, [s.pp, s.maxPp])); return false; }
     if (i.pressed("b")) { this.result = -1; return true; }
     if (i.pressed("a") && this.legal.includes(this.sel)) { this.result = this.sel; return true; }
     return false;
   }
-  draw(g: Gfx) {
-    g.frame(0, TB, 172, 48, "menu");
-    this.mon.moves.forEach((s, i) => g.text(g.fit(getMove(s.id).name, 76), 14 + (i % 2) * 80, TB + 11 + Math.floor(i / 2) * 16, s.pp > 0 ? "dark" : "gray"));
-    g.cursor(6 + (this.sel % 2) * 80, TB + 11 + Math.floor(this.sel / 2) * 16);
-    g.frame(172, TB, W - 172, 48, "menu");
+  draw(g: Gfx, game: Game) {
+    // cuatro celdas coloreadas por el tipo de cada movimiento
+    g.rect(0, TB, W, H - TB, "#283048");
+    for (let i = 0; i < 4; i++) {
+      const s = this.mon.moves[i], x = 2 + (i % 2) * 95, y = TB + 2 + Math.floor(i / 2) * 23, on = i === this.sel;
+      if (!s) { g.panel(x, y, 93, 21, "#4a5068", "#3a4058", "#202838", 5); g.text("—", x + 43, y + 5, "gray", false); continue; }
+      const mv = getMove(s.id), col = TYPE_COLORS[mv.type] ?? "#a0a0a0", vacio = s.pp <= 0;
+      const borde = on ? (Math.floor((game?.frame ?? 0) / 12) % 2 ? "#fff8c0" : "#f8d038") : shade(col, -0.5);
+      g.panel(x, y, 93, 21, vacio ? "#808088" : shade(col, on ? 0.35 : 0.1), vacio ? "#606068" : shade(col, -0.15), borde, 5);
+      iconoCategoria(g, mv.category, x + 4, y + 6);
+      g.text(g.fit(mv.name, 72), x + 20, y + 5, "white");
+    }
+    // información del seleccionado (PP, tipo, categoría y potencia)
+    g.panel(193, TB + 2, W - 195, 44, "#ffffff", "#e8e8f0", "#384058", 5);
     const s = this.mon.moves[this.sel];
     if (s) {
-      const mv = getMove(s.id);
-      g.text("PP", 182, TB + 10); g.text(`${s.pp}/${s.maxPp}`, 206, TB + 10, s.pp === 0 ? "red" : "dark");
-      g.typeBadge(mv.type, 178, TB + 25, W - 184);
+      const mv = getMove(s.id), pp = `${s.pp}/${s.maxPp}`;
+      g.text(pp, W - 6 - g.measure(pp), TB + 5, s.pp === 0 ? "red" : "dark");
+      g.text("PP", 197, TB + 5, "gray", false);
+      g.miniType(mv.type, 197, TB + 19);
+      const cat = mv.category === "physical" ? "FÍS" : mv.category === "special" ? "ESP" : "EST", pot = mv.power ? `${mv.power}` : "—";
+      g.text(cat, 197, TB + 31, mv.category === "physical" ? "orange" : mv.category === "special" ? "blue" : "gray", false);
+      g.text(pot, W - 6 - g.measure(pot), TB + 31, "dark", false);
     }
+    // aviso del botón de información, sobre la placa a la izquierda
+    const hint = "START: ficha del ataque";
+    g.alpha(0.75, () => g.round(2, TB - 15, g.measure(hint) + 10, 13, 5, "#182030"));
+    g.text(hint, 7, TB - 14, "white", false);
   }
 }
 

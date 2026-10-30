@@ -10,6 +10,7 @@ import { applyItemOutOfBattleLike, type Battle } from "../../engine/battle";
 import { saveGame, playTime, addItem, AVATAR_SPRITE, OBEY_CAPS, levelCap } from "../state";
 import { evolutionSequence } from "./battle";
 import { ponerMote } from "./nombre";
+import { MoveForget, dibujarFicha, iconoCategoria, nombreCategoria } from "./movinfo";
 
 const MENU_DOT = ["#e84848", "#48a0e8", "#f0b030", "#48c068", "#a060d8", "#808898", "#e86898"];
 const STATUS_COL: Record<string, string> = { brn: "#e86030", frz: "#58b8e8", par: "#d8b820", psn: "#a050c0", tox: "#a050c0", slp: "#8890a0" };
@@ -96,7 +97,7 @@ export async function partyMenu(game: Game, o: PartyOpts): Promise<number> {
     }
     // modo ver
     const c = await game.choose(["RESUMEN", "MOVER", "MOTE", "SALIR"], { x: 160, y: 56, cancel: 3 });
-    if (c === 0) await game.run(new SummaryScreen(m));
+    if (c === 0) await game.run(new SummaryScreen(m, game.state.party));
     if (c === 2) {
       if (m.originalTrainer && m.originalTrainer !== game.state.name) await game.say(`${displayName(m)} viene de otro investigador: no le puedes cambiar el mote.`);
       else await ponerMote(game, m, false);
@@ -155,10 +156,25 @@ class PartyScreen implements Overlay {
 // ---------------------------------------------------------------- resumen
 class SummaryScreen implements Overlay {
   page = 0;
-  constructor(public m: Microo) {}
+  /** Movimiento inspeccionado en la pestaña MOVIMIENTOS (-1: ninguno). */
+  mv = -1;
+  /** list: Microos entre los que se cambia con arriba/abajo (equipo o Congelador). */
+  constructor(public m: Microo, public list: Microo[] = [m]) {}
   update(game: Game) {
-    if (game.input.pressed("right") || game.input.pressed("left")) this.page = 1 - this.page;
-    return game.input.pressed("b") || game.input.pressed("a");
+    const i = game.input;
+    if (this.mv >= 0) {
+      const n = this.m.moves.length;
+      if (i.repeat("down")) this.mv = (this.mv + 1) % n;
+      if (i.repeat("up")) this.mv = (this.mv + n - 1) % n;
+      if (i.pressed("b") || i.pressed("a")) this.mv = -1;
+      return false;
+    }
+    if (i.pressed("right") || i.pressed("left")) this.page = 1 - this.page;
+    const k = this.list.indexOf(this.m);
+    if (this.list.length > 1 && i.repeat("down")) this.m = this.list[(k + 1) % this.list.length];
+    if (this.list.length > 1 && i.repeat("up")) this.m = this.list[(k + this.list.length - 1) % this.list.length];
+    if (this.page === 1 && i.pressed("a") && this.m.moves.length) { this.mv = 0; return false; }
+    return i.pressed("b") || i.pressed("a");
   }
   draw(g: Gfx, game: Game) {
     const m = this.m, sp = getSpecies(m.species);
@@ -216,7 +232,16 @@ class SummaryScreen implements Overlay {
         const pp = `PP ${s.pp}/${s.maxPp}`;
         g.text(pp, W - 8 - g.measure(pp), y + 4, s.pp === 0 ? "red" : "dark");
         if (mv.power) g.text(`${mv.power}`, W - 8 - g.measure(`${mv.power}`), y + 22, "dark");
+        iconoCategoria(g, mv.category, W - 30 - (mv.power ? g.measure(`${mv.power}`) : 0), y + 23);
       }
+      if (this.mv < 0) g.text("A: ver movimiento", 118, H - 11, "gray", false);
+    }
+    if (this.list.length > 1 && this.mv < 0) g.text("▲▼", 92, 5, "white", false);
+    if (this.mv >= 0) {
+      const s = this.m.moves[this.mv];
+      g.alpha(0.5, () => g.rect(0, 0, W, H, "#000"));
+      dibujarFicha(g, s.id, 8, 8, W - 16, H - 16, [s.pp, s.maxPp]);
+      g.text(`${this.mv + 1}/${this.m.moves.length} ▲▼`, W - 16 - g.measure(`${this.mv + 1}/${this.m.moves.length} ▲▼`), H - 24, "gray", false);
     }
   }
 }
@@ -324,7 +349,12 @@ class DexScreen implements Overlay {
     if (game.input.repeat("up")) this.sel = Math.max(0, this.sel - 1);
     if (game.input.repeat("right")) this.sel = Math.min(n - 1, this.sel + 8);
     if (game.input.repeat("left")) this.sel = Math.max(0, this.sel - 8);
-    if (game.input.pressed("a") && game.state.seen.includes(this.list[this.sel].id)) game.run(new DexDetail(this.list[this.sel].id));
+    if (game.input.pressed("a") && game.state.seen.includes(this.list[this.sel].id)) {
+      // la ficha se mueve por las especies vistas; al volver, la lista queda en la última que se miró
+      const vistas = this.list.filter((x) => game.state.seen.includes(x.id)).map((x) => x.id);
+      const d = new DexDetail(this.list[this.sel].id, vistas);
+      game.run(d).then(() => { this.sel = Math.max(0, this.list.findIndex((x) => x.id === d.sp)); });
+    }
     return game.input.pressed("b");
   }
   draw(g: Gfx, game: Game) {
@@ -538,9 +568,12 @@ function habitats(sp: string): string[] {
 }
 export class DexDetail implements Overlay {
   page = 0;
-  constructor(public sp: string) {}
+  constructor(public sp: string, public list: string[] = [sp]) {}
   update(game: Game) {
     if (game.input.pressed("left") || game.input.pressed("right")) this.page = 1 - this.page;
+    const k = this.list.indexOf(this.sp);
+    if (this.list.length > 1 && game.input.repeat("down")) this.sp = this.list[(k + 1) % this.list.length];
+    if (this.list.length > 1 && game.input.repeat("up")) this.sp = this.list[(k + this.list.length - 1) % this.list.length];
     return game.input.pressed("a") || game.input.pressed("b");
   }
   draw(g: Gfx, game: Game) {
@@ -662,7 +695,7 @@ export async function enseñarPlasmido(game: Game, move: string) {
     audio.sfx("levelup"); await game.say(`¡${displayName(m)} ha aprendido ${name}!`); return;
   }
   await game.say(`${displayName(m)} quiere aprender ${name}, pero ya conoce cuatro movimientos.`);
-  const idx = await game.choose([...m.moves.map((x) => getMove(x.id).name), "NO APRENDER"], { prompt: "¿Qué movimiento olvidar?", x: 120, y: 30, cancel: 4 });
+  const idx = await game.run<number>(new MoveForget(m, move));
   if (idx < 0 || idx >= 4) { await game.say(`${displayName(m)} no ha aprendido ${name}.`); return; }
   const old = getMove(m.moves[idx].id).name;
   replaceMove(m, idx, move);
