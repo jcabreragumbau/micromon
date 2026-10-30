@@ -33,6 +33,7 @@ export class Overworld implements Scene {
     this.map = m; this.px = x; this.py = y; if (dir !== undefined) this.dir = dir;
     this.moving = 0; this.ox = this.oy = 0;
     const f = this.game.state.flags;
+    f[`visitado:${id}`] = true;      // para el mapa de la región
     this.npcs = m.npcs.filter((n) => (!n.showIf || f[n.showIf]) && (!n.hideIf || !f[n.hideIf]))
       .map((n) => ({ def: n, x: n.x, y: n.y, dir: n.dir ?? 0, ox: 0, oy: 0, moving: 0, timer: 60 + ((n.x * 37 + n.y * 11) % 120), home: { x: n.x, y: n.y }, emote: 0 }));
     const s = this.game.state;

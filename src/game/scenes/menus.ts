@@ -10,6 +10,7 @@ import { applyItemOutOfBattleLike, type Battle } from "../../engine/battle";
 import { saveGame, playTime, addItem, AVATAR_SPRITE, OBEY_CAPS, levelCap } from "../state";
 import { evolutionSequence } from "./battle";
 import { ponerMote } from "./nombre";
+import { RegionMap } from "./mapa";
 import { MoveForget, dibujarFicha, iconoCategoria, nombreCategoria } from "./movinfo";
 
 const MENU_DOT = ["#e84848", "#48a0e8", "#f0b030", "#48c068", "#a060d8", "#808898", "#e86898"];
@@ -24,6 +25,7 @@ export async function openStartMenu(game: Game, world: Overworld) {
     const opts: [string, string][] = [];
     if (s.flags.microdex) opts.push(["MICRODEX", "dex"]);
     if (s.party.length) opts.push(["MICROOS", "party"]);
+    if (s.flags.microdex) opts.push(["MAPA", "map"]);
     opts.push(["MOCHILA", "bag"], [s.name.toUpperCase(), "card"], ["MEDALLERO", "medals"], ["GUARDAR", "save"], ["OPCIONES", "opt"], ["SALIR", "exit"]);
     const i = await game.run<number>(new StartMenu(opts.map((o) => o[0])));
     if (i < 0 || opts[i][1] === "exit") return;
@@ -33,6 +35,7 @@ export async function openStartMenu(game: Game, world: Overworld) {
     if (k === "bag") await bagMenu(game, { mode: "field" });
     if (k === "card") await game.run(new CardScreen());
     if (k === "medals") await game.run(new BadgeCase());
+    if (k === "map") await game.run(new RegionMap(game));
     if (k === "save") {
       if (await game.yesno("¿Quieres guardar la partida?")) {
         const ok = saveGame(s);
