@@ -5,10 +5,11 @@ import { audio } from "../audio";
 import { Gfx, W, H, TB, shade, TYPE_COLORS } from "../gfx";
 import type { Overworld } from "./overworld";
 import { SPECIES, ITEMS, TRAINERS, getMove, getSpecies, type ItemData } from "../../engine/data";
-import { displayName, NATURES, itemEvolution, expForLevel, type Microo } from "../../engine/microo";
+import { displayName, NATURES, itemEvolution, expForLevel, plasmidCompatible, replaceMove, type Microo } from "../../engine/microo";
 import { applyItemOutOfBattleLike, type Battle } from "../../engine/battle";
 import { saveGame, playTime, addItem, AVATAR_SPRITE } from "../state";
 import { evolutionSequence } from "./battle";
+import { ponerMote } from "./nombre";
 
 const MENU_DOT = ["#e84848", "#48a0e8", "#f0b030", "#48c068", "#a060d8", "#808898", "#e86898"];
 const STATUS_COL: Record<string, string> = { brn: "#e86030", frz: "#58b8e8", par: "#d8b820", psn: "#a050c0", tox: "#a050c0", slp: "#8890a0" };
@@ -93,8 +94,12 @@ export async function partyMenu(game: Game, o: PartyOpts): Promise<number> {
       return idx;
     }
     // modo ver
-    const c = await game.choose(["RESUMEN", "MOVER", "SALIR"], { x: 160, y: 60, cancel: 2 });
+    const c = await game.choose(["RESUMEN", "MOVER", "MOTE", "SALIR"], { x: 160, y: 56, cancel: 3 });
     if (c === 0) await game.run(new SummaryScreen(m));
+    if (c === 2) {
+      if (m.originalTrainer && m.originalTrainer !== game.state.name) await game.say(`${displayName(m)} viene de otro investigador: no le puedes cambiar el mote.`);
+      else await ponerMote(game, m, false);
+    }
     if (c === 1) {
       const j = await game.run<number>(new PartyScreen(game, { mode: "item", prompt: `¿Con quién intercambiar a ${displayName(m)}?` }));
       if (j >= 0 && j !== idx) { const p = game.state.party; [p[idx], p[j]] = [p[j], p[idx]]; }
@@ -217,7 +222,7 @@ class SummaryScreen implements Overlay {
 
 // ---------------------------------------------------------------- mochila
 const POCKET_COL = ["#d85858", "#3878d0", "#9858c8", "#d89830"];
-const POCKETS: [string, ItemData["kind"][]][] = [["MEDIOS", ["heal", "cure", "revive", "pp"]], ["CRIOBOLAS", ["ball"]], ["PLÁSMIDOS", ["evolution"]], ["CLAVE", ["key"]]];
+const POCKETS: [string, ItemData["kind"][]][] = [["MEDIOS", ["heal", "cure", "revive", "pp"]], ["CRIOBOLAS", ["ball"]], ["PLÁSMIDOS", ["tm", "evolution"]], ["CLAVE", ["key"]]];
 export async function bagMenu(game: Game, o: { mode: "field" | "battle"; wild?: boolean }): Promise<{ item: string; target?: number } | null> {
   const screen = new BagScreen();
   for (;;) {
@@ -251,13 +256,15 @@ export async function bagMenu(game: Game, o: { mode: "field" | "battle"; wild?: 
       if (!to) { await game.say("No tendría ningún efecto."); continue; }
       addItem(game.state, id, -1);
       await evolutionSequence(game, m, to);
+    } else if (it.kind === "tm" && it.move) {
+      await enseñarPlasmido(game, it.move);
     } else if (it.kind === "ball") await game.say("Las Criobolas se usan en combate contra Microos salvajes.");
     else await game.say(it.desc);
   }
 }
 class BagScreen implements Overlay {
   pocket = 0; sel = 0; result: string | null = null;
-  items(game: Game) { const k = POCKETS[this.pocket][1]; return Object.keys(game.state.bag).filter((i) => k.includes(ITEMS.get(i)?.kind as ItemData["kind"])); }
+  items(game: Game) { const k = POCKETS[this.pocket][1]; return Object.keys(game.state.bag).filter((i) => k.includes(ITEMS.get(i)?.kind as ItemData["kind"])).sort((a, b) => (ITEMS.get(a)!.kind === "tm" ? 1 : 0) - (ITEMS.get(b)!.kind === "tm" ? 1 : 0) || (ITEMS.get(a)!.kind === "tm" ? ITEMS.get(a)!.name.localeCompare(ITEMS.get(b)!.name) : 0)); }
   update(game: Game) {
     const its = this.items(game);
     const inp = game.input;
@@ -291,12 +298,12 @@ class BagScreen implements Overlay {
     g.panel(106, 4, W - 110, 150, "#ffffff", "#eef0f4", "#384058", 6);
     const its = this.items(game);
     const off = Math.max(0, this.sel - 7);
-    const rows = [...its.slice(off, off + 9).map((id) => [ITEMS.get(id)!.name, `×${game.state.bag[id]}`]), ...(its.length - off < 9 ? [["CERRAR", ""]] : [])];
+    const rows = [...its.slice(off, off + 9).map((id) => [ITEMS.get(id)!.name, ITEMS.get(id)!.kind === "tm" ? "" : `×${game.state.bag[id]}`]), ...(its.length - off < 9 ? [["CERRAR", ""]] : [])];
     rows.forEach(([n, q], i) => {
       const y = 9 + i * 16, sel = off + i === this.sel;
       if (sel) g.panel(109, y - 2, W - 116, 16, "#ffe8a0", "#f8c050", "#c07018", 3);
       else if (i % 2) g.rect(110, y - 2, W - 118, 16, "#f0f2f8");
-      g.text(n, 116, y + 1, "dark");
+      g.text(g.fit(n, W - 132 - (q ? g.measure(q) + 4 : 0)), 116, y + 1, "dark");
       if (q) g.text(q, W - 12 - g.measure(q), y + 1, "dark");
     });
     g.panel(4, 157, W - 8, 32, "#ffffff", "#e8e8e0", "#384058", 6);
@@ -388,6 +395,14 @@ export async function shopMenu(game: Game, stock: string[]) {
     game.popKept();
     if (i < 0) return;
     const it = ITEMS.get(stock[i])!;
+    if (it.kind === "tm") {
+      if (game.state.bag[it.id]) { await game.say("Ya tienes ese plásmido. ¡No se gasta al usarlo!"); continue; }
+      if (game.state.money < it.price) { await game.say("No tienes suficientes créditos."); continue; }
+      if (!(await game.yesno(`${it.name} cuesta ${it.price} créditos. ¿Lo compras?`))) continue;
+      game.state.money -= it.price; addItem(game.state, it.id, 1); audio.sfx("ok");
+      await game.say(`¡Has comprado ${it.name}! Úsalo desde la mochila para enseñar el movimiento.`);
+      continue;
+    }
     const max = Math.min(99, Math.floor(game.state.money / it.price));
     if (max <= 0) { await game.say("No tienes suficientes créditos."); continue; }
     const q = await game.run<number>(new Quantity(it.price, max));
@@ -411,13 +426,20 @@ class ShopList implements Overlay {
   }
   draw(g: Gfx, game: Game) {
     game.keptDialog?.draw(g, game);
-    g.panel(70, 3, 182, this.stock.length * 16 + 24, "#ffffff", "#e8eef4", "#384058", 6);
-    [...this.stock.map((id) => [ITEMS.get(id)!.name, `${ITEMS.get(id)!.price}`]), ["SALIR", ""]].forEach(([n, p], i) => {
-      const y = 8 + i * 16, sel = i === this.sel;
+    const all = [...this.stock.map((id) => [ITEMS.get(id)!.name, `${ITEMS.get(id)!.price}`, id]), ["SALIR", "", ""]];
+    const VIS = 8, off = Math.max(0, Math.min(this.sel - VIS + 2, all.length - VIS));
+    const rows = all.slice(off, off + VIS);
+    g.panel(70, 3, 182, rows.length * 16 + 10, "#ffffff", "#e8eef4", "#384058", 6);
+    rows.forEach(([n, p, id], k) => {
+      const i = off + k, y = 8 + k * 16, sel = i === this.sel;
       if (sel) g.panel(73, y - 2, 176, 16, "#ffe8a0", "#f8c050", "#c07018", 3);
-      g.text(n, 82, y + 1);
-      if (p) g.text(`${p} cr.`, 242 - g.measure(`${p} cr.`), y + 1);
+      const owned = id && ITEMS.get(id)?.kind === "tm" && game.state.bag[id];
+      const pr = owned ? "TIENES" : p ? `${p} cr.` : "";
+      g.text(g.fit(n, 168 - g.measure(pr) - 6), 78, y + 1, owned ? "gray" : "dark");
+      if (pr) g.text(pr, 246 - g.measure(pr), y + 1, owned ? "gray" : "dark");
     });
+    if (off > 0) g.text("▲", 238, 2, "gray", false);
+    if (off + VIS < all.length) g.text("▼", 238, rows.length * 16 + 4, "gray", false);
   }
 }
 class Quantity implements Overlay {
@@ -622,4 +644,25 @@ export class BadgeGet implements Overlay {
     }
     if (this.t > 30 && b) { const t = `¡${b.name.toUpperCase()}!`; g.panel(W / 2 - g.measure(t) / 2 - 8, 124, g.measure(t) + 16, 18, "#f8d860", "#c89020", "#5a3a08", 5); g.text(t, W / 2 - g.measure(t) / 2, 127, "dark"); }
   }
+}
+
+/** Enseñar un movimiento con un Plásmido (no se gasta). */
+export async function enseñarPlasmido(game: Game, move: string) {
+  const name = getMove(move).name;
+  const t = await partyMenu(game, { mode: "item", prompt: `¿Quién aprende ${name}?` });
+  if (t < 0) return;
+  const m = game.state.party[t];
+  if (!plasmidCompatible(m, move)) { await game.say(`${displayName(m)} no es compatible con este plásmido.`); return; }
+  if (m.moves.some((x) => x.id === move)) { await game.say(`${displayName(m)} ya conoce ${name}.`); return; }
+  if (m.moves.length < 4) {
+    m.moves.push({ id: move, pp: getMove(move).pp, maxPp: getMove(move).pp });
+    audio.sfx("levelup"); await game.say(`¡${displayName(m)} ha aprendido ${name}!`); return;
+  }
+  await game.say(`${displayName(m)} quiere aprender ${name}, pero ya conoce cuatro movimientos.`);
+  const idx = await game.choose([...m.moves.map((x) => getMove(x.id).name), "NO APRENDER"], { prompt: "¿Qué movimiento olvidar?", x: 120, y: 30, cancel: 4 });
+  if (idx < 0 || idx >= 4) { await game.say(`${displayName(m)} no ha aprendido ${name}.`); return; }
+  const old = getMove(m.moves[idx].id).name;
+  replaceMove(m, idx, move);
+  audio.sfx("levelup");
+  await game.say(`1, 2 y… ¡zas! ${displayName(m)} ha olvidado ${old} y ha aprendido ${name}.`);
 }

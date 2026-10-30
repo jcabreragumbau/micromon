@@ -40,7 +40,9 @@ export interface MoveData {
 }
 
 export interface ItemData {
-  id: string; name: string; kind: "ball" | "evolution" | "heal" | "cure" | "revive" | "pp" | "key";
+  id: string; name: string; kind: "ball" | "evolution" | "heal" | "cure" | "revive" | "pp" | "key" | "tm";
+  /** Plásmidos de movimiento: el movimiento que enseñan y el tramo del juego (1-5) en que aparecen. */
+  move?: string; tier?: number;
   price: number; desc: string; ball?: number; heal?: number; revive?: number; pp?: number;
 }
 

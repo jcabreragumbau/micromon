@@ -507,6 +507,9 @@ export class Battle {
       const mod = st >= 0 ? (3 + st) / 3 : 3 / (3 - st);
       if (!this.rng.chance((move.accuracy * mod) / 100)) { this.emit("miss", `¡El ataque de ${this.name(b)} ha fallado!`); return false; }
     }
+    // animación del movimiento (la interfaz la dibuja; no afecta al combate)
+    const fr = this.refOf(b), to = this.refOf(t);
+    this.emit("anim", "", { move: move.id, moveType: move.type, category: move.category, side: fr.side, slot: fr.slot, toSide: to.side, toSlot: to.slot });
     // Movimientos de estado
     if (move.category === "status") return this.statusMove(b, t, move);
     // Movimientos de daño
@@ -517,10 +520,11 @@ export class Battle {
       const res = this.computeDamage(b, t, move, spread, eff);
       if (res.dmg === null) { this.emit("msg", "¡Pero ha fallado!"); return false; }
       if (res.crit) crits++;
-      if (res.crit) this.emit("crit", "¡Un golpe crítico!");
-      // con un solo golpe, la eficacia se anuncia antes de que el objetivo se debilite
-      if (hits === 1) this.effMsg(eff);
-      const dealt = this.applyDamage(t, res.dmg, b, move);
+      // primero el golpe y la bajada de PS; después «crítico» y la eficacia; y por último, si cae, el debilitamiento
+      const dealt = this.applyDamage(t, res.dmg, b, move, () => {
+        if (res.crit) this.emit("crit", "¡Un golpe crítico!");
+        if (hits === 1) this.effMsg(eff);
+      });
       total += dealt; landed++;
       if (move.orig === "payday") this.payDay += 5 * b.mon.level;
     }
@@ -611,13 +615,14 @@ export class Battle {
     return d;
   }
 
-  private applyDamage(t: Battler, amount: number, src: Battler | null, move?: MoveData): number {
+  private applyDamage(t: Battler, amount: number, src: Battler | null, move?: MoveData, after?: () => void): number {
     const r = this.refOf(t);
     if (src && move && t.vol.substitute > 0 && src !== t) {
       const d = Math.min(t.vol.substitute, amount);
       t.vol.substitute -= d;
       this.emit("msg", "¡El señuelo vesicular recibe el daño!");
       if (t.vol.substitute <= 0) { t.vol.substitute = 0; this.emit("msg", `¡El señuelo de ${this.name(t)} se ha roto!`); }
+      after?.();
       return d;
     }
     const dealt = Math.min(t.mon.hp, Math.max(0, Math.floor(amount)));
@@ -629,6 +634,7 @@ export class Battle {
       if (t.vol.rage && t.mon.hp > 0) { this.emit("msg", `¡La Respuesta SOS de ${this.name(t)} aumenta!`); this.boost(t, { atk: 1 }, t); }
       if (t.mon.status === "frz" && move.type === "Anaerobio" && t.mon.hp > 0) { t.mon.status = null; this.emit("cure", `¡${this.name(t)} se ha descongelado!`, r); }
     }
+    after?.();
     if (t.mon.hp <= 0) this.faintNow(t);
     return dealt;
   }

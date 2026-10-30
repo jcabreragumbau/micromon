@@ -2,6 +2,8 @@
 import type { Game, Overlay, Scene } from "../game";
 import { audio } from "../audio";
 import { Gfx, W, H, TB } from "../gfx";
+import { ponerMote } from "./nombre";
+import { crearFx, dibujarFx, embestida, type Fx } from "./anim_ataques";
 import { Battle, chooseActions, captureCheck, Rng, type Action, type BattleEvent } from "../../engine";
 import { getMove, getSpecies, ITEMS, type StatusCode } from "../../engine/data";
 import { displayName, expForLevel, replaceMove, evolve, type Microo } from "../../engine/microo";
@@ -33,6 +35,8 @@ export class BattleScene implements Scene {
   disp: Disp[][] = [[], []];
   msg = "";
   ballAnim = 0; ballShake = 0;
+  /** Animación del movimiento en curso. */
+  fx: (Fx & { side: number; slot: number }) | null = null;
   /** La Criobola descansa en la placa (tras absorber al Microo). */
   ballRest = false;
   /** Microo siendo absorbido por la Criobola: hueco y fotogramas restantes (de 16 a 0). */
@@ -54,6 +58,7 @@ export class BattleScene implements Scene {
       if (d.drop > 0 && d.drop < 48) d.drop += 3;
     }
     if (this.ballAnim > 0) this.ballAnim--;
+    if (this.fx) this.fx.t++;
     if (this.absorb && this.absorb.t > 0) this.absorb.t--;
     if (this.trainerSlide > 0) this.trainerSlide -= 4;
   }
@@ -155,6 +160,7 @@ export class BattleScene implements Scene {
       const m = b.captured;
       m.originalTrainer = g.state.name;
       markCaught(g.state, m.species);
+      await ponerMote(g, m);
       if (g.state.party.length < 6) g.state.party.push(m);
       else { g.state.box.push(m); await this.text(`${displayName(m)} se ha enviado al Congelador de cepas.`); }
       out.captured = m;
@@ -241,7 +247,8 @@ export class BattleScene implements Scene {
   aim = -1;
 
   // ---------------------------------------------------------------- eventos
-  private async text(t: string, waitInput = false) { await this.game.run(new BattleText(this.game.fill(t), waitInput)); }
+  /** Contra investigadores, cada mensaje espera a que pulses A (para ver el combate y leer con calma). */
+  private async text(t: string, waitInput = false) { await this.game.run(new BattleText(this.game.fill(t), waitInput || !this.s.wild)); }
 
   private async play(e: BattleEvent) {
     const g = this.game, b = this.b;
@@ -257,9 +264,19 @@ export class BattleScene implements Scene {
         break;
       }
       case "withdraw": if (d) d.visible = false; await this.text(e.text); break;
+      case "anim": {
+        const [fs, fsl, ts, tsl] = [e.side as number, e.slot as number, e.toSide as number, e.toSlot as number];
+        const ctr = (sd: number, sl: number): [number, number] => { const [x, y, k] = this.spot(sd as 0 | 1, sl); return [x + 40 * k, y + 44 * k]; };
+        const fx = crearFx({ move: e.move as string, type: e.moveType as string, category: e.category as string, from: ctr(fs, fsl), to: ctr(ts, tsl), self: fs === ts && fsl === tsl });
+        this.fx = { ...fx, side: fs, slot: fsl };
+        await g.wait(fx.dur);
+        this.fx = null;
+        break;
+      }
       case "damage": case "hp": {
         if (!d) break;
-        if (e.type === "damage" && (e.amount as number) > 0) { audio.sfx("hit"); d.flash = 24; await g.wait(20); }
+        // al impactar: el Microo parpadea y a la vez le baja la barra de PS
+        if (e.type === "damage" && (e.amount as number) > 0) { audio.sfx("hit"); d.flash = 18; await g.wait(4); }
         await this.tweenHp(d, e.hp as number);
         break;
       }
@@ -360,7 +377,8 @@ export class BattleScene implements Scene {
         g.alpha(0.5 * (1 - q), () => g.round(cx - 10 * (1 - q) - 2, cy - 10 * (1 - q) - 2, 20 * (1 - q) + 4, 20 * (1 - q) + 4, 12, "#ff5050"));
         return;
       }
-      if (!blink) g.alpha(f.drop > 0 ? Math.max(0, 1 - f.drop / 48) : 1, () => g.microo(f.species, "frente", x + 40 * (k - sc), y + f.drop + 80 * (k - sc), sc));
+      const [lx, ly] = this.fx && this.fx.side === 1 && this.fx.slot === slot ? embestida(this.fx) : [0, 0];
+      if (!blink) g.alpha(f.drop > 0 ? Math.max(0, 1 - f.drop / 48) : 1, () => g.microo(f.species, "frente", x + lx + 40 * (k - sc), y + ly + f.drop + 80 * (k - sc), sc));
     });
     // Criobola lanzada
     if (this.ballAnim > 0 || this.ballShake !== 0 || this.ballRest) {
@@ -374,8 +392,10 @@ export class BattleScene implements Scene {
       if (!p?.visible || !p.mon) return;
       const [x, y, k] = this.spot(0, slot);
       const blink = p.flash > 0 && Math.floor(p.flash / 4) % 2 === 0;
-      if (!blink) g.alpha(p.drop > 0 ? Math.max(0, 1 - p.drop / 48) : 1, () => g.microo(p.species, "espalda", x, y + p.drop, k));
+      const [lx, ly] = this.fx && this.fx.side === 0 && this.fx.slot === slot ? embestida(this.fx) : [0, 0];
+      if (!blink) g.alpha(p.drop > 0 ? Math.max(0, 1 - p.drop / 48) : 1, () => g.microo(p.species, "espalda", x + lx, y + ly + p.drop, k));
     });
+    if (this.fx) dibujarFx(g, this.fx);
     // Cajas de PS
     if (!this.doubles) {
       const f = this.disp[1][0], p = this.disp[0][0];
@@ -514,7 +534,7 @@ class BattleText implements Overlay {
     if (this.shown < total) { this.shown += game.state.textSpeed * (game.input.down("a") ? 3 : 1); if (game.input.pressed("a")) this.shown = total; return false; }
     this.hold++;
     if (game.input.pressed("a") || game.input.pressed("b")) return true;
-    return !this.waitInput && this.hold > 40;
+    return !this.waitInput && this.hold > 55;
   }
   draw(g: Gfx, game: Game) {
     g.frame(0, TB, W, 48, "oscuro");

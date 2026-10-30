@@ -8,9 +8,9 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 | 1 · Datos y motor de combate | Hecha: 180 tests en verde, 2000 combates simulados sin errores |
 | 2 · Biblia de estilo y prototipo de arte | Aprobada, con el compromiso de mejorar la calidad de los sprites en la fase 4 |
 | 3 · Primer tramo jugable | Jugable de Pueblo Plaqueta a la medalla de Ciudad Petri (`dist/index.html`) |
-| 4 · Resto del mundo y arte en lote | Pendiente |
-| 5 · Trama, Liga y equilibrio | Pendiente |
-| 6 · Pulido y publicación | Pendiente |
+| 4 · Resto del mundo y arte en lote | Hecha |
+| 5 · Trama, Liga y equilibrio | Hecha |
+| 6 · Pulido y publicación | En curso (publicado como artifact; pulido continuo) |
 
 ## Fase 1 (hecha)
 - `data/moves.json`: 165 movimientos. Nombre, tipo, categoría, potencia y probabilidades del GDD; precisión, PP, prioridad, objetivo y mecánica de Pokémon Showdown (MIT) para el movimiento original del mismo número.
@@ -123,7 +123,11 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Transiciones al combate (`scenes/transiciones.ts`): entrenadores → hileras de placas de Petri (agar sangre, chocolate, MacConkey…) que barren la pantalla y luego la destapan; salvajes → parpadeo y cortinilla de persianas que se cierra y se abre. La música del combate empieza con la transición.
 - Música: tema de combate contra entrenador del usuario (`assets/audio/combate_entrenador.mp3`, incrustado en `assets_audio.ts` y en bucle; se descodifica con atob + decodeAudioData, sin fetch, porque la página publicada no permite pedir data URL). De momento suena en todos los combates contra investigadores: entrenadores, rival, líderes, Alto Mando, Pasteur y la Unidad de Genética. Arreglado el solapamiento: cada tema suena en su propio bus de WebAudio, que se apaga entero (también las notas ya programadas) al cambiar de pantalla.
 - Ciudades reescaladas y reorganizadas (Pueblo Plaqueta, Viral, Petri, Cultivo, Gram, Levadura, Aerobia, Agar, Parque Biotec, Pili, Isla Conjugada y La UAB): cada edificio ilustrado ocupa una planta acorde a su dibujo (`SPRITE_DIMS`: casas 5×6, laboratorio 7×6, Incubadora/Tienda 7×5, gimnasio/casino 13×7, UAB 15×8) con la puerta en el centro, y se coloca con `onRoad` sobre calles de 2 casillas. Las llegadas se enlazan solas (`linkWarps`): salida de cada interior bajo su puerta y bordes entre mapas exteriores alineados.
+- Motes: se preguntan al capturar, al elegir inicial y al recibir un Microo; opción MOTE en el equipo (no en Microos de otros investigadores). Teclado en `scenes/nombre.ts`.
+- Combate: contra investigadores cada mensaje espera a pulsar A; «¡Un golpe crítico!» y la eficacia salen después del golpe y de la bajada de PS (y antes del debilitamiento). Animación por movimiento (`scenes/anim_ataques.ts`, evento `anim` del motor): 13 estilos según nombre, tipo y categoría (golpe con embestida, corte, rayo, eléctrico, esporas, burbujas, explosión, espiral, agujas, red, orbes, mejora y ondas) con color del tipo y variación propia por movimiento; al impactar, el Microo parpadea y baja la barra.
+- Plásmidos de movimiento (las MT): uno por cada uno de los 165 movimientos (`plasmido-<mov>`, «P001 …», no se gastan), generados en `build_items.py` con tramo 1–5 según potencia. La mitad se venden (un becario-vendedor en cada tienda del tramo) y la otra mitad están en el suelo de los mapas del tramo (`repartirPlasmidos` en `maps.ts`). Compatibles: movimientos de su tipo, de su lista por nivel o de tipo Levadura.
+- Virus: la Gran Pandemia Fágica empezó hace 50 años en el Bosque Viral; ya no quedan virus allí ni en zonas tempranas (Bosque, Monte Micelio, Guarida, Ruta 8, Parque Biotec, Urtaza 1). Los primeros estadios viven latentes en el hielo de las Islas Esporuladas y los demás en Isla Conjugada, la Mansión, Calle Selección y los jefes finales. Lore nuevo: anciano del Bosque Viral, cartel, vecinos de Ciudad Viral y la viróloga Ona.
 - Las 162 especies son obtenibles: Mirabilis (Ruta 2), Pelagibac (Ruta 3), Listeria (Ruta 8), Pyrococcus (Central Metabólica), Plasmodium y Toxoplasma (Calle Selección Natural); Salmonella legendaria en los jardines de La UAB tras ser Campeón; la Profesora regala los otros dos iniciales tras la Liga.
 
 ## Siguiente tarea
-Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
+Pendiente del GDD: Level Cap, Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

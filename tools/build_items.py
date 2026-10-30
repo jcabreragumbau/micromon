@@ -34,5 +34,21 @@ items = [
  {"id":"ambar-mioceno","name":"Ámbar del Mioceno","kind":"key","price":0,"desc":"Una gota de resina fósil con una endospora dentro. En el Instituto Carlos III pueden revivirla."},
  {"id":"western-blot","name":"Western Blot","kind":"key","price":0,"desc":"Identifica los priones de la Torre Prión."},
 ]
+# Plásmidos de movimiento (las «Máquinas Técnicas» de Micromón): uno por cada movimiento.
+# Reutilizables. El tramo (1-5) dice en qué parte del juego aparecen: a más potencia, más tarde.
+moves = json.loads((ROOT/"data"/"moves.json").read_text(encoding="utf-8"))
+def tramo(m):
+    pw = m.get("power")
+    if pw is None:
+        if m["category"] != "status":   # golpes fulminantes al final; daño fijo a mitad de juego
+            return 5 if m.get("ohko") else 3
+        return 1 + (m["num"] * 7) % 4   # movimientos de estado: repartidos entre los tramos 1-4
+    pw *= m.get("multihit") and 2.5 or 1
+    return 1 if pw <= 45 else 2 if pw <= 65 else 3 if pw <= 85 else 4 if pw <= 110 else 5
+for m in moves:
+    t = tramo(m)
+    items.append({"id": f"plasmido-{m['id']}", "name": f"P{m['num']:03d} {m['name']}", "kind": "tm", "move": m["id"], "tier": t,
+                  "price": [0, 1500, 2500, 4000, 6000, 9000][t] + (m["num"] % 5) * 100,
+                  "desc": f"Plásmido con el gen de {m['name']} (tipo {m['type']}). Enseña el movimiento y no se gasta."})
 (ROOT/"data"/"items.json").write_text(json.dumps(items, ensure_ascii=False, indent=1), encoding="utf-8")
 print("OK", len(items), "objetos")

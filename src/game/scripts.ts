@@ -4,6 +4,7 @@ import { audio } from "./audio";
 import { curiosidadPara } from "./curiosidades";
 import type { Overworld, NpcState } from "./scenes/overworld";
 import { BattleScene, battleTrack, type BattleSetup, type BattleOutcome } from "./scenes/battle";
+import { ponerMote } from "./scenes/nombre";
 import { PetriSweep, WildIntro, CurtainOpen } from "./scenes/transiciones";
 import { shopMenu, congeladorMenu, partyMenu, BadgeGet } from "./scenes/menus";
 import { evolutionSequence } from "./scenes/battle";
@@ -29,6 +30,7 @@ async function giveMicroo(game: Game, sp: string, lv: number) {
   markSeen(game.state, sp); markCaught(game.state, sp);
   if (game.state.party.length < 6) game.state.party.push(m); else game.state.box.push(m);
   await game.say(`¡{nombre} ha recibido a ${getSpecies(sp).name}!`);
+  await ponerMote(game, m);
   if (game.state.party.at(-1) !== m) await game.say(`${getSpecies(sp).name} se ha enviado al Congelador de cepas.`);
 }
 const MAPS_EXIST = (id: string) => !!MAPS[id];
@@ -194,6 +196,7 @@ const SCRIPTS: Record<string, Script> = {
     s.flags.inicial = true; s.flags.starter = sp;
     world.refreshNpcs();
     await game.say(`¡{nombre} ha recibido un ${spc.name}!`);
+    await ponerMote(game, m);
     // El rival elige el que tiene ventaja
     const rv = COUNTER[sp];
     s.flags.rivalStarter = rv;
@@ -530,7 +533,7 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dr. Jaime Martínez-Urtaza: Así que tú eres quien ha bajado hasta aquí. He visto tu plan de análisis.");
     await game.say("Dr. Martínez-Urtaza: Es basura. Sin control de calidad, sin réplicas, sin un mal árbol filogenético. ¿Y te llamas investigador?");
     await game.say("Dr. Martínez-Urtaza: Los Microos son solo datos. Y yo tengo los mejores datos del mundo. ¡Te lo demostraré!");
-    const team = [createMicroo("cholerae", 31, { rng: rng(game) }), createMicroo("klebsi", 31, { rng: rng(game) }), createMicroo("smegmatis", 32, { rng: rng(game) }), createMicroo("lambda-v", 33, { rng: rng(game) })];
+    const team = [createMicroo("cholerae", 31, { rng: rng(game) }), createMicroo("klebsi", 31, { rng: rng(game) }), createMicroo("smegmatis", 32, { rng: rng(game) }), createMicroo("aeruginosa", 33, { rng: rng(game) })];
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-tsb": 2 }), wild: false,
       trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "Esto… esto es un outlier. ¡No cuenta!", money: 800 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }

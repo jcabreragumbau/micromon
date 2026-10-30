@@ -184,5 +184,1490 @@
   "kind": "key",
   "price": 0,
   "desc": "Identifica los priones de la Torre Prión."
+ },
+ {
+  "id": "plasmido-golpe-peptidoglicano",
+  "name": "P001 Golpe Peptidoglicano",
+  "kind": "tm",
+  "move": "golpe-peptidoglicano",
+  "tier": 1,
+  "price": 1600,
+  "desc": "Plásmido con el gen de Golpe Peptidoglicano (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-corte-lisozima",
+  "name": "P002 Corte Lisozima",
+  "kind": "tm",
+  "move": "corte-lisozima",
+  "tier": 2,
+  "price": 2700,
+  "desc": "Plásmido con el gen de Corte Lisozima (tipo Antibiótico). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-fision-binaria-doble",
+  "name": "P003 Fisión Binaria Doble",
+  "kind": "tm",
+  "move": "fision-binaria-doble",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Fisión Binaria Doble (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-rafaga-cocos",
+  "name": "P004 Ráfaga Cocos",
+  "kind": "tm",
+  "move": "rafaga-cocos",
+  "tier": 1,
+  "price": 1900,
+  "desc": "Plásmido con el gen de Ráfaga Cocos (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-impacto-capsular",
+  "name": "P005 Impacto Capsular",
+  "kind": "tm",
+  "move": "impacto-capsular",
+  "tier": 3,
+  "price": 4000,
+  "desc": "Plásmido con el gen de Impacto Capsular (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-sintesis-de-atp",
+  "name": "P006 Síntesis de ATP",
+  "kind": "tm",
+  "move": "sintesis-de-atp",
+  "tier": 1,
+  "price": 1600,
+  "desc": "Plásmido con el gen de Síntesis de ATP (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-choque-termofilo",
+  "name": "P007 Choque Termófilo",
+  "kind": "tm",
+  "move": "choque-termofilo",
+  "tier": 3,
+  "price": 4200,
+  "desc": "Plásmido con el gen de Choque Termófilo (tipo Anaerobio). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-choque-criogenico",
+  "name": "P008 Choque Criogénico",
+  "kind": "tm",
+  "move": "choque-criogenico",
+  "tier": 3,
+  "price": 4300,
+  "desc": "Plásmido con el gen de Choque Criogénico (tipo Ácido-Alc.). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-descarga-ionofora",
+  "name": "P009 Descarga Ionófora",
+  "kind": "tm",
+  "move": "descarga-ionofora",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Descarga Ionófora (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-fimbria-afilada",
+  "name": "P010 Fimbria Afilada",
+  "kind": "tm",
+  "move": "fimbria-afilada",
+  "tier": 1,
+  "price": 1500,
+  "desc": "Plásmido con el gen de Fimbria Afilada (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-pinza-pili",
+  "name": "P011 Pinza Pili",
+  "kind": "tm",
+  "move": "pinza-pili",
+  "tier": 2,
+  "price": 2600,
+  "desc": "Plásmido con el gen de Pinza Pili (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-lisis-osmotica",
+  "name": "P012 Lisis Osmótica",
+  "kind": "tm",
+  "move": "lisis-osmotica",
+  "tier": 5,
+  "price": 9200,
+  "desc": "Plásmido con el gen de Lisis Osmótica (tipo Antibiótico). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-aerosol-cortante",
+  "name": "P013 Aerosol Cortante",
+  "kind": "tm",
+  "move": "aerosol-cortante",
+  "tier": 3,
+  "price": 4300,
+  "desc": "Plásmido con el gen de Aerosol Cortante (tipo Alga). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-mutacion-espontanea",
+  "name": "P014 Mutación Espontánea",
+  "kind": "tm",
+  "move": "mutacion-espontanea",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Mutación Espontánea (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-celulasa",
+  "name": "P015 Celulasa",
+  "kind": "tm",
+  "move": "celulasa",
+  "tier": 2,
+  "price": 2500,
+  "desc": "Plásmido con el gen de Celulasa (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-corriente-laminar",
+  "name": "P016 Corriente Laminar",
+  "kind": "tm",
+  "move": "corriente-laminar",
+  "tier": 1,
+  "price": 1600,
+  "desc": "Plásmido con el gen de Corriente Laminar (tipo Alga). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-golpe-flagelar",
+  "name": "P017 Golpe Flagelar",
+  "kind": "tm",
+  "move": "golpe-flagelar",
+  "tier": 2,
+  "price": 2700,
+  "desc": "Plásmido con el gen de Golpe Flagelar (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-centrifugacion",
+  "name": "P018 Centrifugación",
+  "kind": "tm",
+  "move": "centrifugacion",
+  "tier": 3,
+  "price": 4300,
+  "desc": "Plásmido con el gen de Centrifugación (tipo Alga). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-bioaerosol",
+  "name": "P019 Bioaerosol",
+  "kind": "tm",
+  "move": "bioaerosol",
+  "tier": 4,
+  "price": 6400,
+  "desc": "Plásmido con el gen de Bioaerosol (tipo Alga). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-adhesion-matriz",
+  "name": "P020 Adhesión Matriz",
+  "kind": "tm",
+  "move": "adhesion-matriz",
+  "tier": 1,
+  "price": 1500,
+  "desc": "Plásmido con el gen de Adhesión Matriz (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-pseudopodo-pesado",
+  "name": "P021 Pseudópodo Pesado",
+  "kind": "tm",
+  "move": "pseudopodo-pesado",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Pseudópodo Pesado (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-latigo-ciliar",
+  "name": "P022 Látigo Ciliar",
+  "kind": "tm",
+  "move": "latigo-ciliar",
+  "tier": 1,
+  "price": 1700,
+  "desc": "Plásmido con el gen de Látigo Ciliar (tipo Fotótrofo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-aplastamiento-colonia",
+  "name": "P023 Aplastamiento Colonia",
+  "kind": "tm",
+  "move": "aplastamiento-colonia",
+  "tier": 2,
+  "price": 2800,
+  "desc": "Plásmido con el gen de Aplastamiento Colonia (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-doble-inyeccion",
+  "name": "P024 Doble Inyección",
+  "kind": "tm",
+  "move": "doble-inyeccion",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Doble Inyección (tipo Antibiótico). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-cabezazo-capside",
+  "name": "P025 Cabezazo Cápside",
+  "kind": "tm",
+  "move": "cabezazo-capside",
+  "tier": 5,
+  "price": 9000,
+  "desc": "Plásmido con el gen de Cabezazo Cápside (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-salto-transposon",
+  "name": "P026 Salto Transposón",
+  "kind": "tm",
+  "move": "salto-transposon",
+  "tier": 4,
+  "price": 6100,
+  "desc": "Plásmido con el gen de Salto Transposón (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-giro-sacacorchos",
+  "name": "P027 Giro Sacacorchos",
+  "kind": "tm",
+  "move": "giro-sacacorchos",
+  "tier": 2,
+  "price": 2700,
+  "desc": "Plásmido con el gen de Giro Sacacorchos (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-turbidez-media",
+  "name": "P028 Turbidez Media",
+  "kind": "tm",
+  "move": "turbidez-media",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Turbidez Media (tipo Esporulado). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-choque-inclusion",
+  "name": "P029 Choque Inclusión",
+  "kind": "tm",
+  "move": "choque-inclusion",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Choque Inclusión (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-aguja-pilus",
+  "name": "P030 Aguja Pilus",
+  "kind": "tm",
+  "move": "aguja-pilus",
+  "tier": 2,
+  "price": 2500,
+  "desc": "Plásmido con el gen de Aguja Pilus (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-ataque-multimerico",
+  "name": "P031 Ataque Multimérico",
+  "kind": "tm",
+  "move": "ataque-multimerico",
+  "tier": 1,
+  "price": 1600,
+  "desc": "Plásmido con el gen de Ataque Multimérico (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-inyector-tipo-iii",
+  "name": "P032 Inyector Tipo III",
+  "kind": "tm",
+  "move": "inyector-tipo-iii",
+  "tier": 5,
+  "price": 9200,
+  "desc": "Plásmido con el gen de Inyector Tipo III (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-contacto-celular",
+  "name": "P033 Contacto Celular",
+  "kind": "tm",
+  "move": "contacto-celular",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Contacto Celular (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-presion-osmotica",
+  "name": "P034 Presión Osmótica",
+  "kind": "tm",
+  "move": "presion-osmotica",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Presión Osmótica (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-hifa-envolvente",
+  "name": "P035 Hifa Envolvente",
+  "kind": "tm",
+  "move": "hifa-envolvente",
+  "tier": 1,
+  "price": 1500,
+  "desc": "Plásmido con el gen de Hifa Envolvente (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-crecimiento-descontrolado",
+  "name": "P036 Crecimiento Descontrolado",
+  "kind": "tm",
+  "move": "crecimiento-descontrolado",
+  "tier": 4,
+  "price": 6100,
+  "desc": "Plásmido con el gen de Crecimiento Descontrolado (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-fase-exponencial",
+  "name": "P037 Fase Exponencial",
+  "kind": "tm",
+  "move": "fase-exponencial",
+  "tier": 5,
+  "price": 9200,
+  "desc": "Plásmido con el gen de Fase Exponencial (tipo Anaerobio). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-autolisis-masiva",
+  "name": "P038 Autólisis Masiva",
+  "kind": "tm",
+  "move": "autolisis-masiva",
+  "tier": 5,
+  "price": 9300,
+  "desc": "Plásmido con el gen de Autólisis Masiva (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-senal-quimica",
+  "name": "P039 Señal Química",
+  "kind": "tm",
+  "move": "senal-quimica",
+  "tier": 2,
+  "price": 2900,
+  "desc": "Plásmido con el gen de Señal Química (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-aguijon-endotoxina",
+  "name": "P040 Aguijón Endotoxina",
+  "kind": "tm",
+  "move": "aguijon-endotoxina",
+  "tier": 1,
+  "price": 1500,
+  "desc": "Plásmido con el gen de Aguijón Endotoxina (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-doble-hifa",
+  "name": "P041 Doble Hifa",
+  "kind": "tm",
+  "move": "doble-hifa",
+  "tier": 2,
+  "price": 2600,
+  "desc": "Plásmido con el gen de Doble Hifa (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-disparo-esporangio",
+  "name": "P042 Disparo Esporangio",
+  "kind": "tm",
+  "move": "disparo-esporangio",
+  "tier": 2,
+  "price": 2700,
+  "desc": "Plásmido con el gen de Disparo Esporangio (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-deteccion-quorum",
+  "name": "P043 Detección Quorum",
+  "kind": "tm",
+  "move": "deteccion-quorum",
+  "tier": 2,
+  "price": 2800,
+  "desc": "Plásmido con el gen de Detección Quorum (tipo Extremófilo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-fagocitosis",
+  "name": "P044 Fagocitosis",
+  "kind": "tm",
+  "move": "fagocitosis",
+  "tier": 2,
+  "price": 2900,
+  "desc": "Plásmido con el gen de Fagocitosis (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-resonancia-magnetica",
+  "name": "P045 Resonancia Magnética",
+  "kind": "tm",
+  "move": "resonancia-magnetica",
+  "tier": 4,
+  "price": 6000,
+  "desc": "Plásmido con el gen de Resonancia Magnética (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-vortice-agitador",
+  "name": "P046 Vórtice Agitador",
+  "kind": "tm",
+  "move": "vortice-agitador",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Vórtice Agitador (tipo Archaea). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-induccion-latencia",
+  "name": "P047 Inducción Latencia",
+  "kind": "tm",
+  "move": "induccion-latencia",
+  "tier": 2,
+  "price": 2700,
+  "desc": "Plásmido con el gen de Inducción Latencia (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-sonicacion",
+  "name": "P048 Sonicación",
+  "kind": "tm",
+  "move": "sonicacion",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Sonicación (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-onda-choque-osmotico",
+  "name": "P049 Onda Choque Osmótico",
+  "kind": "tm",
+  "move": "onda-choque-osmotico",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Onda Choque Osmótico (tipo Extremófilo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-represion-lac",
+  "name": "P050 Represión Lac",
+  "kind": "tm",
+  "move": "represion-lac",
+  "tier": 3,
+  "price": 4000,
+  "desc": "Plásmido con el gen de Represión Lac (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-secrecion-acida",
+  "name": "P051 Secreción Ácida",
+  "kind": "tm",
+  "move": "secrecion-acida",
+  "tier": 1,
+  "price": 1600,
+  "desc": "Plásmido con el gen de Secreción Ácida (tipo Anaerobio). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-fermentacion-lactica",
+  "name": "P052 Fermentación Láctica",
+  "kind": "tm",
+  "move": "fermentacion-lactica",
+  "tier": 1,
+  "price": 1700,
+  "desc": "Plásmido con el gen de Fermentación Láctica (tipo Anaerobio). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-chorro-metano-ardiente",
+  "name": "P053 Chorro Metano Ardiente",
+  "kind": "tm",
+  "move": "chorro-metano-ardiente",
+  "tier": 4,
+  "price": 6300,
+  "desc": "Plásmido con el gen de Chorro Metano Ardiente (tipo Anaerobio). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-tampon-fosfato-pbs",
+  "name": "P054 Tampón Fosfato (PBS)",
+  "kind": "tm",
+  "move": "tampon-fosfato-pbs",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Tampón Fosfato (PBS) (tipo Ácido-Alc.). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-vacuola-contractil",
+  "name": "P055 Vacuola Contráctil",
+  "kind": "tm",
+  "move": "vacuola-contractil",
+  "tier": 1,
+  "price": 1500,
+  "desc": "Plásmido con el gen de Vacuola Contráctil (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-chorro-citoplasmatico",
+  "name": "P056 Chorro Citoplasmático",
+  "kind": "tm",
+  "move": "chorro-citoplasmatico",
+  "tier": 4,
+  "price": 6100,
+  "desc": "Plásmido con el gen de Chorro Citoplasmático (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-flagelo-polar",
+  "name": "P057 Flagelo Polar",
+  "kind": "tm",
+  "move": "flagelo-polar",
+  "tier": 4,
+  "price": 6200,
+  "desc": "Plásmido con el gen de Flagelo Polar (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-rayo-nitrogeno-liquido",
+  "name": "P058 Rayo Nitrógeno Líquido",
+  "kind": "tm",
+  "move": "rayo-nitrogeno-liquido",
+  "tier": 4,
+  "price": 6300,
+  "desc": "Plásmido con el gen de Rayo Nitrógeno Líquido (tipo Ácido-Alc.). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-tormenta-liofilizadora",
+  "name": "P059 Tormenta Liofilizadora",
+  "kind": "tm",
+  "move": "tormenta-liofilizadora",
+  "tier": 4,
+  "price": 6400,
+  "desc": "Plásmido con el gen de Tormenta Liofilizadora (tipo Ácido-Alc.). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-onda-quimiotactica",
+  "name": "P060 Onda Quimiotáctica",
+  "kind": "tm",
+  "move": "onda-quimiotactica",
+  "tier": 2,
+  "price": 2500,
+  "desc": "Plásmido con el gen de Onda Quimiotáctica (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-espuma-de-fermentador",
+  "name": "P061 Espuma de Fermentador",
+  "kind": "tm",
+  "move": "espuma-de-fermentador",
+  "tier": 2,
+  "price": 2600,
+  "desc": "Plásmido con el gen de Espuma de Fermentador (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-fluorescencia-dapi",
+  "name": "P062 Fluorescencia DAPI",
+  "kind": "tm",
+  "move": "fluorescencia-dapi",
+  "tier": 2,
+  "price": 2700,
+  "desc": "Plásmido con el gen de Fluorescencia DAPI (tipo Ácido-Alc.). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-estallido-litico",
+  "name": "P063 Estallido Lítico",
+  "kind": "tm",
+  "move": "estallido-litico",
+  "tier": 5,
+  "price": 9300,
+  "desc": "Plásmido con el gen de Estallido Lítico (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-perforacion-bdellovibrio",
+  "name": "P064 Perforación Bdellovibrio",
+  "kind": "tm",
+  "move": "perforacion-bdellovibrio",
+  "tier": 1,
+  "price": 1900,
+  "desc": "Plásmido con el gen de Perforación Bdellovibrio (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-taladro-espiroqueta",
+  "name": "P065 Taladro Espiroqueta",
+  "kind": "tm",
+  "move": "taladro-espiroqueta",
+  "tier": 3,
+  "price": 4000,
+  "desc": "Plásmido con el gen de Taladro Espiroqueta (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-estres-oxidativo",
+  "name": "P066 Estrés Oxidativo",
+  "kind": "tm",
+  "move": "estres-oxidativo",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Estrés Oxidativo (tipo Antibiótico). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-desestabilizacion-membrana",
+  "name": "P067 Desestabilización Membrana",
+  "kind": "tm",
+  "move": "desestabilizacion-membrana",
+  "tier": 3,
+  "price": 4200,
+  "desc": "Plásmido con el gen de Desestabilización Membrana (tipo Antibiótico). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-eflujo-multidrogas",
+  "name": "P068 Eflujo Multidrogas",
+  "kind": "tm",
+  "move": "eflujo-multidrogas",
+  "tier": 3,
+  "price": 4300,
+  "desc": "Plásmido con el gen de Eflujo Multidrogas (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-ultracentrifuga",
+  "name": "P069 Ultracentrífuga",
+  "kind": "tm",
+  "move": "ultracentrifuga",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Ultracentrífuga (tipo Extremófilo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-pili-tipo-iv",
+  "name": "P070 Pili Tipo IV",
+  "kind": "tm",
+  "move": "pili-tipo-iv",
+  "tier": 3,
+  "price": 4000,
+  "desc": "Plásmido con el gen de Pili Tipo IV (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-nutricion-saprofita",
+  "name": "P071 Nutrición Saprofita",
+  "kind": "tm",
+  "move": "nutricion-saprofita",
+  "tier": 1,
+  "price": 1600,
+  "desc": "Plásmido con el gen de Nutrición Saprofita (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-parasitismo-tisular",
+  "name": "P072 Parasitismo Tisular",
+  "kind": "tm",
+  "move": "parasitismo-tisular",
+  "tier": 1,
+  "price": 1700,
+  "desc": "Plásmido con el gen de Parasitismo Tisular (tipo Fotótrofo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-micelio-drenante",
+  "name": "P073 Micelio Drenante",
+  "kind": "tm",
+  "move": "micelio-drenante",
+  "tier": 4,
+  "price": 6300,
+  "desc": "Plásmido con el gen de Micelio Drenante (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-enriquecimiento-medio",
+  "name": "P074 Enriquecimiento Medio",
+  "kind": "tm",
+  "move": "enriquecimiento-medio",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Enriquecimiento Medio (tipo Fotótrofo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-frustula-de-silice",
+  "name": "P075 Frústula de Sílice",
+  "kind": "tm",
+  "move": "frustula-de-silice",
+  "tier": 2,
+  "price": 2500,
+  "desc": "Plásmido con el gen de Frústula de Sílice (tipo Alga). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-fotosintesis-oxigenica",
+  "name": "P076 Fotosíntesis Oxigénica",
+  "kind": "tm",
+  "move": "fotosintesis-oxigenica",
+  "tier": 5,
+  "price": 9100,
+  "desc": "Plásmido con el gen de Fotosíntesis Oxigénica (tipo Fotótrofo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-lipido-a-endotoxina",
+  "name": "P077 Lípido A (Endotoxina)",
+  "kind": "tm",
+  "move": "lipido-a-endotoxina",
+  "tier": 4,
+  "price": 6200,
+  "desc": "Plásmido con el gen de Lípido A (Endotoxina) (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-neurotoxina-botulinica",
+  "name": "P078 Neurotoxina Botulínica",
+  "kind": "tm",
+  "move": "neurotoxina-botulinica",
+  "tier": 3,
+  "price": 4300,
+  "desc": "Plásmido con el gen de Neurotoxina Botulínica (tipo Esporulado). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-triptofano-fungico",
+  "name": "P079 Triptófano Fúngico",
+  "kind": "tm",
+  "move": "triptofano-fungico",
+  "tier": 2,
+  "price": 2900,
+  "desc": "Plásmido con el gen de Triptófano Fúngico (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-floracion-algal-bloom",
+  "name": "P080 Floración Algal (Bloom)",
+  "kind": "tm",
+  "move": "floracion-algal-bloom",
+  "tier": 5,
+  "price": 9000,
+  "desc": "Plásmido con el gen de Floración Algal (Bloom) (tipo Alga). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-exopolisacarido-eps",
+  "name": "P081 Exopolisacárido (EPS)",
+  "kind": "tm",
+  "move": "exopolisacarido-eps",
+  "tier": 4,
+  "price": 6100,
+  "desc": "Plásmido con el gen de Exopolisacárido (EPS) (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-furia-fagica",
+  "name": "P082 Furia Fágica",
+  "kind": "tm",
+  "move": "furia-fagica",
+  "tier": 3,
+  "price": 4200,
+  "desc": "Plásmido con el gen de Furia Fágica (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-vortice-hidrotermal",
+  "name": "P083 Vórtice Hidrotermal",
+  "kind": "tm",
+  "move": "vortice-hidrotermal",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Vórtice Hidrotermal (tipo Archaea). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-potencial-de-membrana",
+  "name": "P084 Potencial de Membrana",
+  "kind": "tm",
+  "move": "potencial-de-membrana",
+  "tier": 1,
+  "price": 1900,
+  "desc": "Plásmido con el gen de Potencial de Membrana (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-nanocables-geobacter",
+  "name": "P085 Nanocables Geobacter",
+  "kind": "tm",
+  "move": "nanocables-geobacter",
+  "tier": 4,
+  "price": 6000,
+  "desc": "Plásmido con el gen de Nanocables Geobacter (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-bloqueo-de-canales-ionicos",
+  "name": "P086 Bloqueo de Canales Iónicos",
+  "kind": "tm",
+  "move": "bloqueo-de-canales-ionicos",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Bloqueo de Canales Iónicos (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-pulso-electroporacion",
+  "name": "P087 Pulso Electroporación",
+  "kind": "tm",
+  "move": "pulso-electroporacion",
+  "tier": 4,
+  "price": 6200,
+  "desc": "Plásmido con el gen de Pulso Electroporación (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-precipitado-mineral",
+  "name": "P088 Precipitado Mineral",
+  "kind": "tm",
+  "move": "precipitado-mineral",
+  "tier": 2,
+  "price": 2800,
+  "desc": "Plásmido con el gen de Precipitado Mineral (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-choque-osmotico-masivo",
+  "name": "P089 Choque Osmótico Masivo",
+  "kind": "tm",
+  "move": "choque-osmotico-masivo",
+  "tier": 4,
+  "price": 6400,
+  "desc": "Plásmido con el gen de Choque Osmótico Masivo (tipo Esporulado). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-ruptura-de-pared",
+  "name": "P090 Ruptura de Pared",
+  "kind": "tm",
+  "move": "ruptura-de-pared",
+  "tier": 5,
+  "price": 9000,
+  "desc": "Plásmido con el gen de Ruptura de Pared (tipo Esporulado). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-enquistamiento-subterraneo",
+  "name": "P091 Enquistamiento Subterráneo",
+  "kind": "tm",
+  "move": "enquistamiento-subterraneo",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Enquistamiento Subterráneo (tipo Esporulado). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-exotoxina-letal",
+  "name": "P092 Exotoxina Letal",
+  "kind": "tm",
+  "move": "exotoxina-letal",
+  "tier": 1,
+  "price": 1700,
+  "desc": "Plásmido con el gen de Exotoxina Letal (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-interferencia-de-arn-rnai",
+  "name": "P093 Interferencia de ARN (RNAi)",
+  "kind": "tm",
+  "move": "interferencia-de-arn-rnai",
+  "tier": 2,
+  "price": 2800,
+  "desc": "Plásmido con el gen de Interferencia de ARN (RNAi) (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-secuestro-ribosomal",
+  "name": "P094 Secuestro Ribosomal",
+  "kind": "tm",
+  "move": "secuestro-ribosomal",
+  "tier": 4,
+  "price": 6400,
+  "desc": "Plásmido con el gen de Secuestro Ribosomal (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-latencia-lisogenica",
+  "name": "P095 Latencia Lisogénica",
+  "kind": "tm",
+  "move": "latencia-lisogenica",
+  "tier": 2,
+  "price": 2500,
+  "desc": "Plásmido con el gen de Latencia Lisogénica (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-regulacion-alosterica",
+  "name": "P096 Regulación Alostérica",
+  "kind": "tm",
+  "move": "regulacion-alosterica",
+  "tier": 1,
+  "price": 1600,
+  "desc": "Plásmido con el gen de Regulación Alostérica (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-quimiotaxis-positiva",
+  "name": "P097 Quimiotaxis Positiva",
+  "kind": "tm",
+  "move": "quimiotaxis-positiva",
+  "tier": 4,
+  "price": 6200,
+  "desc": "Plásmido con el gen de Quimiotaxis Positiva (tipo Espiroqueta). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-propulsion-de-actina",
+  "name": "P098 Propulsión de Actina",
+  "kind": "tm",
+  "move": "propulsion-de-actina",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Propulsión de Actina (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-respuesta-sos",
+  "name": "P099 Respuesta SOS",
+  "kind": "tm",
+  "move": "respuesta-sos",
+  "tier": 1,
+  "price": 1900,
+  "desc": "Plásmido con el gen de Respuesta SOS (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-transduccion-viral",
+  "name": "P100 Transducción Viral",
+  "kind": "tm",
+  "move": "transduccion-viral",
+  "tier": 1,
+  "price": 1500,
+  "desc": "Plásmido con el gen de Transducción Viral (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-sombra-prion",
+  "name": "P101 Sombra Prion",
+  "kind": "tm",
+  "move": "sombra-prion",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Sombra Prion (tipo Archaea). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-transferencia-horizontal",
+  "name": "P102 Transferencia Horizontal",
+  "kind": "tm",
+  "move": "transferencia-horizontal",
+  "tier": 3,
+  "price": 4200,
+  "desc": "Plásmido con el gen de Transferencia Horizontal (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-estres-acido",
+  "name": "P103 Estrés Ácido",
+  "kind": "tm",
+  "move": "estres-acido",
+  "tier": 2,
+  "price": 2800,
+  "desc": "Plásmido con el gen de Estrés Ácido (tipo Extremófilo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-variacion-antigenica",
+  "name": "P104 Variación Antigénica",
+  "kind": "tm",
+  "move": "variacion-antigenica",
+  "tier": 1,
+  "price": 1900,
+  "desc": "Plásmido con el gen de Variación Antigénica (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-reparacion-por-escision",
+  "name": "P105 Reparación por Escisión",
+  "kind": "tm",
+  "move": "reparacion-por-escision",
+  "tier": 4,
+  "price": 6000,
+  "desc": "Plásmido con el gen de Reparación por Escisión (tipo Extremófilo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-engrosamiento-mureina",
+  "name": "P106 Engrosamiento Mureína",
+  "kind": "tm",
+  "move": "engrosamiento-mureina",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Engrosamiento Mureína (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-forma-l-pleomorfismo",
+  "name": "P107 Forma L (Pleomorfismo)",
+  "kind": "tm",
+  "move": "forma-l-pleomorfismo",
+  "tier": 2,
+  "price": 2700,
+  "desc": "Plásmido con el gen de Forma L (Pleomorfismo) (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-pigmento-piocianina",
+  "name": "P108 Pigmento Piocianina",
+  "kind": "tm",
+  "move": "pigmento-piocianina",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Pigmento Piocianina (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-infeccion-latente",
+  "name": "P109 Infección Latente",
+  "kind": "tm",
+  "move": "infeccion-latente",
+  "tier": 4,
+  "price": 6400,
+  "desc": "Plásmido con el gen de Infección Latente (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-envoltura-s-layer",
+  "name": "P110 Envoltura S-Layer",
+  "kind": "tm",
+  "move": "envoltura-s-layer",
+  "tier": 3,
+  "price": 4000,
+  "desc": "Plásmido con el gen de Envoltura S-Layer (tipo Archaea). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-encapsulacion",
+  "name": "P111 Encapsulación",
+  "kind": "tm",
+  "move": "encapsulacion",
+  "tier": 2,
+  "price": 2600,
+  "desc": "Plásmido con el gen de Encapsulación (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-acidos-micolicos",
+  "name": "P112 Ácidos Micólicos",
+  "kind": "tm",
+  "move": "acidos-micolicos",
+  "tier": 1,
+  "price": 1700,
+  "desc": "Plásmido con el gen de Ácidos Micólicos (tipo Ácido-Alc.). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-membrana-externa-lps",
+  "name": "P113 Membrana Externa LPS",
+  "kind": "tm",
+  "move": "membrana-externa-lps",
+  "tier": 4,
+  "price": 6300,
+  "desc": "Plásmido con el gen de Membrana Externa LPS (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-lavado-con-solucion-salina",
+  "name": "P114 Lavado con Solución Salina",
+  "kind": "tm",
+  "move": "lavado-con-solucion-salina",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Lavado con Solución Salina (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-pared-de-peptidoglicano",
+  "name": "P115 Pared de Peptidoglicano",
+  "kind": "tm",
+  "move": "pared-de-peptidoglicano",
+  "tier": 2,
+  "price": 2500,
+  "desc": "Plásmido con el gen de Pared de Peptidoglicano (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-hipermutacion-dirigida",
+  "name": "P116 Hipermutación Dirigida",
+  "kind": "tm",
+  "move": "hipermutacion-dirigida",
+  "tier": 1,
+  "price": 1600,
+  "desc": "Plásmido con el gen de Hipermutación Dirigida (tipo Extremófilo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-resistencia-persister",
+  "name": "P117 Resistencia Persister",
+  "kind": "tm",
+  "move": "resistencia-persister",
+  "tier": 3,
+  "price": 4200,
+  "desc": "Plásmido con el gen de Resistencia Persister (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-mutagenesis-al-azar-uv",
+  "name": "P118 Mutagénesis al Azar (UV)",
+  "kind": "tm",
+  "move": "mutagenesis-al-azar-uv",
+  "tier": 3,
+  "price": 4300,
+  "desc": "Plásmido con el gen de Mutagénesis al Azar (UV) (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-plasmido-espejo",
+  "name": "P119 Plásmido Espejo",
+  "kind": "tm",
+  "move": "plasmido-espejo",
+  "tier": 2,
+  "price": 2900,
+  "desc": "Plásmido con el gen de Plásmido Espejo (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-apoptosis-inducida",
+  "name": "P120 Apoptosis Inducida",
+  "kind": "tm",
+  "move": "apoptosis-inducida",
+  "tier": 5,
+  "price": 9000,
+  "desc": "Plásmido con el gen de Apoptosis Inducida (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-bomba-de-esporas",
+  "name": "P121 Bomba de Esporas",
+  "kind": "tm",
+  "move": "bomba-de-esporas",
+  "tier": 4,
+  "price": 6100,
+  "desc": "Plásmido con el gen de Bomba de Esporas (tipo Esporulado). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-adhesina-mucosa",
+  "name": "P122 Adhesina Mucosa",
+  "kind": "tm",
+  "move": "adhesina-mucosa",
+  "tier": 1,
+  "price": 1700,
+  "desc": "Plásmido con el gen de Adhesina Mucosa (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-sulfuro-de-hidrogeno-h2s",
+  "name": "P123 Sulfuro de Hidrógeno (H₂S)",
+  "kind": "tm",
+  "move": "sulfuro-de-hidrogeno-h2s",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Sulfuro de Hidrógeno (H₂S) (tipo Anaerobio). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-secrecion-mucopurulenta",
+  "name": "P124 Secreción Mucopurulenta",
+  "kind": "tm",
+  "move": "secrecion-mucopurulenta",
+  "tier": 2,
+  "price": 2900,
+  "desc": "Plásmido con el gen de Secreción Mucopurulenta (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-cristal-paraesporal-bt",
+  "name": "P125 Cristal Paraesporal (Bt)",
+  "kind": "tm",
+  "move": "cristal-paraesporal-bt",
+  "tier": 2,
+  "price": 2500,
+  "desc": "Plásmido con el gen de Cristal Paraesporal (Bt) (tipo Esporulado). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-explosion-metanogenica",
+  "name": "P126 Explosión Metanogénica",
+  "kind": "tm",
+  "move": "explosion-metanogenica",
+  "tier": 4,
+  "price": 6100,
+  "desc": "Plásmido con el gen de Explosión Metanogénica (tipo Archaea). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-corriente-ciliar",
+  "name": "P127 Corriente Ciliar",
+  "kind": "tm",
+  "move": "corriente-ciliar",
+  "tier": 3,
+  "price": 4200,
+  "desc": "Plásmido con el gen de Corriente Ciliar (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-valva-de-diatomea",
+  "name": "P128 Valva de Diatomea",
+  "kind": "tm",
+  "move": "valva-de-diatomea",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Valva de Diatomea (tipo Alga). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-difusion-facilitada",
+  "name": "P129 Difusión Facilitada",
+  "kind": "tm",
+  "move": "difusion-facilitada",
+  "tier": 2,
+  "price": 2900,
+  "desc": "Plásmido con el gen de Difusión Facilitada (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-ariete-bacteriofago",
+  "name": "P130 Ariete Bacteriófago",
+  "kind": "tm",
+  "move": "ariete-bacteriofago",
+  "tier": 5,
+  "price": 9000,
+  "desc": "Plásmido con el gen de Ariete Bacteriófago (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-espiculas-glicoproteicas",
+  "name": "P131 Espículas Glicoproteicas",
+  "kind": "tm",
+  "move": "espiculas-glicoproteicas",
+  "tier": 2,
+  "price": 2600,
+  "desc": "Plásmido con el gen de Espículas Glicoproteicas (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-red-miceliar",
+  "name": "P132 Red Miceliar",
+  "kind": "tm",
+  "move": "red-miceliar",
+  "tier": 1,
+  "price": 1700,
+  "desc": "Plásmido con el gen de Red Miceliar (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-silenciamiento-epigenetico",
+  "name": "P133 Silenciamiento Epigenético",
+  "kind": "tm",
+  "move": "silenciamiento-epigenetico",
+  "tier": 4,
+  "price": 6300,
+  "desc": "Plásmido con el gen de Silenciamiento Epigenético (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-deformacion-citoesqueleto",
+  "name": "P134 Deformación Citoesqueleto",
+  "kind": "tm",
+  "move": "deformacion-citoesqueleto",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Deformación Citoesqueleto (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-gemacion-nutritiva",
+  "name": "P135 Gemación Nutritiva",
+  "kind": "tm",
+  "move": "gemacion-nutritiva",
+  "tier": 2,
+  "price": 2500,
+  "desc": "Plásmido con el gen de Gemación Nutritiva (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-inyeccion-letal-fallida",
+  "name": "P136 Inyección Letal Fallida",
+  "kind": "tm",
+  "move": "inyeccion-letal-fallida",
+  "tier": 5,
+  "price": 9100,
+  "desc": "Plásmido con el gen de Inyección Letal Fallida (tipo Antibiótico). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-choque-septico",
+  "name": "P137 Choque Séptico",
+  "kind": "tm",
+  "move": "choque-septico",
+  "tier": 4,
+  "price": 6200,
+  "desc": "Plásmido con el gen de Choque Séptico (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-fagocitosis-nocturna",
+  "name": "P138 Fagocitosis Nocturna",
+  "kind": "tm",
+  "move": "fagocitosis-nocturna",
+  "tier": 4,
+  "price": 6300,
+  "desc": "Plásmido con el gen de Fagocitosis Nocturna (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-nube-de-indol-y-escatol",
+  "name": "P139 Nube de Indol y Escatol",
+  "kind": "tm",
+  "move": "nube-de-indol-y-escatol",
+  "tier": 2,
+  "price": 2900,
+  "desc": "Plásmido con el gen de Nube de Indol y Escatol (tipo Anaerobio). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-bombardeo-de-cocos",
+  "name": "P140 Bombardeo de Cocos",
+  "kind": "tm",
+  "move": "bombardeo-de-cocos",
+  "tier": 1,
+  "price": 1500,
+  "desc": "Plásmido con el gen de Bombardeo de Cocos (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-hemolisis-beta",
+  "name": "P141 Hemólisis Beta",
+  "kind": "tm",
+  "move": "hemolisis-beta",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Hemólisis Beta (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-infeccion-oportunista",
+  "name": "P142 Infección Oportunista",
+  "kind": "tm",
+  "move": "infeccion-oportunista",
+  "tier": 3,
+  "price": 4200,
+  "desc": "Plásmido con el gen de Infección Oportunista (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-tormenta-de-esporas",
+  "name": "P143 Tormenta de Esporas",
+  "kind": "tm",
+  "move": "tormenta-de-esporas",
+  "tier": 5,
+  "price": 9300,
+  "desc": "Plásmido con el gen de Tormenta de Esporas (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-mimetismo-molecular",
+  "name": "P144 Mimetismo Molecular",
+  "kind": "tm",
+  "move": "mimetismo-molecular",
+  "tier": 1,
+  "price": 1900,
+  "desc": "Plásmido con el gen de Mimetismo Molecular (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-gas-de-fermentacion-co2",
+  "name": "P145 Gas de Fermentación (CO₂)",
+  "kind": "tm",
+  "move": "gas-de-fermentacion-co2",
+  "tier": 1,
+  "price": 1500,
+  "desc": "Plásmido con el gen de Gas de Fermentación (CO₂) (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-vertigo-browniano",
+  "name": "P146 Vértigo Browniano",
+  "kind": "tm",
+  "move": "vertigo-browniano",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Vértigo Browniano (tipo Levadura). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-espora-fungica",
+  "name": "P147 Espora Fúngica",
+  "kind": "tm",
+  "move": "espora-fungica",
+  "tier": 2,
+  "price": 2700,
+  "desc": "Plásmido con el gen de Espora Fúngica (tipo Hongo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-quorum-sensing-lux",
+  "name": "P148 Quorum Sensing Lux",
+  "kind": "tm",
+  "move": "quorum-sensing-lux",
+  "tier": 1,
+  "price": 1800,
+  "desc": "Plásmido con el gen de Quorum Sensing Lux (tipo Simbionte). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-pulso-prion",
+  "name": "P149 Pulso Prion",
+  "kind": "tm",
+  "move": "pulso-prion",
+  "tier": 3,
+  "price": 4400,
+  "desc": "Plásmido con el gen de Pulso Prion (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-agitacion-en-placa",
+  "name": "P150 Agitación en Placa",
+  "kind": "tm",
+  "move": "agitacion-en-placa",
+  "tier": 3,
+  "price": 4000,
+  "desc": "Plásmido con el gen de Agitación en Placa (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-limo-polimerico",
+  "name": "P151 Limo Polimérico",
+  "kind": "tm",
+  "move": "limo-polimerico",
+  "tier": 2,
+  "price": 2600,
+  "desc": "Plásmido con el gen de Limo Polimérico (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-marea-roja-saxitoxina",
+  "name": "P152 Marea Roja (Saxitoxina)",
+  "kind": "tm",
+  "move": "marea-roja-saxitoxina",
+  "tier": 4,
+  "price": 6200,
+  "desc": "Plásmido con el gen de Marea Roja (Saxitoxina) (tipo Alga). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-lisis-celular-total",
+  "name": "P153 Lisis Celular Total",
+  "kind": "tm",
+  "move": "lisis-celular-total",
+  "tier": 5,
+  "price": 9300,
+  "desc": "Plásmido con el gen de Lisis Celular Total (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-fimbrias-multiples",
+  "name": "P154 Fimbrias Múltiples",
+  "kind": "tm",
+  "move": "fimbrias-multiples",
+  "tier": 1,
+  "price": 1900,
+  "desc": "Plásmido con el gen de Fimbrias Múltiples (tipo Gram-). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-doble-endospora",
+  "name": "P155 Doble Endospora",
+  "kind": "tm",
+  "move": "doble-endospora",
+  "tier": 5,
+  "price": 9000,
+  "desc": "Plásmido con el gen de Doble Endospora (tipo Esporulado). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-criopreservacion",
+  "name": "P156 Criopreservación",
+  "kind": "tm",
+  "move": "criopreservacion",
+  "tier": 1,
+  "price": 1600,
+  "desc": "Plásmido con el gen de Criopreservación (tipo Extremófilo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-lluvia-de-cristales",
+  "name": "P157 Lluvia de Cristales",
+  "kind": "tm",
+  "move": "lluvia-de-cristales",
+  "tier": 3,
+  "price": 4200,
+  "desc": "Plásmido con el gen de Lluvia de Cristales (tipo Gram+). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-beta-lactamasa-penicilina",
+  "name": "P158 Beta-Lactamasa / Penicilina",
+  "kind": "tm",
+  "move": "beta-lactamasa-penicilina",
+  "tier": 3,
+  "price": 4300,
+  "desc": "Plásmido con el gen de Beta-Lactamasa / Penicilina (tipo Antibiótico). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-splicing-alternativo",
+  "name": "P159 Splicing Alternativo",
+  "kind": "tm",
+  "move": "splicing-alternativo",
+  "tier": 2,
+  "price": 2900,
+  "desc": "Plásmido con el gen de Splicing Alternativo (tipo Virus). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-cambio-de-serotipo",
+  "name": "P160 Cambio de Serotipo",
+  "kind": "tm",
+  "move": "cambio-de-serotipo",
+  "tier": 1,
+  "price": 1500,
+  "desc": "Plásmido con el gen de Cambio de Serotipo (tipo Intracelular). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-triada-enzimatica-catalasa-ox-ureasa",
+  "name": "P161 Tríada Enzimática (Catalasa/Ox/Ureasa)",
+  "kind": "tm",
+  "move": "triada-enzimatica-catalasa-ox-ureasa",
+  "tier": 3,
+  "price": 4100,
+  "desc": "Plásmido con el gen de Tríada Enzimática (Catalasa/Ox/Ureasa) (tipo Extremófilo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-mitosis-forzada",
+  "name": "P162 Mitosis Forzada",
+  "kind": "tm",
+  "move": "mitosis-forzada",
+  "tier": 3,
+  "price": 4200,
+  "desc": "Plásmido con el gen de Mitosis Forzada (tipo Protozoo). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-corte-con-enzima-de-restriccion",
+  "name": "P163 Corte con Enzima de Restricción",
+  "kind": "tm",
+  "move": "corte-con-enzima-de-restriccion",
+  "tier": 3,
+  "price": 4300,
+  "desc": "Plásmido con el gen de Corte con Enzima de Restricción (tipo Antibiótico). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-vesicula-de-membrana-externa-omv",
+  "name": "P164 Vesícula de Membrana Externa (OMV)",
+  "kind": "tm",
+  "move": "vesicula-de-membrana-externa-omv",
+  "tier": 1,
+  "price": 1900,
+  "desc": "Plásmido con el gen de Vesícula de Membrana Externa (OMV) (tipo Biofilm). Enseña el movimiento y no se gasta."
+ },
+ {
+  "id": "plasmido-agotamiento-de-nutrientes",
+  "name": "P165 Agotamiento de Nutrientes",
+  "kind": "tm",
+  "move": "agotamiento-de-nutrientes",
+  "tier": 2,
+  "price": 2500,
+  "desc": "Plásmido con el gen de Agotamiento de Nutrientes (tipo Levadura). Enseña el movimiento y no se gasta."
  }
 ]

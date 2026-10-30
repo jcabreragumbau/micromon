@@ -13,6 +13,7 @@ const path = require("node:path");
   await page.waitForTimeout(400);
   await page.evaluate(() => { try { localStorage.clear(); } catch {} });
   const G = (f, a) => page.evaluate(f, a);
+  await page.waitForFunction(() => !!window.micromon); await G(() => { window.micromon.noNicknames = true; });
   const shot = async (n) => { await page.waitForTimeout(80); await page.locator("canvas").screenshot({ path: `${out}/${n}.png` }); };
   const press = async (k, n = 1, wait = 70) => { for (let i = 0; i < n; i++) { await page.evaluate((k) => window.micromon.input.press(k), k); await page.waitForTimeout(wait); } };
   const top = () => G(() => { const o = window.micromon.overlays.at(-1); return o ? o.ov.constructor.name : ""; });

@@ -138,6 +138,13 @@ export function gainExp(m: Microo, amount: number, levelCap = 100): LevelUpResul
   return results;
 }
 
+/** ¿Puede aprender este movimiento con un Plásmido? Si es de su tipo, si lo aprende por nivel,
+ *  o si es de tipo Levadura (movimientos básicos que cualquier célula puede expresar). */
+export function plasmidCompatible(m: Microo, moveId: string): boolean {
+  const sp = getSpecies(m.species), mv = getMove(moveId);
+  return sp.types.includes(mv.type) || sp.learnset.some((e) => e.move === moveId) || mv.type === "Levadura";
+}
+
 export function replaceMove(m: Microo, forgetIndex: number, moveId: string): void {
   const mv = getMove(moveId);
   m.moves[forgetIndex] = { id: moveId, pp: mv.pp, maxPp: mv.pp };

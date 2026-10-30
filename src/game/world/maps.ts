@@ -1,5 +1,6 @@
 // Mapas (… → Ruta 4 → Cueva Anaeróbica / Túnel Endospórico → Ciudad Gram): Pueblo Plaqueta → Ruta 1 → Ciudad Viral → Bosque Viral → Ciudad Petri → Ruta 2 → Monte Micelio → Ruta 3 → Ciudad Cultivo.
-import { MapBuilder, type MapDef } from "./builder";
+import { MapBuilder, tileAt, passable, type MapDef } from "./builder";
+import { ITEMS } from "../../engine/data";
 
 export const MAPS: Record<string, MapDef> = {};
 const add = (m: MapDef) => { MAPS[m.id] = m; };
@@ -122,7 +123,7 @@ add(casa("casa-vecina", "Casa vecina", { to: "pueblo-plaqueta", x: 14, y: 5 }, [
   b.fill(10, 15, 2, 2, "f").fill(15, 15, 2, 2, "f").fill(22, 2, 3, 2, "f");
   b.sign(14, 14, "Ciudad Viral. Hogar de la Academia de Infección y Estados.");
   b.sign(10, 20, "Academia de Infección: ¡aprende a manejar los estados alterados!");
-  b.npc({ id: "viral-1", x: 16, y: 9, sprite: "estudiante", move: "pasear", talk: ["Al este está el Bosque Viral. Está lleno de bacteriófagos.", "Los fagos de tipo Virus son fuertes contra Fotótrofos y bacterias Gram."] });
+  b.npc({ id: "viral-1", x: 16, y: 9, sprite: "estudiante", move: "pasear", talk: ["Ciudad Viral se llama así por la Gran Pandemia Fágica de hace cincuenta años. Empezó en el bosque del este.", "Hoy no queda ni un virus por aquí. Dicen que los últimos se refugiaron en lugares muy remotos, al otro lado del mar."] });
   b.npc({ id: "viral-2", x: 10, y: 9, sprite: "chico", dir: 0, talk: "La Incubadora cura a tus Microos a 37 °C con agitación orbital. ¡Y no cobra nada!" });
   b.npc({ id: "viral-3", x: 24, y: 16, sprite: "becario", dir: 0, talk: ["Dicen que en Ciudad Petri hay un gimnasio lleno de quesos.", "El líder, el Dr. Solé, es un experto en Microbiología de los Alimentos."] });
   b.warp({ x: 12, y: 25, w: 2, to: "ruta-1", tx: 6, ty: 1, dir: 0, keep: "x" });
@@ -155,13 +156,14 @@ add(casa("casa-viral", "Casa de Ciudad Viral", { to: "ciudad-viral", x: 17, y: 1
   b.trees(14, 12, 6, 2, "V").trees(18, 4, 2, 6, "V").trees(22, 8, 2, 10, "V").trees(18, 18, 6, 2, "V").trees(24, 2, 2, 4, "V");
   b.fill(2, 9, 2, 2, "p").fill(0, 9, 2, 2, "p").fill(28, 14, 2, 4, "p");
   b.fill(6, 2, 2, 4, "G").fill(2, 14, 2, 6, "G").fill(6, 14, 4, 6, "G").fill(12, 8, 6, 4, "G").fill(16, 2, 2, 4, "G").fill(20, 10, 2, 8, "G").fill(24, 14, 4, 4, "G").fill(24, 6, 4, 2, "G");
-  b.sign(3, 8, "Bosque Viral. ¡Cuidado con los bacteriófagos!");
+  b.sign(3, 8, "Bosque Viral. Aquí comenzó la Gran Pandemia Fágica. Zona descontaminada: no queda ningún virus activo.");
+  b.npc({ id: "bv-anciano", x: 2, y: 11, sprite: "jubilado", dir: 1, talk: ["Yo era becario cuando estalló la pandemia. Los fagos lisaban colonias enteras en una noche.", "Al final, las bacterias del bosque aprendieron a defenderse con CRISPR y los virus desaparecieron de aquí.", "Los pocos que sobrevivieron huyeron a sitios remotos: islas heladas, mansiones abandonadas… Si algún día los encuentras, ten cuidado. Son muy poderosos."] });
   b.item(7, 20, "criobola-roja", "item:bv-criobola", 3);
   b.item(26, 3, "solucion-salina", "item:bv-salina");
   b.item(12, 4, "medio-lb", "item:bv-lb");
   b.npc({ id: "bv-becario1", x: 7, y: 9, sprite: "becario", dir: 0, trainer: {
-    name: "Raúl", clase: "Becario", team: [["phage-x174", 6], ["phage-x174", 6]], sight: 4, money: 25,
-    intro: "¡Estoy aislando fagos para mi tesis! ¡Los tuyos servirán de hospedador!", lose: "Mis fagos… lisados.", after: "Los fagos no tienen metabolismo propio. Necesitan una célula para replicarse." } });
+    name: "Raúl", clase: "Becario", team: [["leptospir", 6], ["micrococ", 6]], sight: 4, money: 25,
+    intro: "Vengo cada semana a buscar fagos para mi tesis… y nada, ni uno desde la pandemia. ¡Al menos combate conmigo!", lose: "Ni fagos ni victoria…", after: "Dicen que los últimos virus huyeron a islas remotas, más allá del mar de Ciudad Pili." } });
   b.npc({ id: "bv-becaria", x: 16, y: 10, sprite: "chica", dir: 2, trainer: {
     name: "Marta", clase: "Becaria", team: [["griseus", 7], ["mucorin", 7]], sight: 4, money: 25,
     intro: "¡Shh! Estoy tomando muestras de suelo. ¡Ahora verás lo que he encontrado!", lose: "¡Mis estreptomicetos!", after: "Casi todos los antibióticos naturales vienen de bacterias del suelo como mi Griseus." } });
@@ -173,9 +175,9 @@ add(casa("casa-viral", "Casa de Ciudad Viral", { to: "ciudad-viral", x: 17, y: 1
   b.warp({ x: 0, y: 9, h: 2, to: "ciudad-viral", tx: 22, ty: 9, dir: 2, keep: "y" });
   b.warp({ x: 29, y: 14, h: 4, to: "ciudad-petri", tx: 1, ty: 13, dir: 3, keep: "y" });
   b.encounters([
-    { sp: "phage-x174", min: 4, max: 7, w: 30 }, { sp: "mucorin", min: 5, max: 7, w: 14 }, { sp: "griseus", min: 4, max: 6, w: 14 },
+    { sp: "mucorin", min: 5, max: 7, w: 20 }, { sp: "griseus", min: 4, max: 6, w: 20 },
     { sp: "leptospir", min: 5, max: 7, w: 10 }, { sp: "micrococ", min: 5, max: 7, w: 10 }, { sp: "subtilis", min: 5, max: 7, w: 10 },
-    { sp: "rhizopupa", min: 7, max: 8, w: 5 }, { sp: "mycoplas", min: 5, max: 6, w: 7 },
+    { sp: "rhizopupa", min: 7, max: 8, w: 5 }, { sp: "mycoplas", min: 5, max: 6, w: 14 }, { sp: "proteus-am", min: 5, max: 7, w: 10 },
   ]);
   add(b.done({ music: "bosque" }));
 }
@@ -269,13 +271,13 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.item(14, 4, "glicerol", "item:mm-glicerol");
   const recluta = (id: string, x: number, y: number, dir: number, sprite: string, name: string, team: [string, number][], intro: string, lose: string, after: string) =>
     b.npc({ id, x, y, sprite, dir, trainer: { name, clase: "Recluta de la Unidad", team, sight: 4, money: 60, intro, lose, after } });
-  recluta("mm-recluta-1", 5, 12, 0, "recluta", "Becario", [["phage-x174", 13], ["mycoplas", 13]],
+  recluta("mm-recluta-1", 5, 12, 0, "recluta", "Becario", [["griseus", 13], ["mycoplas", 13]],
     "¡Eh! Este becario está picando datos de 16S y no se puede distraer. ¡Fuera de aquí!",
     "¡Mi portátil se ha reiniciado!", "Llevo tres meses sin ver una placa de Petri… solo terminales negras.");
   recluta("mm-recluta-2", 11, 4, 2, "recluta-b", "Doctoranda", [["serratia", 13], ["bacteroid", 14]],
     "¿Microbióloga? ¡Ja! Los Microos son solo excusas con ADN para publicar en Nature.",
     "No puede ser… ¡mi pipeline no tenía control de errores!", "Mi contrato acabó hace dos años. Sigo aquí por el paper.");
-  recluta("mm-recluta-3", 19, 13, 2, "recluta", "Becario", [["mucorin", 13], ["roqueforti", 14], ["phage-x174", 14]],
+  recluta("mm-recluta-3", 19, 13, 2, "recluta", "Becario", [["mucorin", 13], ["roqueforti", 14], ["thermus", 14]],
     "¡El Dr. Salazar ha dicho que nadie pase! Bueno, ha dicho que le da igual, pero yo me lo tomo en serio.",
     "Vale, vale, pasa… total, nadie me paga.", "El Dr. Salazar está al fondo, sentado. No se levanta ni para comer.");
   b.npc({ id: "mm-becario-1", x: 3, y: 9, sprite: "becario", dir: 0, hideIf: "salazar1",
@@ -289,7 +291,7 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.encounters([
     { sp: "roqueforti", min: 12, max: 15, w: 20 }, { sp: "niger", min: 13, max: 15, w: 16 }, { sp: "mucorin", min: 12, max: 14, w: 14 },
     { sp: "rhizopupa", min: 13, max: 15, w: 12 }, { sp: "bacteroid", min: 12, max: 14, w: 12 }, { sp: "thermus", min: 13, max: 15, w: 10 },
-    { sp: "phage-x174", min: 12, max: 14, w: 10 }, { sp: "mycoplas", min: 12, max: 14, w: 6 },
+    { sp: "griseus", min: 12, max: 14, w: 10 }, { sp: "mycoplas", min: 12, max: 14, w: 6 },
   ]);
   add(b.done({ music: "cueva" }));
 }
@@ -690,9 +692,9 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
   b.item(16, 3, "criobola-amarilla", "item:g1-amarilla", 2);
   const rec = (id: string, x: number, y: number, dir: number, sp: string, name: string, team: [string, number][], intro: string, after: string) =>
     b.npc({ id, x, y, sprite: sp, dir, trainer: { name, clase: "Recluta de la Unidad", team, sight: 4, money: 130, intro, lose: "¡Mi script ha petado!", after } });
-  rec("g1-a", 3, 6, 3, "recluta", "Doctorando", [["lambda-v", 29], ["marcescens", 29]], "¡Estos servidores llevan cinco días al 90%! ¡No toques nada!", "El Dr. Barbadilla se mira en las cabinas de flujo. ¡Dice que es para controlar la esterilidad!");
+  rec("g1-a", 3, 6, 3, "recluta", "Doctorando", [["aureus", 29], ["marcescens", 29]], "¡Estos servidores llevan cinco días al 90%! ¡No toques nada!", "El Dr. Barbadilla se mira en las cabinas de flujo. ¡Dice que es para controlar la esterilidad!");
   rec("g1-b", 11, 3, 0, "recluta-b", "Becaria", [["klebsi", 29], ["mycoplas", 29], ["serratia", 29]], "¿Sabes cuántos genomas he ensamblado esta semana? ¡Ni yo!", "Llevo tres años sin vacaciones. Pero salgo en los agradecimientos.");
-  rec("g1-c", 12, 10, 2, "recluta", "Doctorando", [["phage-x174", 29], ["lambda-v", 30]], "¡Alto! ¡Este pasillo es solo para gente con cuenta en el clúster!", "Abajo está el despacho del jefe. No grites, que está de mal humor.");
+  rec("g1-c", 12, 10, 2, "recluta", "Doctorando", [["vulgaris", 29], ["serratia", 30]], "¡Alto! ¡Este pasillo es solo para gente con cuenta en el clúster!", "Abajo está el despacho del jefe. No grites, que está de mal humor.");
   b.npc({ id: "barbadilla", x: 18, y: 11, sprite: "barbadilla", dir: 1, script: "barbadilla", hideIf: "barbadilla1", solid: true });
   b.warp({ x: 1, y: 1, to: "casino", tx: 12, ty: 3, dir: 0 });
   b.warp({ x: 18, y: 12, to: "guarida-2", tx: 1, ty: 2, dir: 0 });
@@ -848,19 +850,19 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
   b.item(30, 3, "medio-enriquecido", "item:r8-enriquecido", 2);
   b.item(17, 12, "atp-concentrado", "item:r8-atp", 1, true);
   b.npc({ id: "r8-a", x: 9, y: 6, sprite: "chica", dir: 0, trainer: {
-    name: "Ona", clase: "Viróloga", team: [["rous-v", 35], ["poxvir", 35]], sight: 1, money: 160,
-    intro: "¡Los virus no están vivos! …¿O sí? ¡Luchemos y lo discutimos!", lose: "Me has dejado sin cápside…", after: "El virus del sarcoma de Rous fue el primer virus que se vio que causaba cáncer." } });
+    name: "Ona", clase: "Viróloga", team: [["chlamydia", 35], ["rickettsia", 35]], sight: 1, money: 160,
+    intro: "Soy viróloga… sin virus. Desde la pandemia solo me quedan intracelulares. ¡Luchemos!", lose: "Me has dejado sin cápside…", after: "Dicen que en el hielo de las Islas Esporuladas todavía quedan virus latentes. Yo no me atrevo a ir." } });
   b.npc({ id: "r8-b", x: 20, y: 9, sprite: "estudiante", dir: 1, trainer: {
     name: "Iván", clase: "Doctorando Rebelde", team: [["chlamydia", 36], ["nocardia", 36]], sight: 2, money: 160,
     intro: "¡Me he escapado del Instituto! ¿Eres de la Unidad? ¡Demuéstralo!", lose: "Vale, vale, no eres de la Unidad. ¡Ayúdanos!", after: "La Unidad ha tomado el Instituto. Tienen al Dr. Conchillo atado a una terminal…" } });
   b.npc({ id: "r8-c", x: 29, y: 8, sprite: "chico", dir: 2, trainer: {
-    name: "Teo", clase: "Oceanógrafo", team: [["shewanella", 36], ["lyssavir", 36], ["lentivir", 37]], sight: 3, money: 170,
+    name: "Teo", clase: "Oceanógrafo", team: [["shewanella", 36], ["magnetospir", 36], ["vulnificus", 37]], sight: 3, money: 170,
     intro: "¡Shewanella respira metales pesados! ¿Y tú qué respiras?", lose: "Me he quedado sin electrones…", after: "Shewanella puede respirar hierro y manganeso. ¡Limpia aguas contaminadas!" } });
   b.warp({ x: 0, y: 7, h: 2, to: "ciudad-agar", tx: 28, ty: 10, dir: 2, keep: "y" });
   b.warp({ x: 35, y: 7, h: 2, to: "parque-biotec", tx: 1, ty: 11, dir: 3, keep: "y" });
   b.encounters([
-    { sp: "rous-v", min: 34, max: 36, w: 12 }, { sp: "lentivir", min: 35, max: 37, w: 10 }, { sp: "poxvir", min: 34, max: 36, w: 12 },
-    { sp: "lyssavir", min: 34, max: 36, w: 12 }, { sp: "nocardia", min: 35, max: 37, w: 12 }, { sp: "shewanella", min: 35, max: 37, w: 12 },
+    { sp: "neisseria", min: 34, max: 36, w: 12 }, { sp: "halobacter", min: 35, max: 37, w: 10 }, { sp: "psychrobac", min: 34, max: 36, w: 12 },
+    { sp: "salinarum", min: 34, max: 36, w: 12 }, { sp: "nocardia", min: 35, max: 37, w: 12 }, { sp: "shewanella", min: 35, max: 37, w: 12 },
     { sp: "chlamydia", min: 35, max: 37, w: 12 }, { sp: "acantharia", min: 34, max: 36, w: 12 }, { sp: "bdellovib", min: 34, max: 36, w: 6 }, { sp: "listeria", min: 35, max: 37, w: 6 },
   ]);
   add(b.done({ music: "ruta" }));
@@ -904,7 +906,7 @@ function planta(id: string, name: string) {
   b.npc({ id: "i1-recepcion", x: 2, y: 2, sprite: "enfermera", dir: 0, talk: "Recepcionista: ¡Ayuda! Han tomado el edificio. El Dr. Conchillo está en la sala de servidores de la planta 5…" });
   b.npc({ id: "i1-rebelde", x: 10, y: 10, sprite: "estudiante", dir: 2, talk: ["Doctorando rebelde: ¡Estamos hartos! Tres años sin contrato y ni siquiera salimos en la guía docente.", "Las escaleras del fondo llevan arriba. Os cubrimos."] });
   b.npc({ id: "i1-r1", x: 6, y: 6, sprite: "recluta", dir: 3, trainer: {
-    name: "Becario", clase: "Recluta de la Unidad", team: [["lentivir", 38], ["marcescens", 38]], sight: 3, money: 180,
+    name: "Becario", clase: "Recluta de la Unidad", team: [["pneumonia-k", 38], ["marcescens", 38]], sight: 3, money: 180,
     intro: "¡El Instituto es nuestro! ¡Bueno, del Dr. Martínez-Urtaza!", lose: "Me han quitado el acceso al VPN…", after: "Yo solo quería publicar en Nature…" } });
   b.npc({ id: "i1-r2", x: 10, y: 4, sprite: "recluta-b", dir: 0, trainer: {
     name: "Doctoranda", clase: "Recluta de la Unidad", team: [["pneumonia-k", 38], ["meningitid", 38]], sight: 3, money: 180,
@@ -921,7 +923,7 @@ function planta(id: string, name: string) {
   b.npc({ id: "i5-barbadilla", x: 6, y: 6, sprite: "barbadilla", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
   b.npc({ id: "i5-casillas", x: 7, y: 6, sprite: "casillas", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
   b.npc({ id: "i5-r1", x: 11, y: 6, sprite: "recluta", dir: 2, trainer: {
-    name: "Doctorando", clase: "Recluta de la Unidad", team: [["methanosar", 39], ["prowazekii", 39], ["lentivir", 39]], sight: 3, money: 190,
+    name: "Doctorando", clase: "Recluta de la Unidad", team: [["methanosar", 39], ["prowazekii", 39], ["baumannii", 39]], sight: 3, money: 190,
     intro: "¡No toques los servidores! ¡Llevan cinco días calculando!", lose: "Se ha reiniciado el clúster… ¡Cinco días perdidos!", after: "El jefe está arriba, en la planta 11. Busca algo morado." } });
   b.item(12, 12, "criobola-amarilla", "item:i5-amarilla", 3);
   b.warp({ x: 12, y: 2, to: "instituto-1", tx: 12, ty: 3, dir: 0 });
@@ -1107,6 +1109,8 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
   b.item(21, 3, "glicerol", "item:ie-glicerol", 2);
   b.item(1, 18, "atp-concentrado", "item:ie-atp", 1, true);
   b.encounters([
+    // virus latentes en el hielo: los primeros supervivientes de la Gran Pandemia Fágica
+    { sp: "phage-x174", min: 44, max: 46, w: 6 }, { sp: "rous-v", min: 44, max: 46, w: 6 }, { sp: "lyssavir", min: 44, max: 46, w: 6 }, { sp: "poxvir", min: 44, max: 46, w: 6 },
     { sp: "colwellia", min: 46, max: 48, w: 24 }, { sp: "psychrobac", min: 45, max: 47, w: 22 }, { sp: "deinococ", min: 46, max: 48, w: 16 },
     { sp: "radiodurans", min: 46, max: 48, w: 18 }, { sp: "tardigrad", min: 47, max: 48, w: 6 }, { sp: "thiomargar", min: 46, max: 48, w: 14 },
   ]);
@@ -1292,6 +1296,58 @@ SALAS.forEach(([id, name, who], k) => {
   add(b.done({ music: "cueva" }));
 }
 
+/** Reparte los Plásmidos de movimiento por tramos del juego: la mitad se venden (un vendedor en cada
+ *  tienda del tramo) y la otra mitad están tirados por los mapas del tramo. A más potencia, más tarde. */
+function repartirPlasmidos() {
+  const tms = [...ITEMS.values()].filter((i) => i.kind === "tm").sort((a, b) => (a.tier ?? 0) - (b.tier ?? 0) || a.price - b.price || a.id.localeCompare(b.id));
+  const TIENDAS: Record<number, string[]> = { 1: ["tienda-viral", "tienda-petri"], 2: ["tienda-cultivo", "tienda-gram"], 3: ["tienda-aerobia", "tienda-agar"], 4: ["tienda-biotec", "tienda-pili"], 5: ["tienda-conjugada", "uab-vestibulo"] };
+  const SUELO: Record<number, string[]> = {
+    1: ["bosque-viral", "ruta-2", "ruta-1"], 2: ["monte-micelio", "ruta-3", "ruta-4", "cueva-anaerobica"],
+    3: ["ruta-5", "ruta-6", "ruta-7", "ciudad-aerobia", "ciudad-agar"], 4: ["ruta-8", "ruta-9", "parque-biotec", "ciudad-pili"],
+    5: ["isla-conjugada", "calle-seleccion", "uab", "mansion-1", "mansion-2"],
+  };
+  const venta: Record<string, string[]> = {}, suelo: Record<string, string[]> = {};
+  for (let t = 1; t <= 5; t++) {
+    tms.filter((i) => i.tier === t).forEach((it, k) => {
+      if (k % 2 === 0) { const shop = TIENDAS[t][(k / 2) % TIENDAS[t].length]; (venta[shop] ??= []).push(it.id); }
+      else { const m = SUELO[t][((k - 1) / 2) % SUELO[t].length]; (suelo[m] ??= []).push(it.id); }
+    });
+  }
+  for (const [id, stock] of Object.entries(venta)) {
+    const m = MAPS[id]; if (!m) continue;
+    const [x, y] = id === "uab-vestibulo" ? [9, 2] : [8, 3];
+    m.npcs.push({ id: `${id}-plasmidos`, x, y, sprite: "becario", dir: 0, script: `tienda:${stock.join(",")}` });
+  }
+  for (const [id, lista] of Object.entries(suelo)) {
+    const m = MAPS[id]; if (!m) continue;
+    // casillas abiertas (rodeadas de suelo transitable) alcanzables desde la primera entrada
+    const ocupado = new Set([...m.npcs.map((n) => `${n.x},${n.y}`), ...m.items.map((i) => `${i.x},${i.y}`), ...m.signs.map((t) => `${t.x},${t.y}`)]);
+    for (const w of m.warps) for (let i = -1; i <= (w.w ?? 1); i++) for (let j = -1; j <= (w.h ?? 1); j++) ocupado.add(`${w.x + i},${w.y + j}`);
+    for (const t of m.triggers) for (let i = 0; i < (t.w ?? 1); i++) for (let j = 0; j < (t.h ?? 1); j++) ocupado.add(`${t.x + i},${t.y + j}`);
+    const libre = (x: number, y: number) => x >= 0 && y >= 0 && x < m.w && y < m.h && passable(tileAt(m, x, y)) && !["bordillo", "hielo", "puerta_hd"].includes(tileAt(m, x, y)) && !tileAt(m, x, y).startsWith("muro_puerta");
+    const entradas = Object.values(MAPS).flatMap((o) => o.warps.filter((w) => w.to === id).map((w) => [w.tx, w.ty] as [number, number]));
+    const visto = new Set<string>(), cola = entradas.slice(0, 1);
+    if (cola[0]) visto.add(`${cola[0][0]},${cola[0][1]}`);
+    while (cola.length) {
+      const [x, y] = cola.shift()!;
+      for (const [dx, dy] of [[0, 1], [0, -1], [1, 0], [-1, 0]]) {
+        const k = `${x + dx},${y + dy}`;
+        if (!visto.has(k) && libre(x + dx, y + dy)) { visto.add(k); cola.push([x + dx, y + dy]); }
+      }
+    }
+    const cands = [...visto].map((k) => k.split(",").map(Number) as [number, number])
+      .filter(([x, y]) => !ocupado.has(`${x},${y}`) && [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]].every(([dx, dy]) => libre(x + dx, y + dy) && !ocupado.has(`${x + dx},${y + dy}`)))
+      .sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+    lista.forEach((item, k) => {
+      if (!cands.length) { console.warn(`Plásmido sin sitio en ${id}: ${item}`); return; }
+      const [x, y] = cands[Math.floor(((k + 0.5) / lista.length) * cands.length)];
+      m.items.push({ x, y, item, flag: `item:${item}` });
+      // que no queden pegados unos a otros
+      for (let i = cands.length - 1; i >= 0; i--) if (Math.abs(cands[i][0] - x) <= 2 && Math.abs(cands[i][1] - y) <= 2) cands.splice(i, 1);
+    });
+  }
+}
+
 /** Enlaza automáticamente las llegadas:
  *  - al salir de un interior, el jugador aparece justo debajo de la puerta de su edificio ilustrado;
  *  - al cruzar el borde entre dos mapas exteriores, aparece justo dentro del borde de salida del otro mapa.
@@ -1319,6 +1375,7 @@ function linkWarps() {
     }
   }
 }
+repartirPlasmidos();
 linkWarps();
 
 /** Comprueba coherencia de mapas: destinos de warps dentro de los mapas existentes. */

@@ -6,6 +6,7 @@ import { IMG } from "../assets";
 import { Overworld } from "./overworld";
 import { newState, loadGame, hasSave, AVATAR_SPRITE, type Avatar } from "../state";
 import { runScript } from "../scripts";
+import { NameEntry } from "./nombre";
 
 export class TitleScene implements Scene {
   t = 0; busy = false;
@@ -134,31 +135,3 @@ class AvatarSelect {
   }
 }
 
-/** Teclado en pantalla para escribir el nombre (los diálogos del navegador no funcionan en todas partes). */
-class NameEntry {
-  rows = ["ABCDEFGHIJ", "KLMNÑOPQRS", "TUVWXYZÁÉÍ", "ÓÚabcdefgh", "ijklmnñopq", "rstuvwxyz-"];
-  x = 0; y = 0; result = "";
-  update(game: Game) {
-    const i = game.input;
-    if (i.repeat("right")) this.x = (this.x + 1) % 10;
-    if (i.repeat("left")) this.x = (this.x + 9) % 10;
-    if (i.repeat("down")) this.y = (this.y + 1) % 7;
-    if (i.repeat("up")) this.y = (this.y + 6) % 7;
-    if (i.pressed("b")) this.result = this.result.slice(0, -1);
-    if (i.pressed("start")) return this.result.length > 0;
-    if (i.pressed("a")) {
-      if (this.y === 6) { if (this.x < 5) this.result = this.result.slice(0, -1); else if (this.result.length) return true; }
-      else if (this.result.length < 10) this.result += [...this.rows[this.y]][this.x];
-    }
-    return false;
-  }
-  draw(g: Gfx) {
-    g.clear("#283048");
-    g.frame(40, 6, 160, 22, "info");
-    g.text(this.result + "_", 50, 12);
-    g.frame(10, 32, 220, 124, "menu");
-    this.rows.forEach((r, j) => [...r].forEach((ch, k) => g.text(ch, 30 + k * 19, 40 + j * 15, this.y === j && this.x === k ? "red" : "dark")));
-    g.text("BORRAR", 40, 132, this.y === 6 && this.x < 5 ? "red" : "dark");
-    g.text("ACEPTAR", 140, 132, this.y === 6 && this.x >= 5 ? "red" : "dark");
-  }
-}

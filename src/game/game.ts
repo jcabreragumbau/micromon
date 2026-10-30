@@ -92,6 +92,8 @@ export class Game {
   blackout = 0;
   /** Solo para pruebas: desactiva los encuentros salvajes. */
   noEncounters = false;
+  /** Pruebas automáticas: no preguntar motes. */
+  noNicknames = false;
   /** Sustituye {nombre}, {rival} y {o} (terminación de género: o / a). */
   fill(t: string) {
     return t.replaceAll("{nombre}", this.state.name).replaceAll("{rival}", this.state.rival)
