@@ -95,8 +95,13 @@ def main():
     P.save(out / "retratos.png")
     # Versión HD (fiel a las ilustraciones originales)
     hd = [cid for cid, pre in REFS.items() if (CHD / f"{pre}_mapa_frente.png").exists()]
+    # PNJ con hoja completa del usuario (12 fotogramas propios, tools/art/npc_sheets.py)
+    npc = sorted(p.stem[:-5] for p in CHD.glob("*_hoja.png"))
+    hd += [n for n in npc if n not in hd]
     A = Image.new("RGBA", (96 * K, 128 * K * len(hd)))
-    for i, cid in enumerate(hd): A.alpha_composite(ref_sheet_hd(REFS[cid]), (0, i * 128 * K))
+    for i, cid in enumerate(hd):
+        sheet = Image.open(CHD / f"{cid}_hoja.png").convert("RGBA") if cid in npc else ref_sheet_hd(REFS[cid])
+        A.alpha_composite(sheet, (0, i * 128 * K))
     A.save(out / "personajes_hd.png", optimize=True)
     hdp = [cid for cid, pre in REFS.items() if (CHD / f"{pre}_combate.png").exists()]
     R = Image.new("RGBA", (64 * K * len(hdp), 96 * K))

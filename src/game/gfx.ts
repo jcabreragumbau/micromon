@@ -69,6 +69,13 @@ export class Gfx {
       return;
     }
     const p = CHARS.portraits[id];
+    // sin retrato: el fotograma de frente de su hoja HD, ampliado
+    const h = CHARS.hd?.[id];
+    if (p === undefined && h !== undefined && IMG.personajes_hd) {
+      const c = 32 * (CHARS.hdScale ?? 4);
+      this.ctx.drawImage(IMG.personajes_hd, 0, h * 4 * c, c, c, Math.round(x) - 8, Math.round(y) + 16, 80, 80);
+      return;
+    }
     if (p === undefined) { this.ctx.save(); this.ctx.drawImage(IMG.personajes, 0, (CHARS.sheets[id] ?? 0) * 128, 32, 32, Math.round(x), Math.round(y) + 32, 64, 64); this.ctx.restore(); return; }
     this.ctx.drawImage(IMG.retratos, p * 64, 0, 64, 96, Math.round(x), Math.round(y), 64, 96);
   }
