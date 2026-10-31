@@ -148,5 +148,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Retratos de combate nuevos del usuario para Urtaza, Barbadilla y Casillas (`assets/reference/retratos/`, `tools/art/retratos_usuario.py` → `ref1-3_combate.png`, luego `char_atlas.py`); los sprites de mapa no cambian.
 
+- Tema principal nuevo (`T.tema` en audio.ts): fanfarria heroica en Do mayor de 16 compases con segunda voz de acordes, bajo en octavas y batería de marcha (`epic`: bombo, caja, charles, platillos y redobles). Dura 27 s exactos: en la intro suena dos veces (00:22–01:16) y acaba en Si♭–La♭ para enlazar con la sala de servidores, que entra con un golpe grave (`golpe`).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

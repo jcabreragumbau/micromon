@@ -5,7 +5,8 @@
 import FILES from "./assets_audio";
 
 type Track = { bpm: number; lead: string; bass: string; drums?: boolean; loop?: boolean; leadWave?: OscillatorType;
-  /** Ambiente de terror: zumbido grave disonante, latido y pitidos de servidor. */ tetrico?: boolean };
+  /** Ambiente de terror: zumbido grave disonante, latido y pitidos de servidor. */ tetrico?: boolean;
+  /** Segunda voz (acordes) y percusión épica (bombo, caja, platillos y redobles cada 8 compases). */ harm?: string; epic?: boolean };
 const T: Record<string, Track> = {
   pueblo: { bpm: 100, lead: "E5:2 G5:2 C6:4 B5:2 G5:2 A5:4 F5:2 A5:2 D6:4 C6:2 A5:2 G5:4 E5:2 G5:2 C6:4 B5:2 D6:2 C6:4 A5:2 F5:2 G5:2 E5:2 D5:4 C5:4",
     bass: "C3:8 A2:8 F2:8 G2:8 C3:8 E3:8 F2:8 G2:4 C3:4" },
@@ -31,8 +32,13 @@ const T: Record<string, Track> = {
 // Introducción: destellos del logotipo, tema principal (fanfarria) y el tono solemne del Monte
 T.intro_brillo = { bpm: 84, leadWave: "triangle", lead: "C5:2 E5:2 G5:2 B5:2 C6:4 G5:4 A5:2 C6:2 E6:2 D6:2 C6:8 B5:2 G5:2 E5:2 D5:2 E5:8 F5:4 A5:4 G5:8",
   bass: "C3:16 A2:16 F2:16 G2:16" };
-T.tema = { bpm: 132, drums: true, lead: "G4:2 C5:2 E5:2 G5:4 E5:2 G5:2 C6:6 -:2 B5:2 A5:2 G5:2 E5:2 F5:4 A5:4 G5:8 E5:2 F5:2 G5:2 A5:2 B5:4 G5:2 B5:2 D6:6 -:2 C6:2 B5:2 A5:2 B5:2 C6:4 E6:4 C6:6 -:4",
-  bass: "C3:4 G2:4 C3:4 G2:4 A2:4 E2:4 F2:4 G2:4 E2:4 B2:4 G2:4 D3:4 A2:4 E2:4 F2:4 G2:4 C3:4 G2:4 C3:4 G2:4 F2:4 G2:4 C3:8" };
+// Tema principal: fanfarria heroica en Do mayor (16 compases). Dura exactamente 27 s, así en la intro
+// suena dos veces justas (00:22–01:16) y la sala de servidores entra en la parte fuerte. Acaba en
+// Si♭–La♭ (VII–VI): un final épico y algo inquietante que prepara la parte oscura.
+T.tema = { bpm: (60 * 256) / (4 * 27), epic: true,
+  lead: "C5:4 G4:2 C5:2 E5:4 G5:4 A5:6 G5:2 F5:4 E5:4 F5:4 A5:4 C6:4 B5:2 A5:2 G5:12 -:4 C5:4 G4:2 C5:2 E5:4 G5:4 A5:6 G5:2 F5:4 A5:4 G5:4 E6:4 D6:4 C6:2 B5:2 C6:12 -:4 A5:4 C6:4 B5:4 A5:4 G5:4 F5:4 E5:4 D5:4 F5:4 A5:4 G5:4 F5:4 E5:8 G5:8 C6:4 D6:4 E6:4 G6:4 F6:6 E6:2 D6:4 C6:4 A#5:4 G5:4 G#5:4 D#6:4 C6:12 -:4",
+  harm: "E4:8 G4:8 A4:8 C5:8 A4:8 C5:8 B4:8 D5:8 E4:8 G4:8 A4:8 C5:8 B4:8 D5:8 E4:8 G4:8 C5:8 E5:8 B4:8 D5:8 A4:8 C5:8 E4:8 G4:8 E4:8 G4:8 A4:8 C5:8 D5:4 F5:4 C5:4 D#5:4 C5:8 D#5:8",
+  bass: "C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 G2:2 G3:2 G2:2 G3:2 G2:2 G3:2 G2:2 G3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 G2:2 G3:2 G2:2 G3:2 G2:2 G3:2 G2:2 G3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 A1:2 A2:2 A1:2 A2:2 A1:2 A2:2 A1:2 A2:2 G2:2 G3:2 G2:2 G3:2 G2:2 G3:2 G2:2 G3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 C2:2 C3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 F2:2 F3:2 A#1:2 A#2:2 A#1:2 A#2:2 G#1:2 G#2:2 G#1:2 G#2:2 G#1:2 G#2:2 G#1:2 G#2:2 G#1:2 G#2:2 G#1:2 G#2:2" };
 T.oscuro = { bpm: 66, leadWave: "triangle", lead: "A4:4 C5:4 B4:4 G#4:4 A4:8 E4:8 F4:4 E4:4 D#4:4 E4:4 A3:16",
   bass: "A2:16 F2:16 D2:8 E2:8 A1:16" };
 // Final de la introducción: la sala de servidores de la Unidad de Genética (tritonos y caja de música desafinada)
@@ -124,8 +130,8 @@ class Audio {
   }
   /** Capa de terror de un compás largo: drones desafinados, latido y pitidos de servidor. */
   private terror(t0: number, dur: number, step: number, dest: AudioNode) {
-    this.pad("sawtooth", 55, t0, dur, 0.16, dest, 260);
-    this.pad("sawtooth", 55.9, t0, dur, 0.16, dest, 260);
+    this.pad("sawtooth", 55, t0, dur, 0.1, dest, 260);
+    this.pad("sawtooth", 55.9, t0, dur, 0.1, dest, 260);
     this.pad("sine", 77.8, t0 + dur * 0.25, dur * 0.75, 0.1, dest, 600);   // tritono que entra a mitad
     this.pad("triangle", 1244, t0 + dur * 0.5, dur * 0.5, 0.012, dest, 3000); // pitido agudo de fondo
     const c = this.ctx!;
@@ -138,6 +144,32 @@ class Audio {
       }
     }
     for (let k = 0; k * step < dur; k++) if (Math.random() < 0.3) this.tone("square", 1800 + Math.floor(Math.random() * 4) * 400, t0 + k * step + Math.random() * step, 0.025, 0.035, dest);
+  }
+  /** Bombo con caída de tono. */
+  private bombo(at: number, vol: number, dest: AudioNode, f0 = 120, f1 = 40, dur = 0.18) {
+    const c = this.ctx!, o = c.createOscillator(), g = c.createGain();
+    o.type = "sine"; o.frequency.setValueAtTime(f0, at); o.frequency.exponentialRampToValueAtTime(f1, at + dur);
+    g.gain.setValueAtTime(vol, at); g.gain.exponentialRampToValueAtTime(0.001, at + dur * 1.2);
+    o.connect(g); g.connect(dest); o.start(at); o.stop(at + dur * 1.3);
+  }
+  /** Percusión de marcha épica: bombo en 1 y 3, caja en 2 y 4, charles en corcheas,
+   *  platillo al empezar cada frase de 4 compases y redoble de caja al final de cada mitad. */
+  private bateria(t0: number, len: number, step: number, dest: AudioNode) {
+    for (let k = 0; k < len; k++) {
+      const at = t0 + k * step, enCompas = k % 16, compas = Math.floor(k / 16);
+      const redoble = (compas === 7 || compas === 15) && enCompas >= 8;
+      if (enCompas === 0 || enCompas === 8 || (enCompas === 10 && compas % 2 === 1)) this.bombo(at, 0.55, dest);
+      if (redoble) this.noise(at, 0.07, 0.08 + (enCompas - 8) * 0.025, 1500, dest);
+      else if (enCompas === 4 || enCompas === 12) this.noise(at, 0.13, 0.26, 1200, dest);
+      if (k % 2 === 0 && !redoble) this.noise(at, 0.03, 0.05, 7000, dest);
+      if (enCompas === 0 && compas % 4 === 0) this.noise(at, 0.9, 0.12, 5000, dest);   // platillo
+    }
+  }
+  /** Golpe grave con eco al entrar en la parte oscura. */
+  private golpe(at: number, dest: AudioNode) {
+    this.bombo(at, 0.9, dest, 90, 22, 1.6);
+    this.noise(at, 1.4, 0.18, 120, dest);
+    this.pad("sawtooth", 41.2, at, 3, 0.12, dest, 180);
   }
   /** Cambia la música (no la reinicia si ya suena la misma). */
   music(name: string | undefined) {
@@ -163,18 +195,21 @@ class Audio {
     }
     const bus = this.ctx.createGain(); bus.gain.value = 1; bus.connect(this.master!); this.bus = bus;
     const tr = T[n], step = 60 / tr.bpm / 4;
-    const lead = parse(tr.lead), bass = parse(tr.bass);
+    const lead = parse(tr.lead), bass = parse(tr.bass), harm = tr.harm ? parse(tr.harm) : null;
     const len = lead.reduce((a, [, l]) => a + l, 0);
     let start = this.ctx.currentTime + 0.05, loopN = 0;
     const schedule = () => {
       if (gen !== this.gen || !this.ctx) return;
       const base = start + loopN * len * step;
       if (base - this.ctx.currentTime > 2) return;              // ya programado con antelación
-      for (const [seq, wave, vol, oct] of [[lead, tr.leadWave ?? "square", 0.22, 0], [bass, "triangle" as OscillatorType, 0.32, 0]] as const) {
+      const voces: [ReturnType<typeof parse>, OscillatorType, number, number][] = [[lead, tr.leadWave ?? "square", 0.22, 0], [bass, "triangle", 0.32, 0]];
+      if (harm) voces.push([harm, "square", 0.075, 0], [lead, "sawtooth", 0.05, -12]);
+      for (const [seq, wave, vol, oct] of voces) {
         let t = 0;
         for (const [m, l] of seq) { if (m !== null) this.tone(wave as OscillatorType, freq(m + oct), base + t * step, l * step, vol, bus); t += l; }
       }
-      if (tr.tetrico) this.terror(base, len * step, step, bus);
+      if (tr.tetrico) { if (loopN === 0) this.golpe(base, bus); this.terror(base, len * step, step, bus); }
+      if (tr.epic) this.bateria(base, len, step, bus);
       if (tr.drums) for (let k = 0; k < len; k += 4) { this.noise(base + k * step, 0.05, k % 8 === 0 ? 0.25 : 0.12, k % 8 === 0 ? 400 : 4000, bus); }
       loopN++;
       if (tr.loop === false) { if (this.timer !== null) clearInterval(this.timer); this.timer = null; }
