@@ -34,7 +34,7 @@ function incubadora(id: string, ciudad: string, back: { to: string; x: number; y
 function tienda(id: string, ciudad: string, back: { to: string; x: number; y: number }, stock: string[]) {
   const b = new MapBuilder(id, `Tienda de medios de ${ciudad}`, 10, 8, "L", "interior", false);
   b.fill(0, 0, 10, 1, "w").fill(0, 1, 10, 1, "W").set(0, 1, "e").set(1, 1, "e").set(8, 1, "e").set(9, 1, "e");
-  b.fill(1, 3, 5, 1, "c").set(6, 4, "e").set(7, 4, "e").set(6, 5, "e").set(7, 5, "e");
+  b.fill(1, 3, 4, 1, "c").set(6, 4, "e").set(7, 4, "e").set(6, 5, "e").set(7, 5, "e");
   b.fill(4, 7, 2, 1, "a");
   b.npc({ id: "dependiente", x: 2, y: 2, sprite: "dependiente", dir: 0, script: `tienda:${stock.join(",")}` });
   b.warp({ x: 4, y: 7, w: 2, to: back.to, tx: back.x, ty: back.y + 1, dir: 0 });
@@ -1297,8 +1297,8 @@ SALAS.forEach(([id, name, who], k) => {
 }
 
 /** Reparte los Plásmidos de movimiento por fases del juego. Casi todos se venden: cada fase tiene dos
- *  tiendas (la primera con los más flojos) y en cada tienda dos vendedores junto al dependiente, que se
- *  reparten el surtido (el segundo, los más caros). Solo unos pocos (3 por fase)
+ *  tiendas (la primera con los más flojos), donde un vendedor de plásmidos atiende junto al dependiente
+ *  de Criobolas y medios. Solo unos pocos (3 por fase)
  *  están tirados por los mapas. A más potencia, más tarde. */
 function repartirPlasmidos() {
   const tms = [...ITEMS.values()].filter((i) => i.kind === "tm").sort((a, b) => (a.tier ?? 0) - (b.tier ?? 0) || a.price - b.price || a.id.localeCompare(b.id));
@@ -1319,13 +1319,8 @@ function repartirPlasmidos() {
   }
   for (const [id, stock] of Object.entries(venta)) {
     const m = MAPS[id]; if (!m) continue;
-    const puestos = id === "uab-vestibulo" ? [[9, 2], [10, 2]] : [[3, 2], [4, 2]];
-    const mitad = Math.ceil(stock.length / 2), lotes = [stock.slice(0, mitad), stock.slice(mitad)];
-    lotes.forEach((lote, k) => {
-      if (!lote.length) return;
-      const [x, y] = puestos[k];
-      m.npcs.push({ id: `${id}-plasmidos-${k + 1}`, x, y, sprite: k ? "estudiante" : "becario", dir: 0, script: `tienda:${lote.join(",")}` });
-    });
+    const [x, y] = id === "uab-vestibulo" ? [9, 2] : [3, 2];
+    m.npcs.push({ id: `${id}-plasmidos`, x, y, sprite: "becario", dir: 0, script: `tienda:${stock.join(",")}` });
   }
   for (const [id, lista] of Object.entries(suelo)) {
     const m = MAPS[id]; if (!m) continue;
