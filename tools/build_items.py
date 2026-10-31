@@ -23,6 +23,9 @@ items = [
  {"id":"medio-enriquecido","name":"Medio Enriquecido","kind":"heal","heal":9999,"price":2500,"desc":"Restaura todos los PS."},
  {"id":"solucion-salina","name":"Solución Salina","kind":"cure","price":600,"desc":"Elimina cualquier contaminación (estado alterado)."},
  {"id":"glicerol","name":"Glicerol Crioprotector","kind":"revive","revive":0.5,"price":1500,"desc":"Reanima a un Microo debilitado con la mitad de sus PS."},
+ # Repelentes: desinfectante Virkon pulverizado alrededor; los Microos salvajes de menor nivel que el primero del equipo no se acercan
+ {"id":"virkon","name":"Virkon","kind":"repel","repel":100,"price":350,"desc":"Desinfectante de amplio espectro. Durante 100 pasos no se acercan Microos salvajes de menor nivel que el primero del equipo."},
+ {"id":"virkon-concentrado","name":"Virkon Concentrado","kind":"repel","repel":250,"price":550,"desc":"Virkon al 2 %. Durante 250 pasos no se acercan Microos salvajes de menor nivel que el primero del equipo."},
  {"id":"atp-concentrado","name":"ATP Concentrado","kind":"pp","pp":10,"price":1200,"desc":"Recupera 10 PP de cada movimiento."},
  # Objetos clave
  {"id":"microscopio-optico","name":"Microscopio Óptico","kind":"key","price":0,"desc":"Registra los Microos vistos y aislados (Microdex)."},

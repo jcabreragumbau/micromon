@@ -261,8 +261,11 @@ const SCRIPTS: Record<string, Script> = {
   async registrarIncubadora() {},
 
   async tienda(game, _w, arg) {
-    await game.say("¡Bienvenid{o} a la Tienda de Medios!");
-    await shopMenu(game, (arg ?? "").split(","));
+    const stock = (arg ?? "").split(",");
+    const plasmidos = stock.every((i) => ITEMS.get(i)?.kind === "tm");
+    if (!plasmidos) await game.say("¡Bienvenid{o} a la Tienda de Medios!");
+    else await game.say("¡Plásmidos recién transformados y purificados! Se pueden usar todas las veces que quieras.");
+    await shopMenu(game, stock);
     await game.say("¡Vuelve pronto!");
   },
 
@@ -332,7 +335,7 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dr. Solé: Por cierto… dicen que en el Monte Micelio, al norte, ronda gente con portátiles y muy mala cara. Ten cuidado.");
   },
 
-  // ---------------------------------------------------------------- segundo tramo
+  // ---------------------------------------------------------------- Monte Micelio y Ciudad Cultivo
   async cortarHifas(game, world) {
     const s = S(game);
     if (!s.badges.includes("probiotico")) {
@@ -419,7 +422,7 @@ const SCRIPTS: Record<string, Script> = {
     await darMascara(game);
   },
 
-  // ---------------------------------------------------------------- tercer tramo
+  // ---------------------------------------------------------------- Cueva Anaeróbica, Túnel Endospórico y Ciudad Gram
   async guardaCueva(game, world) {
     const s = S(game);
     if (!s.bag["mascara-de-gases"]) {
@@ -469,10 +472,9 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dra. Guàrdia: Te has ganado la MEDALLA MICELIO.");
     await game.say("¡{nombre} ha recibido la MEDALLA MICELIO de la Dra. Guàrdia!");
     await game.say("Dra. Guàrdia: Con ella podrás usar Flagelo Polar fuera de combate cuando lo consigas.");
-    await game.say("— Fin del tercer tramo de Micromón. ¡La aventura continuará en Pueblo Levadura y la Torre Prión! —");
   },
 
-  // ---------------------------------------------------------------- cuarto tramo
+  // ---------------------------------------------------------------- Ciudad Aerobia, Casino y Torre Prión
   async venderFichas(game) {
     const s = S(game);
     await game.say(`Casino Mutagénesis: ¡Hola! Tienes ${fichas(game)} fichas. 50 fichas cuestan 1000 créditos.`, { keep: true });
@@ -616,10 +618,9 @@ const SCRIPTS: Record<string, Script> = {
     s.flags.medalla4 = true;
     await game.say("Dr. Yero: Te has ganado la MEDALLA CATALASA.");
     await game.say("¡{nombre} ha recibido la MEDALLA CATALASA del Dr. Yero!");
-    await game.say("— Fin del cuarto tramo de Micromón. ¡La aventura continuará en Ciudad Agar y el Instituto de Biotecnología! —");
   },
 
-  // ---------------------------------------------------------------- quinto tramo
+  // ---------------------------------------------------------------- Ciudad Agar y Reserva
   async entrarReserva(game, world) {
     const s = S(game);
     await game.say("Recepción: ¡Bienvenid{o} a la Reserva Microbiana! Aquí viven extremófilos y protozoos que no verás en ningún otro sitio.");
@@ -681,7 +682,7 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dr. Mas: Mi amigo Daniel Yero me ha dicho que la Unidad de Genética ha tomado el Instituto de Biotecnología, al este. ¡Tienes que ayudarles!");
   },
 
-  // ---------------------------------------------------------------- sexto tramo
+  // ---------------------------------------------------------------- Instituto de Biotecnología y Ciudad Pili
   async yeroInstituto(game, world) {
     const s = S(game);
     if (!s.flags["yero-equipo"]) {
@@ -795,7 +796,7 @@ const SCRIPTS: Record<string, Script> = {
     else if (out === "foeFled") { game.state.flags[flag] = true; world.refreshNpcs(); await game.say(`${name} ha desaparecido…`); }
   },
 
-  // ---------------------------------------------------------------- séptimo tramo
+  // ---------------------------------------------------------------- Ruta 9, Ciudad Pili e islas
   async tardigrado(game, world) {
     const s = S(game);
     await game.say("Un tardígrado gigante en estado tun bloquea el camino. Está completamente deshidratado y no se mueve.");
@@ -851,7 +852,7 @@ const SCRIPTS: Record<string, Script> = {
   },
 
 
-  // ---------------------------------------------------------------- octavo tramo
+  // ---------------------------------------------------------------- Carlos III y Mansión de las Cepas
   async fosil(game, world, arg) {
     const s = S(game);
     const name = arg === "ambar-mioceno" ? "un ÁMBAR DEL MIOCENO con una espora dentro" : "un FÓSIL DE ESTROMATOLITO";
@@ -889,7 +890,7 @@ const SCRIPTS: Record<string, Script> = {
   async urtazaFinal(game, world) {
     const s = S(game);
     await game.say("Dr. Jaime Martínez-Urtaza: Llegas tarde. Las muestras de Cádiz, el fago con la toxina Shiga y mi modelo de Machine Learning… ya está hecho.");
-    await game.say("Dr. Martínez-Urtaza: El «Proyecto PopBugGenie Global». Selección poblacional quirúrgica contra quien no cite bien el Lancet Countdown.");
+    await game.say("Dr. Martínez-Urtaza: El «Proyecto Pandemia Global». PPG para los vagos que no leen los títulos completos. Selección poblacional quirúrgica contra quien no cite bien el Lancet Countdown.");
     await game.say("Dr. Martínez-Urtaza: Y tú, con tus placas de Petri, no vas a detener la genómica de poblaciones. ¡Última lección!");
     const r = rng(game);
     const team = trainerParty("villain", s.difficulty, r);
@@ -928,7 +929,7 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dra. Campoy: El ferri ya puede llevarte a la Calle Selección Natural. Al final está La UAB… y la Liga Micromón.");
   },
 
-  // ---------------------------------------------------------------- noveno tramo: Calle Selección Natural y Liga
+  // ---------------------------------------------------------------- Calle Selección Natural y Liga
   async rivalFinal(game, world) {
     const s = S(game);
     if (s.flags.rival4) return;

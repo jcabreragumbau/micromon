@@ -139,6 +139,12 @@ export class Overworld implements Scene {
       s.flags.safariSteps = left;
       if (left <= 0) { await this.lock(() => runScript(this.game, this, "finReserva")); return; }
     }
+    // Virkon (repelente): cuenta atrás de pasos
+    const repel = Number(s.flags.repelSteps ?? 0);
+    if (repel > 0) {
+      s.flags.repelSteps = repel - 1;
+      if (repel === 1) { await this.lock(() => this.game.say("El efecto del Virkon se ha disipado.")); }
+    }
     const w = this.warpAt(this.px, this.py);
     const tile = tileAt(this.map, this.px, this.py);
     if (w && (tile.startsWith("muro_puerta") || tile === "puerta_hd" || tile === "alfombra" || tile === "escaleras" || tile === "cueva_entrada" || this.isEdge(this.px, this.py, w))) {
@@ -158,6 +164,8 @@ export class Overworld implements Scene {
         let r = Math.random() * total;
         const e = this.map.grass.find((x) => (r -= x.w) < 0) ?? this.map.grass[0];
         const lv = e.min + Math.floor(Math.random() * (e.max - e.min + 1));
+        const lider = s.party.find((m) => m.hp > 0);
+        if (Number(s.flags.repelSteps ?? 0) > 0 && lider && lv < lider.level) return;
         await this.lock(() => wildBattle(this.game, this, e.sp, lv));
       }
     }

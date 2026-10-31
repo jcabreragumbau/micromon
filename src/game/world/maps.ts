@@ -1,6 +1,6 @@
 // Mapas (… → Ruta 4 → Cueva Anaeróbica / Túnel Endospórico → Ciudad Gram): Pueblo Plaqueta → Ruta 1 → Ciudad Viral → Bosque Viral → Ciudad Petri → Ruta 2 → Monte Micelio → Ruta 3 → Ciudad Cultivo.
 import { MapBuilder, tileAt, passable, type MapDef } from "./builder";
-import { ITEMS } from "../../engine/data";
+import { ITEMS, MOVES } from "../../engine/data";
 
 export const MAPS: Record<string, MapDef> = {};
 const add = (m: MapDef) => { MAPS[m.id] = m; };
@@ -34,7 +34,7 @@ function incubadora(id: string, ciudad: string, back: { to: string; x: number; y
 function tienda(id: string, ciudad: string, back: { to: string; x: number; y: number }, stock: string[]) {
   const b = new MapBuilder(id, `Tienda de medios de ${ciudad}`, 10, 8, "L", "interior", false);
   b.fill(0, 0, 10, 1, "w").fill(0, 1, 10, 1, "W").set(0, 1, "e").set(1, 1, "e").set(8, 1, "e").set(9, 1, "e");
-  b.fill(1, 3, 3, 1, "c").set(6, 4, "e").set(7, 4, "e").set(6, 5, "e").set(7, 5, "e");
+  b.fill(1, 3, 5, 1, "c").set(6, 4, "e").set(7, 4, "e").set(6, 5, "e").set(7, 5, "e");
   b.fill(4, 7, 2, 1, "a");
   b.npc({ id: "dependiente", x: 2, y: 2, sprite: "dependiente", dir: 0, script: `tienda:${stock.join(",")}` });
   b.warp({ x: 4, y: 7, w: 2, to: back.to, tx: back.x, ty: back.y + 1, dir: 0 });
@@ -203,7 +203,7 @@ add(casa("casa-viral", "Casa de Ciudad Viral", { to: "ciudad-viral", x: 17, y: 1
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-petri", "Ciudad Petri", { to: "ciudad-petri", x: 5, y: 8 }));
-add(tienda("tienda-petri", "Ciudad Petri", { to: "ciudad-petri", x: 18, y: 9 }, ["criobola-roja", "criobola-azul", "caldo-nutritivo", "medio-lb", "solucion-salina", "glicerol"]));
+add(tienda("tienda-petri", "Ciudad Petri", { to: "ciudad-petri", x: 18, y: 9 }, ["criobola-roja", "criobola-azul", "caldo-nutritivo", "medio-lb", "solucion-salina", "glicerol", "virkon"]));
 add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 16 }, [
   { id: "quesera", x: 5, y: 3, sprite: "madre", dir: 0, talk: ["Mi queso madura gracias a Penicillium roqueforti.", "¡Y el yogur, a Lactobacillus! Sin Microos no habría cocina."] },
 ]));
@@ -349,7 +349,7 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-cultivo", "Ciudad Cultivo", { to: "ciudad-cultivo", x: 5, y: 6 }));
-add(tienda("tienda-cultivo", "Ciudad Cultivo", { to: "ciudad-cultivo", x: 21, y: 10 }, ["criobola-roja", "criobola-azul", "caldo-nutritivo", "medio-lb", "solucion-salina", "glicerol"]));
+add(tienda("tienda-cultivo", "Ciudad Cultivo", { to: "ciudad-cultivo", x: 21, y: 10 }, ["criobola-roja", "criobola-azul", "caldo-nutritivo", "medio-lb", "solucion-salina", "glicerol", "virkon"]));
 add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16, y: 16 }, [
   { id: "cultivo-casa", x: 5, y: 3, sprite: "estudiante", dir: 0, talk: ["Mi abuelo cultivaba Spirulina en la terraza.", "Decía que una cianobacteria hace más fotosíntesis que todos los árboles de la ciudad juntos."] },
 ]));
@@ -476,7 +476,7 @@ add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-gram", "Ciudad Gram", { to: "ciudad-gram", x: 5, y: 6 }));
-add(tienda("tienda-gram", "Ciudad Gram", { to: "ciudad-gram", x: 18, y: 16 }, ["criobola-roja", "criobola-azul", "criobola-amarilla", "medio-lb", "medio-tsb", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(tienda("tienda-gram", "Ciudad Gram", { to: "ciudad-gram", x: 18, y: 16 }, ["criobola-roja", "criobola-azul", "criobola-amarilla", "medio-lb", "medio-tsb", "solucion-salina", "glicerol", "atp-concentrado", "virkon", "virkon-concentrado"]));
 add(casa("casa-gram", "Casa de Ciudad Gram", { to: "ciudad-gram", x: 7, y: 15 }, [
   { id: "gram-examen", x: 6, y: 4, sprite: "jubilado", dir: 0, script: "examen" },
   { id: "gram-casa", x: 5, y: 3, sprite: "madre", dir: 0, talk: ["Mi hijo trabaja en el Instituto de Biotecnología, más allá de Ciudad Aerobia.", "Dice que últimamente hay gente rara con portátiles por los pasillos…"] },
@@ -657,7 +657,7 @@ function torre(n: number) {
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-aerobia", "Ciudad Aerobia", { to: "ciudad-aerobia", x: 5, y: 17 }));
-add(tienda("tienda-aerobia", "Ciudad Aerobia", { to: "ciudad-aerobia", x: 21, y: 17 }, ["criobola-roja", "criobola-azul", "criobola-amarilla", "medio-lb", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(tienda("tienda-aerobia", "Ciudad Aerobia", { to: "ciudad-aerobia", x: 21, y: 17 }, ["criobola-roja", "criobola-azul", "criobola-amarilla", "medio-lb", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado", "virkon", "virkon-concentrado"]));
 add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10, y: 18 }, [
   { id: "aer-casa", x: 5, y: 3, sprite: "estudiante", dir: 0, script: "regaloPleomorph" },
 ]));
@@ -787,7 +787,7 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-agar", "Ciudad Agar", { to: "ciudad-agar", x: 5, y: 6 }));
-add(tienda("tienda-agar", "Ciudad Agar", { to: "ciudad-agar", x: 5, y: 16 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(tienda("tienda-agar", "Ciudad Agar", { to: "ciudad-agar", x: 5, y: 16 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado", "virkon", "virkon-concentrado"]));
 add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }, [
   { id: "agar-trueque", x: 6, y: 4, sprite: "chica", dir: 0, script: "intercambio:albicans|auris|Aurita" },
   { id: "agar-casa", x: 5, y: 3, sprite: "madre", dir: 0, talk: ["Fanny Hesse sugirió usar agar en vez de gelatina, porque no se derrite a 37 °C.", "¡Por eso la Profesora de tu pueblo se llama así! Es un homenaje."] },
@@ -891,7 +891,7 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 5, y: 17 }));
-add(tienda("tienda-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 22, y: 18 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "plasmido-r", "plasmido-f", "plasmido-col"]));
+add(tienda("tienda-biotec", "Parque Biotecnológico", { to: "parque-biotec", x: 22, y: 18 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "plasmido-r", "plasmido-f", "plasmido-col", "virkon", "virkon-concentrado"]));
 
 // ---------------------------------------------------------------- Instituto de Biotecnología (asedio)
 function planta(id: string, name: string) {
@@ -1046,7 +1046,7 @@ function planta(id: string, name: string) {
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-pili", "Ciudad Pili", { to: "ciudad-pili", x: 5, y: 5 }));
-add(tienda("tienda-pili", "Ciudad Pili", { to: "ciudad-pili", x: 5, y: 14 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado"]));
+add(tienda("tienda-pili", "Ciudad Pili", { to: "ciudad-pili", x: 5, y: 14 }, ["criobola-azul", "criobola-amarilla", "medio-tsb", "medio-enriquecido", "solucion-salina", "glicerol", "atp-concentrado", "virkon", "virkon-concentrado"]));
 add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }, [
   { id: "pili-casa", x: 5, y: 3, sprite: "madre", dir: 0, talk: ["Mi marido trabaja en el Instituto Carlos III, en la Isla Conjugada. Reviven cepas congeladas del permafrost.", "¡Dice que algunas tienen miles de años!"] },
 ]));
@@ -1148,7 +1148,7 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
   add(b.done({ music: "ciudad" }));
 }
 add(incubadora("incubadora-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 9, y: 17 }));
-add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, y: 17 }, ["criobola-amarilla", "medio-enriquecido", "glicerol", "plasmido-r", "plasmido-f", "plasmido-ti", "plasmido-col", "plasmido-vir"]));
+add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, y: 17 }, ["criobola-amarilla", "medio-enriquecido", "glicerol", "plasmido-r", "plasmido-f", "plasmido-ti", "plasmido-col", "plasmido-vir", "virkon", "virkon-concentrado"]));
 {
   const b = new MapBuilder("carlos-iii", "Instituto Carlos III", 11, 10, "L", "laboratorio", false);
   b.fill(0, 0, 11, 1, "w").fill(0, 1, 11, 1, "W").fill(0, 1, 3, 1, "i").fill(8, 1, 3, 1, "i").set(0, 5, "M").set(10, 5, "B").set(0, 8, "n").set(10, 8, "n");
@@ -1261,7 +1261,7 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
   b.fill(0, 0, 11, 1, "w").fill(0, 1, 11, 1, "W").set(1, 1, "i").set(2, 1, "i").set(8, 1, "e").set(9, 1, "e");
   b.fill(0, 3, 4, 1, "c").fill(7, 3, 4, 1, "c").set(0, 8, "n").set(10, 8, "n").fill(4, 9, 3, 1, "a").set(5, 1, "E");
   b.npc({ id: "uab-enfermera", x: 2, y: 2, sprite: "enfermera", dir: 0, script: "incubadora" });
-  b.npc({ id: "uab-tienda", x: 8, y: 2, sprite: "dependiente", dir: 0, script: "tienda:criobola-amarilla,medio-tsb,medio-enriquecido,solucion-salina,glicerol,atp-concentrado" });
+  b.npc({ id: "uab-tienda", x: 8, y: 2, sprite: "dependiente", dir: 0, script: "tienda:criobola-amarilla,medio-tsb,medio-enriquecido,solucion-salina,glicerol,atp-concentrado,virkon-concentrado" });
   b.npc({ id: "uab-guarda", x: 5, y: 2, sprite: "profesora", dir: 0, script: "guardaLiga", hideIf: "liga-abierta" });
   b.npc({ id: "uab-guarda-2", x: 6, y: 2, sprite: "profesora", dir: 2, showIf: "liga-abierta", talk: "¡Mucha suerte! Recuerda: si pierdes contra cualquiera de ellos, tendrás que empezar de nuevo." });
   b.warp({ x: 4, y: 9, w: 3, to: "uab", tx: 10, ty: 8, dir: 0 });
@@ -1296,27 +1296,36 @@ SALAS.forEach(([id, name, who], k) => {
   add(b.done({ music: "cueva" }));
 }
 
-/** Reparte los Plásmidos de movimiento por tramos del juego: la mitad se venden (un vendedor en cada
- *  tienda del tramo) y la otra mitad están tirados por los mapas del tramo. A más potencia, más tarde. */
+/** Reparte los Plásmidos de movimiento por fases del juego. Casi todos se venden: cada fase tiene dos
+ *  tiendas (la primera con los más flojos) y en cada tienda dos vendedores junto al dependiente, que se
+ *  reparten el surtido (el segundo, los más caros). Solo unos pocos (3 por fase)
+ *  están tirados por los mapas. A más potencia, más tarde. */
 function repartirPlasmidos() {
   const tms = [...ITEMS.values()].filter((i) => i.kind === "tm").sort((a, b) => (a.tier ?? 0) - (b.tier ?? 0) || a.price - b.price || a.id.localeCompare(b.id));
   const TIENDAS: Record<number, string[]> = { 1: ["tienda-viral", "tienda-petri"], 2: ["tienda-cultivo", "tienda-gram"], 3: ["tienda-aerobia", "tienda-agar"], 4: ["tienda-biotec", "tienda-pili"], 5: ["tienda-conjugada", "uab-vestibulo"] };
   const SUELO: Record<number, string[]> = {
-    1: ["bosque-viral", "ruta-2", "ruta-1"], 2: ["monte-micelio", "ruta-3", "ruta-4", "cueva-anaerobica"],
-    3: ["ruta-5", "ruta-6", "ruta-7", "ciudad-aerobia", "ciudad-agar"], 4: ["ruta-8", "ruta-9", "parque-biotec", "ciudad-pili"],
-    5: ["isla-conjugada", "calle-seleccion", "uab", "mansion-1", "mansion-2"],
+    1: ["bosque-viral", "ruta-2", "ruta-1"], 2: ["monte-micelio", "ruta-4", "cueva-anaerobica"],
+    3: ["ruta-6", "ciudad-aerobia", "ruta-7"], 4: ["ruta-8", "ruta-9", "ciudad-pili"],
+    5: ["isla-conjugada", "calle-seleccion", "mansion-2"],
   };
+  const EN_SUELO = 3;
   const venta: Record<string, string[]> = {}, suelo: Record<string, string[]> = {};
   for (let t = 1; t <= 5; t++) {
-    tms.filter((i) => i.tier === t).forEach((it, k) => {
-      if (k % 2 === 0) { const shop = TIENDAS[t][(k / 2) % TIENDAS[t].length]; (venta[shop] ??= []).push(it.id); }
-      else { const m = SUELO[t][((k - 1) / 2) % SUELO[t].length]; (suelo[m] ??= []).push(it.id); }
-    });
+    const fase = tms.filter((i) => i.tier === t);
+    const tirados = new Set(Array.from({ length: EN_SUELO }, (_, j) => fase[Math.floor(((j + 0.5) / EN_SUELO) * fase.length)]));
+    [...tirados].forEach((it, j) => (suelo[SUELO[t][j % SUELO[t].length]] ??= []).push(it.id));
+    const resto = fase.filter((i) => !tirados.has(i));
+    resto.forEach((it, k) => { const shop = TIENDAS[t][k < resto.length / 2 ? 0 : 1]; (venta[shop] ??= []).push(it.id); });
   }
   for (const [id, stock] of Object.entries(venta)) {
     const m = MAPS[id]; if (!m) continue;
-    const [x, y] = id === "uab-vestibulo" ? [9, 2] : [8, 3];
-    m.npcs.push({ id: `${id}-plasmidos`, x, y, sprite: "becario", dir: 0, script: `tienda:${stock.join(",")}` });
+    const puestos = id === "uab-vestibulo" ? [[9, 2], [10, 2]] : [[3, 2], [4, 2]];
+    const mitad = Math.ceil(stock.length / 2), lotes = [stock.slice(0, mitad), stock.slice(mitad)];
+    lotes.forEach((lote, k) => {
+      if (!lote.length) return;
+      const [x, y] = puestos[k];
+      m.npcs.push({ id: `${id}-plasmidos-${k + 1}`, x, y, sprite: k ? "estudiante" : "becario", dir: 0, script: `tienda:${lote.join(",")}` });
+    });
   }
   for (const [id, lista] of Object.entries(suelo)) {
     const m = MAPS[id]; if (!m) continue;

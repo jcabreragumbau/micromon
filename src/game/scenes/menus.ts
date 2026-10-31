@@ -251,7 +251,7 @@ class SummaryScreen implements Overlay {
 
 // ---------------------------------------------------------------- mochila
 const POCKET_COL = ["#d85858", "#3878d0", "#9858c8", "#d89830"];
-const POCKETS: [string, ItemData["kind"][]][] = [["MEDIOS", ["heal", "cure", "revive", "pp"]], ["CRIOBOLAS", ["ball"]], ["PLÁSMIDOS", ["tm", "evolution"]], ["CLAVE", ["key"]]];
+const POCKETS: [string, ItemData["kind"][]][] = [["MEDIOS", ["heal", "cure", "revive", "pp", "repel"]], ["CRIOBOLAS", ["ball"]], ["PLÁSMIDOS", ["tm", "evolution"]], ["CLAVE", ["key"]]];
 export async function bagMenu(game: Game, o: { mode: "field" | "battle"; wild?: boolean }): Promise<{ item: string; target?: number } | null> {
   const screen = new BagScreen();
   for (;;) {
@@ -277,6 +277,12 @@ export async function bagMenu(game: Game, o: { mode: "field" | "battle"; wild?: 
       const msgs: string[] = [];
       if (applyItemOutOfBattleLike(game.state.party[t], id, (x) => msgs.push(x))) addItem(game.state, id, -1);
       for (const x of msgs) await game.say(x);
+    } else if (it.kind === "repel") {
+      if (Number(game.state.flags.repelSteps ?? 0) > 0) { await game.say("El Virkon que usaste todavía hace efecto."); continue; }
+      addItem(game.state, id, -1);
+      game.state.flags.repelSteps = it.repel ?? 100;
+      audio.sfx("ok");
+      await game.say(`{nombre} ha pulverizado ${it.name} a su alrededor. Los Microos salvajes débiles no se acercarán.`);
     } else if (it.kind === "evolution") {
       const t = await partyMenu(game, { mode: "item" });
       if (t < 0) continue;
