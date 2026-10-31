@@ -272,7 +272,13 @@ export class Overworld implements Scene {
   debugCam: [number, number] | null = null;
   draw(g: Gfx, game: Game) {
     const camX = Math.round(this.px * 16 + this.ox - W / 2 + 8);
-    const camY = Math.round(this.py * 16 + this.oy - H / 2 + 8);
+    let camY = Math.round(this.py * 16 + this.oy - H / 2 + 8);
+    // edificios muy altos (Torre Prión): al acercarse, la cámara sube poco a poco para que se vean enteros
+    for (const p of this.map.props ?? []) {
+      if (p.h < 8 || this.px < p.x - 2 || this.px > p.x + p.w + 1) continue;
+      const t = Math.max(0, Math.min(1, (p.y + p.h + 4 - (this.py + this.oy / 16)) / 3));
+      camY = Math.round(camY + (Math.min(camY, p.y * 16 - 4) - camY) * t);
+    }
     let cx = this.map.w * 16 < W ? -(W - this.map.w * 16) / 2 : Math.max(0, Math.min(this.map.w * 16 - W, camX));
     let cy = this.map.h * 16 < H ? -(H - this.map.h * 16) / 2 : Math.max(0, Math.min(this.map.h * 16 - H, camY));
     if (this.debugCam) [cx, cy] = this.debugCam;      // vistas completas del mapa (herramientas)

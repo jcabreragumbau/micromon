@@ -536,7 +536,7 @@ add(casa("casa-gram", "Casa de Ciudad Gram", { to: "ciudad-gram", x: 7, y: 15 },
   b.trees(0, 0, 30, 2).trees(0, 0, 2, 12).trees(0, 14, 2, 10).trees(28, 0, 2, 12).trees(28, 14, 2, 10).trees(0, 22, 30, 2);
   // calle principal (y 12-13) entre la Ruta 5 y la Ruta 6, enlace (x 12-13) y calle sur (y 20-21)
   b.fill(0, 12, 30, 2, "p").fill(12, 14, 2, 6, "p").fill(12, 20, 15, 2, "p").fill(17, 10, 1, 2, "p");
-  b.building(14, 6, { kind: "lab", w: 7, color: "morado", door: 3, to: "torre-prion-1", tx: 5, ty: 12 });
+  b.building(15, 2, { kind: "lab", w: 5, color: "morado", door: 2, to: "torre-prion-1", tx: 5, ty: 12, sprite: "torre_prion" });
   b.onRoad(4, 12, { kind: "incubadora", w: 5, door: 2, to: "incubadora-levadura", tx: 5, ty: 6 });
   b.onRoad(19, 20, { kind: "casa", w: 5, color: "gris", door: 2, to: "casa-levadura", tx: 3, ty: 5 });
   b.fill(3, 16, 6, 4, "f").fill(15, 16, 3, 2, "f");

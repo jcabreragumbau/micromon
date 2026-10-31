@@ -37,7 +37,7 @@ export interface PropDef { sprite: string; x: number; y: number; w: number; h: n
  *  fila inferior, en la columna central. */
 export const SPRITE_DIMS: Record<string, [number, number]> = {
   casa_roja: [5, 6], casa_azul: [5, 6], laboratorio: [7, 6], centro: [7, 5], tienda: [7, 5],
-  gimnasio: [13, 7], casino: [13, 7], uab: [15, 8],
+  gimnasio: [13, 7], casino: [13, 7], uab: [15, 8], torre_prion: [5, 8],
 };
 /** Ilustración HD por defecto de cada tipo de edificio ("" = dibujarlo con tiles). */
 export function buildingSprite(kind: string, color: string): string {

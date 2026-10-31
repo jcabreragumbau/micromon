@@ -27,6 +27,7 @@ META = {
     "gimnasio":    dict(door=(512, 480), wall=(110, 915)),
     "casino":      dict(door=(512, 480), wall=(110, 915)),
     "uab":         dict(door=(512, 480), wall=(95, 930)),
+    "torre_prion": dict(door=(378, 962), wall=(170, 665)),
     "arbol":       dict(),
 }
 
@@ -35,6 +36,13 @@ def cut(path: Path) -> tuple[Image.Image, tuple[int, int]]:
     f = a.astype(int)
     mx, mn = f.max(2), f.min(2)
     bg = (mx > 228) & (mx - mn < 20)
+    if path.stem == "torre_prion":
+        # fondo verde claro con rótulo arriba y sombra del suelo (mismo tono, más oscura)
+        c = np.median(f[:, :12].reshape(-1, 3), axis=0)
+        tono = np.abs((f - f.mean(2, keepdims=True)) - (c - c.mean())).sum(2)
+        s = f.sum(2)
+        bg = (np.abs(f - c).sum(2) < 30) | ((tono < 16) & (s < c.sum()) & (s > c.sum() * 0.6))
+        bg[:70] = True
     lab, _ = label(bg)
     border = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
     fg = ~np.isin(lab, list(border))
