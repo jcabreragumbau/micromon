@@ -7,6 +7,7 @@ import charMeta from "../../assets/atlas/personajes.json";
 import microMeta from "../../assets/atlas/microos.json";
 import propsMeta from "../../assets/atlas/props_hd.json";
 import medalMeta from "../../assets/atlas/medallas_hd.json";
+import terrMeta from "../../assets/atlas/terreno_hd.json";
 
 export const IMG: Record<string, HTMLImageElement> = {};
 export const FONT = fontMeta as unknown as { cell: [number, number]; cols: number; height: number; glyphs: Record<string, [number, number]> };
@@ -26,3 +27,5 @@ export async function loadAssets(): Promise<void> {
 export const PROPS = propsMeta as unknown as Record<string, { x: number; y: number; w: number; h: number; door?: [number, number]; wall?: [number, number] }>;
 /** Medallas HD: celdas cuadradas en el orden en que se ganan. */
 export const MEDALS = medalMeta as { cell: number; order: string[] };
+/** Terreno HD (celdas de 64 px): "nombre#cuarto" para suelos y bordes, "obj:nombre" para objetos sin césped. */
+export const TERR = terrMeta as { cell: number; cols: number; index: Record<string, number> };

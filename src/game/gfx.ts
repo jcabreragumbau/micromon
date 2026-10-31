@@ -1,5 +1,5 @@
 // Dibujo sobre un lienzo de 256×192 (pantalla de DS) sin suavizado: tiles, sprites, texto con la fuente propia y marcos.
-import { IMG, FONT, TILES, CHARS, MICRO, MEDALS } from "./assets";
+import { IMG, FONT, TILES, CHARS, MICRO, MEDALS, TERR } from "./assets";
 
 export const W = 256, H = 192;
 /** Resolución interna: el lienzo mide W·R × H·R y todo se dibuja en coordenadas lógicas (256×192).
@@ -45,10 +45,23 @@ export class Gfx {
   rect(x: number, y: number, w: number, h: number, c: string) { this.ctx.fillStyle = c; this.ctx.fillRect(Math.round(x), Math.round(y), w, h); }
   alpha(a: number, f: () => void) { const p = this.ctx.globalAlpha; this.ctx.globalAlpha = a; f(); this.ctx.globalAlpha = p; }
 
-  tile(name: string, x: number, y: number) {
+  /** Casilla de 16 px. Si se da su posición en el mapa (cx, cy) y hay terreno HD, usa la textura nueva
+   *  (el cuarto que toca de su bloque de 2×2) y, para objetos sobre césped, césped HD debajo. */
+  tile(name: string, x: number, y: number, cx?: number, cy?: number) {
+    if (cx !== undefined && cy !== undefined && IMG.terreno_hd) {
+      const q = (((cx % 2) + 2) % 2) + (((cy % 2) + 2) % 2) * 2;
+      const hd = TERR.index[`${name}#${q}`], obj = TERR.index[`obj:${name}`];
+      if (hd !== undefined) { this.terr(hd, x, y); return; }
+      if (obj !== undefined) { this.terr(TERR.index[`hierba#${q}`], x, y); this.terr(obj, x, y); return; }
+    }
     const i = TILES[name];
     if (i === undefined) return;
     this.ctx.drawImage(IMG.tiles, (i % 16) * 16, Math.floor(i / 16) * 16, 16, 16, Math.round(x), Math.round(y), 16, 16);
+  }
+  /** Celda del atlas de terreno HD dibujada a 16×16 lógicos (= 64 px reales, sin escalar). */
+  terr(i: number, x: number, y: number, sy = 0, h = 16) {
+    const C = TERR.cell, k = C / 16;
+    this.ctx.drawImage(IMG.terreno_hd, (i % TERR.cols) * C, Math.floor(i / TERR.cols) * C + sy * k, C, h * k, Math.round(x), Math.round(y) + sy, 16, h);
   }
   /** Personaje de mapa: dir 0 abajo, 1 arriba, 2 izquierda, 3 derecha; frame 0-2. */
   character(id: string, dir: number, frame: number, x: number, y: number) {

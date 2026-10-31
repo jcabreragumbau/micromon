@@ -150,5 +150,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Tema principal nuevo (`T.tema` en audio.ts): fanfarria heroica en Do mayor de 16 compases con segunda voz de acordes, bajo en octavas y batería de marcha (`epic`: bombo, caja, charles, platillos y redobles). Dura 27 s exactos: en la intro suena dos veces (00:22–01:16) y acaba en Si♭–La♭ para enlazar con la sala de servidores, que entra con un golpe grave (`golpe`).
 
+- Terreno HD del usuario (`assets/reference/props/terreno.png` → `tools/art/terreno_hd.py` → `assets/atlas/terreno_hd.png/json`): hierba alta, hierba alta oscura, césped (2 variantes), camino, arena y agua (2 fotogramas), repetibles sin costuras con periodo de 2×2 casillas. Bordes de camino/arena/agua con la forma de los autotiles viejos; objetos sobre césped (flores, setos, vallas, carteles, rocas…) dibujados sobre el césped nuevo. `Gfx.tile(nombre, x, y, cx, cy)` usa el HD cuando se le pasa la casilla.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

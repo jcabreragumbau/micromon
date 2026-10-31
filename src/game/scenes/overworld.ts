@@ -10,7 +10,7 @@ import { runScript, talkNpc, trainerBattle, wildBattle } from "../scripts";
 import { openStartMenu } from "./menus";
 import { addItem } from "../state";
 import { ITEMS } from "../../engine/data";
-import { IMG, TILES, PROPS } from "../assets";
+import { IMG, TILES, PROPS, TERR } from "../assets";
 
 const DX = [0, 0, -1, 1], DY = [1, -1, 0, 0]; // abajo, arriba, izquierda, derecha
 
@@ -296,7 +296,7 @@ export class Overworld implements Scene {
         if (t === "hierba_oscura" && TILES[t] === undefined) t = "hierba";
       }
       if (t === "bloque" || t === "puerta_hd") t = "hierba";
-      g.tile(t, x * 16 - cx, y * 16 - cy);
+      g.tile(t, x * 16 - cx, y * 16 - cy, x, y);
     }
     for (const [n, x, y] of trees) drawProp(g, n, x - 1, y - 2, 34);
     // objetos del suelo
@@ -335,8 +335,9 @@ export class Overworld implements Scene {
     // la hierba alta tapa los pies del jugador
     const gt = tileAt(this.map, this.px, this.py);
     if (isGrass(gt) && this.moving === 0 && !heli) {
-      const i = TILES[gt];
-      g.ctx.drawImage(IMG.tiles, (i % 16) * 16, Math.floor(i / 16) * 16 + 10, 16, 6, psx, psy + 10, 16, 6);
+      const hq = TERR.index[`${gt}#${(this.px % 2) + (this.py % 2) * 2}`];
+      if (IMG.terreno_hd && hq !== undefined) g.terr(hq, psx, psy, 10, 6);
+      else { const i = TILES[gt]; g.ctx.drawImage(IMG.tiles, (i % 16) * 16, Math.floor(i / 16) * 16 + 10, 16, 6, psx, psy + 10, 16, 6); }
     }
     if (this.map.safari) {
       const f = this.game.state.flags;
