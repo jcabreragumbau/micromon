@@ -3,10 +3,14 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = join(import.meta.dir, "..");
-const ATLAS = ["portada.jpg", "portada_fondo.jpg", ...["hierba", "bosque", "interior", "laboratorio", "gimnasio", "cueva", "invernadero", "casino", "torre", "hielo"].map((e) => `fondo_${e}.jpg`), "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd", "props_hd", "terreno_hd", "medallas_hd", "mapa_region", "microos_frente", "microos_espalda", "microos_iconos"];
+const ATLAS = ["portada.jpg", "portada_fondo.jpg", ...["hierba", "bosque", "interior", "laboratorio", "gimnasio", "cueva", "invernadero", "casino", "torre", "hielo"].map((e) => `fondo_${e}.jpg`), "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd.webp", "props_hd.webp", "terreno_hd.webp", "medallas_hd.webp", "mapa_region", "microos_frente", "microos_espalda", "microos_iconos"];
+// WebP sin pérdida de los atlas HD grandes (idénticos al PNG, pero ocupan menos)
+const WEBP = ATLAS.filter((f) => f.endsWith(".webp")).map((f) => f.slice(0, -5));
+const conv = Bun.spawnSync(["python3", join(ROOT, "tools/art/a_webp.py"), ...WEBP]);
+if (conv.exitCode !== 0) { console.error(conv.stderr.toString()); process.exit(1); }
 const lines = ATLAS.map((f) => {
   const [n, ext] = f.includes(".") ? f.split(".") : [f, "png"];
-  const mime = ext === "jpg" ? "image/jpeg" : "image/png";
+  const mime = ext === "jpg" ? "image/jpeg" : ext === "webp" ? "image/webp" : "image/png";
   return `  ${JSON.stringify(n)}: "data:${mime};base64,${readFileSync(join(ROOT, "assets/atlas", `${n}.${ext}`)).toString("base64")}",`;
 });
 // Música grabada (MP3) en un módulo aparte: no son imágenes.
