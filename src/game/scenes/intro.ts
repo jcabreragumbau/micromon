@@ -1,7 +1,7 @@
 // Secuencia de introducción (antes de la pantalla de título), sincronizada con la música.
 // 00:00 avisos legales · 00:07 logotipo de Jordi Freak · 00:22 logotipo de Micromón con la fanfarria ·
 // 00:33 ruta · 00:39 pueblo con el Centro · 00:48 zona montañosa · 00:54-01:16 protagonistas e iniciales ·
-// 01:16 el Monte al atardecer · 01:25 rayo en la cima · 01:30 destello y pantalla de título.
+// 01:16 sala de servidores de la Unidad: siluetas de Urtaza, Barbadilla y Casillas · 01:30 fundido a negro y título.
 // START salta la introducción en cualquier momento.
 import type { Game, Scene } from "../game";
 import { Gfx, W, H } from "../gfx";
@@ -29,7 +29,7 @@ export class IntroCine implements Scene {
     const t = this.t++;
     if (t === T(7)) audio.music("intro_brillo");
     if (t === T(22)) audio.music("tema");
-    if (t === T(76)) audio.music("oscuro");
+    if (t === T(76)) audio.music("tetrico");
     if (t >= FIN) this.acabar();
     if (this.ow) this.ow.animate();
   }
@@ -65,8 +65,8 @@ export class IntroCine implements Scene {
     else if (tramo(65, 69)) this.inicial(g, brasas, "butyricum", prog(65, 69), ["protagonista-chica"], "salta");
     else if (tramo(69, 72)) this.pareja(g, prog(69, 72));
     else if (tramo(72, 76)) this.inicial(g, burbujas, "paramec", prog(72, 76), ["protagonista", "protagonista-chica"], "saltitos");
-    else if (tramo(76, 90)) this.monte(g, s - 76);
-    else this.destello(g, s - 90);
+    else if (tramo(76, 90)) this.servidor(g, s - 76);
+    else g.clear("#000");
     if (fundido > 0) g.alpha(Math.min(1, fundido), () => g.rect(0, 0, W, H, "#000"));
   }
 
@@ -178,37 +178,67 @@ export class IntroCine implements Scene {
       c.save(); c.translate(Number(x), H - 96 * 1.6 + 6); c.scale(1.6, 1.6); g.portrait(String(q), 0, 0); c.restore();
     });
   }
-  // ---------------------------------------------------------------- 4 y 5. el Monte y el destello
-  private monte(g: Gfx, s: number) {
-    const c = g.ctx, cx = W / 2, cima = 70;
-    const zoom = s > 9 ? 1 + ((s - 9) / 5) ** 2 * 1.6 : 1;
-    c.save(); c.translate(cx, cima); c.scale(zoom, zoom); c.translate(-cx, -cima);
-    const gr = c.createLinearGradient(0, 0, 0, H);
-    gr.addColorStop(0, "#2a1640"); gr.addColorStop(0.45, "#7a3a78"); gr.addColorStop(0.75, "#e0784a"); gr.addColorStop(1, "#f0a858");
-    c.fillStyle = gr; c.fillRect(-W, -H, W * 3, H * 3);
-    // nubes en espiral alrededor de la cima
-    for (let i = 0; i < 7; i++) {
-      c.strokeStyle = `rgba(${200 - i * 10},${150 - i * 8},${220 - i * 6},0.5)`; c.lineWidth = 3;
-      c.beginPath(); c.ellipse(cx, cima - 20, 30 + i * 18, 8 + i * 5, 0, s * 0.4 + i, s * 0.4 + i + Math.PI * 1.3); c.stroke();
-    }
-    // la montaña
-    c.fillStyle = "#3a2a3a"; c.beginPath(); c.moveTo(-40, H + 10); c.lineTo(cx - 30, cima + 24); c.lineTo(cx, cima); c.lineTo(cx + 26, cima + 20); c.lineTo(W + 40, H + 10); c.fill();
-    c.fillStyle = "#2a1e2c"; c.beginPath(); c.moveTo(cx, cima); c.lineTo(cx + 26, cima + 20); c.lineTo(W + 40, H + 10); c.lineTo(cx + 10, H + 10); c.fill();
-    c.fillStyle = "#e8d8f0"; c.beginPath(); c.moveTo(cx - 12, cima + 10); c.lineTo(cx, cima); c.lineTo(cx + 10, cima + 8); c.lineTo(cx + 2, cima + 6); c.fill();
-    c.fillStyle = "#4a3048"; c.beginPath(); c.moveTo(-40, H + 10); c.lineTo(40, 130); c.lineTo(90, 150); c.lineTo(150, 128); c.lineTo(230, 146); c.lineTo(W + 40, H + 10); c.fill();
-    // el rayo de energía (01:25)
-    if (s > 9) {
-      const q = s - 9, on = Math.floor(q * 14) % 3 !== 0;
-      if (on) {
-        c.strokeStyle = "#fffef0"; c.lineWidth = 3; c.beginPath(); c.moveTo(cx + 40, -60);
-        for (let i = 1; i <= 8; i++) c.lineTo(cx + 40 - (40 * i) / 8 + ((i * 7 + Math.floor(q * 20)) % 11) - 5, -60 + ((cima + 60) * i) / 8);
-        c.stroke(); c.strokeStyle = "rgba(180,140,255,0.6)"; c.lineWidth = 8; c.stroke();
+  // ---------------------------------------------------------------- 4. la sala de servidores de la Unidad
+  // Racks en marcha con LED verdes y amarillos; las siluetas de Urtaza, Barbadilla y Casillas
+  // aparecen en negro y el parpadeo las ilumina poco a poco. Al final, un fogonazo verde y negro.
+  private servidor(g: Gfx, s: number) {
+    const c = g.ctx, f = this.t;
+    g.clear("#020405");
+    const zoom = 1 + s * 0.012;
+    c.save(); c.translate(W / 2, H / 2); c.scale(zoom, zoom); c.translate(-W / 2, -H / 2);
+    const aparece = Math.min(1, s / 2);
+    // dos filas de racks: la del fondo, más pequeña y oscura
+    for (const [fila, n, rw, top, bottom, luz] of [[0, 9, 26, 22, 132, 0.55], [1, 6, 40, -6, 168, 1]] as const) {
+      const gap = (W - n * rw) / (n + 1);
+      for (let r = 0; r < n; r++) {
+        const x = gap + r * (rw + gap);
+        c.fillStyle = fila ? "#0d1216" : "#080b0e"; c.fillRect(x, top, rw, bottom - top);
+        c.fillStyle = fila ? "#161d22" : "#0d1215"; c.fillRect(x, top, rw, 2); c.fillRect(x, top, 2, bottom - top); c.fillRect(x + rw - 2, top, 2, bottom - top);
+        const filas = fila ? 16 : 13, ph = (bottom - top - 8) / filas;
+        for (let j = 0; j < filas; j++) {
+          const y = top + 4 + j * ph;
+          c.fillStyle = fila ? "#11171b" : "#0b0f12"; c.fillRect(x + 3, y, rw - 6, ph - 2);
+          for (let k = 0; k < (fila ? 4 : 3); k++) {
+            const id = fila * 997 + r * 131 + j * 17 + k * 7;
+            const ritmo = 4 + (hash(id) % 23);
+            const on = hash(id * 3 + Math.floor((f + hash(id) % 60) / ritmo)) % 100 < 58;
+            if (!on) continue;
+            const amarillo = hash(id * 5) % 4 === 0;
+            const col = amarillo ? "#ffd84a" : "#46ff7a";
+            g.alpha(aparece * luz, () => { c.fillStyle = col; c.fillRect(x + rw - 7 - k * 4, y + ph / 2 - 1, fila ? 2 : 1.5, 1.5); });
+          }
+        }
       }
-      g.alpha(Math.min(0.8, q / 2) * (on ? 1 : 0.6), () => g.round(cx - 18, cima - 14, 36, 28, 14, "#fff4ff"));
+    }
+    // reflejo en el suelo y bruma
+    const suelo = c.createLinearGradient(0, 150, 0, H);
+    suelo.addColorStop(0, "rgba(40,255,120,0.05)"); suelo.addColorStop(1, "rgba(0,0,0,0.6)");
+    c.fillStyle = suelo; c.fillRect(0, 150, W, H - 150);
+    // luz que llega a las siluetas: sube poco a poco, parpadea y acaba en un fogonazo
+    const base = s < 5 ? 0 : s < 11 ? ((s - 5) / 6) ** 1.5 * 0.24 : s < 12.2 ? 0.24 : s < 13.2 ? 0.75 : Math.max(0, 0.75 * (1 - (s - 13.2) / 0.5));
+    const parpadeo = 0.55 + 0.45 * ((hash(Math.floor(f / 3)) % 100) / 100);
+    const amarillo = hash(Math.floor(f / 20) + 7) % 5 === 0;
+    const luz = Math.min(1, base * (s < 12.2 ? parpadeo : 1));
+    for (const [q, x, k, d] of [["barbadilla", 50, 1.45, 3.2], ["casillas", 206, 1.45, 3.8], ["urtaza", 128, 1.8, 2]] as const) {
+      const ap = Math.min(1, Math.max(0, (s - d) / 1.2));
+      if (ap <= 0) continue;
+      const px = x - 32 * k, py = H - 96 * k + 8;
+      c.save(); c.translate(px, py); c.scale(k, k);
+      c.globalAlpha = ap; c.filter = "brightness(0)"; g.portrait(q, 0, 0);
+      if (luz > 0.01) {
+        c.globalAlpha = ap * luz;
+        c.filter = amarillo && s < 12.2 ? "brightness(0.9) sepia(1) saturate(3)" : "brightness(0.85) sepia(1) hue-rotate(70deg) saturate(3.5)";
+        g.portrait(q, 0, 0);
+      }
+      c.restore();
     }
     c.restore();
+    // viñeta
+    const v = c.createRadialGradient(W / 2, H / 2, 40, W / 2, H / 2, 170);
+    v.addColorStop(0, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(0,0,0,0.75)");
+    c.fillStyle = v; c.fillRect(0, 0, W, H);
+    if (s > 13.7) g.alpha(Math.min(1, (s - 13.7) / 0.3), () => g.rect(0, 0, W, H, "#000"));
   }
-  private destello(g: Gfx, s: number) { g.clear("#ffffff"); g.alpha(Math.min(1, s), () => g.rect(0, 0, W, H, "#ffffff")); }
 }
 
 // ---------------------------------------------------------------- fondos de las escenas de personajes
@@ -232,3 +262,5 @@ function burbujas(g: Gfx, t: number) {
   gr.addColorStop(0, "#1a4aa0"); gr.addColorStop(1, "#58b8e8"); c.fillStyle = gr; c.fillRect(0, 0, W, H);
   for (let i = 0; i < 22; i++) { const x = (i * 47) % W + Math.sin(t / 20 + i) * 4, y = H - ((t * (0.5 + (i % 3) * 0.3) + i * 31) % (H + 20)), r = 2 + (i % 4); c.strokeStyle = "rgba(220,240,255,0.8)"; c.lineWidth = 1; c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.stroke(); }
 }
+/** Hash entero sencillo para los parpadeos de los LED (determinista). */
+function hash(n: number) { n = (n ^ 61) ^ (n >>> 16); n = (n + (n << 3)) | 0; n ^= n >>> 4; n = Math.imul(n, 0x27d4eb2d); n ^= n >>> 15; return n >>> 0; }

@@ -4,7 +4,8 @@
 /** Temas grabados (MP3 del usuario), incrustados como data URL por tools/build_game.ts. */
 import FILES from "./assets_audio";
 
-type Track = { bpm: number; lead: string; bass: string; drums?: boolean; loop?: boolean; leadWave?: OscillatorType };
+type Track = { bpm: number; lead: string; bass: string; drums?: boolean; loop?: boolean; leadWave?: OscillatorType;
+  /** Ambiente de terror: zumbido grave disonante, latido y pitidos de servidor. */ tetrico?: boolean };
 const T: Record<string, Track> = {
   pueblo: { bpm: 100, lead: "E5:2 G5:2 C6:4 B5:2 G5:2 A5:4 F5:2 A5:2 D6:4 C6:2 A5:2 G5:4 E5:2 G5:2 C6:4 B5:2 D6:2 C6:4 A5:2 F5:2 G5:2 E5:2 D5:4 C5:4",
     bass: "C3:8 A2:8 F2:8 G2:8 C3:8 E3:8 F2:8 G2:4 C3:4" },
@@ -34,6 +35,9 @@ T.tema = { bpm: 132, drums: true, lead: "G4:2 C5:2 E5:2 G5:4 E5:2 G5:2 C6:6 -:2 
   bass: "C3:4 G2:4 C3:4 G2:4 A2:4 E2:4 F2:4 G2:4 E2:4 B2:4 G2:4 D3:4 A2:4 E2:4 F2:4 G2:4 C3:4 G2:4 C3:4 G2:4 F2:4 G2:4 C3:8" };
 T.oscuro = { bpm: 66, leadWave: "triangle", lead: "A4:4 C5:4 B4:4 G#4:4 A4:8 E4:8 F4:4 E4:4 D#4:4 E4:4 A3:16",
   bass: "A2:16 F2:16 D2:8 E2:8 A1:16" };
+// Final de la introducción: la sala de servidores de la Unidad de Genética (tritonos y caja de música desafinada)
+T.tetrico = { bpm: 60, leadWave: "sine", tetrico: true, lead: "E6:6 -:2 D#6:6 -:2 A#5:8 -:8 E6:4 F6:4 -:4 B5:12 -:8",
+  bass: "A1:16 A#1:16 A1:16 D#2:16" };
 T.reserva = T.bosque;
 T.entrenador = { ...T.combate, bpm: 160 };
 T.lider = { ...T.gimnasio, bpm: 172 };
@@ -111,6 +115,30 @@ class Audio {
     g.gain.setValueAtTime(vol, t0); g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
     src.connect(f); f.connect(g); g.connect(dest); src.start(t0);
   }
+  /** Nota sostenida con ataque y caída lentos, filtrada (zumbidos y drones). */
+  private pad(type: OscillatorType, f: number, t0: number, dur: number, vol: number, dest: AudioNode, lp = 400) {
+    const c = this.ctx!, o = c.createOscillator(), fl = c.createBiquadFilter(), g = c.createGain();
+    o.type = type; o.frequency.value = f; fl.type = "lowpass"; fl.frequency.value = lp;
+    g.gain.setValueAtTime(0.0001, t0); g.gain.linearRampToValueAtTime(vol, t0 + dur * 0.3); g.gain.linearRampToValueAtTime(vol * 0.7, t0 + dur * 0.8); g.gain.linearRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(fl); fl.connect(g); g.connect(dest); o.start(t0); o.stop(t0 + dur + 0.05);
+  }
+  /** Capa de terror de un compás largo: drones desafinados, latido y pitidos de servidor. */
+  private terror(t0: number, dur: number, step: number, dest: AudioNode) {
+    this.pad("sawtooth", 55, t0, dur, 0.16, dest, 260);
+    this.pad("sawtooth", 55.9, t0, dur, 0.16, dest, 260);
+    this.pad("sine", 77.8, t0 + dur * 0.25, dur * 0.75, 0.1, dest, 600);   // tritono que entra a mitad
+    this.pad("triangle", 1244, t0 + dur * 0.5, dur * 0.5, 0.012, dest, 3000); // pitido agudo de fondo
+    const c = this.ctx!;
+    for (let k = 0; k * step < dur; k += 16) {                             // latido: «pum-pum» cada 4 tiempos
+      for (const [d, v] of [[0, 0.5], [1.1, 0.32]] as const) {
+        const at = t0 + (k + d) * step, o = c.createOscillator(), g = c.createGain();
+        o.type = "sine"; o.frequency.setValueAtTime(70, at); o.frequency.exponentialRampToValueAtTime(32, at + 0.25);
+        g.gain.setValueAtTime(v, at); g.gain.exponentialRampToValueAtTime(0.001, at + 0.3);
+        o.connect(g); g.connect(dest); o.start(at); o.stop(at + 0.32);
+      }
+    }
+    for (let k = 0; k * step < dur; k++) if (Math.random() < 0.3) this.tone("square", 1800 + Math.floor(Math.random() * 4) * 400, t0 + k * step + Math.random() * step, 0.025, 0.035, dest);
+  }
   /** Cambia la música (no la reinicia si ya suena la misma). */
   music(name: string | undefined) {
     const n = name && (T[name] || (FILES as Record<string, string>)[name]) ? name : "ruta";
@@ -146,6 +174,7 @@ class Audio {
         let t = 0;
         for (const [m, l] of seq) { if (m !== null) this.tone(wave as OscillatorType, freq(m + oct), base + t * step, l * step, vol, bus); t += l; }
       }
+      if (tr.tetrico) this.terror(base, len * step, step, bus);
       if (tr.drums) for (let k = 0; k < len; k += 4) { this.noise(base + k * step, 0.05, k % 8 === 0 ? 0.25 : 0.12, k % 8 === 0 ? 400 : 4000, bus); }
       loopN++;
       if (tr.loop === false) { if (this.timer !== null) clearInterval(this.timer); this.timer = null; }

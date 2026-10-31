@@ -144,5 +144,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Torre Prión exterior: ilustración vertical del usuario (`assets/reference/props/torre_prion.png`, fondo verde recortado en `props_hd.py`), planta 5×8 en Pueblo Levadura; la cámara sube al acercarse a edificios de 8+ filas para verlos enteros.
 
+- Intro: el tramo final (01:16–01:30) ya no es el Monte: sala de servidores de la Unidad con LED verdes y amarillos; siluetas negras de Urtaza, Barbadilla y Casillas que el parpadeo va iluminando, fogonazo verde y fundido a negro. Música nueva `tetrico` (drones desafinados con tritono, latido, pitidos de servidor y caja de música aguda).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
