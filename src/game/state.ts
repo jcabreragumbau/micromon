@@ -1,6 +1,6 @@
 // Estado de la partida y guardado en el navegador.
 import { TRAINERS } from "../engine/data";
-import type { Microo } from "../engine/microo";
+import { reservarUids, type Microo } from "../engine/microo";
 import type { Difficulty } from "../engine/battle";
 
 export type Avatar = "chico" | "chica" | "apache";
@@ -50,8 +50,21 @@ export function loadGame(): GameState | null {
     const s = JSON.parse(raw) as GameState;
     if (s.version !== 1) return null;
     s.avatar ??= "chica";
+    repararUids(s);
     return s;
   } catch { return null; }
+}
+/** Cada Microo necesita un uid único (las evoluciones y la experiencia se asignan por uid). Las partidas
+ *  guardadas antes de corregirlo pueden tener repetidos: se renumeran y el contador sigue después del mayor. */
+export function repararUids(s: GameState) {
+  const todos = [...s.party, ...s.box];
+  const vistos = new Set<number>();
+  let max = Math.max(0, ...todos.map((m) => m.uid ?? 0));
+  for (const m of todos) {
+    if (m.uid === undefined || vistos.has(m.uid)) m.uid = ++max;
+    vistos.add(m.uid);
+  }
+  reservarUids(todos.map((m) => m.uid));
 }
 export function hasSave(): boolean { return loadGame() !== null; }
 /** Copia de la partida como archivo descargable (para no depender del navegador). */

@@ -152,5 +152,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Terreno HD del usuario (`assets/reference/props/terreno.png` → `tools/art/terreno_hd.py` → `assets/atlas/terreno_hd.png/json`): hierba alta, hierba alta oscura, césped (2 variantes), camino, arena y agua (2 fotogramas), repetibles sin costuras con periodo de 2×2 casillas. Bordes de camino/arena/agua con la forma de los autotiles viejos; objetos sobre césped (flores, setos, vallas, carteles, rocas…) dibujados sobre el césped nuevo. `Gfx.tile(nombre, x, y, cx, cy)` usa el HD cuando se le pasa la casilla.
 
+- Bug corregido: el contador de `uid` de los Microos volvía a 1 al abrir el juego, así que tras cargar una partida un Microo nuevo podía compartir uid con otro del equipo y heredar su evolución (Giardia → Spirulmax). `repararUids` (state.ts) renumera repetidos al cargar y `reservarUids` (microo.ts) sigue después del mayor; además la evolución tras el combate comprueba que la especie destino evoluciona de la del Microo.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

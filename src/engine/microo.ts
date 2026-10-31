@@ -39,6 +39,9 @@ export interface Microo {
 }
 
 let nextUid = 1;
+/** Garantiza que los uid nuevos no coincidan con los de Microos ya existentes (p. ej. de una partida
+ *  guardada: el contador vuelve a 1 cada vez que se abre el juego). */
+export function reservarUids(existentes: number[]) { nextUid = Math.max(nextUid, ...existentes.map((u) => u + 1)); }
 
 export function expForLevel(growth: Growth, n: number): number {
   if (n <= 1) return 0;

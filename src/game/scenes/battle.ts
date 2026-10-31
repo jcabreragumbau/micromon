@@ -169,7 +169,8 @@ export class BattleScene implements Scene {
     }
     // Evoluciones
     for (const ev of b.evolutionsPending) {
-      const m = g.state.party.find((x) => x.uid === ev.uid);
+      // por uid y, por si acaso, comprobando que la evolución corresponde a esa especie
+      const m = g.state.party.find((x) => x.uid === ev.uid && getSpecies(ev.to).evolvesFrom === x.species);
       if (m) await evolutionSequence(g, m, ev.to);
     }
     return out;
