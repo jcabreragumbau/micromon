@@ -549,6 +549,7 @@ const SCRIPTS: Record<string, Script> = {
     const s = S(game);
     await game.say("Dr. Jaime Martínez-Urtaza: Así que tú eres quien ha bajado hasta aquí. He visto tu plan de análisis.");
     await game.say("Dr. Martínez-Urtaza: Es basura. Sin control de calidad, sin réplicas, sin un mal árbol filogenético. ¿Y te llamas investigador?");
+    await game.say("Dr. Martínez-Urtaza: Yo duermo cuatro horas. Mis becarios, tres. Si no publicas este mes, el mes que viene lo publicará otro.");
     await game.say("Dr. Martínez-Urtaza: Los Microos son solo datos. Y yo tengo los mejores datos del mundo. ¡Te lo demostraré!");
     const team = [createMicroo("cholerae", 31, { rng: rng(game) }), createMicroo("klebsi", 31, { rng: rng(game) }), createMicroo("smegmatis", 32, { rng: rng(game) }), createMicroo("aeruginosa", 33, { rng: rng(game) })];
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-tsb": 2 }), wild: false,
@@ -729,6 +730,7 @@ const SCRIPTS: Record<string, Script> = {
     }
     await game.say("Dr. Martínez-Urtaza: Así que has liberado a Òscar. Da igual: la Criobola Morada y la pipeline definitiva ya son mías.");
     await game.say("Dr. Martínez-Urtaza: ¿Los creadores en la autoría? Por favor. Las ideas son de quien las publica primero.");
+    await game.say("Dr. Martínez-Urtaza: Un paper en Nature vale más que cien becarios. Los becarios se renuevan cada año; el índice h se queda.");
     const r = rng(game);
     const team = [createMicroo("parahaemolyticus", 43, { rng: r }), createMicroo("vulnificus", 43, { rng: r }), createMicroo("tuberculos", 44, { rng: r })];
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-enriquecido": 2 }), wild: false,
@@ -901,6 +903,8 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Del tanque central sale un brillo rojizo. ¡La cepa O157:H7 ha roto el cristal!");
     await game.say("Dr. Martínez-Urtaza: ¡Quieta! ¡Obedece al script! ¡Te he programado yo!");
     await game.say("La cepa se revuelve contra él. La biología real no cabe en un script mal hecho.");
+    await game.say("Dr. Martínez-Urtaza: … Veinte años. Veinte años sin vacaciones, sin fines de semana, sin… nada.");
+    await game.say("Dr. Martínez-Urtaza: Me perdí la función de fin de curso de mi hija por contestar al revisor 2. Y el revisor 2 rechazó el paper igualmente.");
     await game.say("Dr. Martínez-Urtaza: … … Me retiro. Pero esto no ha terminado: la Unidad de Genética volverá.");
     await game.fade(true, 14);
     s.flags.urtaza3 = true;
@@ -927,6 +931,96 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dra. Campoy: Te has ganado la MEDALLA LISOGENIA. ¡Ya tienes las ocho!");
     await game.say("¡{nombre} ha recibido la MEDALLA LISOGENIA de la Dra. Campoy!");
     await game.say("Dra. Campoy: El ferri ya puede llevarte a la Calle Selección Natural. Al final está La UAB… y la Liga Micromón.");
+  },
+
+  // ---------------------------------------------------------------- Louis (Pasteur) como mentor
+  // Cinco encuentros sin revelar quién es. Las respuestas se guardan en flags.pasteurQ1..Q6 y las recuerda en la Liga.
+  async pasteur1(game, world) {
+    const s = S(game);
+    await game.say("Señor mayor: … … Ah, perdona. Estaba mirando esta placa de agar. ¿Ves estas colonias? Cada una empezó siendo una sola célula.");
+    await game.say("Señor mayor: Me llamo Louis. Hace mucho que me jubilé de la Facultad, pero no consigo dejar de mirar.");
+    await game.say("Louis: Acabas de ganar tu primera medalla, ¿verdad? Entonces deja que te haga una pregunta. No hay respuestas malas.");
+    const r = await game.choose(["DESCUBRIR", "PUBLICAR", "AYUDAR", "NO LO SÉ"], { prompt: "Louis: ¿Qué es para ti la ciencia?" });
+    s.flags.pasteurQ1 = Math.max(0, r);
+    await game.say([
+      "Louis: Descubrir… sí. Esa sensación de ser la primera persona del mundo que sabe algo. No la pierdas nunca.",
+      "Louis: Publicar. Es lo que te dirán que importa, y algo importa: lo que no se comparte no existe. Pero un paper es el final de una historia, no la historia.",
+      "Louis: Ayudar. Yo empecé con vino, cerveza y gusanos de seda: gente que perdía su sustento. Nunca he tenido un motivo mejor.",
+      "Louis: «No lo sé» es la frase más honesta de la ciencia. Casi todo empieza ahí.",
+    ][Math.max(0, r)]);
+    await game.say("Louis: Seguiremos hablando. La región es pequeña y yo camino despacio.");
+    s.flags.pasteur1 = true; world.refreshNpcs();
+  },
+  async pasteur2(game, world) {
+    const s = S(game);
+    await game.say("Louis: ¡Hola otra vez! Me han contado lo del Monte Micelio. Becarios analizando datos sin nadie que les enseñe…");
+    await game.say("Louis: Pasa más de lo que crees. Gente joven con contratos de seis meses que no se atreve a decir que algo no funciona.");
+    const r = Math.max(0, await game.choose(["LO REPITO", "LO ESCONDO", "LO ESTUDIO"], { prompt: "Louis: Si tu experimento sale al revés de lo que esperabas, ¿qué haces?" }));
+    s.flags.pasteurQ2 = r;
+    await game.say([
+      "Louis: Repetir está bien: una réplica no es un capricho. Pero si sale igual tres veces, quizá la naturaleza intenta decirte algo.",
+      "Louis: Te entiendo, da miedo. Pero un resultado escondido es un error que otro repetirá. Un experimento que no sale también es un resultado.",
+      "Louis: ¡Eso! Mis mejores descubrimientos vinieron de cosas que salieron mal.",
+    ][r]);
+    await game.say("Louis: Una vez, mi ayudante Chamberland se fue de vacaciones y dejó olvidado un cultivo del cólera de las gallinas.");
+    await game.say("Louis: Al volver, aquel cultivo viejo ya no mataba a las gallinas… las protegía. Así nació la primera vacuna atenuada.");
+    await game.say("Louis: Las vacaciones también son ciencia. Recuérdalo.");
+    s.flags.pasteur2 = true; world.refreshNpcs();
+  },
+  async pasteur3(game, world) {
+    const s = S(game);
+    await game.say("Louis: Te veo serio. ¿Has conocido al Dr. Martínez-Urtaza?");
+    await game.say("Louis: «Los Microos son solo datos.» Sí, lo dice mucho. Lo conocí cuando era un doctorando brillante. Muy brillante.");
+    await game.say("Louis: Luego llegaron el factor de impacto, los proyectos que se renuevan o no, los rankings… Y un día dejó de mirar la placa.");
+    const r = Math.max(0, await game.choose(["TODAS", "LAS NECESARIAS", "OCHO Y A CASA"], { prompt: "Louis: ¿Cuántas horas debería trabajar un buen investigador?" }));
+    s.flags.pasteurQ3 = r;
+    await game.say([
+      "Louis: Yo también lo creí. A los 45 años tuve un ictus y seguí trabajando con medio cuerpo paralizado. Mi mujer, Marie, escribía lo que yo dictaba. No te lo recomiendo.",
+      "Louis: Buena respuesta. Pero vigila quién decide cuáles son «las necesarias». A menudo no eres tú.",
+      "Louis: Ja, ja. Una mente descansada ve lo que una agotada no ve. Y la vida fuera del laboratorio también te hace mejor científic{o}.",
+    ][r]);
+    const r2 = Math.max(0, await game.choose(["PARA MÍ", "PARA LOS DEMÁS", "PARA MI CV"], { prompt: "Louis: Y dime: ¿para quién investigas?" }));
+    s.flags.pasteurQ4 = r2;
+    await game.say([
+      "Louis: La curiosidad propia es un motor magnífico. Solo procura que no sea el único.",
+      "Louis: Entonces nunca te faltará un motivo, ni siquiera cuando los papers no salgan.",
+      "Louis: Al menos eres sincer{o}. El sistema premia el currículum, eso es real. Pero un currículum no te acompaña a casa por la noche.",
+    ][r2]);
+    s.flags.pasteur3 = true; world.refreshNpcs();
+  },
+  async pasteur4(game, world) {
+    const s = S(game);
+    await game.say("Louis: Así que Jaime intentó robar el prototipo de la Criobola Morada. «Las ideas son de quien las publica primero»…");
+    await game.say("Louis: Te contaré un secreto. Yo tuve un rival: un médico alemán llamado Robert Koch.");
+    await game.say("Louis: Él, con sus placas y sus tinciones; yo, con mis matraces. Nos peleamos en congresos y en revistas. Francia contra Alemania, como si los microbios tuvieran bandera.");
+    await game.say("Louis: ¿Sabes cuántos años perdimos? Si hubiéramos trabajado juntos…");
+    if (s.rival === "Koch") await game.say("Louis: Tu rival también se llama Koch, ¿no? Qué casualidad. Cuídalo.");
+    const r = Math.max(0, await game.choose(["ME ENFADO", "LE ESCRIBO", "ME RINDO"], { prompt: "Louis: Si alguien publica tu idea antes que tú, ¿qué haces?" }));
+    s.flags.pasteurQ5 = r;
+    await game.say([
+      "Louis: Normal. Enfádate un día. Luego lee su trabajo: seguramente vio algo que tú no viste.",
+      "Louis: Eso es lo que yo no supe hacer. Una carta a tiempo vale más que diez réplicas en una revista.",
+      "Louis: No, no. Que dos grupos lleguen a lo mismo es la mejor prueba de que era verdad. Sigue: tu enfoque tendrá algo que el suyo no tiene.",
+    ][r]);
+    s.flags.pasteur4 = true; world.refreshNpcs();
+  },
+  async pasteur5(game, world) {
+    const s = S(game);
+    await game.say("Louis: Mira el agua. ¿Ves cómo brilla cuando rompe la ola? Es Noctiluca: dinoflagelados que se encienden cuando los mueves.");
+    await game.say("Louis: Llevo una hora aquí sentado. No he medido nada, no he apuntado nada. Solo mirar.");
+    const r = Math.max(0, await game.choose(["HOY", "NO ME ACUERDO", "ES PERDER EL TIEMPO"], { prompt: "Louis: ¿Cuándo miraste algo por última vez solo porque era bonito?" }));
+    s.flags.pasteurQ6 = r;
+    await game.say([
+      "Louis: Entonces vas bien. Leeuwenhoek pasó años mirando gotas de agua con lentes que pulía él mismo, por puro placer. Y vio, por primera vez, un mundo entero.",
+      "Louis: Pues para un momento. Mira. … … ¿Lo ves? Esto también es investigar.",
+      "Louis: Eso diría Jaime. Y mira dónde está.",
+    ][r]);
+    if (s.flags.urtaza3) await game.say("Louis: Me han contado lo de Jaime. Ojalá alguien le hubiera hecho estas preguntas a tiempo.");
+    else {
+      await game.say("Louis: Jaime está en la Mansión de las Cepas. Lo ha dejado todo atrás para ganar: amigos, familia, a sus propios becarios.");
+      await game.say("Louis: Ve. Y fíjate bien en qué le ha quedado.");
+    }
+    s.flags.pasteur5 = true; world.refreshNpcs();
   },
 
   // ---------------------------------------------------------------- Calle Selección Natural y Liga
@@ -987,17 +1081,18 @@ const SCRIPTS: Record<string, Script> = {
       ["Dr. Joaquim Martí: Toxinas que paralizan, espiroquetas que invaden el sistema nervioso, priones… Bienvenid{o} a la neurobiología infecciosa.", "Dr. Martí: Veamos si tus neuronas aguantan."],
       ["Dr. Jordi Barbé: Así que vienes a hablarme de genética. La Unidad de Urtaza ensució ese nombre. Yo te enseñaré lo que es la verdadera genética microbiana.", "Dr. Barbé: Regulón SOS, RecA, LexA… Mis Microos reparan su ADN más rápido de lo que tú lo dañas."],
       ["Dra. Montserrat Llagostera: Llevo toda una vida en esta Facultad estudiando la virulencia. Patógenos, fagos, sistemas de secreción…", "Dra. Llagostera: Soy la última del Alto Mando. ¡Demuéstrame que mereces ver al Campeón!"],
-      ["Dr. Louis Pasteur: Bonjour. Así que tú eres quien ha llegado hasta aquí. Mis matraces de cuello de cisne demostraron que la vida no surge de la nada.", "Dr. Pasteur: Fermentación, anaerobiosis, vacunas… Y ahora, el último experimento: tú. «La suerte favorece a la mente preparada.» ¡Comencemos!"],
+      [], // Pasteur: ver pasteurLiga()
     ];
     const done = ["Dra. Tusell: Bien hecho. Sigue: te espera el Dr. Martí.", "Dr. Martí: Tienes buenos reflejos. Adelante.", "Dr. Barbé: Eso es genética de verdad. Continúa.",
       "Dra. Llagostera: Excelente. El Campeón te espera en el Rectorado.", "Dr. Pasteur: Ha sido un honor. Abajo, en la fosa abisal, te espera el origen de todo."];
     if (s.flags[`liga${k}`]) { await game.say(done[k - 1]); return; }
-    for (const l of intros[k - 1]) await game.say(l);
+    if (k === 5) await pasteurLiga(game); else for (const l of intros[k - 1]) await game.say(l);
     const portrait = ["tusell", "marti", "barbe", "llagostera", "pasteur"][k - 1];
     const tname = TRAINERS.get(ids[k - 1])!.name;
-    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty(ids[k - 1], s.difficulty, rng(game)), false, tname, s.difficulty === "facil" ? {} : { "medio-enriquecido": 2 }), wild: false,
-      trainer: { name: tname.replace(/^Dra?\. /, ""), clase: k === 5 ? "Campeón" : "Alto Mando", portrait, lose: k === 5 ? "Magnifique… ¡Eres el nuevo Campeón!" : "Has superado mi laboratorio.", money: 500 } });
+    const out = await startBattle(game, world, { battle: battleFor(game, trainerParty(ids[k - 1], s.difficulty, rng(game)), false, tname, s.difficulty === "facil" ? {} : { "medio-enriquecido": k === 5 ? 3 : 2 }), wild: false,
+      trainer: { name: tname.replace(/^Dra?\. /, ""), clase: k === 5 ? "Campeón" : "Alto Mando", portrait, lose: k === 5 ? "Magnifique… ¡Eres el nuevo Campeón!" : "Has superado mi laboratorio.", sendOut: k === 5 ? PASTEUR_EQUIPO : undefined, money: 500 } });
     if (out.outcome === "lose") {
+      if (k === 5) await game.say("Dr. Pasteur: Un experimento que no sale también es un resultado. Apúntalo, descansa… y vuelve.");
       for (let j = 1; j <= 5; j++) delete s.flags[`liga${j}`];
       await whiteout(game, world); return;
     }
@@ -1005,6 +1100,11 @@ const SCRIPTS: Record<string, Script> = {
     world.refreshNpcs();
     if (k < 5) { await game.say(done[k - 1]); return; }
     // ¡Campeón!
+    await game.say("Dr. Pasteur: Magnifique. Curiosidad, servicio, cuidado, colaboración, asombro y constancia. Ninguna basta sola; juntas, sí.");
+    await game.say("Dr. Pasteur: La investigación no es justa: contratos que se acaban, prisas, métricas… Eso no lo arreglarás en un día.");
+    await game.say("Dr. Pasteur: Pero sí puedes decidir qué científic{o} quieres ser dentro de ese mundo. Jaime eligió ganar a cualquier precio, y pagó el precio.");
+    await game.say("Dr. Pasteur: Un buen científico no es quien nunca falla. Es quien hace buena ciencia, la comparte y llega entero al final del camino.");
+    await game.say("Dr. Pasteur: Ganar o perder hoy era lo de menos. Lo valioso es el camino que hemos compartido.");
     await game.say("Dr. Pasteur: Por la autoridad de la Facultad de Biociencias, te nombro Doctor Honoris Causa y Campeón de la Liga Micromón.");
     await game.say("Dr. Pasteur: Inscribiremos tu nombre y el de tus Microos en el Registro de Cepas Tipo de La UAB.");
     s.flags.campeon = true;
@@ -1108,3 +1208,42 @@ const SCRIPTS: Record<string, Script> = {
     await evolutionSequence(game, m, to);
   },
 };
+
+/** Frases de Pasteur al sacar cada Microo: su equipo es su respuesta a qué es un buen investigador. */
+const PASTEUR_EQUIPO: Record<string, string> = {
+  pyrolobus: "Dr. Pasteur: Curiosidad. Pyrolobus vive a 113 °C, donde nadie pensaba buscar vida. Mira donde los demás no miran.",
+  alexandrium: "Dr. Pasteur: Servicio. Sus mareas rojas cierran las bateas del Delta. Lo que investigas tiene que servirle a alguien.",
+  pichiamax: "Dr. Pasteur: Cuidado. Esta levadura lleva mi nombre y creció despacio, sin prisas. Como todo lo que vale la pena.",
+  tuberculos: "Dr. Pasteur: Colaboración. El bacilo de Koch. Ojalá lo hubiera estudiado con él y no contra él.",
+  volvox: "Dr. Pasteur: Asombro. Leeuwenhoek lo vio en 1700 sin buscar ningún paper. Solo porque era bonito.",
+  pandoravir: "Dr. Pasteur: Constancia. Hice la vacuna de la rabia sin poder ver nunca el virus. De error en error… ¡hasta acertar!",
+};
+
+/** Presentación de Pasteur en la Liga: se revela como Louis y recuerda las respuestas de los encuentros. */
+async function pasteurLiga(game: Game) {
+  const s = S(game), f = s.flags;
+  const vio = [1, 2, 3, 4, 5].some((i) => f[`pasteur${i}`]);
+  await game.say("Dr. Louis Pasteur: Bonjour. … Mira dónde nos trae la vida.");
+  if (vio) {
+    await game.say("Dr. Pasteur: Sí: el señor mayor de la bata era yo. Louis Pasteur, Campeón de la Liga. Perdona el misterio; quería conocerte sin una medalla de por medio.");
+    const q = (k: string) => (f[k] === undefined ? -1 : Number(f[k]));
+    const rec: [string, number, string[]][] = [
+      ["En Ciudad Petri me dijiste que la ciencia era", q("pasteurQ1"), ["descubrir.", "publicar.", "ayudar a la gente.", "algo que aún no sabías definir."]],
+      ["En Ciudad Cultivo, que si un experimento te salía al revés", q("pasteurQ2"), ["lo repetirías.", "lo esconderías.", "lo estudiarías."]],
+      ["En Ciudad Aerobia, que un buen investigador debía trabajar", q("pasteurQ3"), ["todas las horas.", "las horas necesarias.", "ocho horas e irse a casa."]],
+      ["Y que investigabas", q("pasteurQ4"), ["para ti.", "para los demás.", "para tu currículum."]],
+      ["En el puerto de Ciudad Pili, que si alguien publicaba tu idea antes", q("pasteurQ5"), ["te enfadarías.", "le escribirías.", "te rendirías."]],
+      ["Y en la Isla Conjugada, que mirar algo solo porque es bonito", q("pasteurQ6"), ["lo habías hecho ese mismo día.", "no recordabas cuándo lo hiciste.", "era perder el tiempo."]],
+    ];
+    for (const [pre, r, ops] of rec) if (r >= 0) await game.say(`Dr. Pasteur: ${pre} ${ops[r]}`);
+    await game.say("Dr. Pasteur: Puede que hoy respondieras distinto. Eso significa que has aprendido algo por el camino.");
+  } else {
+    await game.say("Dr. Pasteur: Soy Louis Pasteur, Campeón de la Liga. Te he visto pasar por toda la región, aunque nunca te detuviste a charlar con este viejo.");
+  }
+  await game.say("Dr. Pasteur: Ya conoces la otra respuesta: la de Jaime. Dormir cuatro horas, publicar antes que nadie, dejarlo todo atrás. Funciona… hasta que no queda nadie a tu lado.");
+  const r = await game.choose(["CREO QUE SÍ", "TODAVÍA NO"], { prompt: "Dr. Pasteur: Dime: ¿sabes ya qué es ser un buen científico?", cancel: 1 });
+  await game.say(r === 0
+    ? "Dr. Pasteur: Entonces demuéstramelo. Mi equipo es mi respuesta: seis Microos y ninguno por encima de los demás."
+    : "Dr. Pasteur: Bien. Quien cree saberlo todo ha dejado de investigar. Mi equipo es mi respuesta: busca la tuya en este combate.");
+  await game.say("Dr. Pasteur: «La suerte favorece a la mente preparada.» ¡Comencemos!");
+}

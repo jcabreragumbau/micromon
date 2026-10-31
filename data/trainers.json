@@ -419,61 +419,63 @@
   "badge": null,
   "team": [
    {
-    "species": "pichiamax",
-    "level": 63,
+    "species": "pyrolobus",
+    "level": 61,
     "moves": [
-     "espuma-de-fermentador",
-     "gemacion-nutritiva",
-     "sintesis-de-atp",
-     "mutacion-espontanea"
+     "triada-enzimatica-catalasa-ox-ureasa",
+     "explosion-metanogenica",
+     "secuestro-ribosomal",
+     "sombra-prion"
     ]
    },
    {
-    "species": "thermocel",
-    "level": 63,
+    "species": "alexandrium",
+    "level": 61,
     "moves": [
-     "fase-exponencial",
-     "chorro-metano-ardiente",
+     "marea-roja-saxitoxina",
+     "secrecion-mucopurulenta",
+     "onda-quimiotactica",
+     "flagelo-polar"
+    ]
+   },
+   {
+    "species": "pichiamax",
+    "level": 62,
+    "moves": [
+     "espuma-de-fermentador",
+     "beta-lactamasa-penicilina",
+     "difusion-facilitada",
+     "potencial-de-membrana"
+    ]
+   },
+   {
+    "species": "tuberculos",
+    "level": 62,
+    "moves": [
+     "rayo-nitrogeno-liquido",
+     "secuestro-ribosomal",
+     "beta-lactamasa-penicilina",
      "choque-osmotico-masivo"
     ]
    },
    {
-    "species": "agalactiae",
-    "level": 64,
+    "species": "volvox",
+    "level": 61,
     "moves": [
-     "presion-osmotica",
-     "estres-oxidativo",
-     "hemolisis-beta",
-     "pared-de-peptidoglicano"
+     "flagelo-polar",
+     "rayo-nitrogeno-liquido",
+     "plasmido-espejo",
+     "enriquecimiento-medio"
     ]
    },
    {
-    "species": "cholerae",
-    "level": 64,
-    "moves": [
-     "chorro-citoplasmatico",
-     "exotoxina-letal",
-     "rayo-nitrogeno-liquido"
-    ]
-   },
-   {
-    "species": "anthracis",
-    "level": 65,
-    "moves": [
-     "choque-osmotico-masivo",
-     "autolisis-masiva",
-     "lluvia-de-cristales",
-     "bomba-de-esporas"
-    ]
-   },
-   {
-    "species": "lyssavir",
+    "species": "pandoravir",
     "level": 67,
     "moves": [
-     "estallido-litico",
-     "secuestro-ribosomal",
-     "cabezazo-capside",
-     "latencia-lisogenica"
+     "ariete-bacteriofago",
+     "choque-osmotico-masivo",
+     "corte-con-enzima-de-restriccion",
+     "crecimiento-descontrolado"
     ]
    }
   ]

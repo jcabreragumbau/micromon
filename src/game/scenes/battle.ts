@@ -15,7 +15,7 @@ import { partyMenu, bagMenu } from "./menus";
 export interface BattleSetup {
   battle: Battle;
   wild: boolean;
-  trainer?: { name: string; clase: string; portrait?: string; lose?: string; money?: number };
+  trainer?: { name: string; clase: string; portrait?: string; lose?: string; money?: number; /** Frase del entrenador al sacar cada especie (una vez). */ sendOut?: Record<string, string> };
   env: string;
   /** Reserva Microbiana: no se lucha; se lanzan Criobolas Verdes. */
   safari?: boolean;
@@ -43,7 +43,7 @@ export class BattleScene implements Scene {
   ballRest = false;
   /** Microo siendo absorbido por la Criobola: hueco y fotogramas restantes (de 16 a 0). */
   absorb: { slot: number; t: number } | null = null;
-  trainerSlide = 0; showTrainer = false;
+  trainerSlide = 0; showTrainer = false; dichos = new Set<string>();
   finished: BattleOutcome | null = null;
 
   constructor(public game: Game, public s: BattleSetup) {
@@ -261,6 +261,10 @@ export class BattleScene implements Scene {
         const mon = b.sides[side!].party[e.party as number];
         Object.assign(d!, { mon, hp: mon.hp, visible: true, drop: 0, appear: 20, status: mon.status, level: mon.level, species: mon.species });
         if (side === 1 && this.s.wild) { await this.text(e.text); break; }
+        if (side === 1 && this.s.trainer?.sendOut?.[mon.species] && !this.dichos.has(mon.species)) {
+          this.dichos.add(mon.species);
+          await this.text(this.s.trainer.sendOut[mon.species]);
+        }
         if (side === 1) { await this.text(`${this.s.trainer?.clase ?? ""} ${this.s.trainer?.name ?? ""} saca a ${displayName(mon)}.`.trim()); break; }
         await this.text(e.text);
         break;

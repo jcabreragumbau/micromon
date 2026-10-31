@@ -16,7 +16,10 @@ T = [
  ("elite2","Dr. Joaquim Martí","Alto Mando 2 · La UAB",None,[("treponema",55),("tetani",56),("alexandrium",56),("meningitid",57),("prion-sc",58)]),
  ("elite3","Dr. Jordi Barbé","Alto Mando 3 · La UAB",None,[("agrobacter",57),("sulfolobus",58),("shewanella",58),("pyrococcus",59),("radiodurans",60)]),
  ("elite4","Dra. Montserrat Llagostera","Alto Mando 4 · La UAB",None,[("yersinia",58),("anthracis",59),("retrovir-x",59),("pandoravir",60),("filovir-z",61)]),
- ("champion","Dr. Louis Pasteur","Campeón · La UAB",None,[("pichiamax",63),("thermocel",63),("agalactiae",64),("cholerae",64),("anthracis",65),("lyssavir",67)]),
+ # Pasteur: equivalente al equipo de Cintia (Platino). Cada Microo es una cualidad del buen investigador:
+ # Pyrolobus (=Spiritomb, curiosidad), Alexandrium (=Roserade, servicio), Pichiamax (=Togekiss, cuidado),
+ # Tuberculos (=Lucario, colaboración: el bacilo de Koch), Volvox (=Milotic, asombro), Pandoravir (=Garchomp, constancia).
+ ("champion","Dr. Louis Pasteur","Campeón · La UAB",None,[("pyrolobus",61),("alexandrium",61),("pichiamax",62),("tuberculos",62),("volvox",61),("pandoravir",67)]),
  ("villain","Dr. Jaime Martínez-Urtaza","Líder de la Unidad de Genética · Isla Conjugada",None,[("parahaemolyticus",55),("vulnificus",55),("tuberculos",56),("t4-titan",56),("pandoravir",57)]),
 ]
 import re, difflib
@@ -34,7 +37,17 @@ unmatched = []
 def section(tid):
     st = next(i for i, l in enumerate(gdd) if l.startswith(HEAD[tid]))
     return gdd[st:st + 40]
+# Movimientos fijados a mano (traducción por tipo y categoría de los de Cintia)
+MOVES_FIJOS = {
+    ("champion", "pyrolobus"): ["triada-enzimatica-catalasa-ox-ureasa", "explosion-metanogenica", "secuestro-ribosomal", "sombra-prion"],
+    ("champion", "alexandrium"): ["marea-roja-saxitoxina", "secrecion-mucopurulenta", "onda-quimiotactica", "flagelo-polar"],
+    ("champion", "pichiamax"): ["espuma-de-fermentador", "beta-lactamasa-penicilina", "difusion-facilitada", "potencial-de-membrana"],
+    ("champion", "tuberculos"): ["rayo-nitrogeno-liquido", "secuestro-ribosomal", "beta-lactamasa-penicilina", "choque-osmotico-masivo"],
+    ("champion", "volvox"): ["flagelo-polar", "rayo-nitrogeno-liquido", "plasmido-espejo", "enriquecimiento-medio"],
+    ("champion", "pandoravir"): ["ariete-bacteriofago", "choque-osmotico-masivo", "corte-con-enzima-de-restriccion", "crecimiento-descontrolado"],
+}
 def moves_for(tid, sp, lv):
+    if (tid, sp) in MOVES_FIJOS: return MOVES_FIJOS[(tid, sp)]
     disp = dex[sp]["name"]
     for l in section(tid):
         if disp in l and re.search(rf"Nv\.\s*{lv}\b", l):

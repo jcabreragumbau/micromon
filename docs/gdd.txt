@@ -991,6 +991,7 @@ Alto Mando 4: Dra. Montserrat Llagostera (Virulencia Molecular y Fagos)
     5.  #127 Pandoravir (Nv. 62) [Virus / Protozoo] — Estallido Lítico, Furia Fágica, Choque Osmótico Masivo, Nanocables Geobacter.
 
 El Campeón de la Liga Micromón: Dr. Louis Pasteur
+(Actualizado: equipo tipo Cintia y Louis como mentor; ver PROGRESO.md: equipo tipo Cintia.)
 
 En la sala del Rectorado de La UAB, custodiado por matraces de cuello de cisne que impiden la generación espontánea, te espera la leyenda inmortal de la Microbiología: el Dr. Louis Pasteur. Su equipo rinde homenaje directo a sus descubrimientos históricos (la fermentación del vino y la cerveza, la anaerobiosis y el efecto Pasteur, el cólera aviar, el carbunco/ántrax, los estreptococos puerperales y la vacuna contra la rabia):
 

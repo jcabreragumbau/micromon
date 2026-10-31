@@ -1379,6 +1379,15 @@ function linkWarps() {
     }
   }
 }
+/** Louis (Pasteur de incógnito) aparece como mentor tras cada encuentro importante con la Unidad de Genética. */
+function ponerLouis() {
+  const L: [string, number, number, string][] = [
+    ["ciudad-petri", 20, 18, "medalla1"], ["ciudad-cultivo", 14, 16, "salazar1"], ["ciudad-aerobia", 20, 17, "urtaza1"],
+    ["ciudad-pili", 22, 24, "urtaza2"], ["isla-conjugada", 24, 27, "medalla7"],
+  ];
+  L.forEach(([id, x, y, cond], i) => MAPS[id]?.npcs.push({ id: `louis-${i + 1}`, x, y, sprite: "pasteur", dir: 0, script: `pasteur${i + 1}`, showIf: cond, hideIf: `pasteur${i + 1}` }));
+}
+ponerLouis();
 repartirPlasmidos();
 linkWarps();
 
