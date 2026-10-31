@@ -146,8 +146,45 @@ def main_manual(src: str, name: str):
     fit(hd(im, 94 * HD, 64 * HD), 64 * HD, 96 * HD).save(OUT_HD / f"{name}_combate.png")
     print(name, "manual OK")
 
+# Hojas nuevas del usuario con fondo transparente (y a veces un panel gris o rótulos):
+# retrato = la figura más grande; los 5 sprites de mapa se leen por filas como en las del GDD.
+LIMPIAS = {"ref1": "image28.png", "ref2": "image29.png", "ref3": "image30.png"}
+
+def main_limpia(src: str, name: str):
+    im = Image.open(src).convert("RGBA")
+    fondo = Image.new("RGBA", im.size, (214, 214, 214, 255)); fondo.alpha_composite(im)
+    img = np.array(fondo.convert("RGB"))
+    H, W, _ = img.shape
+    mask = bg_mask(img)
+    lab, boxes = components(mask)
+    big = max(range(len(boxes)), key=lambda k: boxes[k][5])
+    px0, py0, px1, py1, pn, _ = boxes[big]
+    sprites = [b for k, b in enumerate(boxes) if k != big and (b[0] + b[2]) / 2 > px1 - 20]
+    sprites.sort(key=lambda b: (b[1] + b[3]) / 2)
+    rows, cur = [], []
+    for b in sprites:
+        if cur and (b[1] + b[3]) / 2 - (cur[-1][1] + cur[-1][3]) / 2 > H * 0.08: rows.append(cur); cur = []
+        cur.append(b)
+    if cur: rows.append(cur)
+    ordered = [b for r in rows for b in sorted(r, key=lambda b: b[0])]
+    if len(ordered) != 5: raise SystemExit(f"{name}: se esperaban 5 sprites de mapa y hay {len(ordered)}")
+    rgba = np.dstack([img, np.where(mask, 255, 0).astype(np.uint8)])
+    OUT.mkdir(parents=True, exist_ok=True); OUT_HD.mkdir(parents=True, exist_ok=True)
+    for (x0, y0, x1, y1, n, _), nm in zip(ordered, ["frente", "espalda", "derecha", "izquierda", "frente2"]):
+        c = rgba[y0:y1, x0:x1].copy(); c[..., 3] = np.where(binary_fill_holes(lab[y0:y1, x0:x1] == n), 255, 0)
+        fr = Image.fromarray(c)
+        fit(shrink(fr, 26, colors=12), 32, 32).save(OUT / f"{name}_mapa_{nm}.png")
+        fit(hd(fr, 28 * HD, 32 * HD), 32 * HD, 32 * HD).save(OUT_HD / f"{name}_mapa_{nm}.png")
+    m = binary_fill_holes(lab[py0:py1, px0:px1] == pn)
+    c = rgba[py0:py1, px0:px1].copy(); c[..., 3] = np.where(m, 255, 0)
+    fr = Image.fromarray(c)
+    fit(shrink(fr, 92, colors=24), 64, 96).save(OUT / f"{name}_combate.png")
+    fit(hd(fr, 94 * HD, 64 * HD), 64 * HD, 96 * HD).save(OUT_HD / f"{name}_combate.png")
+    print(name, "hoja limpia OK")
+
 def main(src: str, name: str):
     if name in MANUAL: return main_manual(src, name)
+    if name in LIMPIAS and Path(src).name == LIMPIAS[name]: return main_limpia(src, name)
     img = np.array(Image.open(src).convert("RGB"))
     H, W, _ = img.shape
     mask = bg_mask(img)

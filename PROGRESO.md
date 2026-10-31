@@ -146,5 +146,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Intro: el tramo final (01:16–01:30) ya no es el Monte: sala de servidores de la Unidad con LED verdes y amarillos; siluetas negras de Urtaza, Barbadilla y Casillas que el parpadeo va iluminando, fogonazo verde y fundido a negro. Música nueva `tetrico` (drones desafinados con tritono, latido, pitidos de servidor y caja de música aguda).
 
+- Retratos de combate nuevos del usuario para Urtaza, Barbadilla y Casillas (`assets/reference/retratos/`, `tools/art/retratos_usuario.py` → `ref1-3_combate.png`, luego `char_atlas.py`); los sprites de mapa no cambian.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
