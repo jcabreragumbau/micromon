@@ -128,12 +128,31 @@ export class BattleScene implements Scene {
     }
   }
 
+  /** Modo «Cambio» (como en Pokémon): en combates individuales contra entrenadores, antes de que el
+   *  rival saque su siguiente Microo se anuncia cuál es y puedes cambiar el tuyo sin perder turno. */
+  private async ofrecerCambio(sig: Microo) {
+    const b = this.b, g = this.game, t = this.s.trainer;
+    if (this.s.wild || !t || b.sides[0].active.length !== 1) return;
+    const act = b.sides[0].active[0];
+    if (!act || act.mon.hp <= 0) return;
+    const banquillo = b.sides[0].party.some((m, i) => m.hp > 0 && i !== act.party);
+    if (!banquillo) return;
+    const quien = `${t.clase} ${t.name}`.trim();
+    if (!(await g.yesno(`${quien} va a sacar a ${getSpecies(sig.species).name}. ¿Quieres cambiar de Microo?`))) return;
+    const idx = await partyMenu(g, { mode: "switch", battle: b });
+    if (idx < 0 || idx === act.party) return;
+    b.freeSwitch(0, 0, idx);
+    for (const e of b.drain()) await this.play(e);
+  }
   private async replacements() {
     const b = this.b, g = this.game;
     if (b.ended) return;
     for (const slot of b.needsReplacement(1)) {
       const idx = b.sides[1].party.findIndex((m, i) => m.hp > 0 && !b.sides[1].active.some((x) => x?.party === i));
-      if (idx >= 0) { b.replace(1, slot, idx); markSeen(g.state, b.sides[1].party[idx].species); }
+      if (idx >= 0) {
+        await this.ofrecerCambio(b.sides[1].party[idx]);
+        b.replace(1, slot, idx); markSeen(g.state, b.sides[1].party[idx].species);
+      }
       for (const e of b.drain()) await this.play(e);
     }
     for (const slot of b.needsReplacement(0)) {

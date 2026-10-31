@@ -154,5 +154,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Bug corregido: el contador de `uid` de los Microos volvía a 1 al abrir el juego, así que tras cargar una partida un Microo nuevo podía compartir uid con otro del equipo y heredar su evolución (Giardia → Spirulmax). `repararUids` (state.ts) renumera repetidos al cargar y `reservarUids` (microo.ts) sigue después del mayor; además la evolución tras el combate comprueba que la especie destino evoluciona de la del Microo.
 
+- Modo «Cambio» (como en Pokémon): en combates individuales contra entrenadores, al debilitar a su Microo se anuncia «X va a sacar a Y. ¿Quieres cambiar de Microo?» y puedes cambiar sin perder turno (`ofrecerCambio` en battle.ts, `Battle.freeSwitch`).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

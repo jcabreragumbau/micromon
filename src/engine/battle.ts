@@ -188,6 +188,9 @@ export class Battle {
     this.markParticipants();
   }
 
+  /** Cambio fuera de turno (modo «Cambio»: cuando el rival va a sacar otro Microo). */
+  freeSwitch(side: 0 | 1, slot: number, party: number) { this.doSwitch(side, slot, party); }
+
   // ---------------------------------------------------------------- turno
   /** Ejecuta un turno completo con las acciones de ambos bandos. */
   playTurn(player: Action[], foe: Action[]) {
