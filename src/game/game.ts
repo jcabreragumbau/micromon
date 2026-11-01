@@ -13,6 +13,8 @@ export class Game {
   state: GameState = newState();
   scene: Scene | null = null;
   overlays: { ov: Overlay; resolve: (v: unknown) => void }[] = [];
+  /** Qué hace el botón SELECT ahora mismo (null = nada). */
+  onSelect: (() => void) | null = null;
   frame = 0;
   /** Velocidad de simulación (las pruebas automáticas la suben). */
   turbo = 1;
@@ -50,6 +52,8 @@ export class Game {
       this.frame++;
       this.state.playFrames++;
       this.scene?.animate?.(this);
+      // SELECT: acción global que pone la escena actual (en combate, la tabla de tipos)
+      if (this.input.pressed("select") && this.onSelect && !this.overlays.some((o) => o.ov.constructor.name === "TablaTipos")) { this.onSelect(); return; }
       const top = this.overlays[this.overlays.length - 1];
       if (top) {
         if (top.ov.update(this)) { this.overlays.pop(); top.resolve(top.ov.result); }

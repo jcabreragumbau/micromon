@@ -156,5 +156,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Modo «Cambio» (como en Pokémon): en combates individuales contra entrenadores, al debilitar a su Microo se anuncia «X va a sacar a Y. ¿Quieres cambiar de Microo?» y puedes cambiar sin perder turno (`ofrecerCambio` en battle.ts, `Battle.freeSwitch`).
 
+- Tabla de tipos en combate con SELECT (teclado Q o Mayús; Vista del mando de Xbox; botón táctil SELECT): `scenes/tipos.ts`. Primera opción «RIVAL»: daño que recibe el Microo rival según sus dos tipos (×4/×2/×0,5/×0,25/×0); después cada tipo al atacar y al defender. `Game.onSelect` lo fija la batalla y se borra al terminar.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

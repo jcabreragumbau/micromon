@@ -1,12 +1,14 @@
 // Entrada: teclado, botones táctiles y mando (API Gamepad).
 // Teclado: A = Z/Espacio, B = X/Escape/Retroceso (correr), START = Intro.
 // Mando de Xbox (disposición estándar): botón B = A, botón A = B (correr/cancelar), Menú = START,
-// cruceta o joystick izquierdo = moverse, Y o Menú = START, RB = velocidad ×2. Teclado: Tab o V = velocidad ×2.
-export type Key = "up" | "down" | "left" | "right" | "a" | "b" | "start";
+// cruceta o joystick izquierdo = moverse, Y o Menú = START, RB = velocidad ×2, Vista = SELECT.
+// Teclado: Tab o V = velocidad ×2; Q o Mayús = SELECT.
+export type Key = "up" | "down" | "left" | "right" | "a" | "b" | "start" | "select";
 const MAP: Record<string, Key> = {
   ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right",
   KeyW: "up", KeyS: "down", KeyA: "left", KeyD: "right",
   KeyZ: "a", Space: "a", KeyX: "b", Escape: "b", Backspace: "b", Enter: "start", KeyP: "start",
+  KeyQ: "select", ShiftLeft: "select", ShiftRight: "select",
 };
 
 export class Input {
@@ -61,6 +63,7 @@ export class Input {
       if (btn(0)) now.add("b");        // A del mando de Xbox: correr / cancelar
       if (btn(9) || btn(3)) now.add("start"); // Menú o Y: abrir el menú
       if (btn(5)) speed = true;                // RB: velocidad ×2
+      if (btn(8)) now.add("select");           // Vista (⧉): SELECT (tabla de tipos en combate)
       if (btn(12)) now.add("up"); if (btn(13)) now.add("down"); if (btn(14)) now.add("left"); if (btn(15)) now.add("right");
       // joystick izquierdo: solo el eje dominante, para no moverse en diagonal
       const x = gp.axes[0] ?? 0, y = gp.axes[1] ?? 0, DEAD = 0.5;

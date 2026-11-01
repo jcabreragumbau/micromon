@@ -37,15 +37,16 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;box
 #mando button.on{background:#4a5170}
 #ab{display:flex;gap:14px;align-items:center}
 #ab .r{width:64px;height:64px;border-radius:50%}
-#start{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:84px;height:30px;border-radius:15px!important;font-size:12px!important}
+#start{position:absolute;bottom:12px;left:50%;transform:translateX(3px);width:70px;height:30px;border-radius:15px!important;font-size:12px!important}
+#select{position:absolute;bottom:12px;left:50%;transform:translateX(-73px);width:70px;height:30px;border-radius:15px!important;font-size:12px!important}
 #x2{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);width:52px;height:26px;border-radius:13px!important;font-size:12px!important}
 @media (pointer:coarse){#mando{display:flex}#ayuda{display:none}}
 </style></head><body>
 <canvas id="pantalla" width="240" height="160"></canvas>
-<div id="ayuda">Flechas: moverse · Z / Espacio: A · X / Esc: B (mantén para correr) · Intro: menú · Tab o V: velocidad ×2 · También con mando de Xbox</div>
+<div id="ayuda">Flechas: moverse · Z / Espacio: A · X / Esc: B (mantén para correr) · Intro: menú · Q o Mayús: SELECT (tabla de tipos en combate) · Tab o V: velocidad ×2 · También con mando de Xbox</div>
 <div id="mando">
  <div id="cruz"><span></span><button data-key="up">▲</button><span></span><button data-key="left">◀</button><span></span><button data-key="right">▶</button><span></span><button data-key="down">▼</button><span></span></div>
- <button id="start" data-key="start">START</button><button id="x2" data-speed="1">x2</button>
+ <button id="select" data-key="select">SELECT</button><button id="start" data-key="start">START</button><button id="x2" data-speed="1">x2</button>
  <div id="ab"><button class="r" data-key="b">B</button><button class="r" data-key="a">A</button></div>
 </div>
 <script>${js.replaceAll("</script", "<\\/script")}</script>
@@ -71,15 +72,16 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:var(--ma
 #mando button:focus-visible{outline:2px solid var(--texto)}
 #ab{display:flex;gap:14px;align-items:center}
 #ab .r{width:64px;height:64px;border-radius:50%}
-#start{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:84px;height:30px;border-radius:15px!important;font-size:12px!important}
+#start{position:absolute;bottom:0;left:50%;transform:translateX(3px);width:70px;height:30px;border-radius:15px!important;font-size:12px!important}
+#select{position:absolute;bottom:0;left:50%;transform:translateX(-73px);width:70px;height:30px;border-radius:15px!important;font-size:12px!important}
 #x2{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);width:52px;height:26px;border-radius:13px!important;font-size:12px!important}
 @media (pointer:coarse){#mando{display:flex}#ayuda{display:none}}
 </style>
 <canvas id="pantalla" width="240" height="160" aria-label="Pantalla del juego Micromón"></canvas>
-<div id="ayuda">Flechas: moverse · Z o Espacio: A · X o Esc: B (mantén para correr) · Intro: menú · Tab o V: velocidad ×2 · También con mando de Xbox · La partida se guarda en este navegador desde el menú</div>
+<div id="ayuda">Flechas: moverse · Z o Espacio: A · X o Esc: B (mantén para correr) · Intro: menú · Q o Mayús: SELECT (tabla de tipos en combate) · Tab o V: velocidad ×2 · También con mando de Xbox · La partida se guarda en este navegador desde el menú</div>
 <div id="mando">
  <div id="cruz"><span></span><button id="b-arriba" data-key="up" aria-label="Arriba">▲</button><span></span><button id="b-izq" data-key="left" aria-label="Izquierda">◀</button><span></span><button id="b-der" data-key="right" aria-label="Derecha">▶</button><span></span><button id="b-abajo" data-key="down" aria-label="Abajo">▼</button><span></span></div>
- <button id="start" data-key="start">START</button><button id="x2" data-speed="1">x2</button>
+ <button id="select" data-key="select">SELECT</button><button id="start" data-key="start">START</button><button id="x2" data-speed="1">x2</button>
  <div id="ab"><button id="b-b" class="r" data-key="b">B</button><button id="b-a" class="r" data-key="a">A</button></div>
 </div>
 <script>${js.replaceAll("</script", "<\\/script")}</script>

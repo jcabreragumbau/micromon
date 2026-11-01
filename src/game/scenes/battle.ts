@@ -3,6 +3,7 @@ import type { Game, Overlay, Scene } from "../game";
 import { IMG } from "../assets";
 import { audio } from "../audio";
 import { Gfx, W, H, TB, TYPE_COLORS, shade } from "../gfx";
+import { TablaTipos } from "./tipos";
 import { ponerMote } from "./nombre";
 import { MoveForget, MoveDetail, iconoCategoria, nombreCategoria } from "./movinfo";
 import { crearFx, dibujarFx, embestida, type Fx } from "./anim_ataques";
@@ -68,6 +69,12 @@ export class BattleScene implements Scene {
   // ---------------------------------------------------------------- flujo principal
   async run(): Promise<BattleOutcome> {
     const g = this.game, b = this.b;
+    // SELECT abre la tabla de tipos (con las debilidades del Microo rival que está en el campo)
+    g.onSelect = () => {
+      const d = this.disp[1].find((x) => x?.visible && x.mon);
+      const rival = d ? { nombre: getSpecies(d.species).name, tipos: this.typesOf(1, this.disp[1].indexOf(d), d) } : null;
+      void g.run(new TablaTipos(rival));
+    };
     this.battleMusic();
     const initial = b.drain();
     // Introducción: primero el rival
@@ -167,6 +174,7 @@ export class BattleScene implements Scene {
 
   private async finish(): Promise<BattleOutcome> {
     const b = this.b, g = this.game;
+    g.onSelect = null;
     const out: BattleOutcome = { outcome: b.outcome ?? (b.winner === 0 ? "win" : "lose") };
     if (out.outcome === "win" || out.outcome === "capture") audio.music("victoria");
     if (b.outcome === "win" && this.s.trainer) {
