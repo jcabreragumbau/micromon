@@ -881,7 +881,7 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
   b.fill(11, 18, 6, 3, "f").fill(17, 3, 4, 3, "~");
   b.sign(17, 16, "Parque Biotecnológico. Instituto de Biotecnología. «Del gen al biorreactor».");
   b.sign(21, 13, "Gimnasio Bioinfo. Líder: Dr. Òscar Conchillo. (Cerrado: el líder no está).");
-  b.npc({ id: "biotec-yero", x: 11, y: 10, sprite: "yero", dir: 2, hideIf: "instituto-libre", script: "yeroInstituto" });
+  b.npc({ id: "biotec-yero", x: 11, y: 10, sprite: "yero", dir: 2, hideIf: "yero-equipo", script: "yeroInstituto" });
   b.npc({ id: "biotec-recluta-1", x: 9, y: 8, sprite: "recluta", dir: 0, hideIf: "yero-equipo", talk: "Recluta: Prohibido el paso. Órdenes del Dr. Martínez-Urtaza." });
   b.npc({ id: "biotec-recluta-2", x: 10, y: 8, sprite: "recluta-b", dir: 0, hideIf: "yero-equipo", talk: "Recluta: ¡Aquí no entra nadie sin cuenta en el clúster!" });
   b.npc({ id: "biotec-gym-cerrado", x: 28, y: 14, sprite: "becario", dir: 0, hideIf: "instituto-libre", talk: "El Dr. Conchillo no ha vuelto del Instituto. Sin él, el gimnasio está cerrado." });
@@ -922,6 +922,7 @@ function planta(id: string, name: string) {
   b.npc({ id: "i5-conchillo", x: 6, y: 9, sprite: "conchillo", dir: 0, hideIf: "conchillo-libre", talk: ["Dr. Òscar Conchillo: …10.000 réplicas de bootstrap… cinco días… al 90% de CPU…", "¿Daniel? ¿Eres tú? ¡Sácame de aquí, por favor!"] });
   b.npc({ id: "i5-barbadilla", x: 6, y: 6, sprite: "barbadilla", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
   b.npc({ id: "i5-casillas", x: 7, y: 6, sprite: "casillas", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
+  b.npc({ id: "i5-yero", x: 6, y: 9, sprite: "yero", dir: 0, showIf: "conchillo-libre", hideIf: "instituto-libre", talk: ["Dr. Yero: Me quedo con Òscar hasta que se le pase el susto. Le estoy dando un caldito de levadura.", "Dr. Yero: ¡Jaime está en la planta 11! ¡Corre!"] });
   b.npc({ id: "i5-r1", x: 11, y: 6, sprite: "recluta", dir: 2, trainer: {
     name: "Doctorando", clase: "Recluta de la Unidad", team: [["methanosar", 39], ["prowazekii", 39], ["baumannii", 39]], sight: 3, money: 190,
     intro: "¡No toques los servidores! ¡Llevan cinco días calculando!", lose: "Se ha reiniciado el clúster… ¡Cinco días perdidos!", after: "El jefe está arriba, en la planta 11. Busca algo morado." } });

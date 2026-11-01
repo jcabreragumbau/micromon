@@ -48,6 +48,8 @@ export interface BattleOptions {
   /** Nivel máximo al que obedecen los Microos del jugador (según sus medallas). */
   obeyCap?: number;
   inventory?: Record<string, number>; foeItems?: Record<string, number>;
+  /** Combate en equipo (doble): un compañero controlado por la IA lleva la casilla 1 con sus Microos. */
+  ally?: { name: string; microos: Microo[] };
 }
 
 const STATUS_NAME: Record<StatusCode, string> = {
@@ -81,8 +83,14 @@ export class Battle {
   foeItems: Record<string, number>;
   levelUps: { uid: number; result: LevelUpResult }[] = [];
 
+  /** Índice del equipo del jugador a partir del cual los Microos son del compañero (-1 = sin compañero). */
+  allyFrom = -1;
+  allyName = "";
+  /** ¿Este Microo del bando del jugador pertenece al compañero? */
+  isAlly(partyIndex: number) { return this.allyFrom >= 0 && partyIndex >= this.allyFrom; }
   constructor(o: BattleOptions) {
     this.format = o.format ?? "single";
+    if (o.ally) { this.format = "double"; this.allyFrom = o.player.length; this.allyName = o.ally.name; o = { ...o, player: [...o.player, ...o.ally.microos] }; }
     this.wild = o.wild ?? false;
     this.rng = new Rng(o.seed ?? 1);
     this.difficulty = o.difficulty ?? "normal";
@@ -96,6 +104,14 @@ export class Battle {
     });
     this.sides = [mk(o.player, o.playerName ?? "Tú"), mk(o.foe, o.foeName ?? (this.wild ? "" : "tu rival"))];
     for (const s of [0, 1] as const) {
+      if (s === 0 && this.allyFrom >= 0) {
+        // casilla 0: el primer Microo sano del jugador; casilla 1: el primero del compañero
+        const mio = this.sides[0].party.findIndex((m, i) => !this.isAlly(i) && m.hp > 0);
+        const suyo = this.sides[0].party.findIndex((m, i) => this.isAlly(i) && m.hp > 0);
+        if (mio >= 0) this.sendOut(0, 0, mio, true);
+        if (suyo >= 0) this.sendOut(0, 1, suyo, true);
+        continue;
+      }
       let slot = 0;
       for (let i = 0; i < this.sides[s].party.length && slot < n; i++) {
         if (this.sides[s].party[i].hp > 0) this.sendOut(s, slot++, i, true);
@@ -138,7 +154,7 @@ export class Battle {
     const b: Battler = { mon, party: partyIndex, side, slot, boosts: freshBoosts(), vol: freshVolatiles() };
     this.sides[side].active[slot] = b;
     {
-      const who = side === 0 ? `¡Adelante, ${displayName(mon)}!` : this.wild ? `¡Un ${displayName(mon)} salvaje aparece en la placa!` : `${this.sides[1].name} saca a ${displayName(mon)}.`;
+      const who = side === 0 ? (this.isAlly(partyIndex) ? `${this.allyName} saca a ${displayName(mon)}.` : `¡Adelante, ${displayName(mon)}!`) : this.wild ? `¡Un ${displayName(mon)} salvaje aparece en la placa!` : `${this.sides[1].name} saca a ${displayName(mon)}.`;
       this.emit("switch", who, { side, slot, species: mon.species, party: partyIndex });
     }
   }
@@ -177,9 +193,18 @@ export class Battle {
   }
   /** Casillas propias vacías que hay que rellenar tras un debilitamiento. */
   needsReplacement(side: 0 | 1): number[] {
+    if (side === 0 && this.allyFrom >= 0) {
+      // en equipo, cada casilla solo se rellena con los Microos de su dueño
+      return this.sides[0].active.map((b, slot) => (!b || b.mon.hp <= 0) && this.benchFor(slot).length ? slot : -1).filter((s) => s >= 0);
+    }
     const benched = this.sides[side].party.filter((m, i) => m.hp > 0 && !this.sides[side].active.some((b) => b?.party === i));
     const empty = this.sides[side].active.map((b, i) => (!b || b.mon.hp <= 0 ? i : -1)).filter((i) => i >= 0);
     return empty.slice(0, benched.length);
+  }
+  /** Microos en reserva que pueden entrar en una casilla del jugador (en equipo, solo los de su dueño). */
+  benchFor(slot: number): number[] {
+    return this.sides[0].party.map((_, i) => i).filter((i) => this.sides[0].party[i].hp > 0 && !this.sides[0].active.some((b) => b?.party === i)
+      && (this.allyFrom < 0 || this.isAlly(i) === (slot === 1)));
   }
   replace(side: 0 | 1, slot: number, party: number) {
     const m = this.sides[side].party[party];
@@ -333,7 +358,7 @@ export class Battle {
       this.applyDamage(tgt, bide.damage * 2, b); return;
     }
     // Obediencia: por encima del nivel que permiten las medallas, el Microo puede ir por libre
-    if (r.side === 0 && b.mon.level > this.obeyCap && !b.vol.locked && !b.vol.charging) {
+    if (r.side === 0 && !this.isAlly(b.party) && b.mon.level > this.obeyCap && !b.vol.locked && !b.vol.charging) {
       const roll = Math.floor(this.rng.next() * 256), A = Math.floor(((b.mon.level + this.obeyCap) * roll) / 256);
       if (A >= this.obeyCap) {
         const n = this.name(b), q = this.rng.int(0, 3);
@@ -747,7 +772,7 @@ export class Battle {
         this.emit("run", `¡${this.name(t)} ha salido despedido de la placa!`);
         this.ended = true; this.outcome = tr.side === 1 ? "foeFled" : "run"; return true;
       }
-      const bench = this.sides[tr.side].party.map((m, i) => i).filter((i) => this.sides[tr.side].party[i].hp > 0 && !this.sides[tr.side].active.some((x) => x?.party === i));
+      const bench = tr.side === 0 ? this.benchFor(tr.slot) : this.sides[tr.side].party.map((m, i) => i).filter((i) => this.sides[tr.side].party[i].hp > 0 && !this.sides[tr.side].active.some((x) => x?.party === i));
       if (!bench.length) { this.emit("msg", "¡Pero ha fallado!"); return false; }
       const p = this.rng.pick(bench);
       this.withdraw(t); this.sendOut(tr.side, tr.slot, p); this.markParticipants(); return true;
@@ -870,8 +895,8 @@ export class Battle {
     const parts = this.sides[0].participants.get(fainted.uid) ?? new Set<number>();
     const a = this.wild ? 1 : 1.5;
     const mult = this.difficulty === "facil" ? 1.2 : 1;
-    for (const m of this.sides[0].party) {
-      if (m.hp <= 0) continue;
+    for (const [i, m] of this.sides[0].party.entries()) {
+      if (m.hp <= 0 || this.isAlly(i)) continue;   // los Microos del compañero no ganan experiencia
       if (m.level >= this.levelCap) {
         // Level Cap estricto (Difícil): avisa una vez por combate a los que participaron
         if (parts.has(m.uid) && !this.capWarned.has(m.uid)) { this.capWarned.add(m.uid); this.emit("msg", `${displayName(m)} ha llegado al límite de nivel (Nv${this.levelCap}): no gana experiencia hasta la próxima medalla.`); }

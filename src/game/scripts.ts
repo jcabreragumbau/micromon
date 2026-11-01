@@ -689,32 +689,59 @@ const SCRIPTS: Record<string, Script> = {
     if (!s.flags["yero-equipo"]) {
       await game.say("Dr. Daniel Yero: ¡{nombre}! Menos mal que has venido. La Unidad de Genética tiene a Òscar encerrado en la sala de servidores.");
       await game.say("Dr. Yero: Lleva días calculando árboles de 10.000 réplicas mientras Jaime le dice «pues vaya bioinformático estás hecho». ¡No hay derecho!");
-      await game.say("Dr. Yero: Yo distraigo a los reclutas de la puerta. Toma, que tu equipo llegue en plena forma.");
+      await game.say("Dr. Yero: Voy contigo. Dos investigadores llegan más lejos que uno. Toma, que tu equipo entre en plena forma.");
       for (const m of s.party) fullHeal(m);
       await game.say("¡El equipo de {nombre} se ha recuperado por completo!");
       s.flags["yero-equipo"] = true;
+      s.flags.seguidor = "yero";
       world.refreshNpcs();
-      await game.say("Dr. Yero: ¡Adelante! Os sigo de cerca.");
+      world.colocarSeguidor();
+      await game.say("¡El Dr. Yero se une a {nombre}!");
+      await game.say("Dr. Yero: ¡Adelante! Te sigo de cerca. La sala de servidores está en la planta 5.");
       return;
     }
     await game.say("Dr. Yero: ¡Corre, la sala de servidores está en la planta 5!");
   },
 
+  /** Hablar con quien te acompaña (el Dr. Yero en el Instituto). */
+  async hablarSeguidor(game) {
+    const s = S(game);
+    if (s.flags.seguidor === "yero") {
+      await game.say(s.map === "instituto-5" ? "Dr. Yero: ¡Ahí están Antonio y Sonia! Esta vez lucharemos juntos." : "Dr. Yero: ¡Te sigo! La sala de servidores está en la planta 5. Y si necesitas curar a tu equipo, dímelo… bueno, no, ¡no llevo nada! Ja, ja.");
+      return;
+    }
+    await game.say("…");
+  },
+
   async asedioEjecutivos(game, world) {
     const s = S(game);
+    // los dos se giran hacia el jugador
+    for (const id of ["i5-barbadilla", "i5-casillas"]) {
+      const n = world.npc(id);
+      if (n) n.dir = Math.abs(world.px - n.x) > Math.abs(world.py - n.y) ? (world.px > n.x ? 3 : 2) : (world.py > n.y ? 0 : 1);
+    }
     await game.say("Dr. Barbadilla: ¡Otra vez tú! Mira cómo me has dejado el flequillo la última vez.");
     await game.say("Dra. Casillas: ¡Y encima vienes a estresar al pobre Òscar! ¿Ha comido? ¡Nadie le ha preguntado si ha comido!");
-    await game.say("Dr. Yero: ¡{nombre}, yo cubro la puerta! ¡Vosotros dos contra ellos dos!");
+    await game.say("Dr. Yero: ¡Antonio, Sonia, se acabó! ¡{nombre}, tú y yo contra ellos dos!");
     const r = rng(game);
+    // Barbadilla (vistoso y simétrico) y Casillas (protectora): tres Microos cada uno
     const team = [createMicroo("volvox", 40, { rng: r }), createMicroo("kefirgran", 40, { rng: r }), createMicroo("salinarum", 41, { rng: r }),
       createMicroo("myxococcus", 41, { rng: r }), createMicroo("spirulmax", 41, { rng: r }), createMicroo("aeruginosa", 42, { rng: r })];
-    const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Barbadilla y Casillas", { "medio-enriquecido": 2 }, "double"), wild: false,
-      trainer: { name: "Barbadilla y Casillas", clase: "Ejecutivos", portrait: "casillas", lose: "¡Retirada! ¡Pero abrígate al salir!", money: 300 } });
+    // el Dr. Yero lucha a tu lado con sus levaduras
+    const yero = [createMicroo("pichiamax", 42, { rng: r }), createMicroo("neoformans", 41, { rng: r }), createMicroo("auris", 41, { rng: r })];
+    const battle = new Battle({ player: game.state.party, foe: team, wild: false, format: "double", seed: (s.seed ^ s.playFrames) >>> 0,
+      difficulty: s.difficulty, playerName: s.name, foeName: "Barbadilla y Casillas", foeItems: { "medio-enriquecido": 2 },
+      obeyCap: game.noObey ? 100 : obeyCap(s), levelCap: levelCap(s), inventory: {}, ally: { name: "Dr. Yero", microos: yero } });
+    const out = await startBattle(game, world, { battle, wild: false, ally: { name: "Dr. Yero" },
+      trainer: { name: "Barbadilla y Casillas", clase: "Ejecutivos", portrait: "barbadilla", portrait2: "casillas", lose: "¡Retirada! ¡Pero abrígate al salir!", money: 300 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     await game.say("Dr. Barbadilla: Me voy a retocar. Esto no ha pasado.");
     await game.say("Dra. Casillas: ¡Niños, nos vamos! ¡Coged los táperes!");
+    await game.say("Dr. Yero: ¡Lo hemos conseguido! Formamos buen equipo, {nombre}.");
     await game.fade(true, 12);
     s.flags["conchillo-libre"] = true;
+    s.flags.seguidor = "";
+    world.seguidor = null;
     world.refreshNpcs();
     await game.fade(false, 12);
     await game.say("Dr. Òscar Conchillo: ¡Libre! Y ahora… ¡acceso al clúster revocado para toda la Unidad de Genética! ¡Ja!");

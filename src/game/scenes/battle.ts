@@ -16,7 +16,10 @@ import { partyMenu, bagMenu } from "./menus";
 export interface BattleSetup {
   battle: Battle;
   wild: boolean;
-  trainer?: { name: string; clase: string; portrait?: string; lose?: string; money?: number; /** Frase del entrenador al sacar cada especie (una vez). */ sendOut?: Record<string, string> };
+  trainer?: { name: string; clase: string; portrait?: string; lose?: string; money?: number; /** Frase del entrenador al sacar cada especie (una vez). */ sendOut?: Record<string, string>;
+    /** Segundo rival (combates contra dos entrenadores a la vez): su retrato sale junto al primero. */ portrait2?: string };
+  /** Compañero de equipo (la IA lleva su casilla): nombre para los mensajes. */
+  ally?: { name: string };
   env: string;
   /** Reserva Microbiana: no se lucha; se lanzan Criobolas Verdes. */
   safari?: boolean;
@@ -81,7 +84,8 @@ export class BattleScene implements Scene {
     if (this.s.trainer) {
       this.showTrainer = true; this.trainerSlide = 120;
       await g.wait(30);
-      await this.text(`¡${this.s.trainer.clase} ${this.s.trainer.name} quiere luchar!`);
+      await this.text(this.s.trainer.portrait2 ? `¡${this.s.trainer.clase} ${this.s.trainer.name} quieren luchar!` : `¡${this.s.trainer.clase} ${this.s.trainer.name} quiere luchar!`);
+      if (this.s.ally) await this.text(`¡${this.s.ally.name} lucha a tu lado!`);
       this.showTrainer = false;
     }
     for (const e of initial.filter((e) => e.side === 1)) await this.play(e);
@@ -163,6 +167,11 @@ export class BattleScene implements Scene {
       for (const e of b.drain()) await this.play(e);
     }
     for (const slot of b.needsReplacement(0)) {
+      if (b.allyFrom >= 0 && slot === 1) {
+        const sig = b.benchFor(1)[0];
+        if (sig !== undefined) { b.replace(0, 1, sig); for (const e of b.drain()) await this.play(e); }
+        continue;
+      }
       let idx = -1;
       while (idx < 0) {
         idx = await partyMenu(g, { mode: "replace", battle: b });
@@ -212,7 +221,13 @@ export class BattleScene implements Scene {
     const acts: Action[] = [];
     const reserved = new Set<number>();
     for (let k = 0; k < slots.length; k++) {
-      const a = await this.chooseFor(slots[k], reserved, k > 0, acts.some((x) => x.kind === "item"));
+      const yo = b.sides[0].active[slots[k]]!;
+      if (b.isAlly(yo.party)) {
+        const ia = chooseActions(b, 0, "dificil").find((x) => x.slot === slots[k]);
+        if (ia) acts.push(ia);
+        continue;
+      }
+      const a = await this.chooseFor(slots[k], reserved, k > 0 && !b.isAlly(b.sides[0].active[slots[k - 1]]?.party ?? -1), acts.some((x) => x.kind === "item"));
       if (a === "back") {                       // B en el segundo Microo: volver al primero
         const prev = acts.pop(); if (prev?.kind === "switch") reserved.delete(prev.party);
         k -= 2; continue;
@@ -397,7 +412,11 @@ export class BattleScene implements Scene {
     drawBattleBackground(g, this.s.env, this.bgCache);
     const frame = game?.frame ?? 0;
     // Rivales
-    if (this.showTrainer && this.s.trainer) g.portrait(this.s.trainer.portrait ?? "becario", 158 + Math.max(0, this.trainerSlide), 0);
+    if (this.showTrainer && this.s.trainer) {
+      const sl = Math.max(0, this.trainerSlide), p2 = this.s.trainer.portrait2;
+      if (p2) { g.portrait(p2, 186 + sl, 2); g.portrait(this.s.trainer.portrait ?? "becario", 128 + sl, 0); }
+      else g.portrait(this.s.trainer.portrait ?? "becario", 158 + sl, 0);
+    }
     else this.disp[1].forEach((f, slot) => {
       if (!f?.visible || !f.mon) return;
       const [x, y, k] = this.spot(1, slot);

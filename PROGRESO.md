@@ -158,5 +158,9 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Tabla de tipos en combate con SELECT (teclado Q o Mayús; Vista del mando de Xbox; botón táctil SELECT): `scenes/tipos.ts`. Primera opción «RIVAL»: daño que recibe el Microo rival según sus dos tipos (×4/×2/×0,5/×0,25/×0); después cada tipo al atacar y al defender. `Game.onSelect` lo fija la batalla y se borra al terminar.
 
+- Entrenadores: miran a su alrededor cada pocos segundos (`vigilar` en overworld.ts; vuelven a menudo a su dirección original) y ven al menos 4 casillas (`alcance`); si al girarse te ven, van a por ti.
+- Acompañante (`flags.seguidor` = sprite; `colocarSeguidor`/`seguir` en overworld.ts): el Dr. Yero te sigue por el Parque Biotecnológico y el Instituto desde que habla contigo hasta liberar a Conchillo; se puede hablar con él (`hablarSeguidor`).
+- Combate en equipo (`BattleOptions.ally` en el motor): Yero lleva la casilla 1 con sus levaduras (IA, relevos automáticos, sin experiencia ni obediencia) contra Barbadilla y Casillas; los dos se giran hacia ti y salen sus dos retratos (`trainer.portrait2`).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

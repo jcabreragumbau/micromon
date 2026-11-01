@@ -27,6 +27,38 @@ export class Overworld implements Scene {
 
   constructor(public game: Game) {}
 
+  /** Acompañante que camina detrás del jugador (flags.seguidor = id de su sprite; "" = nadie). */
+  seguidor: { sprite: string; x: number; y: number; dir: number; ox: number; oy: number; moving: number; speed: number } | null = null;
+  colocarSeguidor() {
+    const fl = this.game.state.flags;
+    // partidas guardadas antes de que Yero te siguiera
+    if (fl.seguidor === undefined && fl["yero-equipo"] && !fl["conchillo-libre"]) fl.seguidor = "yero";
+    const sp = String(fl.seguidor ?? "");
+    if (!sp || this.cine) { this.seguidor = null; return; }
+    // detrás del jugador si cabe; si no, en su misma casilla (aparece al dar el primer paso)
+    const bx = this.px - DX[this.dir], by = this.py - DY[this.dir];
+    const libre = bx >= 0 && by >= 0 && bx < this.map.w && by < this.map.h && passable(tileAt(this.map, bx, by)) && !this.npcs.some((n) => n.x === bx && n.y === by);
+    this.seguidor = { sprite: sp, x: libre ? bx : this.px, y: libre ? by : this.py, dir: this.dir, ox: 0, oy: 0, moving: 0, speed: 1 };
+  }
+  /** El jugador empieza a moverse desde (x, y): el acompañante va a esa casilla. */
+  private seguir(x: number, y: number) {
+    const f = this.seguidor;
+    if (!f) { if (this.game.state.flags.seguidor) this.colocarSeguidor(); return; }
+    if (f.moving > 0) { f.x += DX[f.dir]; f.y += DY[f.dir]; f.ox = f.oy = 0; f.moving = 0; }
+    if (f.x === x && f.y === y) return;
+    const dx = x - f.x, dy = y - f.y;
+    if (Math.abs(dx) + Math.abs(dy) !== 1) { f.x = x; f.y = y; return; }     // saltos o deslizamientos largos
+    f.dir = dx > 0 ? 3 : dx < 0 ? 2 : dy > 0 ? 0 : 1;
+    f.moving = 16; f.speed = this.speed;
+  }
+  private moverSeguidor() {
+    const f = this.seguidor;
+    if (!f || f.moving <= 0) return;
+    const st = Math.min(f.speed, f.moving);
+    f.ox += DX[f.dir] * st; f.oy += DY[f.dir] * st; f.moving -= st;
+    if (f.moving <= 0) { f.x += DX[f.dir]; f.y += DY[f.dir]; f.ox = f.oy = 0; f.moving = 0; }
+  }
+
   load(id: string, x: number, y: number, dir?: number) {
     const m = MAPS[id];
     if (!m) throw new Error(`Mapa desconocido: ${id}`);
@@ -39,6 +71,7 @@ export class Overworld implements Scene {
     const s = this.game.state;
     s.map = id; s.x = x; s.y = y; s.dir = this.dir;
     if (m.outdoor || m.env === "cueva") this.banner = 120;
+    this.colocarSeguidor();
     audio.music(m.music ?? (m.outdoor ? "ruta" : "pueblo"));
     this.lux = false;
   }
@@ -76,6 +109,7 @@ export class Overworld implements Scene {
   animate() {
     this.anim++;
     if (this.banner > 0) this.banner--;
+    this.moverSeguidor();
     for (const n of this.npcs) this.updateNpc(n);
   }
   update(game: Game) {
@@ -109,6 +143,7 @@ export class Overworld implements Scene {
   private startMove(d: number, tiles: number, run: boolean, jump = false) {
     this.speed = run ? 2 : 1;
     if (jump) { this.speed = 1; this.jumping = 32; }
+    this.seguir(this.px, this.py);
     this.moving = 16 * tiles;
   }
   private stepMove() {
@@ -198,6 +233,8 @@ export class Overworld implements Scene {
     const t = tileAt(this.map, x, y);
     if (!n && t === "mostrador") n = this.npcs.find((m) => m.x === x + DX[this.dir] && m.y === y + DY[this.dir]);
     if (n) { if (n.def.sprite && !n.def.sprite.startsWith("@")) n.dir = [1, 0, 3, 2][this.dir]; this.lock(() => talkNpc(this.game, this, n!)); return; }
+    const f = this.seguidor;
+    if (f && f.x === x && f.y === y && f.moving === 0) { f.dir = [1, 0, 3, 2][this.dir]; this.lock(() => runScript(this.game, this, "hablarSeguidor")); return; }
     if (t.startsWith("tragaperras")) { this.lock(() => runScript(this.game, this, "tragaperras")); return; }
     const sign = this.map.signs.find((s) => s.x === x && s.y === y);
     if (sign) { this.lock(() => this.game.say(sign.text)); return; }
@@ -220,7 +257,9 @@ export class Overworld implements Scene {
       if (n.moving === 0) { n.x += DX[n.dir]; n.y += DY[n.dir]; n.ox = n.oy = 0; }
       return;
     }
-    if (this.busy || !n.def.move || n.def.move === "quieto") return;
+    if (this.busy) return;
+    if (n.def.trainer && !n.def.move && !this.cine) { this.vigilar(n); return; }
+    if (!n.def.move || n.def.move === "quieto") return;
     if (--n.timer > 0) return;
     n.timer = 90 + Math.floor(Math.random() * 120);
     const d = Math.floor(Math.random() * 4);
@@ -231,6 +270,18 @@ export class Overworld implements Scene {
     if (this.blocked(nx, ny, n) || (nx === this.px && ny === this.py) || this.warpAt(nx, ny)) return;
     n.moving = 16;
   }
+  /** Entrenadores: cada pocos segundos miran hacia otro lado con campo de visión despejado (y vuelven a
+   *  su dirección original a menudo). Si al girarse ven al jugador, van a por él. */
+  private vigilar(n: NpcState) {
+    if (--n.timer > 0) return;
+    n.timer = 100 + Math.floor(Math.random() * 140);
+    const base = n.def.dir ?? 0;
+    const abiertas = [0, 1, 2, 3].filter((d) => d === base || !this.blocked(n.x + DX[d], n.y + DY[d], n) || (n.x + DX[d] === this.px && n.y + DY[d] === this.py));
+    n.dir = n.dir !== base && Math.random() < 0.5 ? base : abiertas[Math.floor(Math.random() * abiertas.length)];
+    if (this.moving === 0 && !this.game.overlays.length && !this.game.state.flags[`entrenador:${n.def.id}`]) void this.checkTrainers();
+  }
+  /** Alcance de la vista de un entrenador (mínimo 4 casillas, para que no se puedan esquivar tan fácil). */
+  alcance(tr: NonNullable<NpcDef["trainer"]>) { return Math.max(4, tr.sight); }
   /** Mueve un PNJ una casilla (para guiones). */
   async walkNpc(n: NpcState, d: number, steps = 1) {
     for (let i = 0; i < steps; i++) {
@@ -240,7 +291,7 @@ export class Overworld implements Scene {
   }
   async walkPlayer(d: number, steps = 1) {
     for (let i = 0; i < steps; i++) {
-      this.dir = d; this.speed = 1; this.moving = 16;
+      this.dir = d; this.speed = 1; this.seguir(this.px, this.py); this.moving = 16;
       while (this.moving > 0) { this.stepMove(); await this.game.wait(1); }
     }
   }
@@ -250,7 +301,7 @@ export class Overworld implements Scene {
     for (const n of this.npcs) {
       const tr = n.def.trainer;
       if (!tr || this.game.state.flags[`entrenador:${n.def.id}`]) continue;
-      for (let k = 1; k <= tr.sight; k++) {
+      for (let k = 1; k <= this.alcance(tr); k++) {
         const x = n.x + DX[n.dir] * k, y = n.y + DY[n.dir] * k;
         if (x === this.px && y === this.py) {
           await this.lock(async () => {
@@ -324,6 +375,11 @@ export class Overworld implements Scene {
       if (n.def.sprite.startsWith("@tile:")) { const t = n.def.sprite.slice(6); ents.push({ y: sy - 32, d: () => g.tile(t, sx, sy) }); continue; }
       const fr = n.moving > 0 ? (Math.floor(n.moving / 8) % 2 ? 1 : 2) : 0;
       ents.push({ y: sy, d: () => { g.character(n.def.sprite, n.dir, fr, sx - 8, sy - 18); if (n.emote > 0) drawEmote(g, sx + 4, sy - 26); } });
+    }
+    const f = this.seguidor;
+    if (f && !(f.x === this.px && f.y === this.py && f.moving === 0)) {
+      const fx = f.x * 16 + f.ox - cx, fy = f.y * 16 + f.oy - cy, ffr = f.moving > 0 ? (Math.floor(f.moving / 8) % 2 ? 1 : 2) : 0;
+      ents.push({ y: fy, d: () => g.character(f.sprite, f.dir, ffr, fx - 8, fy - 18) });
     }
     const psx = this.px * 16 + this.ox - cx, psy = this.py * 16 + this.oy - cy;
     const pfr = this.moving > 0 && !this.sliding ? (Math.floor((this.px + this.py) % 2 === 0 ? (this.moving > 8 ? 1 : 0) : (this.moving > 8 ? 2 : 0))) : 0;
