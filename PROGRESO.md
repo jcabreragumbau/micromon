@@ -192,5 +192,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - V2, escaleras: peldaños de piedra gris entre barandillas según la muestra del usuario (`assets/reference/tileset_v2/escaleras.png`), en la montaña y en los desniveles de césped.
 
+- Cámara fija sobre el jugador (se quita el desplazamiento junto a edificios altos, que hacía parpadear la imagen) y árboles dibujados por profundidad con los personajes (lo que está más abajo tapa lo de arriba). V2: solo son casas en las que se entra las que tienen puerta visible (fuera la entrada de metro y dos edificios sin puerta, que pasan a decorado); las calles y la avenida ya no siguen hasta el borde si por ahí no hay salida.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

@@ -153,8 +153,8 @@ EDIF2 = {
     "v2_casa_teal": ("e43", "casa"), "v2_casa_rosa": ("e46", "casa"), "v2_casa_rosa2": ("e47", "casa"), "v2_casa_gris": ("e48", "casa"),
     "v2_casa_naranja": ("e87", "casa"), "v2_casa_madera": ("e93", "casa"), "v2_cabana": ("e94", "casa"), "v2_casa_verde": ("e100", "casa"),
     "v2_casa_cristal": ("e107", "casa"), "v2_casa_azulejo": ("e108", "casa"), "v2_casa_azul": ("e109", "casa"), "v2_casa_roja": ("e115", "casa"),
-    "v2_casa_verde2": ("e128", "casa"), "v2_casa_cian": ("e134", "casa"), "v2_casa_verde3": ("e137", "casa"), "v2_casa_naranja2": ("e138", "casa"),
-    "v2_casa_gris2": ("e152", "casa"), "v2_casa_roja2": ("e157", "casa"), "v2_casa_rosa3": ("e159", "casa"), "v2_casa_crema": ("e160", "casa"),
+    "v2_casa_verde2": ("e128", "edificio"), "v2_casa_cian": ("e134", "edificio"), "v2_casa_verde3": ("e137", "casa"), "v2_casa_naranja2": ("e138", "casa"),
+    "v2_casa_gris2": ("e152", "casa"), "v2_casa_roja2": ("e157", "casa"), "v2_casa_rosa3": ("e159", "edificio"), "v2_casa_crema": ("e160", "casa"),
     "v2_casa_marron": ("e167", "casa"), "v2_casa_lila": ("e168", "casa"), "v2_casita": ("e63", "casa"), "v2_choza": ("e62", "casa"),
     "v2_casa_grande": ("e44", "casa"), "v2_mansion": ("e45", "casa"), "v2_casa_grande_roja": ("e126", "casa"), "v2_casa_morada": ("e49", "casa"),
     # edificios de ciudad (no se entra)
@@ -468,7 +468,11 @@ def main():
     for nombre, (cid, tipo) in EDIF2.items():
         d = cat[cid]
         spr = E2[d["y"]:d["y"] + d["h"], d["x"]:d["x"] + d["w"]].copy()
-        nuevos[nombre] = rellena_puerta(spr) if tipo == "casa" else spr
+        if tipo == "casa":
+            spr = rellena_puerta(spr)
+            # solo son casas (se entra) las que tienen una puerta visible en el dibujo
+            if puerta_de(spr) is None: raise SystemExit(f"{nombre} ({cid}) no tiene puerta visible: márcalo como edificio")
+        nuevos[nombre] = spr
         meta2[nombre] = tipo
     for nombre, (x, y, w, h) in DECO2.items():
         nuevos[nombre] = recorta(T2 if nombre != "farola" else EXT, x, y, w, h)

@@ -25,10 +25,10 @@ function rng(semilla: string) {
 }
 
 const CASAS = ["v2_casa_teal", "v2_casa_rosa", "v2_casa_rosa2", "v2_casa_gris", "v2_casa_naranja", "v2_casa_madera", "v2_cabana", "v2_casa_cristal",
-  "v2_casa_azulejo", "v2_casa_azul", "v2_casa_roja", "v2_casa_verde2", "v2_casa_cian", "v2_casa_verde3", "v2_casa_naranja2", "v2_casa_gris2",
-  "v2_casa_roja2", "v2_casa_rosa3", "v2_casa_crema", "v2_casa_marron", "v2_casa_lila", "v2_casita"];
+  "v2_casa_azulejo", "v2_casa_azul", "v2_casa_roja", "v2_casa_verde3", "v2_casa_naranja2", "v2_casa_gris2",
+  "v2_casa_roja2", "v2_casa_crema", "v2_casa_marron", "v2_casa_lila", "v2_casita"];
 const URBANOS = ["v2_tienda_gris", "v2_mercado", "v2_tienda_toldo", "v2_kiosco", "v2_tienda_moderna", "v2_bloque_azul", "v2_oficina", "v2_bloque_naranja",
-  "v2_cafeteria", "v2_cristalera", "v2_tienda_marron", "v2_bloque_verde", "v2_bloque_crema", "v2_tienda_cian", "v2_tienda_naranja", "v2_teatro",
+  "v2_cafeteria", "v2_cristalera", "v2_tienda_marron", "v2_bloque_verde", "v2_bloque_crema", "v2_tienda_cian", "v2_casa_verde2", "v2_casa_rosa3", "v2_tienda_naranja", "v2_teatro",
   "v2_nave_granate", "v2_bloque_amarillo", "v2_cupula", "v2_casona"];
 
 /** Frases de los paseantes que se añaden a cada ciudad. */
@@ -103,12 +103,14 @@ function construir(id: string, c: Cfg): MapDef {
   const calle3 = c.pueblo ? -1 : calle2 + 3 + 8;            // calle que da a la banda 3 (solo ciudades)
   const ultima = c.pueblo ? calle2 : calle3;
   const avenidaEO = c.pueblo ? calle1 : calle2;             // las salidas este y oeste van por esta calle
-  for (const y of [calle1, calle2, calle3].filter((y) => y > 0)) b.fill(2, y, W - 4, 3, "p");
-  b.fill(cx, 2, 3, ultima + 1, "p");                        // avenida norte-sur
+  // calles entre las dos calles laterales (sin tramos que acaben contra los árboles del borde)
+  for (const y of [calle1, calle2, calle3].filter((y) => y > 0)) b.fill(3, y, W - 6, 3, "p");
+  // avenida norte-sur: solo llega al borde si hay una salida por ese lado
+  b.fill(cx, calle1, 3, ultima - calle1 + 3, "p");
   b.fill(3, calle1, 2, ultima - calle1 + 3, "p").fill(W - 5, calle1, 2, ultima - calle1 + 3, "p");   // calles laterales
   // salidas
   const sal = c.salidas;
-  if (sal.n) { b.fill(cx, 0, 3, 3, "p"); b.warp({ x: cx, y: 0, w: 3, to: sal.n, tx: 0, ty: 0, dir: 1 }); }
+  if (sal.n) { b.fill(cx, 0, 3, calle1 + 3, "p"); b.warp({ x: cx, y: 0, w: 3, to: sal.n, tx: 0, ty: 0, dir: 1 }); }
   if (sal.s) { b.fill(cx, ultima, 3, H - ultima, "p"); b.warp({ x: cx, y: H - 1, w: 3, to: sal.s, tx: 0, ty: 0, dir: 0 }); }
   if (sal.o) { b.fill(0, avenidaEO, 3, 3, "p"); b.warp({ x: 0, y: avenidaEO, h: 3, to: sal.o, tx: 0, ty: 0, dir: 2 }); }
   if (sal.e) { b.fill(W - 3, avenidaEO, 3, 3, "p"); b.warp({ x: W - 1, y: avenidaEO, h: 3, to: sal.e, tx: 0, ty: 0, dir: 3 }); }
