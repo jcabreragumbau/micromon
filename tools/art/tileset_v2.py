@@ -107,6 +107,38 @@ def diagonales(mask):
         out.append(sum(b for j, b in enumerate(bits) if i >> j & 1))
     return out
 
+T2 = np.array(Image.open(REF / "terreno2.png").convert("RGBA"))      # segunda lámina (ya a tamaño nativo)
+
+def c16(h, x, y): return h[y:y + 16, x:x + 16].copy()
+
+def a_cesped_v2(t):
+    """El verde de la segunda lámina es 8 puntos más claro que el de la primera: se iguala."""
+    o = t.copy(); f = o[..., :3].astype(int)
+    verde = ((f[..., 1] - f[..., 0]) > 60) & (o[..., 3] > 0)
+    o[verde, :3] = (f[verde] - 8).clip(0, 255).astype(np.uint8)
+    return o
+
+def relieve(h, r, c0, mask, cesped=False):
+    """Casilla de una plantilla de relieve de 4×4 (filas r..r+3, columnas c0..c0+3): borde superior en la
+    mitad baja de la fila r, laterales en r+1..r+2 y la cara en r+3. mask: 1 N, 2 E, 4 S, 8 O distintos."""
+    n, e, s_, w = mask & 1, mask & 2, mask & 4, mask & 8
+    ry, my, fy = r * 16 + 8, (r + 1) * 16, (r + 3) * 16
+    o = np.zeros((16, 16, 4), np.uint8)
+    for qy, vert in ((0, n), (1, s_)):
+        for qx, hor in ((0, w), (1, e)):
+            y = (ry if qy == 0 else fy) if vert else my
+            if qy == 0 and s_ and not n: y = fy            # la cara ocupa la casilla entera
+            x = ((c0 if qx == 0 else c0 + 3) if hor else c0 + 1) * 16
+            src = c16(h, x, y)
+            o[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8] = src[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8]
+    o = a_cesped_v2(o)
+    return sobre(HIERBA, o)
+
+def con_cueva(t, h, r):
+    """Boca de cueva de la plantilla (fila r, columnas 4-5: recortada centrada en el hueco) sobre la pared."""
+    b = a_cesped_v2(c16(h, 4 * 16 + 8, r * 16))
+    return sobre(t, b)
+
 def recorta(h, x, y, w, hh):
     """Sprite libre (coordenadas nativas) recortado a su caja de opacidad."""
     a = h[y:y + hh, x:x + w].copy()
@@ -232,26 +264,25 @@ def main():
             pon(f"arenac_{k}{suf}", sobre_camino(autotile(EXT, 0, 5, k, d)))
     pon("camino", t16(EXT, 1, 1)); pon("arena", t16(EXT, 1, 6))
     pon("agua0", centro); pon("agua1", agua_marco(0, 1, centro))
-    # acantilado: la meseta de césped con paredes de roca (bloque de la fila 11); el agua de alrededor se
-    # cambia por césped (con su sombra) y el hueco del centro es el césped de arriba
+    # desniveles (acantilado «A»: el terreno de su norte está más alto) y montaña («%»): plantillas de relieve
+    # de la segunda lámina (terreno2.png). La cara mira al sur; el borde de arriba de la plantilla está medio
+    # tile más arriba (se recorta desplazado).
     for k in range(16):
-        for d in [0] + diagonales(k):
-            suf = f"^{d}" if d else ""
-            pon(f"acantilado~{15 - k}{suf}", sobre(HIERBA, sin_agua(autotile(EXT, 11, 0, k, d))))   # ~: vecinos iguales
-    # boca de cueva en la pared de la meseta: la pieza de acantilado que toca (según sus vecinos) con un arco
-    # oscuro abajo en el centro
-    def arco(t):
-        o = t.copy()
-        for y in range(16):
-            for x in range(16):
-                e = ((x - 7.5) / 5.6) ** 2 + ((y - 16) / 11) ** 2
-                if e < 1: o[y, x, :3] = (26, 18, 16) if e < 0.72 else (70, 44, 30)
-                elif e < 1.25 and y > 5: o[y, x, :3] = (o[y, x, :3] * 0.72).astype(np.uint8)
-        return o
-    for k in range(16):
-        for d in [0] + diagonales(k):
-            suf = f"^{d}" if d else ""
-            pon(f"cueva_entrada~{15 - k}{suf}", arco(sobre(HIERBA, sin_agua(autotile(EXT, 11, 0, k, d)))))
+        pon(f"acantilado~{k}", relieve(T2, 335, 0, 15 - k, cesped=True))          # ~: vecinos iguales
+        pon(f"cueva_entrada~{k}", con_cueva(relieve(T2, 335, 0, 15 - k, cesped=True), T2, 341))
+    for n in (0, 1):
+        for e in (0, 1):
+            for w in (0, 1):
+                pon(f"monte_cima_{n}{e}{w}", relieve(T2, 315, 0, n | e * 2 | w * 8))
+    for e in (0, 1):
+        for w in (0, 1):
+            pon(f"monte_alta_{e}{w}", relieve(T2, 315, 0, 1 | e * 2 | w * 8))
+            pon(f"monte_cara1_{e}{w}", relieve(T2, 315, 0, 1 | 4 | e * 2 | w * 8))
+            pon(f"monte_cara2_{e}{w}", relieve(T2, 315, 0, 4 | e * 2 | w * 8))
+    pon("monte_cueva", con_cueva(relieve(T2, 315, 0, 4), T2, 321))
+    # escaleras talladas: en la roca de la montaña y en los desniveles de césped
+    pon("escalon", sobre(t16(T2, 331, 4), t16(T2, 331, 4)))
+    pon("escalon_cesped", sobre(t16(T2, 331, 4), t16(T2, 331, 4)))         # también de roca: se leen mejor
     # piezas lineales sobre césped (se guardan como objetos: el suelo de debajo lo pone el juego)
     lin = {
         "seto": dict(L=t16(EXT, 122, 5), M=t16(EXT, 122, 6), R=t16(EXT, 122, 7), T=t16(EXT, 122, 4), V=t16(EXT, 123, 4), B=t16(EXT, 124, 4), solo=t16(EXT, 121, 4)),

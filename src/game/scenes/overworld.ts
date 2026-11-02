@@ -424,10 +424,13 @@ export class Overworld implements Scene {
   /** Vecinos con la misma pieza (1 N, 2 E, 4 S, 8 O); fuera del mapa cuenta como igual. */
   private vecinos(x: number, y: number, t: string): number {
     const igual = (xx: number, yy: number) => {
-      if (xx < 0 || yy < 0 || xx >= this.map.w || yy >= this.map.h) return !!this.map.outdoor;   // fuera: sigue (exterior) o acaba (interior)
+      // fuera del mapa: el terreno (acantilados) sigue; las piezas sueltas (setos, vallas...) y los interiores acaban
+      if (xx < 0 || yy < 0 || xx >= this.map.w || yy >= this.map.h) return !!this.map.outdoor && (t === "acantilado" || t === "cueva_entrada");
       return mismaPieza(t, tileAt(this.map, xx, yy));
     };
-    return (igual(x, y - 1) ? 1 : 0) | (igual(x + 1, y) ? 2 : 0) | (igual(x, y + 1) ? 4 : 0) | (igual(x - 1, y) ? 8 : 0);
+    // desnivel (V2): el terreno al norte de un acantilado está más alto, así que por arriba nunca hay borde
+    const norte = V2 && (t === "acantilado" || t === "cueva_entrada") ? true : igual(x, y - 1);
+    return (norte ? 1 : 0) | (igual(x + 1, y) ? 2 : 0) | (igual(x, y + 1) ? 4 : 0) | (igual(x - 1, y) ? 8 : 0);
   }
   /** Cámara fija para capturas del mapa entero (solo herramientas de prueba). */
   debugCam: [number, number] | null = null;
@@ -469,8 +472,10 @@ export class Overworld implements Scene {
         continue;
       }
       if (V2) t = this.variantePlaya(t, x, y);
+      // V2: escaleras de un desnivel de césped (las de la montaña son de roca)
+      if (V2 && t === "escalon" && [x - 1, x + 1].some((xx) => tileAt(this.map, xx, y) === "acantilado")) t = "escalon_cesped";
       const vec = this.vecinos(x, y, t);
-      g.tile(t, x * 16 - cx, y * 16 - cy, x, y, suelo, vec, this.map.env, t === "acantilado" || t === "cueva_entrada" ? this.diagVecinos(x, y, t, vec) : esquinas(this.map, x, y));
+      g.tile(t, x * 16 - cx, y * 16 - cy, x, y, suelo, vec, this.map.env, t === "acantilado" || t === "cueva_entrada" ? 0 : esquinas(this.map, x, y));
     }
     for (const [n, x, y] of trees) {
       const m = PROPS[n];
