@@ -511,6 +511,37 @@ def waterfall(frame):
             elif v < 4: t.px(x, y, H("#9ac8f4"))
     return t
 
+# ---------------------------------------------------------------- ruta 2-3: árboles especiales, rocas, grietas y cultivos (fondo transparente)
+def small_tree(trunk, leaf=("#2f7a38", "#46a046", "#78c860")):
+    t = T()
+    t.rect(7, 10, 8, 15, H(trunk)); t.vline(7, 10, 15, H("#5a4a30")) if trunk != "#e8d8b0" else t.vline(7, 10, 15, H("#b8a880"))
+    t.rect(6, 15, 9, 15, O)
+    ring = circ(8, 7, 7) & ~circ(8, 7, 6)
+    t.mask(circ(8, 7, 7), O); t.mask(circ(8, 7, 6), H(leaf[0])); t.mask(circ(7, 6, 4.2), H(leaf[1])); t.mask(circ(6, 5, 2), H(leaf[2]))
+    t.rect(7, 12, 8, 14, H(trunk))
+    return t
+def cracked_rock():
+    t = T()
+    t.mask(circ(8, 9, 7), O); t.mask(circ(8, 9, 6), H("#8c8a92")); t.mask(circ(7, 8, 4.5), H("#a8a6ae")); t.mask(circ(6, 6.5, 2), H("#c8c6ce"))
+    for (x, y) in ((8, 4), (8, 5), (9, 6), (9, 7), (8, 8), (7, 9), (7, 10), (8, 11), (10, 9), (11, 10), (5, 9), (4, 10)): t.px(x, y, H("#3a3840"))
+    return t
+def climb_crack():
+    t = rock_cliff()
+    t.rect(6, 0, 9, 15, H("#6a4638")); t.rect(7, 0, 8, 15, H("#3e2820"))
+    for y in (2, 6, 10, 14): t.rect(5, y, 5, y, H("#d8a88a")); t.rect(10, y + 2 if y < 14 else y, 10, y + 2 if y < 14 else y, H("#d8a88a"))
+    return t
+def soil():
+    t = T(H("#5a3a24"))
+    for y in (3, 7, 11, 15): t.hline(0, 15, y, H("#3e2616"))
+    for (x, y) in ((2, 1), (9, 5), (13, 9), (5, 13), (11, 1)): t.px(x, y, H("#7a5434"))
+    return t
+def berry_bush():
+    t = T()
+    t.mask(circ(8, 10, 6.5), O); t.mask(circ(8, 10, 5.5), H("#3f8f3a")); t.mask(circ(7, 9, 3.5), H("#62b84a"))
+    for (x, y) in ((5, 8), (10, 9), (8, 12), (11, 12), (6, 12)):
+        t.mask(circ(x + 0.5, y + 0.5, 1.4), H("#d83040")); t.px(x, y, H("#ff9098"))
+    return t
+
 def build():
     tiles = {"vacio": black(), "hierba": grass(1), "hierba2": grass(2), "hierba_alta": tall_grass(), "hierba_oscura": tall_grass(True),
              "flores0": flowers(0), "flores1": flowers(1), "seto": bush(), "valla": fence(), "cartel": sign(), "roca": rock(), "bordillo": ledge()}
@@ -540,6 +571,8 @@ def build():
     # al final, para no mover los índices de los anteriores
     tiles.update({"puente_h": bridge(False), "puente_v": bridge(True), "escalon": stone_steps(), "risco": rock_cliff(),
                   "cascada0": waterfall(0), "cascada1": waterfall(1)})
+    tiles.update({"arbol_claro": small_tree("#e8d8b0"), "arbol_miel": small_tree("#f0c030", ("#2f7a38", "#46a046", "#a8e47c")),
+                  "roca_agrietada": cracked_rock(), "grieta": climb_crack(), "parcela": soil(), "baya": berry_bush()})
     names = list(tiles)
     cols = 16; rows = (len(names) + cols - 1) // cols
     atlas = Image.new("RGBA", (cols * 16, rows * 16))

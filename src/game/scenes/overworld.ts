@@ -14,7 +14,8 @@ import { IMG, TILES, PROPS, TERR } from "../assets";
 
 const DX = [0, 0, -1, 1], DY = [1, -1, 0, 0]; // abajo, arriba, izquierda, derecha
 
-export interface NpcState { def: NpcDef; x: number; y: number; dir: number; ox: number; oy: number; moving: number; timer: number; home: { x: number; y: number }; emote: number }
+export interface NpcState { def: NpcDef; x: number; y: number; dir: number; ox: number; oy: number; moving: number; timer: number; home: { x: number; y: number }; emote: number;
+  /** Patrullas: sentido actual, giros pendientes y si acaba de dar un paso. */ paso?: number; mirando?: number[]; trasPaso?: boolean }
 
 export class Overworld implements Scene {
   map!: MapDef;
@@ -254,11 +255,16 @@ export class Overworld implements Scene {
     if (n.emote > 0) n.emote--;
     if (n.moving > 0) {
       n.ox += DX[n.dir]; n.oy += DY[n.dir]; n.moving--;
-      if (n.moving === 0) { n.x += DX[n.dir]; n.y += DY[n.dir]; n.ox = n.oy = 0; }
+      if (n.moving === 0) {
+        n.x += DX[n.dir]; n.y += DY[n.dir]; n.ox = n.oy = 0;
+        if (n.trasPaso) { n.trasPaso = false; if (n.def.trainer && this.moving === 0 && !this.busy && !this.game.overlays.length && !this.game.state.flags[`entrenador:${n.def.id}`]) void this.checkTrainers(); }
+      }
       return;
     }
     if (this.busy) return;
     if (n.def.trainer && !n.def.move && !this.cine) { this.vigilar(n); return; }
+    const mv = n.def.move ?? "";
+    if (mv === "reloj" || mv.startsWith("mirar:") || mv.startsWith("patrulla:")) { this.patron(n, mv); return; }
     if (!n.def.move || n.def.move === "quieto") return;
     if (--n.timer > 0) return;
     n.timer = 90 + Math.floor(Math.random() * 120);
@@ -279,6 +285,38 @@ export class Overworld implements Scene {
     const abiertas = [0, 1, 2, 3].filter((d) => d === base || !this.blocked(n.x + DX[d], n.y + DY[d], n) || (n.x + DX[d] === this.px && n.y + DY[d] === this.py));
     n.dir = n.dir !== base && Math.random() < 0.5 ? base : abiertas[Math.floor(Math.random() * abiertas.length)];
     if (this.moving === 0 && !this.game.overlays.length && !this.game.state.flags[`entrenador:${n.def.id}`]) void this.checkTrainers();
+  }
+  /** Patrones fijos: girar en el sentido de las agujas del reloj, alternar la mirada o patrullar. */
+  private patron(n: NpcState, mv: string) {
+    if (--n.timer > 0) return;
+    const ver = () => { if (n.def.trainer && this.moving === 0 && !this.game.overlays.length && !this.game.state.flags[`entrenador:${n.def.id}`]) void this.checkTrainers(); };
+    if (mv === "reloj") {
+      n.timer = 70;
+      n.dir = { 1: 3, 3: 0, 0: 2, 2: 1 }[n.dir] ?? 1;              // arriba → derecha → abajo → izquierda
+      ver(); return;
+    }
+    if (mv.startsWith("mirar:")) {
+      const dirs = mv.slice(6).split(",").map(Number);
+      n.timer = 110;
+      n.dir = dirs[(dirs.indexOf(n.dir) + 1) % dirs.length];
+      ver(); return;
+    }
+    // patrulla:h|v:N[:mira]
+    const [, eje, largo, mira] = mv.split(":");
+    const N = Number(largo) || 2, h = eje === "h";
+    const pos = h ? n.x - n.home.x : n.y - n.home.y;
+    n.paso ??= 1;
+    if (n.mirando && n.mirando.length) { n.dir = n.mirando.shift()!; n.timer = 45; ver(); return; }
+    if ((n.paso > 0 && pos >= N) || (n.paso < 0 && pos <= 0)) {
+      n.paso = -n.paso;
+      if (mira) { n.mirando = [1, 0]; n.timer = 30; return; }
+    }
+    const d = h ? (n.paso > 0 ? 3 : 2) : (n.paso > 0 ? 0 : 1);
+    n.dir = d; n.timer = 40;
+    const nx = n.x + DX[d], ny = n.y + DY[d];
+    if (this.blocked(nx, ny, n) || (nx === this.px && ny === this.py)) { ver(); return; }
+    n.moving = 16;
+    n.trasPaso = true;
   }
   /** Alcance de la vista de un entrenador (mínimo 4 casillas, para que no se puedan esquivar tan fácil). */
   alcance(tr: NonNullable<NpcDef["trainer"]>) { return Math.max(4, tr.sight); }

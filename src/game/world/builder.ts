@@ -6,7 +6,9 @@ export interface TrainerDef {
 }
 export interface NpcDef {
   id: string; x: number; y: number; sprite: string; dir?: number;
-  move?: "quieto" | "girar" | "pasear"; talk?: string | string[]; script?: string;
+  /** quieto · girar (al azar) · pasear · reloj (gira en el sentido de las agujas) · mirar:0,2 (alterna esas
+   *  direcciones) · patrulla:h:3 / patrulla:v:3 (va y vuelve N casillas; «:mira» = mira arriba y abajo en los extremos). */
+  move?: string; talk?: string | string[]; script?: string;
   trainer?: TrainerDef; showIf?: string; hideIf?: string; solid?: boolean;
 }
 export interface WarpDef { x: number; y: number; w?: number; h?: number; to: string; tx: number; ty: number; dir?: number; keep?: "x" | "y" }
@@ -55,7 +57,7 @@ export const LEGEND: Record<string, string> = {
   Y: "suelo_gimnasio", e: "estanteria", t: "mesa", c: "mostrador", P: "pc", b: "cama", n: "planta", a: "alfombra",
   i: "incubadora", B: "poyata", M: "microscopio", Q: "queso", C: "lata", K: "tanque", E: "escaleras", S: "cartel",
   H: "hielo", y: "nieve", U: "roca_hielo", R: "pared_hielo",
-  "=": "puente_h", "|": "puente_v", "^": "escalon", "%": "risco",
+  "=": "puente_h", "|": "puente_v", "^": "escalon", "%": "risco", _: "parcela",
   x: "suelo_casino", N: "suelo_tecnico", F: "suelo_torre", I: "placa_contaminada", J: "poster",
   u: "suelo_cueva", X: "pared_cueva", d: "disco_duro", A: "acantilado", O: "cueva_entrada", Z: "winogradsky", j: "suelo_invernadero",
 };
@@ -167,7 +169,7 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
   return LEGEND[ch] ?? "hierba";
 }
 
-const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", "puente_h", "puente_v", "escalon", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
+const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", "puente_h", "puente_v", "escalon", "parcela", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
   "suelo_madera", "suelo_lab", "suelo_gimnasio", "suelo_cueva", "suelo_invernadero", "cueva_entrada", "suelo_casino", "suelo_tecnico", "suelo_torre", "hielo", "nieve", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo", "puerta_hd"]);
 export function passable(tile: string) { return PASSABLE.has(tile); }
 export function isGrass(tile: string) { return tile === "hierba_alta" || tile === "hierba_oscura"; }

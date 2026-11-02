@@ -35,6 +35,7 @@ items = [
  {"id":"billete-ferri","name":"Billete de Ferri","kind":"key","price":0,"desc":"Billete del ferri de Ciudad Pili a las Islas Esporuladas y la Isla Conjugada."},
  {"id":"fosil-estromatolito","name":"Fósil de Estromatolito","kind":"key","price":0,"desc":"Capas de cianobacterias de hace millones de años. En el Instituto Carlos III pueden revivirlo."},
  {"id":"ambar-mioceno","name":"Ámbar del Mioceno","kind":"key","price":0,"desc":"Una gota de resina fósil con una endospora dentro. En el Instituto Carlos III pueden revivirla."},
+ {"id":"placa-koch","name":"Placa de Koch","kind":"key","price":0,"desc":"Una placa de gelatina de 1881, de las que usaba Robert Koch antes de que Fanny Hesse propusiera el agar. Se derretía con el calor… Una reliquia."},
  {"id":"western-blot","name":"Western Blot","kind":"key","price":0,"desc":"Identifica los priones de la Torre Prión."},
 ]
 # Plásmidos de movimiento (las «Máquinas Técnicas» de Micromón): uno por cada movimiento.

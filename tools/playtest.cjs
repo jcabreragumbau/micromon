@@ -105,14 +105,14 @@ const path = require("node:path");
   await page.waitForTimeout(300); await shot("20-lanzar");
   await autobattle("21-captura", false); await advance(); await shot("22-tras-captura");
   // --- Entrenador que ve al jugador y encuentro en hierba alta caminando
-  await G(() => { const g = window.micromon; for (const m of g.state.party) { m.level = Math.max(m.level, 10); micromonDebug.engine.recalcStats(m); m.hp = m.stats.hp; } });
-  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 10, 18, 1)); await page.waitForTimeout(700);
-  await walk("up", 5);
+  await G(() => { const g = window.micromon, E = micromonDebug.engine; g.state.party = [...g.state.party.map((m) => { const n = E.createMicroo(m.species, Math.max(m.level, 14), {}); n.uid = m.uid; return n; }), E.createMicroo("aureus", 14, {})]; });
+  await G(() => micromonDebug.enterWorld(window.micromon, "bosque-viral", 7, 10, 1)); await page.waitForTimeout(700);
+  await press("a", 1, 300);
   for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
   await page.waitForTimeout(500); await shot("22b-entrenador");
   await autobattle("22c-entrenador", false); await advance();
-  const trainerFlag = await G(() => !!window.micromon.state.flags["entrenador:r1-estudiante"]);
-  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 5, 19, 0)); await page.waitForTimeout(700);
+  const trainerFlag = await G(() => !!window.micromon.state.flags["entrenador:bv-becario1"]);
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 15, 20, 0)); await page.waitForTimeout(700);
   let wild = false;
   for (let i = 0; i < 80 && !wild; i++) { await walk(i % 2 ? "up" : "down", 1); if ((await scene()) === "BattleScene") wild = true; }
   if (wild) { await page.waitForTimeout(900); await shot("22d-salvaje-hierba"); await autobattle("22e", false); await advance(); }
@@ -135,7 +135,7 @@ const path = require("node:path");
   // --- Segundo tramo: Ruta 2, Monte Micelio, Ruta 3, Ciudad Cultivo y Gimnasio 2
   await G(() => { const g = window.micromon, e = micromonDebug.engine; if (!g.state.badges.includes("probiotico")) g.state.badges.push("probiotico");
     g.state.party = [e.createMicroo(g.state.flags.starter, 32), e.createMicroo("anthracis", 30), e.createMicroo("chrysogenum", 30)]; });
-  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-2", 33, 4, 1)); await page.waitForTimeout(800); await shot("32-ruta2");
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-2", 38, 13, 1)); await page.waitForTimeout(800); await shot("32-ruta2");
   await press("a", 1, 300); await press("a", 1, 300); await shot("33-hifas"); await press("a", 1, 300); await advance();
   const hifas = await G(() => !!window.micromon.state.flags["hifas-r2"]);
   await walk("up", 1); await walk("up", 1); await page.waitForTimeout(900); await shot("34-cueva");
@@ -150,8 +150,8 @@ const path = require("node:path");
   await press("a", 1, 300); await shot("38-disco"); await advance();
   const disco = await G(() => !!window.micromon.state.bag["disco-duro"]);
   await G(() => { for (const m of window.micromon.state.party) micromonDebug.engine.fullHeal?.(m); });
-  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-3", 34, 9, 1)); await page.waitForTimeout(800); await shot("39-ruta3");
-  await walk("up", 1); await walk("up", 1);
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-2", 1, 15, 3)); await page.waitForTimeout(800); await shot("39-ruta2-rival");
+  await walk("right", 1);
   for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
   await page.waitForTimeout(900); await shot("40-rival3");
   await autobattle("41-rival3", false); await advance();

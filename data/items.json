@@ -195,6 +195,13 @@
   "desc": "Una gota de resina fósil con una endospora dentro. En el Instituto Carlos III pueden revivirla."
  },
  {
+  "id": "placa-koch",
+  "name": "Placa de Koch",
+  "kind": "key",
+  "price": 0,
+  "desc": "Una placa de gelatina de 1881, de las que usaba Robert Koch antes de que Fanny Hesse propusiera el agar. Se derretía con el calor… Una reliquia."
+ },
+ {
   "id": "western-blot",
   "name": "Western Blot",
   "kind": "key",
