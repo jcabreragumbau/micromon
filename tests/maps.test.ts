@@ -17,10 +17,6 @@ describe("Mapas", () => {
       const seen = new Set<string>();
       const q = [entries[0]];
       seen.add(`${entries[0][0]},${entries[0][1]}`);
-      // grietas escalables («trepar:xArriba,yArriba|xAbajo,yAbajo»): unen los dos extremos
-      const grietas = m.npcs.filter((n) => n.script?.startsWith("trepar:")).map((n) => n.script!.slice(7).split("|"));
-      const conectarGrietas = () => { for (const [a, b] of grietas) for (const [p1, p2] of [[a, b], [b, a]]) if (seen.has(p1) && !seen.has(p2)) { seen.add(p2); q.push(p2.split(",").map(Number) as [number, number]); } };
-      for (let pasada = 0; pasada < 3; pasada++) { if (pasada) conectarGrietas();
       while (q.length) {
         const [x, y] = q.shift()!;
         for (const [dx, dy] of [[0, 1], [0, -1], [1, 0], [-1, 0]]) {
@@ -31,7 +27,6 @@ describe("Mapas", () => {
           if (!free(nx, ny)) continue;
           seen.add(k); q.push([nx, ny]);
         }
-      }
       }
       const near = (x: number, y: number) => [[0, 1], [0, -1], [1, 0], [-1, 0]].some(([dx, dy]) => seen.has(`${x + dx},${y + dy}`)) || seen.has(`${x},${y}`);
       for (const [x, y] of entries) if (!seen.has(`${x},${y}`)) problems.push(`${m.id}: entrada ${x},${y} aislada`);

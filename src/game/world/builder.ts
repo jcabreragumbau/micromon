@@ -57,7 +57,7 @@ export const LEGEND: Record<string, string> = {
   Y: "suelo_gimnasio", e: "estanteria", t: "mesa", c: "mostrador", P: "pc", b: "cama", n: "planta", a: "alfombra",
   i: "incubadora", B: "poyata", M: "microscopio", Q: "queso", C: "lata", K: "tanque", E: "escaleras", S: "cartel",
   H: "hielo", y: "nieve", U: "roca_hielo", R: "pared_hielo",
-  "=": "puente_h", "|": "puente_v", "^": "escalon", "%": "risco", _: "parcela",
+  "=": "puente_h", "|": "puente_v", "^": "escalon", "%": "risco",
   x: "suelo_casino", N: "suelo_tecnico", F: "suelo_torre", I: "placa_contaminada", J: "poster",
   u: "suelo_cueva", X: "pared_cueva", d: "disco_duro", A: "acantilado", O: "cueva_entrada", Z: "winogradsky", j: "suelo_invernadero",
 };
@@ -150,9 +150,18 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
     const p = (y % 2 ? "b" : "t") + (x % 2 ? "r" : "l");
     return `${ch === "T" ? "arbol" : "arbolv"}_${p}`;
   }
+  if (ch === "%" || (ch === "O" && (m.grid[y]?.[x - 1] === "%" || m.grid[y]?.[x + 1] === "%"))) {
+    // Montaña con relieve: la pieza depende de qué lados dan a suelo (ver tools/art/terreno_hd.py)
+    const roca = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === "%" || c === "O"; };
+    if (ch === "O") return "monte_cueva";
+    const e = roca(x + 1, y) ? 0 : 1, w = roca(x - 1, y) ? 0 : 1;
+    if (!roca(x, y + 1)) return `monte_${roca(x, y - 1) && m.grid[y - 1]?.[x] === "%" ? "cara2" : "cara1"}_${e}${w}`;
+    if (m.grid[y + 1]?.[x] === "%" && y + 2 < m.h && !roca(x, y + 2)) return `monte_alta_${e}${w}`;
+    return `monte_cima_${roca(x, y - 1) ? 0 : 1}${e}${w}`;
+  }
   if (ch === "~" || ch === "p" || ch === "s") {
     // vecinos que no llevan borde de césped: en la montaña, riscos, escalones, puentes y cascadas
-    const sinBorde = ch === "p" ? "%^=|*O~" : ch === "~" ? "=|*%p" : "";
+    const sinBorde = ch === "p" ? "%^=|*O~s" : ch === "~" ? "=|*%p" : ch === "s" ? "%^=|*O~p" : "";
     const same = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === ch || sinBorde.includes(c) || (ch === "p" && (c.startsWith("@muro_puerta") || c === "@puerta_hd")); };
     const mask = (same(x, y - 1) ? 0 : 1) | (same(x + 1, y) ? 0 : 2) | (same(x, y + 1) ? 0 : 4) | (same(x - 1, y) ? 0 : 8);
     if (ch === "~") return `agua_${mask}_${frame % 64 < 32 ? 0 : 1}`;
@@ -169,7 +178,7 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
   return LEGEND[ch] ?? "hierba";
 }
 
-const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", "puente_h", "puente_v", "escalon", "parcela", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
+const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", "puente_h", "puente_v", "escalon", "monte_cueva", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
   "suelo_madera", "suelo_lab", "suelo_gimnasio", "suelo_cueva", "suelo_invernadero", "cueva_entrada", "suelo_casino", "suelo_tecnico", "suelo_torre", "hielo", "nieve", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo", "puerta_hd"]);
 export function passable(tile: string) { return PASSABLE.has(tile); }
 export function isGrass(tile: string) { return tile === "hierba_alta" || tile === "hierba_oscura"; }

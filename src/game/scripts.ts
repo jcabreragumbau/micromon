@@ -336,55 +336,6 @@ const SCRIPTS: Record<string, Script> = {
   },
 
   // ---------------------------------------------------------------- Monte Micelio y Ciudad Cultivo
-  /** Árboles que se pueden sacudir: a veces cae un Microo. arg = "esp1,esp2|min-max". */
-  async sacudir(game, world, arg) {
-    const [lista, niv] = (arg ?? "").split("|");
-    const sps = lista.split(","), [a, b] = (niv ?? "5-7").split("-").map(Number);
-    await game.say("¡{nombre} sacude el árbol!");
-    if (Math.random() < 0.55) { await game.say("…No ha caído nada."); return; }
-    const sp = sps[Math.floor(Math.random() * sps.length)];
-    await game.say("¡Ha caído un Microo de las ramas!");
-    await wildBattle(game, world, sp, a + Math.floor(Math.random() * (b - a + 1)));
-  },
-  /** Rocas calizas agrietadas: con la Medalla Probiótico, el ácido láctico de tus Microos las disuelve. */
-  async romperRoca(game, world, arg, npc) {
-    const s = S(game);
-    if (!s.badges.includes("probiotico")) { await game.say("Una roca caliza llena de grietas. Con ácido se podría disolver… pero tus Microos aún no saben hacerlo."); return; }
-    await game.say("Una roca caliza llena de grietas. ¿Quieres que tus Microos la disuelvan con ácido láctico?", { keep: true });
-    const ok = await game.choose(["SÍ", "NO"], { x: 200, y: 96, cancel: 1 });
-    game.popKept();
-    if (ok !== 0) return;
-    await game.say("¡Fermentación láctica a tope! El ácido disuelve la caliza y la roca se desmorona.");
-    s.flags[`roca:${arg ?? npc?.def.id}`] = true;
-    world.refreshNpcs();
-  },
-  /** Grietas escalables: un Microo con Pili tipo IV tira de ti (como las bacterias que reptan por superficies).
-   *  arg = "xArriba,yArriba|xAbajo,yAbajo": desde abajo sube y desde arriba baja. */
-  async trepar(game, world, arg, npc) {
-    const s = S(game);
-    const quien = s.party.find((m) => m.hp > 0 && m.moves.some((mv) => mv.id === "pili-tipo-iv"));
-    if (!quien) { await game.say("Una grieta en la roca, demasiado lisa para trepar. Un Microo con Pili tipo IV podría agarrarse y tirar de ti."); return; }
-    await game.say(`Una grieta en la roca. ¿Quieres que ${displayNameOf(quien)} use Pili tipo IV para trepar?`, { keep: true });
-    const ok = await game.choose(["SÍ", "NO"], { x: 200, y: 96, cancel: 1 });
-    game.popKept();
-    if (ok !== 0) return;
-    const [arriba, abajo] = (arg ?? "0,0|0,0").split("|");
-    const [x, y] = (npc && world.py > npc.y ? arriba : abajo).split(",").map(Number);
-    await game.say(`¡${displayNameOf(quien)} extiende sus pili, se agarra a la roca y tira de {nombre}!`);
-    await game.fade(true, 12);
-    world.px = x; world.py = y; world.colocarSeguidor();
-    await game.fade(false, 12);
-  },
-  /** Parcelas de cultivo con bayas. arg = "objeto|flag". */
-  async baya(game, world, arg) {
-    const s = S(game);
-    const [item, flag] = (arg ?? "").split("|");
-    if (s.flags[flag]) { await game.say("La parcela está recién cosechada."); return; }
-    s.flags[flag] = true;
-    addItem(s, item);
-    await game.say(`¡{nombre} recoge las bayas maduras! Dentro hay ${ITEMS.get(item)?.name ?? item}.`);
-    world.refreshNpcs();
-  },
   async regaloRuta1(game) {
     const s = S(game);
     if (s.flags.regaloRuta1) { await game.say("Dependiente: ¡Que vaya bien el viaje! Si necesitas más, en Ciudad Viral tenemos tienda."); return; }

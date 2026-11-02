@@ -54,6 +54,90 @@ def cuarto(t: np.ndarray, q: int) -> np.ndarray:
     qx, qy = q % 2, q // 2
     return t[qy * C:(qy + 1) * C, qx * C:(qx + 1) * C]
 
+# ---------------------------------------------------------------- montaña con relieve (procedural, 64 px)
+# Piezas que elige tileAt según los vecinos de cada casilla de roca («%»): luz desde arriba a la izquierda.
+#   cima_NEW  parte alta de la roca; N/E/W = 1 si ese lado da a suelo (borde iluminado o ladera en sombra)
+#   alta_EW   mitad superior de una pared de dos casillas (con el labio del borde arriba)
+#   cara1_EW  pared de una casilla (labio arriba y sombra en la base)
+#   cara2_EW  mitad inferior de una pared de dos casillas (sombra en la base)
+#   cueva     pared con la boca de una cueva
+TOP, TOP_L, TOP_D = np.array([182, 124, 80.]), np.array([222, 172, 120.]), np.array([138, 88, 52.])
+FACE, OUT = np.array([156, 98, 58.]), np.array([66, 38, 22.])
+def _ruido(seed, sigma, n=C):
+    r = np.random.default_rng(seed).random((n, n))
+    r = gaussian_filter(r, sigma, mode="wrap")
+    return (r - r.mean()) / (r.std() + 1e-6)
+def _cima(seed):
+    m = _ruido(seed, 3.5) * 0.06 + _ruido(seed + 7, 1.2) * 0.03
+    a = TOP[None, None] * (1 + m[..., None])
+    # bultos redondeados (piedras incrustadas) con luz arriba-izquierda
+    rng = np.random.default_rng(seed + 99)
+    yy, xx = np.mgrid[0:C, 0:C]
+    for _ in range(3):
+        cx, cy, r = rng.integers(8, 56), rng.integers(8, 56), rng.integers(5, 9)
+        d = np.hypot(xx - cx, yy - cy)
+        m2 = d < r
+        luz = np.clip(1 - np.hypot(xx - (cx - r / 3), yy - (cy - r / 3)) / r, 0, 1)
+        a[m2] = (TOP_D * 0.6 + TOP * 0.4)[None] * 0 + (TOP * (0.9 + 0.25 * luz[m2, None]))
+        ring = (d >= r - 1.2) & (d < r)
+        a[ring] = TOP_D
+    return a
+def _cara(seed, oscuro=1.0):
+    x = np.arange(C)
+    franjas = gaussian_filter(np.random.default_rng(seed).random(C), 1.6, mode="wrap")
+    franjas = (franjas - franjas.min()) / (np.ptp(franjas) + 1e-6)
+    cols = 0.78 + 0.32 * franjas
+    vert = _ruido(seed + 3, 2.0) * 0.04
+    a = FACE[None, None] * (cols[None, :, None] + vert[..., None]) * oscuro
+    # grietas verticales
+    for k in np.random.default_rng(seed + 5).integers(0, C, 4):
+        a[:, k] *= 0.72
+    return a
+def _grad(a, y0, y1, f0, f1):
+    for y in range(y0, y1): a[y] *= f0 + (f1 - f0) * (y - y0) / max(1, y1 - y0 - 1)
+def _labio(a, seed):
+    """Borde superior de una pared: franja de roca de arriba con brillo y sombra debajo (el saliente)."""
+    top = _cima(seed)[:12]
+    a[:12] = top
+    a[9:11] = TOP_L; a[11:13] = OUT * 1.3; a[13:17] *= 0.78
+def _lados(a, e, w, cara):
+    if w:   # lado oeste a suelo: ladera iluminada
+        for k in range(10): a[:, k] = a[:, k] * (0.75 + 0.025 * k) + TOP_L * (0.25 - 0.025 * k)
+        a[:, :2] = OUT * 1.2
+    if e:   # lado este a suelo: ladera en sombra
+        for k in range(12): a[:, C - 1 - k] *= 0.6 + 0.033 * k
+        a[:, C - 2:] = OUT
+def pieza(tipo, n, e, w, seed):
+    if tipo == "cima":
+        a = _cima(seed)
+        if n: a[0:3] = OUT * 1.2; a[3:9] = TOP_L * 0.9 + a[3:9] * 0.1
+    else:
+        a = _cara(seed, 1.0 if tipo == "alta" else 0.92)
+        if tipo == "alta": _grad(a, 0, C, 1.04, 0.94)
+        if tipo in ("cara1", "cara2"): _grad(a, 0, C, 0.98 if tipo == "cara1" else 0.92, 0.8)
+        if tipo in ("alta", "cara1"): _labio(a, seed)
+        if tipo in ("cara1", "cara2"):
+            a[C - 9:C - 3] *= 0.58; a[C - 3:] = OUT
+    _lados(a, e, w, tipo != "cima")
+    return a
+def cueva(seed):
+    a = pieza("cara1", 0, 0, 0, seed)
+    yy, xx = np.mgrid[0:C, 0:C]
+    arco = ((xx - 32) / 20) ** 2 + ((yy - 64) / 34) ** 2 < 1
+    borde = ((xx - 32) / 23) ** 2 + ((yy - 64) / 37) ** 2 < 1
+    a[borde & ~arco] = OUT; a[arco] = np.array([24, 16, 14.])
+    return a
+def montana(out):
+    for q in range(4):
+        s = 1000 + q * 37
+        for n in (0, 1):
+            for e in (0, 1):
+                for w in (0, 1): out[f"monte_cima_{n}{e}{w}#{q}"] = pieza("cima", n, e, w, s)
+        for tipo in ("alta", "cara1", "cara2"):
+            for e in (0, 1):
+                for w in (0, 1): out[f"monte_{tipo}_{e}{w}#{q}"] = pieza(tipo, 1, e, w, s + 11)
+        out[f"monte_cueva#{q}"] = cueva(s + 5)
+
 def main():
     tiles_meta = json.load(open(ATL / "tiles.json"))
     viejo = np.array(Image.open(ATL / "tiles.png").convert("RGBA"))
@@ -101,6 +185,7 @@ def main():
                 g = cuarto(tex["hierba"], q) * 0.9                 # orilla algo más oscura
                 out[f"agua_{k}_{f}#{q}"] = g * (1 - a[..., None]) + w * a[..., None]
 
+    montana(out)
     # objetos sobre césped: sin el césped viejo (se dibujan encima del nuevo)
     objetos = ["flores0", "flores1", "seto", "valla", "cartel", "roca", "bordillo", "acantilado", "cueva_entrada", "hifas_bloqueo"]
     rgba: dict[str, np.ndarray] = {}
