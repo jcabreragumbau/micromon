@@ -467,7 +467,9 @@ export class Overworld implements Scene {
       // muebles altos con dibujo propio (V2): su suelo aquí y el mueble con los personajes (por profundidad)
       const alto = PROPS[`obj_${t}`];
       if (alto?.nativo) {
-        g.tile(suelo, x * 16 - cx, y * 16 - cy, x, y);
+        // bocas de cueva (V2): la pared debajo y la boca encima, por profundidad
+        if (t === "monte_cueva" || t === "cueva_entrada") g.tile(t, x * 16 - cx, y * 16 - cy, x, y, suelo, this.vecinos(x, y, t), this.map.env, 0);
+        else g.tile(suelo, x * 16 - cx, y * 16 - cy, x, y);
         altos.push([`obj_${t}`, x * 16 - cx, y * 16 - cy]);
         continue;
       }

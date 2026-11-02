@@ -134,6 +134,15 @@ def relieve(h, r, c0, mask, cesped=False):
     o = a_cesped_v2(o)
     return sobre(HIERBA, o)
 
+def pared(y, e, w, alt):
+    """Casilla de pared de la montaña (16 px desde la fila y de la lámina terreno2, columnas 0-3)."""
+    def col(c): return a_cesped_v2(c16(T2, c * 16, y))
+    medio = col(1 + alt)
+    o = medio.copy()
+    if w: o[:, :8] = col(0)[:, :8]
+    if e: o[:, 8:] = col(3)[:, 8:]
+    return o
+
 def con_cueva(t, h, r):
     """Boca de cueva de la plantilla (fila r, columnas 4-5: recortada centrada en el hueco) sobre la pared."""
     b = a_cesped_v2(c16(h, 4 * 16 + 8, r * 16))
@@ -328,17 +337,21 @@ def main():
     # tile más arriba (se recorta desplazado).
     for k in range(16):
         pon(f"acantilado~{k}", relieve(T2, 335, 0, 15 - k, cesped=True))          # ~: vecinos iguales
-        pon(f"cueva_entrada~{k}", con_cueva(relieve(T2, 335, 0, 15 - k, cesped=True), T2, 341))
+        pon(f"cueva_entrada~{k}", relieve(T2, 335, 0, 15 - k, cesped=True))          # la boca va encima (obj_cueva_entrada)
     for n in (0, 1):
         for e in (0, 1):
             for w in (0, 1):
                 pon(f"monte_cima_{n}{e}{w}", relieve(T2, 315, 0, n | e * 2 | w * 8))
     for e in (0, 1):
         for w in (0, 1):
-            pon(f"monte_alta_{e}{w}", relieve(T2, 315, 0, 1 | e * 2 | w * 8))
-            pon(f"monte_cara1_{e}{w}", relieve(T2, 315, 0, 1 | 4 | e * 2 | w * 8))
-            pon(f"monte_cara2_{e}{w}", relieve(T2, 315, 0, 4 | e * 2 | w * 8))
-    pon("monte_cueva", con_cueva(relieve(T2, 315, 0, 4), T2, 321))
+            # paredes de la montaña con las piezas de pared de la lámina (filas 550-557): la de dos alturas se
+            # reparte entre la casilla alta y la baja; la de una altura, en una casilla. Extremos redondeados a
+            # los lados abiertos; en medio alternan dos columnas.
+            for q in range(4):
+                pon(f"monte_alta_{e}{w}", sobre(HIERBA, pared(8838, e, w, q % 2)), q)
+                pon(f"monte_cara2_{e}{w}", sobre(HIERBA, pared(8854, e, w, q % 2)), q)
+                pon(f"monte_cara1_{e}{w}", sobre(HIERBA, pared(8808, e, w, q % 2)), q)
+    pon("monte_cueva", sobre(HIERBA, pared(8854, 0, 0, 0)))          # la boca va encima (obj_monte_cueva)
     # escaleras talladas: en la roca de la montaña y en los desniveles de césped
     pon("escalon", sobre(t16(T2, 331, 4), t16(T2, 331, 4)))
     pon("escalon_cesped", sobre(t16(T2, 331, 4), t16(T2, 331, 4)))         # también de roca: se leen mejor
@@ -396,6 +409,8 @@ def main():
         "obj_planta": recorta(INT, 16, 7752, 16, 42),
         "obj_estanteria": recorta(INT, 48, 7264, 16, 50),
         "obj_pc": recorta(INT, 64, 6704, 18, 34),
+        "obj_monte_cueva": recorta(T2, 0, 8928, 48, 32),             # boca de cueva de la montaña (2 casillas)
+        "obj_cueva_entrada": recorta(T2, 0, 8928, 48, 32),
     }
     def base_solida(s):
         ys = np.where((s[..., 3] == 255).any(1))[0]
