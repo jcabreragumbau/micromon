@@ -9,7 +9,7 @@ const path = require("node:path");
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e) + " @ " + String(e.stack).split("\n").slice(1, 6).join(" | ") + " ## " + blog.slice(-4).join(" / ")));
   page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
-  await page.goto("file://" + path.resolve("dist/index.html"));
+  await page.goto("file://" + path.resolve(process.env.HTML ?? "dist/index.html"));
   await page.waitForTimeout(400);
   await page.evaluate(() => { try { localStorage.clear(); } catch {} });
   const G = (f, a) => page.evaluate(f, a);

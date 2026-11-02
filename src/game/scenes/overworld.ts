@@ -360,6 +360,25 @@ export class Overworld implements Scene {
   }
 
   // ---------------------------------------------------------------- dibujo
+  private sueloCache: [MapDef, string] | null = null;
+  /** Suelo más común de un interior (lo que va debajo de muebles y objetos). */
+  private sueloBase(): string {
+    if (this.sueloCache?.[0] === this.map) return this.sueloCache[1];
+    const n: Record<string, number> = {};
+    for (let y = 0; y < this.map.h; y++) for (let x = 0; x < this.map.w; x++) { const t = tileAt(this.map, x, y); if (t.startsWith("suelo_")) n[t] = (n[t] ?? 0) + 1; }
+    const s = Object.entries(n).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "suelo_madera";
+    this.sueloCache = [this.map, s];
+    return s;
+  }
+  /** Vecinos con la misma pieza (1 N, 2 E, 4 S, 8 O); fuera del mapa cuenta como igual. */
+  private vecinos(x: number, y: number, t: string): number {
+    const igual = (xx: number, yy: number) => {
+      if (xx < 0 || yy < 0 || xx >= this.map.w || yy >= this.map.h) return !!this.map.outdoor;   // fuera: sigue (exterior) o acaba (interior)
+      const v = tileAt(this.map, xx, yy);
+      return v === t || (t === "acantilado" && v.startsWith("arbol"));      // árboles sobre la meseta
+    };
+    return (igual(x, y - 1) ? 1 : 0) | (igual(x + 1, y) ? 2 : 0) | (igual(x, y + 1) ? 4 : 0) | (igual(x - 1, y) ? 8 : 0);
+  }
   /** Cámara fija para capturas del mapa entero (solo herramientas de prueba). */
   debugCam: [number, number] | null = null;
   draw(g: Gfx, game: Game) {
@@ -378,6 +397,7 @@ export class Overworld implements Scene {
     const x0 = Math.floor(cx / 16) - 1, y0 = Math.floor(cy / 16) - 1;
     const hd = !!IMG.props_hd;
     const trees: [string, number, number][] = [];
+    const altos: [string, number, number][] = [];
     for (let y = y0; y < y0 + Math.ceil(H / 16) + 2; y++) for (let x = x0; x < x0 + Math.ceil(W / 16) + 2; x++) {
       if (x < 0 || y < 0 || x >= this.map.w || y >= this.map.h) continue;
       let t = tileAt(this.map, x, y, this.anim);
@@ -390,9 +410,21 @@ export class Overworld implements Scene {
       if (t === "bloque" || t === "puerta_hd") t = "hierba";
       // la valla de los bordes de la montaña va sobre la tierra de la terraza, no sobre césped
       const tierra = t === "valla_v" && [[0, 1], [0, -1], [1, 0], [-1, 0]].some(([dx, dy]) => this.map.grid[y + dy]?.[x + dx] === "p");
-      g.tile(t, x * 16 - cx, y * 16 - cy, x, y, tierra ? "camino" : "hierba");
+      const suelo = tierra ? "camino" : this.map.outdoor ? "hierba" : this.sueloBase();
+      // muebles altos con dibujo propio (V2): su suelo aquí y el mueble con los personajes (por profundidad)
+      const alto = PROPS[`obj_${t}`];
+      if (alto?.nativo) {
+        g.tile(suelo, x * 16 - cx, y * 16 - cy, x, y);
+        altos.push([`obj_${t}`, x * 16 - cx, y * 16 - cy]);
+        continue;
+      }
+      g.tile(t, x * 16 - cx, y * 16 - cy, x, y, suelo, this.vecinos(x, y, t), this.map.env);
     }
-    for (const [n, x, y] of trees) drawProp(g, n, x - 1, y - 2, 34);
+    for (const [n, x, y] of trees) {
+      const m = PROPS[n];
+      if (m?.nativo) drawProp(g, n, x + 16 - m.ax! / 4, y + 32 - m.base! / 4, m.w / 4);   // tronco centrado en el bloque de 2×2
+      else drawProp(g, n, x - 1, y - 2, 34);
+    }
     // objetos del suelo
     for (const it of this.map.items) {
       if (it.hidden || game.state.flags[it.flag]) continue;
@@ -405,10 +437,15 @@ export class Overworld implements Scene {
       const m = PROPS[p.sprite];
       if (!m?.door || !m.wall) continue;
       // la ilustración ocupa la planta: su alto es el de la planta y su puerta cae sobre la casilla de la puerta
-      const k = (p.h * 16) / m.h;
-      const dx = (p.x + p.door) * 16 + 8 - cx - m.door[0] * k, dy = (p.y + p.h) * 16 - cy - m.h * k;
+      // V2 (nativo): a escala 1, con la base de la fachada sobre la última fila de la planta
+      const k = m.nativo ? 0.25 : (p.h * 16) / m.h;
+      const dx = (p.x + p.door) * 16 + 8 - cx - m.door[0] * k, dy = (p.y + p.h) * 16 - cy - (m.nativo ? m.base! : m.h) * k;
       if (dx > W || dy > H || dx + m.w * k < 0 || dy + m.h * k < 0) continue;
       ents.push({ y: (p.y + p.h - 1) * 16 - cy - 1, d: () => drawProp(g, p.sprite, dx, dy, m.w * k) });
+    }
+    for (const [n, x, y] of altos) {
+      const m = PROPS[n];
+      ents.push({ y: y - 1, d: () => drawProp(g, n, x + 8 - m.w / 8, y + 16 - m.base! / 4, m.w / 4) });
     }
     for (const n of this.npcs) {
       if (n.def.sprite === "") continue;
@@ -467,7 +504,7 @@ function drawProp(g: Gfx, name: string, x: number, y: number, w: number) {
   const m = PROPS[name];
   if (!m) return;
   const c = g.ctx;
-  c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+  c.imageSmoothingEnabled = !m.nativo; c.imageSmoothingQuality = "high";
   c.drawImage(IMG.props_hd, m.x, m.y, m.w, m.h, Math.round(x * 4) / 4, Math.round(y * 4) / 4, w, (w * m.h) / m.w);
   c.imageSmoothingEnabled = false;
 }

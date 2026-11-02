@@ -24,7 +24,9 @@ export async function loadAssets(): Promise<void> {
   })));
 }
 /** Ilustraciones HD de edificios y árboles (rectángulo en el atlas, puerta y fachada en px del atlas). */
-export const PROPS = propsMeta as unknown as Record<string, { x: number; y: number; w: number; h: number; door?: [number, number]; wall?: [number, number] }>;
+export const PROPS = propsMeta as unknown as Record<string, { x: number; y: number; w: number; h: number; door?: [number, number]; wall?: [number, number];
+  /** Micromón V2: dibujo a 4× del tamaño nativo (se dibuja a escala 1, sin suavizado); base = fila de su suelo, ax = centro. */
+  nativo?: number; base?: number; ax?: number }>;
 /** Medallas HD: celdas cuadradas en el orden en que se ganan. */
 export const MEDALS = medalMeta as { cell: number; order: string[] };
 /** Terreno HD (celdas de 64 px): "nombre#cuarto" para suelos y bordes, "obj:nombre" para objetos sin césped. */

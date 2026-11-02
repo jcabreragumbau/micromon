@@ -1,30 +1,43 @@
 // Construye el juego como un único HTML: incrusta los atlas, empaqueta con Bun y escribe dist/index.html.
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+// Con --v2 construye Micromón V2 (dist/micromonV2.html): los atlas de assets/atlas_v2/ sustituyen a los
+// de assets/atlas/ cuando existen (tileset de 4.ª generación: terreno, árboles, casas e interiores).
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const ROOT = join(import.meta.dir, "..");
+const V2 = process.argv.includes("--v2");
+const NOMBRE = V2 ? "Micromón V2" : "Micromón";
+/** Carpeta de un atlas: la de la V2 si esta versión tiene el suyo. */
+const dirAtlas = (f: string) => (V2 && existsSync(join(ROOT, "assets/atlas_v2", f)) ? "assets/atlas_v2" : "assets/atlas");
 const ATLAS = ["portada.jpg", "portada_fondo.jpg", ...["hierba", "bosque", "interior", "laboratorio", "gimnasio", "cueva", "invernadero", "casino", "torre", "hielo"].map((e) => `fondo_${e}.jpg`), "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd.webp", "props_hd.webp", "terreno_hd.webp", "medallas_hd.webp", "mapa_region", "microos_frente", "microos_espalda", "microos_iconos"];
 // WebP sin pérdida de los atlas HD grandes (idénticos al PNG, pero ocupan menos)
 const WEBP = ATLAS.filter((f) => f.endsWith(".webp")).map((f) => f.slice(0, -5));
-const conv = Bun.spawnSync(["python3", join(ROOT, "tools/art/a_webp.py"), ...WEBP]);
+const conv = Bun.spawnSync(["python3", join(ROOT, "tools/art/a_webp.py"), ...(V2 ? ["--v2"] : []), ...WEBP]);
 if (conv.exitCode !== 0) { console.error(conv.stderr.toString()); process.exit(1); }
 const lines = ATLAS.map((f) => {
   const [n, ext] = f.includes(".") ? f.split(".") : [f, "png"];
   const mime = ext === "jpg" ? "image/jpeg" : ext === "webp" ? "image/webp" : "image/png";
-  return `  ${JSON.stringify(n)}: "data:${mime};base64,${readFileSync(join(ROOT, "assets/atlas", `${n}.${ext}`)).toString("base64")}",`;
+  return `  ${JSON.stringify(n)}: "data:${mime};base64,${readFileSync(join(ROOT, dirAtlas(`${n}.${ext}`), `${n}.${ext}`)).toString("base64")}",`;
 });
 // Música grabada (MP3) en un módulo aparte: no son imágenes.
 const AUDIO: Record<string, string> = { entrenador: "combate_entrenador.mp3" };
 writeFileSync(join(ROOT, "src/game/assets_audio.ts"), `// Generado por tools/build_game.ts. No editar.\nexport default {\n${Object.entries(AUDIO).map(([k, f]) => `  ${JSON.stringify(k)}: "data:audio/mpeg;base64,${readFileSync(join(ROOT, "assets/audio", f)).toString("base64")}",`).join("\n")}\n};\n`);
-writeFileSync(join(ROOT, "src/game/assets_data.ts"), `// Generado por tools/build_game.ts. No editar.\nexport default {\n${lines.join("\n")}\n};\n`);
+writeFileSync(join(ROOT, "src/game/assets_data.ts"), `// Generado por tools/build_game.ts. No editar.\nexport const V2 = ${V2};\nexport default {\n${lines.join("\n")}\n};\n`);
 
-const res = await Bun.build({ entrypoints: [join(ROOT, "src/game/main.ts")], minify: { whitespace: true, syntax: true, identifiers: false }, target: "browser" });
+// V2: los metadatos JSON de los atlas también salen de assets/atlas_v2/
+const atlasV2 = { name: "atlas-v2", setup(b: any) {
+  b.onResolve({ filter: /assets\/atlas\/[a-z_]+\.json$/ }, (a: any) => {
+    const f = a.path.split("/").pop();
+    return { path: join(ROOT, dirAtlas(f), f) };
+  });
+} };
+const res = await Bun.build({ entrypoints: [join(ROOT, "src/game/main.ts")], minify: { whitespace: true, syntax: true, identifiers: false }, target: "browser", plugins: V2 ? [atlasV2] : [] });
 if (!res.success) { console.error(res.logs); process.exit(1); }
 const js = await res.outputs[0].text();
 const html = `<!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Micromón</title>
+<title>${NOMBRE}</title>
 <style>
 :root{--fondo:#14161e;--texto:#c8ccd8;--boton:#2a2e3e;--borde:#454b63}
 html,body{margin:0;height:100%;background:var(--fondo);color:var(--texto);font-family:system-ui,sans-serif;overflow:hidden;touch-action:none}
@@ -52,11 +65,12 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;box
 <script>${js.replaceAll("</script", "<\\/script")}</script>
 </body></html>`;
 mkdirSync(join(ROOT, "dist"), { recursive: true });
-writeFileSync(join(ROOT, "dist/index.html"), html);
-console.log("dist/index.html:", (html.length / 1024).toFixed(0), "KB");
+const SAL = V2 ? ["indexV2.html", "micromonV2.html"] : ["index.html", "micromon.html"];
+writeFileSync(join(ROOT, "dist", SAL[0]), html);
+console.log(`dist/${SAL[0]}:`, (html.length / 1024).toFixed(0), "KB");
 
 // Versión para publicar como página de Claude: sin esqueleto propio, márgenes seguros y aspecto oscuro único.
-const page = `<title>Micromón</title>
+const page = `<title>${NOMBRE}</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Consola portátil: pantalla centrada sobre fondo de carcasa, mando táctil debajo en móviles */
@@ -77,7 +91,7 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:var(--ma
 #x2{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);width:52px;height:26px;border-radius:13px!important;font-size:12px!important}
 @media (pointer:coarse){#mando{display:flex}#ayuda{display:none}}
 </style>
-<canvas id="pantalla" width="240" height="160" aria-label="Pantalla del juego Micromón"></canvas>
+<canvas id="pantalla" width="240" height="160" aria-label="Pantalla del juego ${NOMBRE}"></canvas>
 <div id="ayuda">Flechas: moverse · Z o Espacio: A · X o Esc: B (mantén para correr) · Intro: menú · Q o Mayús: SELECT (tabla de tipos en combate) · Tab o V: velocidad ×2 · También con mando de Xbox · La partida se guarda en este navegador desde el menú</div>
 <div id="mando">
  <div id="cruz"><span></span><button id="b-arriba" data-key="up" aria-label="Arriba">▲</button><span></span><button id="b-izq" data-key="left" aria-label="Izquierda">◀</button><span></span><button id="b-der" data-key="right" aria-label="Derecha">▶</button><span></span><button id="b-abajo" data-key="down" aria-label="Abajo">▼</button><span></span></div>
@@ -86,5 +100,5 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:var(--ma
 </div>
 <script>${js.replaceAll("</script", "<\\/script")}</script>
 `;
-writeFileSync(join(ROOT, "dist/micromon.html"), page);
-console.log("dist/micromon.html:", (page.length / 1024).toFixed(0), "KB");
+writeFileSync(join(ROOT, "dist", SAL[1]), page);
+console.log(`dist/${SAL[1]}:`, (page.length / 1024).toFixed(0), "KB");

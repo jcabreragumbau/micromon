@@ -46,13 +46,16 @@ export class Gfx {
   alpha(a: number, f: () => void) { const p = this.ctx.globalAlpha; this.ctx.globalAlpha = a; f(); this.ctx.globalAlpha = p; }
 
   /** Casilla de 16 px. Si se da su posición en el mapa (cx, cy) y hay terreno HD, usa la textura nueva
-   *  (el cuarto que toca de su bloque de 2×2) y, para objetos sobre césped, césped HD debajo. */
-  tile(name: string, x: number, y: number, cx?: number, cy?: number, suelo = "hierba") {
+   *  (el cuarto que toca de su bloque de 2×2) y, para objetos sobre césped, el suelo HD debajo.
+   *  `vecinos` (1 N, 2 E, 4 S, 8 O: vecinos con la misma pieza) y `amb` (ambiente del mapa) eligen
+   *  variantes si el atlas las tiene («nombre~vecinos», «nombre@ambiente»; las usa Micromón V2). */
+  tile(name: string, x: number, y: number, cx?: number, cy?: number, suelo = "hierba", vecinos = -1, amb = "") {
     if (cx !== undefined && cy !== undefined && IMG.terreno_hd) {
-      const q = (((cx % 2) + 2) % 2) + (((cy % 2) + 2) % 2) * 2;
-      const hd = TERR.index[`${name}#${q}`], obj = TERR.index[`obj:${name}`];
+      const q = (((cx % 2) + 2) % 2) + (((cy % 2) + 2) % 2) * 2, I = TERR.index;
+      const hd = (vecinos >= 0 ? I[`${name}~${vecinos}#${q}`] : undefined) ?? (amb ? I[`${name}@${amb}#${q}`] : undefined) ?? I[`${name}#${q}`];
+      const obj = (vecinos >= 0 ? I[`obj:${name}~${vecinos}`] : undefined) ?? I[`obj:${name}`];
       if (hd !== undefined) { this.terr(hd, x, y); return; }
-      if (obj !== undefined) { this.terr(TERR.index[`${suelo}#${q}`] ?? TERR.index[`hierba#${q}`], x, y); this.terr(obj, x, y); return; }
+      if (obj !== undefined) { this.terr(I[`${suelo}#${q}`] ?? I[`hierba#${q}`], x, y); this.terr(obj, x, y); return; }
     }
     const i = TILES[name];
     if (i === undefined) return;

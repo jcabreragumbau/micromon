@@ -1,0 +1,289 @@
+#!/usr/bin/env python3
+"""Micromón V2: terreno, árboles, casas e interiores con el tileset de 4.ª generación del usuario
+(assets/reference/tileset_v2/exterior.png e interior.png, de akizakura16).
+
+Las láminas están a 2× (cada píxel ocupa 2×2): se reducen a su tamaño nativo (casillas de 16 px) y se
+amplían a 4× sin suavizado, que es la resolución a la que dibuja el juego. No se redibuja nada.
+
+- Autotiles de 3×3 (camino, arena, agua, acantilado, alfombra): cada cuarto de 8×8 px de la casilla se
+  toma del bloque según sus dos vecinos (como en RPG Maker), con la máscara de 4 vecinos del juego
+  (1 = norte distinto, 2 = este, 4 = sur, 8 = oeste).
+- Piezas que dependen de sus vecinos (setos, vallas, cornisas, mesas, mostradores): «nombre~máscara»,
+  donde la máscara indica qué vecinos son de la misma pieza (1 N, 2 E, 4 S, 8 O).
+- Paredes según el ambiente del mapa: «pared@interior», «pared@laboratorio».
+- Objetos altos (camas, plantas, estanterías, ordenador) y edificios y árboles: en el atlas de
+  edificios (props_hd) a 4× con «nativo»: se dibujan a escala 1 apoyados en su casilla.
+
+Parte de los atlas de la versión 1 (assets/atlas/terreno_hd y props_hd) y escribe en assets/atlas_v2/.
+Uso: python3 tools/art/tileset_v2.py [--ver]   (--ver deja una lámina de revisión en assets/atlas_v2/revision.png)
+"""
+import json, sys
+from pathlib import Path
+import numpy as np
+from PIL import Image
+
+ROOT = Path(__file__).resolve().parents[2]
+REF = ROOT / "assets/reference/tileset_v2"
+A1 = ROOT / "assets/atlas"
+A2 = ROOT / "assets/atlas_v2"
+C = 64
+
+def lamina(nombre):
+    a = np.array(Image.open(REF / f"{nombre}.png").convert("RGBA"))
+    return a[::2, ::2].copy()                      # tamaño nativo (los píxeles vienen duplicados)
+EXT, INT = lamina("exterior"), lamina("interior")
+
+def t16(h, r, c): return h[r * 16:(r + 1) * 16, c * 16:(c + 1) * 16].copy()
+def x4(a): return np.repeat(np.repeat(a, 4, 0), 4, 1)
+def sobre(fondo, fig):
+    """Composición alfa de fig (RGBA) sobre fondo (RGBA opaco)."""
+    a = fig[..., 3:4].astype(float) / 255
+    o = fondo.copy()
+    o[..., :3] = (fig[..., :3] * a + fondo[..., :3] * (1 - a)).round().astype(np.uint8)
+    o[..., 3] = np.maximum(fondo[..., 3], fig[..., 3])
+    return o
+
+def autotile(h, r0, c0, mask):
+    """Casilla de 16 px compuesta por cuartos del bloque 3×3 (r0, c0) según la máscara de bordes."""
+    n, e, s, w = mask & 1, mask & 2, mask & 4, mask & 8
+    o = np.zeros((16, 16, 4), np.uint8)
+    for qy, vert in ((0, n), (1, s)):
+        for qx, hor in ((0, w), (1, e)):
+            br = (0 if qy == 0 else 2) if vert else 1
+            bc = (0 if qx == 0 else 2) if hor else 1
+            src = t16(h, r0 + br, c0 + bc)
+            o[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8] = src[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8]
+    return o
+
+def recorta(h, x, y, w, hh):
+    """Sprite libre (coordenadas nativas) recortado a su caja de opacidad."""
+    a = h[y:y + hh, x:x + w].copy()
+    ys, xs = np.where(a[..., 3] > 0)
+    return a[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
+
+# ---------------------------------------------------------------- exterior
+HIERBA = t16(EXT, 0, 4)
+HIERBA2 = t16(EXT, 2, 4)
+MATA = t16(EXT, 2, 3)
+
+def hierba_alta(oscura=False):
+    """Hierba alta: cuatro matas de la lámina (la de la fila 2) sobre el césped, apretadas."""
+    mata = MATA.copy()
+    # la mata sin su césped: píxeles distintos del césped liso
+    dif = np.abs(mata[..., :3].astype(int) - HIERBA[..., :3].astype(int)).sum(2) > 18
+    fig = mata.copy(); fig[..., 3] = np.where(dif, 255, 0)
+    ys, xs = np.where(dif)
+    fig = fig[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
+    o = HIERBA.copy()
+    fh, fw = fig.shape[:2]
+    for dx, dy in ((-3, -5), (5, -5), (1, 0), (-4, 4), (6, 4)):
+        lienzo = np.zeros((16 + 2 * fh, 16 + 2 * fw, 4), np.uint8)
+        ox, oy = fw + 8 - fw // 2 + dx, fh + 8 - fh // 2 + dy
+        lienzo[oy:oy + fh, ox:ox + fw] = fig
+        o = sobre(o, lienzo[fh:fh + 16, fw:fw + 16])
+    # algo más oscura y verde que el césped, para que se distinga bien
+    f = o[..., :3].astype(float); dif2 = np.abs(o[..., :3].astype(int) - HIERBA[..., :3].astype(int)).sum(2) > 0
+    o[dif2, :3] = (f[dif2] * np.array([0.84, 0.92, 0.80])).clip(0, 255).astype(np.uint8)
+    if oscura:
+        f = o[..., :3].astype(float) * np.array([0.62, 0.74, 0.66])
+        o[..., :3] = f.clip(0, 255).astype(np.uint8)
+    return o
+
+def sin_agua(t):
+    """Cambia los píxeles de agua (azules) por césped, oscurecido donde el agua tenía sombra."""
+    o = t.copy()
+    f = t[..., :3].astype(int)
+    agua = (f[..., 2] > f[..., 0] + 40) & (f[..., 2] > f[..., 1] - 5) & (t[..., 3] > 0)
+    luz = f.sum(2) / max(1, np.median(f[agua].sum(1)) if agua.any() else 1)
+    g = HIERBA[..., :3].astype(float) * np.clip(luz, 0.55, 1.0)[..., None]
+    o[agua, :3] = g[agua].round().astype(np.uint8); o[agua, 3] = 255
+    return o
+
+def pieza_lineal(mask, L, M, R, T=None, V=None, B=None, solo=None):
+    """Pieza de una línea (seto, valla, cornisa) según sus vecinos iguales (1 N, 2 E, 4 S, 8 O)."""
+    hor = mask & (2 | 8)
+    if hor or T is None:
+        if mask & 2 and mask & 8: return M
+        if mask & 2: return L
+        if mask & 8: return R
+        if not (mask & (1 | 4)) or T is None: return solo if solo is not None else M
+    if mask & 1 and mask & 4: return V
+    if mask & 4: return T
+    if mask & 1: return B
+    return solo if solo is not None else M
+
+def agua_marco(mask, f, centro0):
+    base = autotile(EXT, 5, 0, mask)
+    if f == 0: return base
+    # segundo fotograma: el agua del centro desplazada (las ondas se mueven); la orilla queda igual
+    paleta = {tuple(p) for p in centro0.reshape(-1, 4)}
+    mov = np.roll(centro0, 6, axis=1)
+    o = base.copy()
+    for y in range(16):
+        for x in range(16):
+            if tuple(base[y, x]) in paleta: o[y, x] = mov[y, x]
+    return o
+
+# ---------------------------------------------------------------- interior
+SUELOS = {   # (fila, columna) de una casilla limpia (sin sombra) de cada suelo
+    "suelo_madera": (80, 0),
+    "suelo_lab": (48, 0),
+}
+PAREDES = {  # ambiente -> (pared, zócalo)
+    "interior": ((222, 1), (223, 1)),
+    "laboratorio": ((227, 1), (228, 1)),
+}
+
+def main():
+    A2.mkdir(exist_ok=True)
+    meta1 = json.load(open(A1 / "terreno_hd.json"))
+    atl1 = np.array(Image.open(A1 / "terreno_hd.png").convert("RGBA"))
+    celdas: dict[str, np.ndarray] = {}
+    for n, i in meta1["index"].items():                   # todo lo de la V1 (montaña, cueva...) sigue igual
+        y, x = (i // meta1["cols"]) * C, (i % meta1["cols"]) * C
+        celdas[n] = atl1[y:y + C, x:x + C]
+    def pon(n, t16_, q=None):
+        for k in ([q] if q is not None else range(4)): celdas[f"{n}#{k}"] = x4(t16_)
+
+    # césped, hierba alta y flores
+    pon("hierba", HIERBA)
+    pon("hierba2", HIERBA2)
+    ha, ho = hierba_alta(), hierba_alta(True)
+    pon("hierba_alta", ha); pon("hierba_oscura", ho)
+    roja, blanca = t16(EXT, 0, 3), t16(EXT, 1, 3)
+    for f in ("flores0", "flores1"):
+        for q in range(4): pon(f, roja if q in (0, 3) else blanca, q)
+    # camino, arena y agua (autotiles)
+    for k in range(16):
+        pon(f"camino_{k}", autotile(EXT, 0, 0, k))
+        pon(f"arena_{k}", autotile(EXT, 0, 5, k))
+    centro = t16(EXT, 6, 1)
+    for k in range(16):
+        for f in (0, 1): pon(f"agua_{k}_{f}", agua_marco(k, f, centro))
+    pon("camino", t16(EXT, 1, 1)); pon("arena", t16(EXT, 1, 6))
+    pon("agua0", centro); pon("agua1", agua_marco(0, 1, centro))
+    # acantilado: la meseta de césped con paredes de roca (bloque de la fila 11); el agua de alrededor se
+    # cambia por césped (con su sombra) y el hueco del centro es el césped de arriba
+    for k in range(16):
+        pon(f"acantilado~{15 - k}", sobre(HIERBA, sin_agua(autotile(EXT, 11, 0, k))))   # ~: vecinos iguales
+    # piezas lineales sobre césped (se guardan como objetos: el suelo de debajo lo pone el juego)
+    lin = {
+        "seto": dict(L=t16(EXT, 122, 5), M=t16(EXT, 122, 6), R=t16(EXT, 122, 7), T=t16(EXT, 122, 4), V=t16(EXT, 123, 4), B=t16(EXT, 124, 4), solo=t16(EXT, 121, 4)),
+        "valla": dict(L=t16(EXT, 130, 3), M=t16(EXT, 130, 1), R=t16(EXT, 130, 4), T=t16(EXT, 128, 4), V=t16(EXT, 129, 0), B=t16(EXT, 129, 0)),
+        "valla_v": dict(L=t16(EXT, 133, 3), M=t16(EXT, 133, 1), R=t16(EXT, 133, 4), T=t16(EXT, 131, 4), V=t16(EXT, 132, 0), B=t16(EXT, 132, 0)),
+        "bordillo": dict(L=t16(EXT, 37, 5), M=t16(EXT, 37, 6), R=t16(EXT, 37, 7)),
+    }
+    objetos: dict[str, np.ndarray] = {}
+    for n, p in lin.items():
+        for k in range(16): objetos[f"obj:{n}~{k}"] = x4(pieza_lineal(k, **p))
+        objetos[f"obj:{n}"] = x4(p["M"])
+    objetos["obj:cartel"] = x4(t16(EXT, 135, 4))
+    objetos["obj:roca"] = x4(t16(EXT, 145, 7))
+
+    # interiores: suelos, paredes por ambiente, alfombra, mesas, mostradores y escaleras
+    for n, (r, c) in SUELOS.items(): pon(n, t16(INT, r, c))
+    for env, (p, z) in PAREDES.items():
+        pon(f"pared@{env}", t16(INT, *p)); pon(f"pared_base@{env}", t16(INT, *z))
+    madera = t16(INT, *SUELOS["suelo_madera"])
+    for k in range(16):
+        objetos[f"obj:alfombra~{15 - k}"] = x4(autotile(INT, 320, 3, k))
+    mesa = dict(L=t16(INT, 528, 0), M=t16(INT, 528, 0), R=t16(INT, 528, 1), T=t16(INT, 524, 3), V=t16(INT, 525, 3), B=t16(INT, 526, 3), solo=t16(INT, 528, 3))
+    mostr = dict(L=t16(INT, 414, 4), M=t16(INT, 414, 5), R=t16(INT, 414, 6))
+    for k in range(16):
+        objetos[f"obj:mesa~{k}"] = x4(pieza_lineal(k, **mesa))
+        objetos[f"obj:mostrador~{k}"] = x4(pieza_lineal(k, **mostr))
+    objetos["obj:escaleras"] = x4(t16(INT, 505, 1))
+
+    # ---- atlas de terreno
+    nombres = list(celdas) + list(objetos)
+    cols = 32
+    filas = (len(nombres) + cols - 1) // cols
+    atlas = np.zeros((filas * C, cols * C, 4), np.uint8)
+    idx = {}
+    for i, n in enumerate(nombres):
+        y, x = (i // cols) * C, (i % cols) * C
+        atlas[y:y + C, x:x + C] = celdas[n] if n in celdas else objetos[n]
+        idx[n] = i
+    Image.fromarray(atlas).save(A2 / "terreno_hd.png", optimize=True)
+    json.dump({"cell": C, "cols": cols, "index": idx}, open(A2 / "terreno_hd.json", "w"))
+
+    # ---- atlas de edificios: los de la V1 más casas, árboles y muebles altos nuevos (a 4×, «nativo»)
+    pm1 = json.load(open(A1 / "props_hd.json"))
+    pa1 = np.array(Image.open(A1 / "props_hd.png").convert("RGBA"))
+    nuevos = {
+        # nombre: (sprite nativo, puerta (x centro), datos extra)
+        "casa_roja": recorta(EXT, 0, 3562, 128, 104),     # puerta en el centro (ventana-puerta-ventana)
+        "casa_azul": recorta(EXT, 0, 8529, 128, 113),
+        "arbol": recorta(EXT, 0, 650, 50, 56),
+        "arbolv": recorta(EXT, 0, 1034, 50, 56),
+        "obj_cama": recorta(INT, 8, 7798, 36, 44),
+        "obj_planta": recorta(INT, 16, 7752, 16, 42),
+        "obj_estanteria": recorta(INT, 48, 7264, 16, 50),
+        "obj_pc": recorta(INT, 64, 6704, 18, 34),
+    }
+    def base_solida(s):
+        ys = np.where((s[..., 3] == 255).any(1))[0]
+        return int(ys.max()) + 1
+    def centro_puerta(s):
+        # la puerta: la columna más oscura del tercio inferior (madera de la puerta), por defecto el centro
+        h, w = s.shape[:2]
+        zona = s[int(h * 0.62):base_solida(s), :, :3].astype(float).mean(2)
+        op = s[int(h * 0.62):base_solida(s), :, 3] == 255
+        col = np.where(op.all(0), zona.mean(0), 999)
+        k = 7
+        sm = np.convolve(col, np.ones(k) / k, mode="same")
+        return int(np.argmin(sm[k:-k]) + k)
+    resto = {k: v for k, v in pm1.items() if k not in nuevos}
+    piezas = [(k, pa1[v["y"]:v["y"] + v["h"], v["x"]:v["x"] + v["w"]], v) for k, v in resto.items()]
+    for k, s in nuevos.items():
+        g = x4(s)
+        m = {"nativo": 1, "base": base_solida(s) * 4}
+        if k.startswith("casa"):
+            ys, xs = np.where(s[..., 3] == 255)
+            m["door"] = [int(xs.min() + xs.max() + 1) * 2, base_solida(s) * 4]      # puerta centrada
+            m["wall"] = [int(xs.min()) * 4, int(xs.max() + 1) * 4]
+        if k.startswith("arbol"):
+            ys, xs = np.where(s[..., 3] == 255)
+            m["ax"] = int((xs.min() + xs.max() + 1) * 2)      # centro del tronco (centro del dibujo)
+        piezas.append((k, g, m))
+    W = sum(p[1].shape[1] + 2 for p in piezas)
+    H = max(p[1].shape[0] for p in piezas)
+    pa2 = np.zeros((H, W, 4), np.uint8)
+    pm2 = {}
+    x = 0
+    for k, img, m in piezas:
+        h, w = img.shape[:2]
+        pa2[:h, x:x + w] = img
+        d = {kk: vv for kk, vv in m.items() if kk not in ("x", "y", "w", "h")}
+        pm2[k] = {"x": x, "y": 0, "w": w, "h": h, **d}
+        x += w + 2
+    Image.fromarray(pa2).save(A2 / "props_hd.png", optimize=True)
+    json.dump(pm2, open(A2 / "props_hd.json", "w"))
+    print("OK terreno", len(nombres), "celdas · edificios", len(pm2), pa2.shape)
+    for k in nuevos: print(" ", k, pm2[k])
+
+    if "--ver" in sys.argv:
+        # lámina de revisión: autotiles de camino/agua/acantilado, piezas lineales, muebles y edificios
+        filas_rev = [
+            [f"camino_{k}#0" for k in range(16)], [f"agua_{k}_0#0" for k in range(16)], [f"arena_{k}#0" for k in range(16)],
+            [f"acantilado~{k}#0" for k in range(16)], ["hierba#0", "hierba2#0", "hierba_alta#0", "hierba_oscura#0", "flores0#0", "flores0#1", "suelo_madera#0", "suelo_lab#0", "pared@interior#0", "pared_base@interior#0", "pared@laboratorio#0", "pared_base@laboratorio#0"],
+        ] + [[f"obj:{n}~{k}" for k in range(16)] for n in ("seto", "valla", "valla_v", "bordillo", "alfombra", "mesa", "mostrador")]
+        hoja = np.zeros((len(filas_rev) * 34 + 260, 16 * 34, 4), np.uint8); hoja[..., :3] = 255; hoja[..., 3] = 255
+        for j, f in enumerate(filas_rev):
+            for i, n in enumerate(f):
+                c = celdas.get(n, objetos.get(n))
+                if c is None: continue
+                t = np.array(Image.fromarray(c).resize((32, 32), Image.NEAREST))
+                hoja[j * 34:j * 34 + 32, i * 34:i * 34 + 32] = sobre(hoja[j * 34:j * 34 + 32, i * 34:i * 34 + 32], t)
+        x = 0
+        for k in nuevos:
+            v = pm2[k]; s = pa2[v["y"]:v["y"] + v["h"], v["x"]:v["x"] + v["w"]]
+            s = np.array(Image.fromarray(s).resize((v["w"] // 2, v["h"] // 2), Image.NEAREST))
+            y0 = len(filas_rev) * 34
+            if x + s.shape[1] > hoja.shape[1]: break
+            hoja[y0:y0 + s.shape[0], x:x + s.shape[1]] = sobre(hoja[y0:y0 + s.shape[0], x:x + s.shape[1]], s)
+            x += s.shape[1] + 4
+        Image.fromarray(hoja).save(A2 / "revision.png")
+
+if __name__ == "__main__":
+    main()
