@@ -5,7 +5,9 @@ import { AVATAR_SPRITE } from "../state";
 import type { Gfx } from "../gfx";
 import { W, H } from "../gfx";
 import { MAPS } from "../world/maps";
-import { tileAt, passable, isGrass, type MapDef, type NpcDef } from "../world/builder";
+import { tileAt, passable, isGrass, esquinas, mismoTerreno, AJUSTES_TERRENO, type MapDef, type NpcDef } from "../world/builder";
+import { V2 } from "../assets_data";
+AJUSTES_TERRENO.orillaJuntoCamino = V2;
 import { runScript, talkNpc, trainerBattle, wildBattle } from "../scripts";
 import { openStartMenu } from "./menus";
 import { addItem } from "../state";
@@ -370,12 +372,60 @@ export class Overworld implements Scene {
     this.sueloCache = [this.map, s];
     return s;
   }
+  private playaCache: [MapDef, Set<number>] | null = null;
+  /** V2: el agua que toca arena es de playa (orilla de arena y agua más profunda), en toda su masa; la arena
+   *  cuyos bordes dan solo a camino lleva el camino en lugar del césped. */
+  private variantePlaya(t: string, x: number, y: number): string {
+    const m = this.map;
+    if (t.startsWith("agua_")) {
+      if (this.playaCache?.[0] !== m) {
+        // masas de agua (4 vecinos) que tocan arena
+        const playa = new Set<number>(), visto = new Set<number>();
+        for (let j = 0; j < m.h; j++) for (let i = 0; i < m.w; i++) {
+          if (m.grid[j][i] !== "~" || visto.has(j * m.w + i)) continue;
+          const masa: number[] = [], cola = [[i, j]]; let arena = false;
+          visto.add(j * m.w + i);
+          while (cola.length) {
+            const [a, b] = cola.pop()!; masa.push(b * m.w + a);
+            for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+              const c = m.grid[b + dy]?.[a + dx];
+              if (c === "s") arena = true;
+              if (c === "~" && Math.abs(dx) + Math.abs(dy) === 1 && !visto.has((b + dy) * m.w + a + dx)) { visto.add((b + dy) * m.w + a + dx); cola.push([a + dx, b + dy]); }
+            }
+          }
+          if (arena) masa.forEach((k) => playa.add(k));
+        }
+        this.playaCache = [m, playa];
+      }
+      return this.playaCache[1].has(y * m.w + x) ? "aguap_" + t.slice(5) : t;
+    }
+    if (t.startsWith("arena_") && t !== "arena_0") {
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+        if (!dx && !dy) continue;
+        if (!mismoTerreno(m, "s", x + dx, y + dy) && m.grid[y + dy]?.[x + dx] !== "p") return t;
+      }
+      return "arenac_" + t.slice(6);
+    }
+    return t;
+  }
+  /** Diagonales distintas (1 NE, 2 SE, 4 SO, 8 NO) en las esquinas cuyos dos lados son iguales (máscara `vec`). */
+  private diagVecinos(x: number, y: number, t: string, vec: number): number {
+    const igual = (xx: number, yy: number) => {
+      if (xx < 0 || yy < 0 || xx >= this.map.w || yy >= this.map.h) return !!this.map.outdoor;
+      return mismaPieza(t, tileAt(this.map, xx, yy));
+    };
+    let d = 0;
+    if ((vec & 1) && (vec & 2) && !igual(x + 1, y - 1)) d |= 1;
+    if ((vec & 4) && (vec & 2) && !igual(x + 1, y + 1)) d |= 2;
+    if ((vec & 4) && (vec & 8) && !igual(x - 1, y + 1)) d |= 4;
+    if ((vec & 1) && (vec & 8) && !igual(x - 1, y - 1)) d |= 8;
+    return d;
+  }
   /** Vecinos con la misma pieza (1 N, 2 E, 4 S, 8 O); fuera del mapa cuenta como igual. */
   private vecinos(x: number, y: number, t: string): number {
     const igual = (xx: number, yy: number) => {
       if (xx < 0 || yy < 0 || xx >= this.map.w || yy >= this.map.h) return !!this.map.outdoor;   // fuera: sigue (exterior) o acaba (interior)
-      const v = tileAt(this.map, xx, yy);
-      return v === t || (t === "acantilado" && v.startsWith("arbol"));      // árboles sobre la meseta
+      return mismaPieza(t, tileAt(this.map, xx, yy));
     };
     return (igual(x, y - 1) ? 1 : 0) | (igual(x + 1, y) ? 2 : 0) | (igual(x, y + 1) ? 4 : 0) | (igual(x - 1, y) ? 8 : 0);
   }
@@ -418,7 +468,9 @@ export class Overworld implements Scene {
         altos.push([`obj_${t}`, x * 16 - cx, y * 16 - cy]);
         continue;
       }
-      g.tile(t, x * 16 - cx, y * 16 - cy, x, y, suelo, this.vecinos(x, y, t), this.map.env);
+      if (V2) t = this.variantePlaya(t, x, y);
+      const vec = this.vecinos(x, y, t);
+      g.tile(t, x * 16 - cx, y * 16 - cy, x, y, suelo, vec, this.map.env, t === "acantilado" || t === "cueva_entrada" ? this.diagVecinos(x, y, t, vec) : esquinas(this.map, x, y));
     }
     for (const [n, x, y] of trees) {
       const m = PROPS[n];
@@ -452,7 +504,12 @@ export class Overworld implements Scene {
       const sx = n.x * 16 + n.ox - cx, sy = n.y * 16 + n.oy - cy;
       if (n.def.sprite === "@criobola") { ents.push({ y: sy, d: () => drawBall(g, sx + 4, sy + 2) }); continue; }
       if (n.def.sprite.startsWith("@microo:")) { const spc = n.def.sprite.slice(8); const bob = Math.floor(this.anim / 20) % 2; ents.push({ y: sy, d: () => g.icon(spc, bob, sx - 8, sy - 16 - bob) }); continue; }
-      if (n.def.sprite.startsWith("@tile:")) { const t = n.def.sprite.slice(6); ents.push({ y: sy - 32, d: () => g.tile(t, sx, sy) }); continue; }
+      if (n.def.sprite.startsWith("@tile:")) {
+        const t = n.def.sprite.slice(6), suelo = tileAt(this.map, n.x, n.y);
+        // V2: el objeto HD sobre el suelo que tiene debajo
+        ents.push({ y: sy - 32, d: () => (V2 ? g.tile(t, sx, sy, n.x, n.y, suelo.replace(/_\d+$/, "")) : g.tile(t, sx, sy)) });
+        continue;
+      }
       const fr = n.moving > 0 ? (Math.floor(n.moving / 8) % 2 ? 1 : 2) : 0;
       ents.push({ y: sy, d: () => { g.character(n.def.sprite, n.dir, fr, sx - 8, sy - 18); if (n.emote > 0) drawEmote(g, sx + 4, sy - 26); } });
     }
@@ -471,7 +528,7 @@ export class Overworld implements Scene {
     // la hierba alta tapa los pies del jugador
     const gt = tileAt(this.map, this.px, this.py);
     if (isGrass(gt) && this.moving === 0 && !heli) {
-      const hq = TERR.index[`${gt}#${(this.px % 2) + (this.py % 2) * 2}`];
+      const hq = TERR.index[`${gt}#${(this.px % 2) + (this.py % 2) * 2}`] ?? TERR.index[`${gt}#0`];
       if (IMG.terreno_hd && hq !== undefined) g.terr(hq, psx, psy, 10, 6);
       else { const i = TILES[gt]; g.ctx.drawImage(IMG.tiles, (i % 16) * 16, Math.floor(i / 16) * 16 + 10, 16, 6, psx, psy + 10, 16, 6); }
     }
@@ -489,6 +546,14 @@ export class Overworld implements Scene {
       g.text(this.map.name, 12, 8 + yb);
     }
   }
+}
+
+/** Piezas que se unen entre sí al elegir variante: la meseta (acantilado) continúa bajo los árboles y en la
+ *  boca de la cueva, que es parte de su pared. */
+function mismaPieza(t: string, v: string): boolean {
+  if (v === t) return true;
+  if (t === "acantilado" || t === "cueva_entrada") return v === "acantilado" || v === "cueva_entrada" || v.startsWith("arbol");
+  return false;
 }
 
 export function drawBall(g: Gfx, x: number, y: number) {

@@ -48,14 +48,19 @@ export class Gfx {
   /** Casilla de 16 px. Si se da su posición en el mapa (cx, cy) y hay terreno HD, usa la textura nueva
    *  (el cuarto que toca de su bloque de 2×2) y, para objetos sobre césped, el suelo HD debajo.
    *  `vecinos` (1 N, 2 E, 4 S, 8 O: vecinos con la misma pieza) y `amb` (ambiente del mapa) eligen
-   *  variantes si el atlas las tiene («nombre~vecinos», «nombre@ambiente»; las usa Micromón V2). */
-  tile(name: string, x: number, y: number, cx?: number, cy?: number, suelo = "hierba", vecinos = -1, amb = "") {
+   *  variantes si el atlas las tiene («nombre~vecinos», «nombre@ambiente»; las usa Micromón V2); `diag`
+   *  (1 NE, 2 SE, 4 SO, 8 NO: diagonales de otro terreno con los dos lados iguales) elige las esquinas
+   *  interiores de caminos, agua, arena y acantilados («nombre^diag»). */
+  tile(name: string, x: number, y: number, cx?: number, cy?: number, suelo = "hierba", vecinos = -1, amb = "", diag = 0) {
     if (cx !== undefined && cy !== undefined && IMG.terreno_hd) {
       const q = (((cx % 2) + 2) % 2) + (((cy % 2) + 2) % 2) * 2, I = TERR.index;
-      const hd = (vecinos >= 0 ? I[`${name}~${vecinos}#${q}`] : undefined) ?? (amb ? I[`${name}@${amb}#${q}`] : undefined) ?? I[`${name}#${q}`];
+      // cada variante puede tener sus 4 cuartos o solo el primero (#0)
+      const v = (n: string) => I[`${n}#${q}`] ?? I[`${n}#0`];
+      const hd = (vecinos >= 0 && diag > 0 ? v(`${name}~${vecinos}^${diag}`) : undefined) ?? (vecinos >= 0 ? v(`${name}~${vecinos}`) : undefined)
+        ?? (diag > 0 ? v(`${name}^${diag}`) : undefined) ?? (amb ? v(`${name}@${amb}`) : undefined) ?? v(name);
       const obj = (vecinos >= 0 ? I[`obj:${name}~${vecinos}`] : undefined) ?? I[`obj:${name}`];
       if (hd !== undefined) { this.terr(hd, x, y); return; }
-      if (obj !== undefined) { this.terr(I[`${suelo}#${q}`] ?? I[`hierba#${q}`], x, y); this.terr(obj, x, y); return; }
+      if (obj !== undefined) { this.terr(v(suelo) ?? v("hierba"), x, y); this.terr(obj, x, y); return; }
     }
     const i = TILES[name];
     if (i === undefined) return;

@@ -268,7 +268,7 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
     "A..........................f..........AAAAAA",
     "A.....................................AAAAAA",
     "AAAA||AAAAAAAAAAAAvvvvvvAAAAAAAAAAAAAAAAAAAA",
-    "k...................k........k......ppO.AAAA",
+    "k...................k........k......ppOAAAAA",
     "k.......TT....f.....k........k......ppppAAAA",
     "k.......TT..........k.....f..k......ppppAAAA",
     "k...................k........k......ppppAAAA",

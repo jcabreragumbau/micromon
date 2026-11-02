@@ -65,7 +65,7 @@ def ruta2():
     for x in (20, 29):
         fill(g, x, 11, 1, 4, "k"); fill(g, x, 17, 1, 4, "k")
     # cueva del Monte Micelio en la pared del este
-    g[11][38] = "O"; fill(g, 38, 3, 2, 8, "A"); fill(g, 38, 12, 2, 3, "p")
+    g[11][38] = "O"; g[11][39] = "A"; fill(g, 38, 3, 2, 8, "A"); fill(g, 38, 12, 2, 3, "p")
     return g
 
 # ---------------------------------------------------------------- RUTA 3 (44 x 28): desfiladero, río y cascada al oeste; granja al este

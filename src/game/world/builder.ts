@@ -141,6 +141,34 @@ export class MapBuilder {
   done(extra: Partial<MapDef> = {}): MapDef { return Object.assign(this.def, extra); }
 }
 
+/** Para autotiles de camino (p), agua (~) y arena (s): ¿la casilla (xx, yy) continúa el terreno sin borde?
+ *  Vecinos que no llevan borde de césped: en la montaña, riscos, escalones, puentes y cascadas. */
+export const AJUSTES_TERRENO = {
+  /** Micromón V2: el agua tiene orilla también junto a los caminos (su autotile trae arena y césped) y el
+   *  borde de los caminos sigue recto bajo la fachada de los edificios ilustrados; la arena tiene borde
+   *  junto al camino (con el camino en lugar de césped, ver tools/art/tileset_v2.py). */
+  orillaJuntoCamino: false,
+};
+export function mismoTerreno(m: MapDef, ch: string, xx: number, yy: number): boolean {
+  const sinBorde = ch === "p" ? (AJUSTES_TERRENO.orillaJuntoCamino ? "%^=|*Os!" : "%^=|*O~s!") : ch === "~" ? (AJUSTES_TERRENO.orillaJuntoCamino ? "=|*%" : "=|*%p") : ch === "s" ? (AJUSTES_TERRENO.orillaJuntoCamino ? "%^=|*O~" : "%^=|*O~p") : "";
+  const c = m.grid[yy]?.[xx];
+  // (V1: el camino entra bajo la puerta de los edificios; V2: el borde del camino sigue recto bajo la fachada)
+  return c === undefined || c === ch || sinBorde.includes(c) || (ch === "p" && (c.startsWith("@muro_puerta") || (c === "@puerta_hd" && !AJUSTES_TERRENO.orillaJuntoCamino)));
+}
+/** Esquinas interiores de un autotile (camino, agua, arena): diagonales de otro terreno cuyos dos lados
+ *  sí continúan (1 NE, 2 SE, 4 SO, 8 NO). 0 si la casilla no es de esos terrenos. */
+export function esquinas(m: MapDef, x: number, y: number): number {
+  const ch = m.grid[y]?.[x];
+  if (ch !== "~" && ch !== "p" && ch !== "s") return 0;
+  const s = (dx: number, dy: number) => mismoTerreno(m, ch, x + dx, y + dy);
+  let d = 0;
+  if (s(0, -1) && s(1, 0) && !s(1, -1)) d |= 1;
+  if (s(0, 1) && s(1, 0) && !s(1, 1)) d |= 2;
+  if (s(0, 1) && s(-1, 0) && !s(-1, 1)) d |= 4;
+  if (s(0, -1) && s(-1, 0) && !s(-1, -1)) d |= 8;
+  return d;
+}
+
 /** Nombre del tile de una casilla. */
 export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
   const ch = m.grid[y]?.[x];
@@ -162,9 +190,7 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
     return `monte_cima_${roca(x, y - 1) ? 0 : 1}${e}${w}`;
   }
   if (ch === "~" || ch === "p" || ch === "s") {
-    // vecinos que no llevan borde de césped: en la montaña, riscos, escalones, puentes y cascadas
-    const sinBorde = ch === "p" ? "%^=|*O~s!" : ch === "~" ? "=|*%p" : ch === "s" ? "%^=|*O~p" : "";
-    const same = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === ch || sinBorde.includes(c) || (ch === "p" && (c.startsWith("@muro_puerta") || c === "@puerta_hd")); };
+    const same = (xx: number, yy: number) => mismoTerreno(m, ch, xx, yy);
     const mask = (same(x, y - 1) ? 0 : 1) | (same(x + 1, y) ? 0 : 2) | (same(x, y + 1) ? 0 : 4) | (same(x - 1, y) ? 0 : 8);
     if (ch === "~") return `agua_${mask}_${frame % 64 < 32 ? 0 : 1}`;
     return `${ch === "p" ? "camino" : "arena"}_${mask}`;

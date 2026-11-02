@@ -43,17 +43,69 @@ def sobre(fondo, fig):
     o[..., 3] = np.maximum(fondo[..., 3], fig[..., 3])
     return o
 
-def autotile(h, r0, c0, mask):
-    """Casilla de 16 px compuesta por cuartos del bloque 3×3 (r0, c0) según la máscara de bordes."""
+# esquinas interiores dibujadas en la lámina (el «agujero» de césped entre cuatro casillas): bloque -> casilla
+# de la que sale cada cuarto. Las demás (agua, acantilado) se sintetizan a partir del borde.
+ESQ_REAL = {(0, 0): {"tl": (4, 1), "tr": (4, 0), "bl": (3, 1), "br": (3, 0)},
+            (0, 5): {"tl": (4, 7), "tr": (4, 6), "bl": (3, 7), "br": (3, 6)}}
+
+# margen de los bordes más fino (px que se desplaza cada cuarto hacia fuera) en caminos y arena
+ENC = {(0, 0): 3, (0, 5): 3}
+
+def esquina_interior(h, r0, c0, q, k=0):
+    """Cuarto de 8×8 con una esquina interior (los dos lados son del mismo terreno y la diagonal no)."""
+    qy, qx = (0 if q[0] == "t" else 1), (0 if q[1] == "l" else 1)
+    if (r0, c0) in ESQ_REAL:
+        r, c = ESQ_REAL[(r0, c0)][q]
+        # la esquina de la lámina está en el borde del cuarto que toca la esquina de la casilla
+        t = t16(h, r, c)
+        dx, dy = (k if qx == 0 else -k), (k if qy == 0 else -k)
+        return t[qy * 8 + dy:qy * 8 + 8 + dy, qx * 8 + dx:qx * 8 + 8 + dx]
+    # síntesis: un cuarto de círculo en la esquina con las capas del borde (de fuera adentro)
+    borde = t16(h, r0 + (0 if qy == 0 else 2), c0 + 1)
+    centro = t16(h, r0 + 1, c0 + 1)
+    o = np.zeros((8, 8, 4), np.uint8)
+    for y in range(8):
+        for x in range(8):
+            X, Y = qx * 8 + x, qy * 8 + y
+            r = np.hypot((X + 0.5) if qx == 0 else (16 - X - 0.5), (Y + 0.5) if qy == 0 else (16 - Y - 0.5))
+            k = min(15, int(r))
+            ky = k if qy == 0 else 15 - k
+            p = borde[ky, X]
+            o[y, x] = p if np.abs(p.astype(int) - centro[ky, X].astype(int)).sum() > 0 else centro[Y, X]
+    return o
+
+def autotile(h, r0, c0, mask, diag=0):
+    """Casilla de 16 px compuesta por cuartos del bloque 3×3 (r0, c0) según la máscara de bordes
+    (1 N, 2 E, 4 S, 8 O distintos) y las diagonales distintas (1 NE, 2 SE, 4 SO, 8 NO) para las
+    esquinas interiores, de modo que los cruces y recodos quedan bien unidos."""
     n, e, s, w = mask & 1, mask & 2, mask & 4, mask & 8
     o = np.zeros((16, 16, 4), np.uint8)
     for qy, vert in ((0, n), (1, s)):
         for qx, hor in ((0, w), (1, e)):
+            q = ("t" if qy == 0 else "b") + ("l" if qx == 0 else "r")
+            dbit = {"tr": 1, "br": 2, "bl": 4, "tl": 8}[q]
+            if not vert and not hor and diag & dbit:
+                o[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8] = esquina_interior(h, r0, c0, q, ENC.get((r0, c0), 0))
+                continue
             br = (0 if qy == 0 else 2) if vert else 1
             bc = (0 if qx == 0 else 2) if hor else 1
             src = t16(h, r0 + br, c0 + bc)
-            o[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8] = src[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8]
+            # el cuarto se toma desplazado hacia el borde exterior (ENC px): el margen de césped queda más
+            # fino y en los tramos de una casilla de ancho sigue habiendo material en medio
+            k = ENC.get((r0, c0), 0)
+            # (solo en perpendicular al borde, para no repetir la textura a lo largo del borde)
+            dx = (k if qx == 0 else -k) if hor else 0
+            dy = (k if qy == 0 else -k) if vert else 0
+            o[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8] = src[qy * 8 + dy:qy * 8 + 8 + dy, qx * 8 + dx:qx * 8 + 8 + dx]
     return o
+
+def diagonales(mask):
+    """Combinaciones de diagonales que importan para una máscara (solo esquinas con los dos lados iguales)."""
+    bits = [b for b, (a1, a2) in ((1, (1, 2)), (2, (4, 2)), (4, (4, 8)), (8, (1, 8))) if not (mask & a1) and not (mask & a2)]
+    out = []
+    for i in range(1, 1 << len(bits)):
+        out.append(sum(b for j, b in enumerate(bits) if i >> j & 1))
+    return out
 
 def recorta(h, x, y, w, hh):
     """Sprite libre (coordenadas nativas) recortado a su caja de opacidad."""
@@ -112,8 +164,8 @@ def pieza_lineal(mask, L, M, R, T=None, V=None, B=None, solo=None):
     if mask & 1: return B
     return solo if solo is not None else M
 
-def agua_marco(mask, f, centro0):
-    base = autotile(EXT, 5, 0, mask)
+def agua_marco(mask, f, centro0, diag=0, bloque=(5, 0)):
+    base = autotile(EXT, bloque[0], bloque[1], mask, diag)
     if f == 0: return base
     # segundo fotograma: el agua del centro desplazada (las ondas se mueven); la orilla queda igual
     paleta = {tuple(p) for p in centro0.reshape(-1, 4)}
@@ -143,7 +195,10 @@ def main():
         y, x = (i // meta1["cols"]) * C, (i % meta1["cols"]) * C
         celdas[n] = atl1[y:y + C, x:x + C]
     def pon(n, t16_, q=None):
-        for k in ([q] if q is not None else range(4)): celdas[f"{n}#{k}"] = x4(t16_)
+        # una sola copia («#0»): el juego usa la #0 cuando no hay un cuarto propio (q = 1..3)
+        for k in ([q] if q is not None else [0]): celdas[f"{n}#{k}"] = x4(t16_)
+        for k in range(1, 4):
+            if q is None: celdas.pop(f"{n}#{k}", None)       # quita los cuartos heredados de la V1
 
     # césped, hierba alta y flores
     pon("hierba", HIERBA)
@@ -154,18 +209,49 @@ def main():
     for f in ("flores0", "flores1"):
         for q in range(4): pon(f, roja if q in (0, 3) else blanca, q)
     # camino, arena y agua (autotiles)
-    for k in range(16):
-        pon(f"camino_{k}", autotile(EXT, 0, 0, k))
-        pon(f"arena_{k}", autotile(EXT, 0, 5, k))
+    # «nombre^d»: la misma casilla con esquinas interiores en las diagonales d (las elige el juego)
     centro = t16(EXT, 6, 1)
     for k in range(16):
-        for f in (0, 1): pon(f"agua_{k}_{f}", agua_marco(k, f, centro))
+        for d in [0] + diagonales(k):
+            suf = f"^{d}" if d else ""
+            pon(f"camino_{k}{suf}", autotile(EXT, 0, 0, k, d))
+            pon(f"arena_{k}{suf}", autotile(EXT, 0, 5, k, d))
+            for f in (0, 1): pon(f"agua_{k}_{f}{suf}", agua_marco(k, f, centro, d))
+    # agua de playa (orilla de arena, agua profunda) y arena junto al camino (el camino en lugar del césped)
+    centro_p = t16(EXT, 6, 6)
+    camino_c = t16(EXT, 1, 1)
+    def sobre_camino(t):
+        o = t.copy(); f = t[..., :3].astype(int)
+        verde = (f[..., 1] - f[..., 0]) > 60
+        o[verde] = camino_c[verde]
+        return o
+    for k in range(16):
+        for d in [0] + diagonales(k):
+            suf = f"^{d}" if d else ""
+            for f in (0, 1): pon(f"aguap_{k}_{f}{suf}", agua_marco(k, f, centro_p, d, (5, 5)))
+            pon(f"arenac_{k}{suf}", sobre_camino(autotile(EXT, 0, 5, k, d)))
     pon("camino", t16(EXT, 1, 1)); pon("arena", t16(EXT, 1, 6))
     pon("agua0", centro); pon("agua1", agua_marco(0, 1, centro))
     # acantilado: la meseta de césped con paredes de roca (bloque de la fila 11); el agua de alrededor se
     # cambia por césped (con su sombra) y el hueco del centro es el césped de arriba
     for k in range(16):
-        pon(f"acantilado~{15 - k}", sobre(HIERBA, sin_agua(autotile(EXT, 11, 0, k))))   # ~: vecinos iguales
+        for d in [0] + diagonales(k):
+            suf = f"^{d}" if d else ""
+            pon(f"acantilado~{15 - k}{suf}", sobre(HIERBA, sin_agua(autotile(EXT, 11, 0, k, d))))   # ~: vecinos iguales
+    # boca de cueva en la pared de la meseta: la pieza de acantilado que toca (según sus vecinos) con un arco
+    # oscuro abajo en el centro
+    def arco(t):
+        o = t.copy()
+        for y in range(16):
+            for x in range(16):
+                e = ((x - 7.5) / 5.6) ** 2 + ((y - 16) / 11) ** 2
+                if e < 1: o[y, x, :3] = (26, 18, 16) if e < 0.72 else (70, 44, 30)
+                elif e < 1.25 and y > 5: o[y, x, :3] = (o[y, x, :3] * 0.72).astype(np.uint8)
+        return o
+    for k in range(16):
+        for d in [0] + diagonales(k):
+            suf = f"^{d}" if d else ""
+            pon(f"cueva_entrada~{15 - k}{suf}", arco(sobre(HIERBA, sin_agua(autotile(EXT, 11, 0, k, d)))))
     # piezas lineales sobre césped (se guardan como objetos: el suelo de debajo lo pone el juego)
     lin = {
         "seto": dict(L=t16(EXT, 122, 5), M=t16(EXT, 122, 6), R=t16(EXT, 122, 7), T=t16(EXT, 122, 4), V=t16(EXT, 123, 4), B=t16(EXT, 124, 4), solo=t16(EXT, 121, 4)),
