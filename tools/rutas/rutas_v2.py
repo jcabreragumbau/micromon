@@ -5,7 +5,7 @@ import json, sys
 from pathlib import Path
 from collections import deque
 
-SOLIDO = set("T%A~*klrSvO") | {"#"}
+SOLIDO = set("T%A~*klrSvO<>") | {"#"}
 
 def lienzo(w, h, c="."): return [[c] * w for _ in range(h)]
 def fill(g, x, y, w, h, c):
@@ -74,9 +74,9 @@ def ruta3():
     # ---- oeste: desfiladero en tres terrazas que bajan hacia el sur y ocupan todo el ancho; entre una y otra solo
     # hay la pared (2 casillas: labio arriba y sombra en la base), que cruza de lado a lado como un escalón
     fill(g, 0, 0, 20, 28, "%")
-    fill(g, 0, 2, 20, 5, "p")                                             # terraza alta (filas 2-6)
+    fill(g, 0, 2, 18, 5, "p"); fill(g, 18, 2, 2, 5, ">")                  # terraza alta (filas 2-6): baja en ladera al prado
     fill(g, 0, 9, 20, 6, "p")                                             # terraza media (filas 9-14), a nivel del prado
-    fill(g, 0, 17, 20, 9, "p")                                            # terraza baja (filas 17-25)
+    fill(g, 0, 17, 18, 9, "p"); fill(g, 18, 17, 2, 9, "<")                # terraza baja (filas 17-25): el prado sube en ladera
     fill(g, 15, 7, 1, 2, "^"); fill(g, 4, 15, 1, 2, "^")                  # escaleras talladas en las paredes
     # el río baja de norte a sur y cae en cascada en cada pared
     fill(g, 8, 0, 2, 2, "*"); fill(g, 8, 2, 2, 5, "~"); fill(g, 8, 7, 2, 2, "*"); fill(g, 8, 9, 2, 6, "~")
@@ -90,7 +90,6 @@ def ruta3():
     fill(g, 20, 13, 16, 1, "l"); fill(g, 20, 16, 16, 1, "k")
     g[13][23] = "p"; g[13][32] = "p"; g[13][33] = "p"
     fill(g, 20, 2, 7, 11, ".")                                            # claro
-    fill(g, 20, 2, 2, 6, "T"); fill(g, 20, 16, 2, 10, "T")
     # casa con jardín vallado al noreste: la puerta queda en (32, 7)
     fill(g, 27, 2, 1, 7, "k"); fill(g, 37, 2, 1, 7, "k"); fill(g, 27, 8, 11, 1, "l"); g[8][32] = "p"; g[8][33] = "p"
     fill(g, 32, 9, 2, 4, "p")
