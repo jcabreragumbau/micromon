@@ -481,6 +481,13 @@ export class Overworld implements Scene {
         else if (tileAt(this.map, x + 1, y).startsWith("camino")) t = "lateral_o";
       }
       if (V2 && t === "escalon" && [x - 1, x + 1].some((xx) => tileAt(this.map, xx, y) === "acantilado")) t = "escalon_cesped";
+      // V2: paredes de cueva con relieve: la variante dice qué lados dan a suelo (no a otra pared)
+      if (V2 && t === "pared_cueva") {
+        const pared = (xx: number, yy: number) => xx < 0 || yy < 0 || xx >= this.map.w || yy >= this.map.h || tileAt(this.map, xx, yy) === "pared_cueva";
+        const m = (pared(x, y - 1) ? 0 : 1) | (pared(x + 1, y) ? 0 : 2) | (pared(x, y + 1) ? 0 : 4) | (pared(x - 1, y) ? 0 : 8);
+        const i = TERR.index[`pared_cueva~${m}#${(x % 2) + (y % 2) * 2}`];
+        if (i !== undefined) { g.terr(i, x * 16 - cx, y * 16 - cy); continue; }
+      }
       const vec = this.vecinos(x, y, t);
       g.tile(t, x * 16 - cx, y * 16 - cy, x, y, suelo, vec, this.map.env, t === "acantilado" || t === "cueva_entrada" ? 0 : esquinas(this.map, x, y));
       // V2: el canto de una terraza de montaña que cae al río

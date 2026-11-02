@@ -118,7 +118,7 @@ def a_cesped_v2(t):
     o[verde, :3] = (f[verde] - 8).clip(0, 255).astype(np.uint8)
     return o
 
-def relieve(h, r, c0, mask, cesped=False):
+def relieve(h, r, c0, mask, cesped=False, fondo=None):
     """Casilla de una plantilla de relieve de 4×4 (filas r..r+3, columnas c0..c0+3): borde superior en la
     mitad baja de la fila r, laterales en r+1..r+2 y la cara en r+3. mask: 1 N, 2 E, 4 S, 8 O distintos."""
     n, e, s_, w = mask & 1, mask & 2, mask & 4, mask & 8
@@ -132,7 +132,7 @@ def relieve(h, r, c0, mask, cesped=False):
             src = c16(h, x, y)
             o[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8] = src[qy * 8:qy * 8 + 8, qx * 8:qx * 8 + 8]
     o = a_cesped_v2(o)
-    return sobre(HIERBA, o)
+    return sobre(HIERBA if fondo is None else fondo, o)
 
 def pared(y, e, w, alt):
     """Casilla de pared de la montaña (16 px desde la fila y de la lámina terreno2, columnas 0-3)."""
@@ -352,6 +352,12 @@ def main():
                 pon(f"monte_cara2_{e}{w}", sobre(HIERBA, pared(8854, e, w, q % 2)), q)
                 pon(f"monte_cara1_{e}{w}", sobre(HIERBA, pared(8808, e, w, q % 2)), q)
     pon("monte_cueva", sobre(HIERBA, pared(8854, 0, 0, 0)))
+    # cuevas: suelo de tierra de cueva (bloque 2×2 de las filas 113-114, columnas 4-5) y paredes de roca gris
+    # con relieve (plantilla de las filas 378-381): «pared_cueva~m», m = lados que dan a suelo (1 N, 2 E, 4 S, 8 O)
+    suelo_c = [t16(T2, 113 + q // 2, 4 + q % 2) for q in range(4)]
+    for q in range(4): pon("suelo_cueva", suelo_c[q], q)
+    for m in range(16):
+        for q in range(4): pon(f"pared_cueva~{m}", relieve(T2, 378, 0, m, fondo=suelo_c[q]), q)
     # laterales de las terrazas (anillo de borde de meseta, filas 545-546): el canto de la terraza que cae al
     # terreno de al lado; «lateral_e» con la terraza al oeste (canto a la derecha) y «lateral_o» al revés
     tierra = t16(EXT, 1, 1)
@@ -392,6 +398,16 @@ def main():
         objetos[f"obj:mostrador~{k}"] = x4(pieza_lineal(k, **mostr))
     objetos["obj:escaleras"] = x4(t16(INT, 505, 1))
     objetos.update(objetos_extra)
+    # setas e hifas de las cuevas (tiles de la V1) sin su suelo viejo, para ponerlas sobre el suelo nuevo
+    tm = json.load(open(A1 / "tiles.json")); tv = np.array(Image.open(A1 / "tiles.png").convert("RGBA"))
+    def tv16(n): i = tm[n]; return tv[(i // 16) * 16:(i // 16) * 16 + 16, (i % 16) * 16:(i % 16) * 16 + 16].copy()
+    suelo_viejo = {tuple(p) for p in tv16("suelo_cueva").reshape(-1, 4)}
+    for n in ("hifas0", "hifas1", "seta0", "seta1", "disco_duro"):
+        t = tv16(n)
+        for yy in range(16):
+            for xx in range(16):
+                if tuple(t[yy, xx]) in suelo_viejo: t[yy, xx, 3] = 0
+        objetos[f"obj:{n}"] = x4(t)
 
     # ---- atlas de terreno
     nombres = list(celdas) + list(objetos)

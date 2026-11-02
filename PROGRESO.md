@@ -188,5 +188,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - V2, laterales de la montaña: los bordes de las terrazas usan el canto del anillo de meseta (terreno2, filas 545-546): junto a los árboles (en lugar de la valla) y junto al río, que queda encajado entre cantos sin orilla (`esTerraza` en builder.ts). Da la sensación de que cada terraza está más alta que lo que tiene al lado.
 
+- V2, cuevas: suelo de tierra de cueva (terreno2, filas 113-114, columnas 4-5, bloque 2×2) y paredes de roca gris con relieve (plantilla de las filas 378-381: canto, laterales y cara según qué lados dan a suelo, «pared_cueva~m»); setas, hifas y el disco duro de la V1 se dibujan sin su suelo viejo encima del nuevo. Afecta a Monte Micelio, Cueva Anaeróbica, Túnel Endospórico, Fosa Abisal y el suelo del Gimnasio Gram.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
