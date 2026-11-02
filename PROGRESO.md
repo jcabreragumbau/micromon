@@ -194,5 +194,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Cámara fija sobre el jugador (se quita el desplazamiento junto a edificios altos, que hacía parpadear la imagen) y árboles dibujados por profundidad con los personajes (lo que está más abajo tapa lo de arriba). V2: solo son casas en las que se entra las que tienen puerta visible (fuera la entrada de metro y dos edificios sin puerta, que pasan a decorado); las calles y la avenida ya no siguen hasta el borde si por ahí no hay salida.
 
+- Equipo: al usar un plásmido (u objeto de evolución) cada Microo muestra «APTO», «NO APTO» o «YA LO SABE» en lugar de la barra de PS; el Microo seleccionado se resalta siempre con un marco parpadeante, también si está debilitado (al usar un revivir).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

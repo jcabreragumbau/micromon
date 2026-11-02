@@ -85,7 +85,9 @@ async function options(game: Game) {
 }
 
 // ---------------------------------------------------------------- equipo
-export interface PartyOpts { mode: "view" | "switch" | "replace" | "item"; battle?: Battle; prompt?: string; filter?: (m: Microo) => boolean }
+export interface PartyOpts { mode: "view" | "switch" | "replace" | "item"; battle?: Battle; prompt?: string; filter?: (m: Microo) => boolean;
+  /** Etiqueta por Microo en lugar de la barra de PS (p. ej. «APTO» / «NO APTO» al usar un plásmido; verde si ok). */
+  etiqueta?: (m: Microo) => { texto: string; ok: boolean } }
 export async function partyMenu(game: Game, o: PartyOpts): Promise<number> {
   for (;;) {
     const idx = await game.run<number>(new PartyScreen(game, o));
@@ -131,9 +133,10 @@ class PartyScreen implements Overlay {
       const x = 4 + (i % 2) * 125, y = 4 + Math.floor(i / 2) * 49, m = p[i];
       if (!m) { g.panel(x, y, 123, 46, "#88b8a0", "#78a890", "#4a7a64", 6); continue; }
       const sel = i === this.sel, fainted = m.hp <= 0;
-      const [t, b, br] = fainted ? ["#f0b0a8", "#c87870", "#803838"] : sel ? ["#fff0b0", "#f8b848", "#c06818"] : i === 0 ? ["#c8f0ff", "#68b8e8", "#2a6898"] : ["#d8ecff", "#88b0e0", "#384c88"];
+      // seleccionado: siempre se distingue (también si está debilitado, p. ej. al usar un revivir)
+      const [t, b, br] = sel ? (fainted ? ["#ffd8b0", "#f09060", "#c04818"] : ["#fff0b0", "#f8b848", "#c06818"]) : fainted ? ["#f0b0a8", "#c87870", "#803838"] : i === 0 ? ["#c8f0ff", "#68b8e8", "#2a6898"] : ["#d8ecff", "#88b0e0", "#384c88"];
+      if (sel) g.round(x - 2, y - 2, 127, 50, 8, Math.floor(game.frame / 16) % 2 ? "#ff7020" : "#ffd040");
       g.panel(x, y, 123, 46, t, b, br, 6);
-      if (sel) g.alpha(0.6, () => g.round(x + 2, y + 2, 119, 42, 5, "#ffffff00"));
       g.round(x + 4, y + 5, 30, 30, 15, "rgba(255,255,255,0.35)");
       const bounce = sel && Math.floor(game.frame / 8) % 2 ? -2 : 0;
       g.icon(m.species, sel ? Math.floor(game.frame / 8) % 2 : 0, x + 3, y + 2 + bounce);
@@ -141,9 +144,15 @@ class PartyScreen implements Overlay {
       g.text(`Nv${m.level}`, x + 37, y + 18, "dark");
       if (m.status) { g.round(x + 72, y + 17, 24, 11, 3, STATUS_COL[m.status]); g.text(STATUS_SHORT[m.status], x + 75, y + 18, "white", false); }
       const f = m.hp / m.stats.hp;
-      g.round(x + 34, y + 31, 85, 11, 3, "#384058");
-      g.text("PS", x + 36, y + 31, "orange", false);
-      g.bar(x + 50, y + 34, 66, f, g.hpColor(f), 4);
+      const et = this.o.etiqueta?.(m);
+      if (et) {
+        g.round(x + 34, y + 31, 85, 11, 3, et.ok ? "#2f8a48" : "#9a3838");
+        g.text(et.texto, x + 34 + (85 - g.measure(et.texto)) / 2, y + 31, "white", false);
+      } else {
+        g.round(x + 34, y + 31, 85, 11, 3, "#384058");
+        g.text("PS", x + 36, y + 31, "orange", false);
+        g.bar(x + 50, y + 34, 66, f, g.hpColor(f), 4);
+      }
       const hp = `${m.hp}/${m.stats.hp}`;
       g.text(hp, x + 119 - g.measure(hp), y + 18, "dark");
     }
@@ -284,7 +293,7 @@ export async function bagMenu(game: Game, o: { mode: "field" | "battle"; wild?: 
       audio.sfx("ok");
       await game.say(`{nombre} ha pulverizado ${it.name} a su alrededor. Los Microos salvajes débiles no se acercarán.`);
     } else if (it.kind === "evolution") {
-      const t = await partyMenu(game, { mode: "item" });
+      const t = await partyMenu(game, { mode: "item", etiqueta: (m) => itemEvolution(m, id) ? { texto: "APTO", ok: true } : { texto: "NO APTO", ok: false } });
       if (t < 0) continue;
       const m = game.state.party[t];
       const to = itemEvolution(m, id);
@@ -694,7 +703,8 @@ export class BadgeGet implements Overlay {
 /** Enseñar un movimiento con un Plásmido (no se gasta). */
 export async function enseñarPlasmido(game: Game, move: string) {
   const name = getMove(move).name;
-  const t = await partyMenu(game, { mode: "item", prompt: `¿Quién aprende ${name}?` });
+  const t = await partyMenu(game, { mode: "item", prompt: `¿Quién aprende ${name}?`,
+    etiqueta: (m) => m.moves.some((x) => x.id === move) ? { texto: "YA LO SABE", ok: false } : plasmidCompatible(m, move) ? { texto: "APTO", ok: true } : { texto: "NO APTO", ok: false } });
   if (t < 0) return;
   const m = game.state.party[t];
   if (!plasmidCompatible(m, move)) { await game.say(`${displayName(m)} no es compatible con este plásmido.`); return; }
