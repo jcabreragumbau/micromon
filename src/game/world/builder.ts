@@ -155,8 +155,10 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
     const roca = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === "%" || c === "O"; };
     if (ch === "O") return "monte_cueva";
     const e = roca(x + 1, y) ? 0 : 1, w = roca(x - 1, y) ? 0 : 1;
-    if (!roca(x, y + 1)) return `monte_${roca(x, y - 1) && m.grid[y - 1]?.[x] === "%" ? "cara2" : "cara1"}_${e}${w}`;
-    if (m.grid[y + 1]?.[x] === "%" && y + 2 < m.h && !roca(x, y + 2)) return `monte_alta_${e}${w}`;
+    // por debajo del mapa se considera terreno más bajo: el borde inferior es una pared que cae
+    const abierto = (k: number) => y + k >= m.h || !roca(x, y + k);
+    if (abierto(1)) return `monte_${roca(x, y - 1) && m.grid[y - 1]?.[x] === "%" ? "cara2" : "cara1"}_${e}${w}`;
+    if ((m.grid[y + 1]?.[x] === "%" || m.grid[y + 1]?.[x] === "O") && abierto(2)) return `monte_alta_${e}${w}`;
     return `monte_cima_${roca(x, y - 1) ? 0 : 1}${e}${w}`;
   }
   if (ch === "~" || ch === "p" || ch === "s") {

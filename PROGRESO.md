@@ -168,5 +168,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Rutas 2 y 3: sin senderos de arena en la montaña (suelo de un solo color). Entrenadores recolocados para vigilar el paso obligado (comprobado con el camino más corto): en la Ruta 2 dos pasos estrechos con setos (micóloga y biólogo) y la excursionista patrullando de arriba abajo antes de la cueva; en la Ruta 3 el recorrido empieza en la boca de la cueva (terraza baja → escalera → terraza media → puente → prado), con el montañero vigilando la salida de la cueva, la pescadora la salida del puente y el culturista el camino al este.
 
+- Ruta 3: las tres terrazas ocupan todo el ancho del desfiladero y entre ellas solo hay la pared (2 casillas: labio y base), que cruza de lado a lado como un escalón; árboles separan las terrazas alta y baja del prado (que está al nivel de la media). Por debajo del mapa se considera terreno más bajo (el borde inferior es una pared que cae). La boca de la cueva va integrada en la pared.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

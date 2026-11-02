@@ -121,7 +121,7 @@ def pieza(tipo, n, e, w, seed):
     _lados(a, e, w, tipo != "cima")
     return a
 def cueva(seed):
-    a = pieza("cara1", 0, 0, 0, seed)
+    a = pieza("cara2", 0, 0, 0, seed)
     yy, xx = np.mgrid[0:C, 0:C]
     arco = ((xx - 32) / 20) ** 2 + ((yy - 64) / 34) ** 2 < 1
     borde = ((xx - 32) / 23) ** 2 + ((yy - 64) / 37) ** 2 < 1
