@@ -893,7 +893,9 @@ const SCRIPTS: Record<string, Script> = {
     if (c < 0 || c >= opts.length) return;
     await game.fade(true, 20);
     await game.wait(30);
-    world.load(opts[c][1], opts[c][2], opts[c][3], 1);
+    // en la V2 las ciudades con puerto guardan su punto de llegada (el embarcadero cambia de sitio)
+    const llegada = (MAPS[opts[c][1]] as { puntos?: Record<string, [number, number]> } | undefined)?.puntos?.ferri;
+    world.load(opts[c][1], llegada?.[0] ?? opts[c][2], llegada?.[1] ?? opts[c][3], 1);
     await game.fade(false, 20);
     await game.say(`¡Habéis llegado a ${opts[c][0]}!`);
   },

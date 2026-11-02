@@ -6,7 +6,7 @@ export const MAPS: Record<string, MapDef> = {};
 const add = (m: MapDef) => { MAPS[m.id] = m; };
 
 // ---------------------------------------------------------------- interiores reutilizables
-function casa(id: string, name: string, back: { to: string; x: number; y: number }, npcs: MapDef["npcs"] = []) {
+export function casa(id: string, name: string, back: { to: string; x: number; y: number }, npcs: MapDef["npcs"] = []) {
   const b = new MapBuilder(id, name, 8, 7, "m", "interior", false);
   b.fill(0, 0, 8, 1, "w").fill(0, 1, 8, 1, "W").set(1, 1, "e").set(2, 1, "e").set(6, 2, "b").set(2, 3, "t").set(2, 4, "t").set(7, 5, "n");
   b.fill(3, 6, 2, 1, "a");
@@ -15,7 +15,7 @@ function casa(id: string, name: string, back: { to: string; x: number; y: number
   return b.done();
 }
 /** PNJ divulgador: cada visita cuenta una curiosidad de microbiología. */
-function visitante(id: string) {
+export function visitante(id: string) {
   const SPR = ["chico", "chica", "estudiante", "becario", "madre", "jubilado"];
   let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0;
   return SPR[h % SPR.length];
@@ -1455,7 +1455,7 @@ function repartirPlasmidos() {
  *  - al salir de un interior, el jugador aparece justo debajo de la puerta de su edificio ilustrado;
  *  - al cruzar el borde entre dos mapas exteriores, aparece justo dentro del borde de salida del otro mapa.
  *  Así se pueden recolocar edificios y calles sin tocar los mapas vecinos. */
-function linkWarps() {
+export function linkWarps() {
   const span = (w: { w?: number; h?: number }) => [w.w ?? 1, w.h ?? 1];
   const edge = (m: MapDef, w: MapDef["warps"][number]) => { const [sw, sh] = span(w); return w.x === 0 || w.y === 0 || w.x + sw - 1 === m.w - 1 || w.y + sh - 1 === m.h - 1; };
   for (const m of Object.values(MAPS)) for (const a of m.warps) {

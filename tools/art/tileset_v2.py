@@ -139,6 +139,65 @@ def con_cueva(t, h, r):
     b = a_cesped_v2(c16(h, 4 * 16 + 8, r * 16))
     return sobre(t, b)
 
+EDIF2 = {
+    # casas en las que se puede entrar (interior genérico con un vecino)
+    "v2_casa_teal": ("e43", "casa"), "v2_casa_rosa": ("e46", "casa"), "v2_casa_rosa2": ("e47", "casa"), "v2_casa_gris": ("e48", "casa"),
+    "v2_casa_naranja": ("e87", "casa"), "v2_casa_madera": ("e93", "casa"), "v2_cabana": ("e94", "casa"), "v2_casa_verde": ("e100", "casa"),
+    "v2_casa_cristal": ("e107", "casa"), "v2_casa_azulejo": ("e108", "casa"), "v2_casa_azul": ("e109", "casa"), "v2_casa_roja": ("e115", "casa"),
+    "v2_casa_verde2": ("e128", "casa"), "v2_casa_cian": ("e134", "casa"), "v2_casa_verde3": ("e137", "casa"), "v2_casa_naranja2": ("e138", "casa"),
+    "v2_casa_gris2": ("e152", "casa"), "v2_casa_roja2": ("e157", "casa"), "v2_casa_rosa3": ("e159", "casa"), "v2_casa_crema": ("e160", "casa"),
+    "v2_casa_marron": ("e167", "casa"), "v2_casa_lila": ("e168", "casa"), "v2_casita": ("e63", "casa"), "v2_choza": ("e62", "casa"),
+    "v2_casa_grande": ("e44", "casa"), "v2_mansion": ("e45", "casa"), "v2_casa_grande_roja": ("e126", "casa"), "v2_casa_morada": ("e49", "casa"),
+    # edificios de ciudad (no se entra)
+    "v2_tienda_gris": ("e127", "edificio"), "v2_mercado": ("e136", "edificio"), "v2_tienda_toldo": ("e71", "edificio"), "v2_kiosco": ("e67", "edificio"),
+    "v2_tienda_moderna": ("e68", "edificio"), "v2_bloque_azul": ("e69", "edificio"), "v2_oficina": ("e70", "edificio"), "v2_bloque_naranja": ("e74", "edificio"),
+    "v2_cafeteria": ("e75", "edificio"), "v2_cristalera": ("e76", "edificio"), "v2_pagoda": ("e89", "edificio"), "v2_nave": ("e91", "edificio"),
+    "v2_casona": ("e92", "edificio"), "v2_tienda_marron": ("e99", "edificio"), "v2_salon": ("e114", "edificio"), "v2_cupula": ("e143", "edificio"),
+    "v2_bloque_verde": ("e146", "edificio"), "v2_bloque_crema": ("e148", "edificio"), "v2_tienda_cian": ("e149", "edificio"), "v2_tienda_naranja": ("e150", "edificio"),
+    "v2_torre_cristal": ("e151", "edificio"), "v2_teatro": ("e154", "edificio"), "v2_nave_granate": ("e156", "edificio"), "v2_bloque_amarillo": ("e169", "edificio"),
+    "v2_rascacielos": ("e173", "edificio"), "v2_torre_dorada": ("e145", "edificio"), "v2_faro": ("e104", "edificio"), "v2_torre_agua": ("e116", "edificio"),
+    "v2_choza_redonda": ("e118", "edificio"), "v2_casa_piedra": ("e53", "edificio"), "v2_templo": ("e52", "edificio"),
+    # decoración grande
+    "v2_parada": ("e86", "deco"), "v2_banderines": ("e97", "deco"), "v2_toldo_azul": ("e112", "deco"), "v2_toldo_rosa": ("e113", "deco"),
+    "v2_barco": ("e103", "deco"), "v2_ferri": ("e105", "deco"), "v2_arco": ("e66", "deco"),
+}
+# decoración pequeña de terreno2 (x, y, ancho, alto en px nativos); la farola es de la primera lámina
+DECO2 = {
+    "jardinera": (51, 3207, 58, 56), "maceta_flores": (15, 3222, 19, 29), "arbusto": (46, 3290, 20, 15), "arbusto_flor": (94, 3320, 20, 17),
+    "seto_largo": (0, 3413, 80, 25), "arbol_caduco": (7, 3608, 49, 57), "arbol_otono": (71, 3608, 49, 57), "arbol_rojo": (7, 3672, 49, 57),
+    "farola": (112, 2063, 16, 43),
+}
+
+def rellena_puerta(s):
+    """Las puertas vienen huecas (en el juego original se animan aparte): se rellenan de oscuro."""
+    o = s.copy(); a = o[..., 3]
+    h, w = a.shape
+    for y in range(int(h * 0.45), h):
+        fila = a[y] == 255
+        for x in range(w):
+            if a[y, x] < 255 and fila[:x].any() and fila[x + 1:].any() and (a[:y, x] == 255).any():
+                # hueco con fachada a los dos lados y encima: puerta
+                izq, der = np.where(fila[:x])[0].max(), x + 1 + np.where(fila[x + 1:])[0].min()
+                if der - izq <= 30: o[y, x] = (52, 44, 58, 255)
+    return o
+
+def puerta_de(s):
+    """Centro x de la puerta (zona rellenada en rellena_puerta), o None."""
+    from scipy.ndimage import label as _label
+    m = (s[..., :3] == (52, 44, 58)).all(-1) & (s[..., 3] == 255)
+    if not m.any(): return None
+    lab, n = _label(m)
+    cx = s.shape[1] / 2
+    mejor = None
+    for i in range(1, n + 1):
+        ys, xs = np.where(lab == i)
+        if len(xs) < 12: continue
+        c = (xs.min() + xs.max() + 1) / 2
+        # la puerta: el hueco más grande; a igualdad, el más centrado
+        clave = (-len(xs) // 20, abs(c - cx))
+        if mejor is None or clave < mejor[0]: mejor = (clave, c)
+    return mejor[1] if mejor else None
+
 def recorta(h, x, y, w, hh):
     """Sprite libre (coordenadas nativas) recortado a su caja de opacidad."""
     a = h[y:y + hh, x:x + w].copy()
@@ -350,6 +409,19 @@ def main():
         k = 7
         sm = np.convolve(col, np.ones(k) / k, mode="same")
         return int(np.argmin(sm[k:-k]) + k)
+    # edificios y decoración de la segunda lámina para las ciudades de la V2 (ids del catálogo
+    # tools/art/catalogo_edificios2.json); tipo: casa (se entra), edificio (no se entra), deco (objeto)
+    E2 = np.array(Image.open(REF / "edificios2.png").convert("RGBA"))
+    cat = {d["id"]: d for d in json.load(open(ROOT / "tools/art/catalogo_edificios2.json"))}
+    meta2 = {}
+    for nombre, (cid, tipo) in EDIF2.items():
+        d = cat[cid]
+        spr = E2[d["y"]:d["y"] + d["h"], d["x"]:d["x"] + d["w"]].copy()
+        nuevos[nombre] = rellena_puerta(spr) if tipo == "casa" else spr
+        meta2[nombre] = tipo
+    for nombre, (x, y, w, h) in DECO2.items():
+        nuevos[nombre] = recorta(T2 if nombre != "farola" else EXT, x, y, w, h)
+        meta2[nombre] = "deco"
     resto = {k: v for k, v in pm1.items() if k not in nuevos}
     piezas = [(k, pa1[v["y"]:v["y"] + v["h"], v["x"]:v["x"] + v["w"]], v) for k, v in resto.items()]
     for k, s in nuevos.items():
@@ -359,25 +431,40 @@ def main():
             ys, xs = np.where(s[..., 3] == 255)
             m["door"] = [int(xs.min() + xs.max() + 1) * 2, base_solida(s) * 4]      # puerta centrada
             m["wall"] = [int(xs.min()) * 4, int(xs.max() + 1) * 4]
+        if k in meta2:
+            ys, xs = np.where(s[..., 3] == 255)
+            x0, x1 = int(xs.min()), int(xs.max()) + 1
+            pc = puerta_de(s) if meta2[k] == "casa" else None
+            m["door"] = [int((pc if pc is not None else (x0 + x1) / 2) * 4), base_solida(s) * 4]
+            m["wall"] = [x0 * 4, x1 * 4]
+            # planta en casillas y casilla de la puerta (desde la izquierda de la planta)
+            ancho = max(1, -(-(x1 - x0) // 16)); alto = max(1, -(-(base_solida(s) - int(ys.min())) // 16))
+            if meta2[k] == "deco": alto = 1 if (x1 - x0) <= 24 else max(1, alto - 1)
+            m["planta"] = [ancho, alto, min(ancho - 1, int(((pc if pc is not None else (x0 + x1) / 2) - x0) // 16)), meta2[k]]
         if k.startswith("arbol"):
             ys, xs = np.where(s[..., 3] == 255)
             m["ax"] = int((xs.min() + xs.max() + 1) * 2)      # centro del tronco (centro del dibujo)
         piezas.append((k, g, m))
-    W = sum(p[1].shape[1] + 2 for p in piezas)
-    H = max(p[1].shape[0] for p in piezas)
+    # empaquetado en estantes de 4096 px de ancho (de más alto a más bajo)
+    MAXW = 4096
+    orden = sorted(piezas, key=lambda p: -p[1].shape[0])
+    pos, x, y, alto_fila = {}, 0, 0, 0
+    for k, img, m in orden:
+        h, w = img.shape[:2]
+        if x + w > MAXW: x, y, alto_fila = 0, y + alto_fila + 2, 0
+        pos[k] = (x, y); x += w + 2; alto_fila = max(alto_fila, h)
+    W, H = MAXW, y + alto_fila
     pa2 = np.zeros((H, W, 4), np.uint8)
     pm2 = {}
-    x = 0
     for k, img, m in piezas:
-        h, w = img.shape[:2]
-        pa2[:h, x:x + w] = img
+        h, w = img.shape[:2]; px, py = pos[k]
+        pa2[py:py + h, px:px + w] = img
         d = {kk: vv for kk, vv in m.items() if kk not in ("x", "y", "w", "h")}
-        pm2[k] = {"x": x, "y": 0, "w": w, "h": h, **d}
-        x += w + 2
+        pm2[k] = {"x": px, "y": py, "w": w, "h": h, **d}
     Image.fromarray(pa2).save(A2 / "props_hd.png", optimize=True)
     json.dump(pm2, open(A2 / "props_hd.json", "w"))
     print("OK terreno", len(nombres), "celdas · edificios", len(pm2), pa2.shape)
-    for k in nuevos: print(" ", k, pm2[k])
+    for k in list(nuevos)[:8]: print(" ", k, pm2[k])
 
     if "--ver" in sys.argv:
         # lámina de revisión: autotiles de camino/agua/acantilado, piezas lineales, muebles y edificios
