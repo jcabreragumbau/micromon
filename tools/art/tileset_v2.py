@@ -368,8 +368,18 @@ def main():
     # el mismo canto suelto, para dibujarlo sobre el borde de una terraza que da al río
     objetos_extra = {"obj:canto_e": x4(a_cesped_v2(t16(T2, 545, 7))), "obj:canto_o": x4(a_cesped_v2(t16(T2, 545, 4)))}          # la boca va encima (obj_monte_cueva)
     # escaleras talladas: en la roca de la montaña y en los desniveles de césped
-    pon("escalon", sobre(t16(T2, 331, 4), t16(T2, 331, 4)))
-    pon("escalon_cesped", sobre(t16(T2, 331, 4), t16(T2, 331, 4)))         # también de roca: se leen mejor
+    # escaleras de piedra según la muestra del usuario (assets/reference/tileset_v2/escaleras.png, que viene
+    # reescalada): peldaños grises de 4 px (canto claro, huella, sombra) entre dos barandillas; repetible en
+    # vertical, así que sirve para tramos de cualquier altura
+    esc = np.zeros((16, 16, 4), np.uint8); esc[..., 3] = 255
+    PELD = [(232, 234, 238), (212, 216, 220), (208, 212, 216), (114, 119, 125)]
+    for y in range(16): esc[y, :, :3] = PELD[y % 4]
+    for y in range(16):
+        esc[y, 0, :3] = (66, 72, 80); esc[y, 1, :3] = (204, 209, 212); esc[y, 2, :3] = (150, 156, 162)
+        esc[y, 15, :3] = (66, 72, 80); esc[y, 14, :3] = (204, 209, 212); esc[y, 13, :3] = (150, 156, 162)
+        if y % 4 == 3: esc[y, 3, :3] = (96, 100, 106); esc[y, 12, :3] = (96, 100, 106)
+    pon("escalon", esc)
+    pon("escalon_cesped", esc)
     # piezas lineales sobre césped (se guardan como objetos: el suelo de debajo lo pone el juego)
     lin = {
         "seto": dict(L=t16(EXT, 122, 5), M=t16(EXT, 122, 6), R=t16(EXT, 122, 7), T=t16(EXT, 122, 4), V=t16(EXT, 123, 4), B=t16(EXT, 124, 4), solo=t16(EXT, 121, 4)),

@@ -190,5 +190,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - V2, cuevas: suelo de tierra de cueva (terreno2, filas 113-114, columnas 4-5, bloque 2×2) y paredes de roca gris con relieve (plantilla de las filas 378-381: canto, laterales y cara según qué lados dan a suelo, «pared_cueva~m»); setas, hifas y el disco duro de la V1 se dibujan sin su suelo viejo encima del nuevo. Afecta a Monte Micelio, Cueva Anaeróbica, Túnel Endospórico, Fosa Abisal y el suelo del Gimnasio Gram.
 
+- V2, escaleras: peldaños de piedra gris entre barandillas según la muestra del usuario (`assets/reference/tileset_v2/escaleras.png`), en la montaña y en los desniveles de césped.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
