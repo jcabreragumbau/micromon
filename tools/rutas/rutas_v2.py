@@ -61,6 +61,9 @@ def ruta2():
     # árboles y flores
     for x, y in ((6, 4), (30, 4), (34, 6), (8, 12), (12, 18)): fill(g, x, y, 2, 2, "T")
     for x, y in ((3, 5), (27, 8), (10, 7), (2, 18), (26, 13), (14, 12)): g[y][x] = "f"
+    # dos pasos estrechos en el nivel bajo (setos): el camino pasa por delante de los entrenadores
+    for x in (20, 29):
+        fill(g, x, 11, 1, 4, "k"); fill(g, x, 17, 1, 4, "k")
     # cueva del Monte Micelio en la pared del este
     g[11][38] = "O"; fill(g, 38, 3, 2, 8, "A"); fill(g, 38, 12, 2, 3, "p")
     return g
@@ -71,11 +74,8 @@ def ruta3():
     # ---- oeste: desfiladero en tres terrazas a distinta altura, separadas por paredes de roca de 2-3 casillas
     fill(g, 0, 0, 20, 28, "%")
     fill(g, 2, 2, 16, 4, "p")                                             # terraza alta
-    fill(g, 2, 9, 16, 6, "p"); fill(g, 18, 14, 2, 1, "s")                 # terraza media (sale al este)
+    fill(g, 2, 9, 16, 6, "p"); fill(g, 18, 14, 2, 1, "p")                 # terraza media (sale al este)
     fill(g, 2, 18, 16, 7, "p")                                            # terraza baja (salida del Monte Micelio)
-    fill(g, 3, 4, 13, 1, "s"); fill(g, 4, 12, 14, 1, "s"); fill(g, 2, 21, 15, 1, "s")   # senderos de arena
-    fill(g, 15, 5, 1, 1, "s"); fill(g, 15, 9, 1, 3, "s"); fill(g, 4, 13, 1, 2, "s"); fill(g, 4, 18, 1, 3, "s")
-    fill(g, 17, 13, 1, 1, "s"); fill(g, 16, 22, 1, 2, "s")
     fill(g, 15, 6, 1, 3, "^"); fill(g, 4, 15, 1, 3, "^")                  # escaleras talladas en las paredes
     # el río baja de norte a sur y cae en cascada en cada pared
     fill(g, 8, 0, 2, 2, "*"); fill(g, 8, 2, 2, 4, "~"); fill(g, 8, 6, 2, 3, "*"); fill(g, 8, 9, 2, 6, "~")

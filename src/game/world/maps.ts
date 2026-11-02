@@ -223,7 +223,7 @@ add(casa("casa-viral", "Casa de Ciudad Viral", { to: "ciudad-viral", x: 17, y: 1
   b.sign(29, 3, "Ruta 2. Al norte: Monte Micelio.");
   b.npc({ id: "petri-1", x: 12, y: 17, sprite: "chico", dir: 1, talk: "El Dr. Solé usa Simbiontes, Gram+ y Esporulados. ¡Ojo! Sus lactobacilos aguantan los Antibióticos; mejor algo de tipo Gram- o Biofilm." });
   b.npc({ id: "petri-2", x: 11, y: 21, sprite: "chica", move: "pasear", talk: "Dicen que el Monte Micelio, al norte, está tapado por una maraña de hifas. Solo con Celulasa se puede pasar." });
-  b.warp({ x: 30, y: 0, w: 2, to: "ruta-2", tx: 9, ty: 28, dir: 1, keep: "x" });
+  b.warp({ x: 30, y: 0, w: 2, to: "ruta-2", tx: 1, ty: 15, dir: 3 });
   b.warp({ x: 0, y: 16, h: 4, to: "bosque-viral", tx: 28, ty: 14, dir: 2, keep: "y" });
   add(b.done({ music: "ciudad" }));
 }
@@ -268,16 +268,16 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
     "A..........................f..........AAAAAA",
     "A.....................................AAAAAA",
     "AAAA||AAAAAAAAAAAAvvvvvvAAAAAAAAAAAAAAAAAAAA",
-    "k...................................ppO.AAAA",
-    "k.......TT....f.....................ppppAAAA",
-    "k.......TT................f.........ppppAAAA",
-    "k...................................ppppAAAA",
+    "k...................k........k......ppO.AAAA",
+    "k.......TT....f.....k........k......ppppAAAA",
+    "k.......TT..........k.....f..k......ppppAAAA",
+    "k...................k........k......ppppAAAA",
     "ppppppppppppppppppppppppppppppppppppppppAAAA",
     "ppppppppppppppppppppppppppppppppppppppppAAAA",
-    "k...........................gggggggg....AAAA",
-    "k.f.........TT..TT......TT..gggggggg....AAAA",
-    "k...........TT..TT......TT..gggggggg....AAAA",
-    "k...............kkkkkkkkkk..gggggggg....AAAA",
+    "k...................k.......gkgggggg....AAAA",
+    "k.f.........TT..TT..k...TT..gkgggggg....AAAA",
+    "k...........TT..TT..k...TT..gkgggggg....AAAA",
+    "k...............kkkkkkkkkk..gkgggggg....AAAA",
     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
     "AAAATTTTAAAATTTTAAAAAATTTTAAAATTTTAAAAAAAAAA",
     "AAAATTTTAAAATTTTAAAAAATTTTAAAATTTTAAAAAAAAAA",
@@ -293,13 +293,13 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.npc({ id: "r2-agronomo", x: 16, y: 8, sprite: "estudiante", dir: 0, move: "patrulla:h:3:mira", trainer: {
     name: "Ramón", clase: "Agrónomo", team: [["rhizobi", 11], ["thuringien", 11], ["serratia", 12]], sight: 4, money: 45,
     intro: "¡Mis Rhizobium fijan nitrógeno en las raíces! ¡Y luchan!", lose: "Se me ha secado la cosecha…", after: "Bacillus thuringiensis es un insecticida natural. ¡Lo usan en agricultura ecológica!" } });
-  b.npc({ id: "r2-micologa", x: 30, y: 12, sprite: "chica", dir: 0, move: "mirar:0,2", trainer: {
+  b.npc({ id: "r2-micologa", x: 20, y: 14, sprite: "chica", dir: 0, move: "mirar:0,2", trainer: {
     name: "Elena", clase: "Micóloga", team: [["roqueforti", 11], ["mucorin", 12]], sight: 4, money: 40,
     intro: "¡Los hongos son los reyes del bosque! ¿Quieres comprobarlo?", lose: "Mis esporas no han germinado…", after: "Penicillium roqueforti es el que da el color azul a los quesos. ¡Precioso!" } });
-  b.npc({ id: "r2-biologo", x: 27, y: 18, sprite: "chico", dir: 1, move: "quieto", trainer: {
+  b.npc({ id: "r2-biologo", x: 29, y: 17, sprite: "chico", dir: 1, move: "quieto", trainer: {
     name: "Marc", clase: "Biólogo de campo", team: [["serratia", 11], ["bifidum", 11], ["casei", 12]], sight: 4, money: 44,
     intro: "Llevo toda la mañana vigilando este camino. ¡Nadie pasa sin un combate!", lose: "Anotado en el cuaderno de campo: derrota.", after: "Serratia marcescens fabrica un pigmento rojo. ¡En la Edad Media la confundían con sangre en el pan!" } });
-  b.npc({ id: "r2-excursionista", x: 37, y: 12, sprite: "chica", dir: 0, move: "patrulla:v:2", trainer: {
+  b.npc({ id: "r2-excursionista", x: 35, y: 12, sprite: "chica", dir: 0, move: "patrulla:v:2", trainer: {
     name: "Nuria", clase: "Excursionista", team: [["mirabilis", 11], ["euglena", 12]], sight: 4, money: 42,
     intro: "¡Voy al Monte Micelio a ver las hifas que brillan! Pero antes… ¡un combate!", lose: "Me he quedado sin linterna y sin Microos…", after: "Euglena tiene un ojo rojo para buscar la luz. ¡Es medio alga, medio animal!" } });
   b.npc({ id: "r2-limnologo", x: 19, y: 4, sprite: "estudiante", dir: 0, move: "quieto", trainer: {
@@ -355,8 +355,8 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
 }
 
 // ---------------------------------------------------------------- Ruta 3
-// De la salida oeste del Monte Micelio a la aduana de Ciudad Cultivo (este): desfiladero en tres terrazas a distinta
-// altura (paredes con relieve, escaleras talladas y el río cayendo en cascada en cada pared) y, al este, la casa con jardín.
+// Empieza en la boca de la cueva del Monte Micelio (terraza baja, oeste): se sube a la terraza media por la escalera,
+// se cruza el río por el puente y se sale al prado del este hasta la aduana de Ciudad Cultivo. La terraza alta es opcional.
 {
   const b = new MapBuilder("ruta-3", "Ruta 3", 44, 28);
   b.ascii([
@@ -364,26 +364,26 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
     "%%%%%%%%**%%%%%%%%%%TTTTTTTTTTTTTTTTTTTTTTTT",
     "%%pppppp~~pppppppp%%.......k.........k....TT",
     "%%pppppp~~pppppppp%%.f.....k.........k....TT",
-    "%%psssss==sssssspp%%.......k.........k....TT",
-    "%%pppppp~~pppppspp%%.......k.........k....TT",
+    "%%pppppp==pppppppp%%.......k.........k....TT",
+    "%%pppppp~~pppppppp%%.......k.........k....TT",
     "%%%%%%%%**%%%%%^%%%%.......k.........k....TT",
     "%%%%%%%%**%%%%%^%%%%.......k.........k....TT",
     "%%%%%%%%**%%%%%^%%%%.......lllllppllll....TT",
-    "%%pppppp~~pppppspp%%....ggg.ggggppgggg....TT",
-    "%%pppppp~~pppppspp%%....gfg.ggggppgggg....TT",
-    "%%pppppp~~pppppspp%%....ggg.....ppgggg....TT",
-    "%%ppssss==ssssssss%%............pp........TT",
-    "%%ppsppp~~ppppppps%%lllpllllllllppllggggg.TT",
-    "%%ppsppp~~ppppppppssppppppppppppppppgggggppp",
+    "%%pppppp~~pppppppp%%....ggg.ggggppgggg....TT",
+    "%%pppppp~~pppppppp%%....gfg.ggggppgggg....TT",
+    "%%pppppp~~pppppppp%%....ggg.....ppgggg....TT",
+    "%%pppppp==pppppppp%%............pp........TT",
+    "%%pppppp~~pppppppp%%lllpllllllllppllggggg.TT",
+    "%%pppppp~~ppppppppppppppppppppppppppgggggppp",
     "%%%%^%%%**%%%%%%%%%%ppppppppppppppppgggggppp",
     "%%%%^%%%**%%%%%%%%%%kkkkkkkkkkkkkkkkggggg.TT",
     "%%O%^%%%**%%%%%%%%%%..............f.......TT",
-    "%%ppsppp~~pppppppp%%..TT..gggggggg..TT....TT",
-    "%%ppsppp~~pppppppp%%..TT..gggggggg..TT....TT",
-    "%%ppsppp~~pppppppp%%......gggggggg......f.TT",
-    "%%ssssss==sssssssp%%....f.gggggggg........TT",
-    "%%pppppp~~ppppppsp%%..........TT......TT..TT",
-    "%%pppppp~~ppppppsp%%.gggg.....TT...f..TT..TT",
+    "%%pppppp~~pppppppp%%..TT..gggggggg..TT....TT",
+    "%%pppppp~~pppppppp%%..TT..gggggggg..TT....TT",
+    "%%pppppp~~pppppppp%%......gggggggg......f.TT",
+    "%%pppppp==pppppppp%%....f.gggggggg........TT",
+    "%%pppppp~~pppppppp%%..........TT......TT..TT",
+    "%%pppppp~~pppppppp%%.gggg.....TT...f..TT..TT",
     "%%pppppp~~pppppppp%%.gggg...f.............TT",
     "%%%%%%%%~~%%%%%%%%%%.gggg.................TT",
     "%%%%%%%%~~%%%%%%%%%%TTTTTTTTTTTTTTTTTTTTTTTT",
@@ -395,19 +395,19 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.item(10, 2, "caldo-nutritivo", "item:r3-caldo", 2);
   b.item(16, 23, "medio-lb", "item:r3-lb");
   b.item(18, 3, "criobola-azul", "item:r3-oculto", 2, true);
-  b.npc({ id: "r3-culturista", x: 16, y: 10, sprite: "chico", dir: 1, move: "reloj", trainer: {
+  b.npc({ id: "r3-culturista", x: 16, y: 12, sprite: "chico", dir: 2, move: "reloj", trainer: {
     name: "Bruno", clase: "Culturista", team: [["subtilis", 15], ["thermus", 16]], sight: 4, money: 56,
     intro: "¡Culturista de placas, no de gimnasio! Aunque también levanto pesas. ¡En guardia!", lose: "Me he quedado sin medio de cultivo…", after: "Culturista viene de cultivo. Bueno, en mi caso también de los bíceps." } });
-  b.npc({ id: "r3-montanero", x: 12, y: 18, sprite: "chico", dir: 0, move: "patrulla:v:2", trainer: {
+  b.npc({ id: "r3-montanero", x: 7, y: 18, sprite: "chico", dir: 2, move: "mirar:2,0", trainer: {
     name: "Pere", clase: "Montañero", team: [["thermus", 15], ["griseus", 15], ["bacteroid", 16]], sight: 4, money: 58,
     intro: "¡Acabo de bajar del Monte Micelio! Mis Microos aguantan cualquier cosa. ¿Lo comprobamos?", lose: "Uf… necesito un descanso en el refugio.", after: "Streptomyces griseus vive en el suelo. ¡De ella salió la estreptomicina, el primer antibiótico contra la tuberculosis!" } });
-  b.npc({ id: "r3-montanero2", x: 13, y: 3, sprite: "estudiante", dir: 0, move: "quieto", trainer: {
+  b.npc({ id: "r3-montanero2", x: 12, y: 5, sprite: "estudiante", dir: 3, move: "quieto", trainer: {
     name: "Txema", clase: "Montañero", team: [["thermus", 17], ["griseus", 17], ["roqueforti", 17]], sight: 4, money: 64,
     intro: "¡Has llegado a la terraza alta! Desde aquí se ve todo el desfiladero. ¿Un combate con vistas?", lose: "Bajo contigo por las escaleras…", after: "Fíjate en la roca del este: algo brilla incrustado en la pared." } });
-  b.npc({ id: "r3-limnologa", x: 10, y: 23, sprite: "chica", dir: 2, move: "quieto", trainer: {
+  b.npc({ id: "r3-limnologa", x: 10, y: 9, sprite: "chica", dir: 0, move: "quieto", trainer: {
     name: "Marta", clase: "Pescadora", team: [["euglena", 15], ["navicula", 15], ["noctiluca", 16]], sight: 4, money: 60,
     intro: "¡Este lago tiene más diatomeas que gotas de agua!", lose: "Se me ha volcado el muestreador…", after: "La Dra. Gajú estudia los tapetes microbianos del Delta del Ebro. ¡Sus Microos aman la luz!" } });
-  b.npc({ id: "r3-cervecero", x: 28, y: 11, sprite: "estudiante", dir: 3, move: "patrulla:h:3", trainer: {
+  b.npc({ id: "r3-cervecero", x: 32, y: 11, sprite: "estudiante", dir: 0, move: "mirar:0,2", trainer: {
     name: "Laia", clase: "Aromaterapeuta", team: [["roqueforti", 15], ["sacchari", 15], ["zymomonas", 16]], sight: 4, money: 55,
     intro: "¿Hueles eso? ¡Son los ésteres afrutados que producen mis levaduras! Respira hondo… ¡y lucha!", lose: "Se me ha evaporado el aroma…", after: "El olor a plátano de algunas cervezas es acetato de isoamilo, un éster que fabrican las levaduras." } });
   b.npc({ id: "r3-arqueologo", x: 20, y: 24, sprite: "jubilado", dir: 2, move: "quieto", script: "placaKoch" });

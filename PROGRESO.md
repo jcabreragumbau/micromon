@@ -166,5 +166,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Quitados el árbol sacudible, el árbol de miel, las rocas agrietadas, la grieta escalable, las parcelas y las bayas (todos los árboles son normales). Montaña con relieve (referencia en `assets/reference/rutas/montana_referencia.png`): las casillas «%» eligen pieza en `tileAt` según sus vecinos (cima con bordes, pared de 1 o 2 casillas con labio y sombra, laderas este/oeste, boca de cueva); las piezas HD se generan por código en `terreno_hd.py` (`montana`). La Ruta 3 oeste es ahora un desfiladero de tres terrazas con escaleras talladas y el río en cascada en cada pared.
 
+- Rutas 2 y 3: sin senderos de arena en la montaña (suelo de un solo color). Entrenadores recolocados para vigilar el paso obligado (comprobado con el camino más corto): en la Ruta 2 dos pasos estrechos con setos (micóloga y biólogo) y la excursionista patrullando de arriba abajo antes de la cueva; en la Ruta 3 el recorrido empieza en la boca de la cueva (terraza baja → escalera → terraza media → puente → prado), con el montañero vigilando la salida de la cueva, la pescadora la salida del puente y el culturista el camino al este.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
