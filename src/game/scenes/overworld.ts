@@ -385,7 +385,9 @@ export class Overworld implements Scene {
         if (t === "hierba_oscura" && TILES[t] === undefined) t = "hierba";
       }
       if (t === "bloque" || t === "puerta_hd") t = "hierba";
-      g.tile(t, x * 16 - cx, y * 16 - cy, x, y);
+      // la valla de los bordes de la montaña va sobre la tierra de la terraza, no sobre césped
+      const tierra = t === "valla_v" && [[0, 1], [0, -1], [1, 0], [-1, 0]].some(([dx, dy]) => this.map.grid[y + dy]?.[x + dx] === "p");
+      g.tile(t, x * 16 - cx, y * 16 - cy, x, y, tierra ? "camino" : "hierba");
     }
     for (const [n, x, y] of trees) drawProp(g, n, x - 1, y - 2, 34);
     // objetos del suelo

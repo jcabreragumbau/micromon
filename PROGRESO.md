@@ -170,5 +170,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Ruta 3: las tres terrazas ocupan todo el ancho del desfiladero y entre ellas solo hay la pared (2 casillas: labio y base), que cruza de lado a lado como un escalón; árboles separan las terrazas alta y baja del prado (que está al nivel de la media). Por debajo del mapa se considera terreno más bajo (el borde inferior es una pared que cae). La boca de la cueva va integrada en la pared.
 
+- Ruta 3: deshechas las laderas laterales. Vallas verticales (`!`, `valla_v`, sobre la tierra de la terraza) en el borde este de las terrazas alta y baja, junto a los árboles; bajo el camino del prado, un desnivel (acantilado de hierba) con dos escaleras para bajar al césped de abajo, que está al nivel de la terraza baja (en lugar de los setos redondos).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

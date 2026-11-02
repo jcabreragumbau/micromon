@@ -187,7 +187,7 @@ def main():
 
     montana(out)
     # objetos sobre césped: sin el césped viejo (se dibujan encima del nuevo)
-    objetos = ["flores0", "flores1", "seto", "valla", "cartel", "roca", "bordillo", "acantilado", "cueva_entrada", "hifas_bloqueo"]
+    objetos = ["flores0", "flores1", "seto", "valla", "valla_v", "cartel", "roca", "bordillo", "acantilado", "cueva_entrada", "hifas_bloqueo"]
     rgba: dict[str, np.ndarray] = {}
     for n in objetos:
         if n not in tiles_meta: continue

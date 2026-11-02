@@ -5,7 +5,7 @@ import json, sys
 from pathlib import Path
 from collections import deque
 
-SOLIDO = set("T%A~*klrSvO") | {"#"}
+SOLIDO = set("T%A~*klrSvO!") | {"#"}
 
 def lienzo(w, h, c="."): return [[c] * w for _ in range(h)]
 def fill(g, x, y, w, h, c):
@@ -87,10 +87,12 @@ def ruta3():
     fill(g, 20, 0, 24, 2, "T"); fill(g, 42, 0, 2, 28, "T"); fill(g, 20, 26, 24, 2, "T")
     fill(g, 20, 14, 24, 2, "p")                                           # camino principal hasta la salida este
     fill(g, 36, 13, 5, 4, "g")                                            # hierba densa justo antes de la salida
-    fill(g, 20, 13, 16, 1, "l"); fill(g, 20, 16, 16, 1, "k")
+    fill(g, 20, 13, 16, 1, "l"); fill(g, 22, 16, 20, 1, "A")              # el prado de abajo está más bajo
+    g[16][26] = "^"; g[16][37] = "^"                                      # escaleras para bajar al césped
     g[13][23] = "p"; g[13][32] = "p"; g[13][33] = "p"
     fill(g, 20, 2, 7, 11, ".")                                            # claro
     fill(g, 20, 2, 2, 6, "T"); fill(g, 20, 16, 2, 10, "T")
+    fill(g, 19, 2, 1, 5, "!"); fill(g, 19, 17, 1, 9, "!")                # vallas en el borde de las terrazas, junto a los árboles
     # casa con jardín vallado al noreste: la puerta queda en (32, 7)
     fill(g, 27, 2, 1, 7, "k"); fill(g, 37, 2, 1, 7, "k"); fill(g, 27, 8, 11, 1, "l"); g[8][32] = "p"; g[8][33] = "p"
     fill(g, 32, 9, 2, 4, "p")

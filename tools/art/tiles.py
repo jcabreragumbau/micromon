@@ -169,6 +169,14 @@ def fence():
     for y in (5, 9):
         t.hline(0, 15, y - 1, O); t.hline(0, 15, y, H("#f8f8f8")); t.hline(0, 15, y + 1, H("#c8ccd4")); t.hline(0, 15, y + 2, O)
     return t
+def fence_v():
+    """Valla vista de lado (tramo vertical): postes arriba y abajo y dos largueros verticales. Fondo transparente."""
+    t = T()
+    for y in (2, 11):
+        t.rect(5, y - 1, 10, y + 3, O); t.rect(6, y, 9, y + 2, H("#ffffff")); t.hline(6, 9, y + 2, H("#c8ccd4"))
+    for x in (6, 9):
+        t.vline(x - 1, 0, 15, O); t.vline(x, 0, 15, H("#f8f8f8")); t.vline(x + 1, 0, 15, O)
+    return t
 def sign():
     t = grass(14)
     t.rect(7, 9, 8, 15, H("#6a4024")); t.vline(7, 9, 15, H("#8a5a32"))
@@ -538,6 +546,7 @@ def build():
                   "servidor0": server(0), "servidor1": server(1), "suelo_torre": tower_floor(), "placa_contaminada": cont_plate(), "poster": poster(),
                   "hielo": ice(), "nieve": snow(), "roca_hielo": ice_rock(), "pared_hielo": ice_wall(), "holo0": holo_capsid(0), "holo1": holo_capsid(1)})
     # al final, para no mover los índices de los anteriores
+    tiles.update({"valla_v": fence_v()})
     tiles.update({"puente_h": bridge(False), "puente_v": bridge(True), "escalon": stone_steps(), "risco": rock_cliff(),
                   "cascada0": waterfall(0), "cascada1": waterfall(1)})
     names = list(tiles)

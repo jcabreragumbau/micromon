@@ -57,7 +57,7 @@ export const LEGEND: Record<string, string> = {
   Y: "suelo_gimnasio", e: "estanteria", t: "mesa", c: "mostrador", P: "pc", b: "cama", n: "planta", a: "alfombra",
   i: "incubadora", B: "poyata", M: "microscopio", Q: "queso", C: "lata", K: "tanque", E: "escaleras", S: "cartel",
   H: "hielo", y: "nieve", U: "roca_hielo", R: "pared_hielo",
-  "=": "puente_h", "|": "puente_v", "^": "escalon", "%": "risco",
+  "=": "puente_h", "|": "puente_v", "^": "escalon", "%": "risco", "!": "valla_v",
   x: "suelo_casino", N: "suelo_tecnico", F: "suelo_torre", I: "placa_contaminada", J: "poster",
   u: "suelo_cueva", X: "pared_cueva", d: "disco_duro", A: "acantilado", O: "cueva_entrada", Z: "winogradsky", j: "suelo_invernadero",
 };
@@ -163,7 +163,7 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
   }
   if (ch === "~" || ch === "p" || ch === "s") {
     // vecinos que no llevan borde de césped: en la montaña, riscos, escalones, puentes y cascadas
-    const sinBorde = ch === "p" ? "%^=|*O~s" : ch === "~" ? "=|*%p" : ch === "s" ? "%^=|*O~p" : "";
+    const sinBorde = ch === "p" ? "%^=|*O~s!" : ch === "~" ? "=|*%p" : ch === "s" ? "%^=|*O~p" : "";
     const same = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === ch || sinBorde.includes(c) || (ch === "p" && (c.startsWith("@muro_puerta") || c === "@puerta_hd")); };
     const mask = (same(x, y - 1) ? 0 : 1) | (same(x + 1, y) ? 0 : 2) | (same(x, y + 1) ? 0 : 4) | (same(x - 1, y) ? 0 : 8);
     if (ch === "~") return `agua_${mask}_${frame % 64 < 32 ? 0 : 1}`;
