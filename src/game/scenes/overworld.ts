@@ -5,7 +5,7 @@ import { AVATAR_SPRITE } from "../state";
 import type { Gfx } from "../gfx";
 import { W, H } from "../gfx";
 import { MAPS } from "../world/maps";
-import { tileAt, passable, isGrass, esquinas, mismoTerreno, AJUSTES_TERRENO, type MapDef, type NpcDef } from "../world/builder";
+import { tileAt, passable, isGrass, esquinas, mismoTerreno, esTerraza, AJUSTES_TERRENO, type MapDef, type NpcDef } from "../world/builder";
 import { V2 } from "../assets_data";
 AJUSTES_TERRENO.orillaJuntoCamino = V2;
 import { runScript, talkNpc, trainerBattle, wildBattle } from "../scripts";
@@ -475,9 +475,20 @@ export class Overworld implements Scene {
       }
       if (V2) t = this.variantePlaya(t, x, y);
       // V2: escaleras de un desnivel de césped (las de la montaña son de roca)
+      // V2: el borde de las terrazas de la montaña es su canto (lateral), que da sensación de altura
+      if (V2 && t === "valla_v") {
+        if (tileAt(this.map, x - 1, y).startsWith("camino")) t = "lateral_e";
+        else if (tileAt(this.map, x + 1, y).startsWith("camino")) t = "lateral_o";
+      }
       if (V2 && t === "escalon" && [x - 1, x + 1].some((xx) => tileAt(this.map, xx, y) === "acantilado")) t = "escalon_cesped";
       const vec = this.vecinos(x, y, t);
       g.tile(t, x * 16 - cx, y * 16 - cy, x, y, suelo, vec, this.map.env, t === "acantilado" || t === "cueva_entrada" ? 0 : esquinas(this.map, x, y));
+      // V2: el canto de una terraza de montaña que cae al río
+      if (V2 && this.map.grid[y][x] === "p" && esTerraza(this.map, x, y)) {
+        const agua = (c?: string) => c === "~" || c === "*";
+        if (agua(this.map.grid[y][x - 1]) && TERR.index["obj:canto_o"] !== undefined) g.terr(TERR.index["obj:canto_o"], x * 16 - cx, y * 16 - cy);
+        if (agua(this.map.grid[y][x + 1]) && TERR.index["obj:canto_e"] !== undefined) g.terr(TERR.index["obj:canto_e"], x * 16 - cx, y * 16 - cy);
+      }
     }
     for (const [n, x, y] of trees) {
       const m = PROPS[n];

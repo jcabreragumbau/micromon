@@ -351,7 +351,16 @@ def main():
                 pon(f"monte_alta_{e}{w}", sobre(HIERBA, pared(8838, e, w, q % 2)), q)
                 pon(f"monte_cara2_{e}{w}", sobre(HIERBA, pared(8854, e, w, q % 2)), q)
                 pon(f"monte_cara1_{e}{w}", sobre(HIERBA, pared(8808, e, w, q % 2)), q)
-    pon("monte_cueva", sobre(HIERBA, pared(8854, 0, 0, 0)))          # la boca va encima (obj_monte_cueva)
+    pon("monte_cueva", sobre(HIERBA, pared(8854, 0, 0, 0)))
+    # laterales de las terrazas (anillo de borde de meseta, filas 545-546): el canto de la terraza que cae al
+    # terreno de al lado; «lateral_e» con la terraza al oeste (canto a la derecha) y «lateral_o» al revés
+    tierra = t16(EXT, 1, 1)
+    for q in range(4):
+        r = 545 + (q // 2)
+        pon("lateral_e", sobre(tierra, a_cesped_v2(t16(T2, r, 7))), q)
+        pon("lateral_o", sobre(tierra, a_cesped_v2(t16(T2, r, 4))), q)
+    # el mismo canto suelto, para dibujarlo sobre el borde de una terraza que da al río
+    objetos_extra = {"obj:canto_e": x4(a_cesped_v2(t16(T2, 545, 7))), "obj:canto_o": x4(a_cesped_v2(t16(T2, 545, 4)))}          # la boca va encima (obj_monte_cueva)
     # escaleras talladas: en la roca de la montaña y en los desniveles de césped
     pon("escalon", sobre(t16(T2, 331, 4), t16(T2, 331, 4)))
     pon("escalon_cesped", sobre(t16(T2, 331, 4), t16(T2, 331, 4)))         # también de roca: se leen mejor
@@ -382,6 +391,7 @@ def main():
         objetos[f"obj:mesa~{k}"] = x4(pieza_lineal(k, **mesa))
         objetos[f"obj:mostrador~{k}"] = x4(pieza_lineal(k, **mostr))
     objetos["obj:escaleras"] = x4(t16(INT, 505, 1))
+    objetos.update(objetos_extra)
 
     # ---- atlas de terreno
     nombres = list(celdas) + list(objetos)

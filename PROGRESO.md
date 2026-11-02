@@ -186,5 +186,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - V2, montaña (Ruta 3 y demás «%»): las paredes usan las piezas de pared de la lámina terreno2 (filas 550-557): la de dos alturas repartida entre la casilla alta y la baja, la de una altura en una casilla, con extremos redondeados a los lados abiertos; la boca de cueva es la de la lámina (2 casillas de ancho), dibujada encima de la pared (también en los desniveles de césped).
 
+- V2, laterales de la montaña: los bordes de las terrazas usan el canto del anillo de meseta (terreno2, filas 545-546): junto a los árboles (en lugar de la valla) y junto al río, que queda encajado entre cantos sin orilla (`esTerraza` en builder.ts). Da la sensación de que cada terraza está más alta que lo que tiene al lado.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

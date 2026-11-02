@@ -149,9 +149,26 @@ export const AJUSTES_TERRENO = {
    *  junto al camino (con el camino en lugar de césped, ver tools/art/tileset_v2.py). */
   orillaJuntoCamino: false,
 };
-export function mismoTerreno(m: MapDef, ch: string, xx: number, yy: number): boolean {
+/** V2: ¿la casilla de camino es una terraza de montaña? (subiendo o bajando por su columna, lo primero que no
+ *  es camino, agua ni puente es roca de montaña). */
+export function esTerraza(m: MapDef, x: number, y: number): boolean {
+  if (m.grid[y]?.[x] !== "p") return false;
+  for (const d of [-1, 1]) {
+    for (let k = 1; k < 12; k++) {
+      const c = m.grid[y + d * k]?.[x];
+      if (c === undefined) break;
+      if ("p~=|*^".includes(c)) continue;
+      if (c === "%" || c === "O") return true;
+      break;
+    }
+  }
+  return false;
+}
+export function mismoTerreno(m: MapDef, ch: string, xx: number, yy: number, ox = xx, oy = yy): boolean {
   const sinBorde = ch === "p" ? (AJUSTES_TERRENO.orillaJuntoCamino ? "%^=|*Os!" : "%^=|*O~s!") : ch === "~" ? (AJUSTES_TERRENO.orillaJuntoCamino ? "=|*%" : "=|*%p") : ch === "s" ? (AJUSTES_TERRENO.orillaJuntoCamino ? "%^=|*O~" : "%^=|*O~p") : "";
   const c = m.grid[yy]?.[xx];
+  // V2: entre una terraza de montaña y el río no hay orilla (el canto de la terraza cae al agua)
+  if (AJUSTES_TERRENO.orillaJuntoCamino && ((ch === "~" && c === "p" && esTerraza(m, xx, yy)) || (ch === "p" && c !== undefined && "~*".includes(c) && esTerraza(m, ox, oy)))) return true;
   // (V1: el camino entra bajo la puerta de los edificios; V2: el borde del camino sigue recto bajo la fachada)
   return c === undefined || c === ch || sinBorde.includes(c) || (ch === "p" && (c.startsWith("@muro_puerta") || (c === "@puerta_hd" && !AJUSTES_TERRENO.orillaJuntoCamino)));
 }
@@ -160,7 +177,7 @@ export function mismoTerreno(m: MapDef, ch: string, xx: number, yy: number): boo
 export function esquinas(m: MapDef, x: number, y: number): number {
   const ch = m.grid[y]?.[x];
   if (ch !== "~" && ch !== "p" && ch !== "s") return 0;
-  const s = (dx: number, dy: number) => mismoTerreno(m, ch, x + dx, y + dy);
+  const s = (dx: number, dy: number) => mismoTerreno(m, ch, x + dx, y + dy, x, y);
   let d = 0;
   if (s(0, -1) && s(1, 0) && !s(1, -1)) d |= 1;
   if (s(0, 1) && s(1, 0) && !s(1, 1)) d |= 2;
@@ -190,7 +207,7 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
     return `monte_cima_${roca(x, y - 1) ? 0 : 1}${e}${w}`;
   }
   if (ch === "~" || ch === "p" || ch === "s") {
-    const same = (xx: number, yy: number) => mismoTerreno(m, ch, xx, yy);
+    const same = (xx: number, yy: number) => mismoTerreno(m, ch, xx, yy, x, y);
     const mask = (same(x, y - 1) ? 0 : 1) | (same(x + 1, y) ? 0 : 2) | (same(x, y + 1) ? 0 : 4) | (same(x - 1, y) ? 0 : 8);
     if (ch === "~") return `agua_${mask}_${frame % 64 < 32 ? 0 : 1}`;
     return `${ch === "p" ? "camino" : "arena"}_${mask}`;
