@@ -127,42 +127,7 @@ def cueva(seed):
     borde = ((xx - 32) / 23) ** 2 + ((yy - 64) / 37) ** 2 < 1
     a[borde & ~arco] = OUT; a[arco] = np.array([24, 16, 14.])
     return a
-def ladera(baja, parte, seed):
-    """Laderas laterales (2 casillas de ancho) entre una terraza y el prado del este, vistas en pendiente.
-    baja=True: la terraza está más alta y la ladera BAJA hacia el este (orientada al este: en sombra).
-    baja=False: la terraza está más baja y la ladera SUBE hacia el este (orientada al oeste: iluminada).
-    parte 1 = casilla del oeste (junto a la terraza), 2 = casilla del este (junto al prado)."""
-    yy, xx = np.mgrid[0:C, 0:C]
-    gx = (xx + (parte - 1) * C) / (2 * C - 1)                  # 0 en el borde de la terraza, 1 en el del prado
-    base = TOP * 0.55 + FACE * 0.45
-    ruido = _ruido(seed, 2.5) * 0.05 + _ruido(seed + 4, 0.9) * 0.025
-    # vetas diagonales marcadas (pedregal en pendiente) y degradado fuerte: se lee como una rampa, no como una pared
-    d = (xx + (parte - 1) * C) + (yy if baja else -yy)
-    vetas = 0.13 * np.sign(np.sin(d / 5.0)) * (0.6 + 0.4 * np.abs(np.sin(d / 5.0)))
-    vetas = gaussian_filter(vetas, 0.8)
-    luz = (1.08 - 0.5 * gx) if baja else (0.72 + 0.5 * gx)
-    a = base[None, None] * (luz + ruido + vetas)[..., None]
-    # piedras sueltas con sombra hacia abajo de la pendiente
-    rng = np.random.default_rng(seed + 31)
-    for _ in range(4):
-        cx, cy, r = rng.integers(8, 56), rng.integers(8, 56), rng.integers(3, 5)
-        m = np.hypot(xx - cx, yy - cy) < r
-        sh = np.hypot(xx - cx - (2 if baja else -2), yy - cy - 2) < r
-        a[sh & ~m] *= 0.7; a[m] = TOP_L * (0.95 if not baja else 0.8)
-    hierba = np.array([84, 150, 64.]); hierba_o = np.array([52, 104, 44.])
-    if baja:
-        if parte == 1: a[:, :5] = TOP_L * 0.9; a[:, 5:7] = OUT * 1.3                       # labio de la terraza alta
-        else:                                                                               # pie: la hierba del prado
-            a[:, C - 10:C - 6] *= 0.6; a[:, C - 6:] = hierba_o; a[:, C - 3:] = hierba
-    else:
-        if parte == 1: a[:, :6] *= 0.55; a[:, :2] = OUT                                      # pie, en la terraza baja
-        else:                                                                               # arriba: el borde del prado
-            a[:, C - 10:C - 8] = OUT * 1.2; a[:, C - 8:C - 4] = hierba_o; a[:, C - 4:] = hierba
-    return a
 def montana(out):
-    for q in range(4):
-        for baja, nombre in ((True, "baja"), (False, "sube")):
-            for parte in (1, 2): out[f"monte_ladera_{nombre}_{parte}#{q}"] = ladera(baja, parte, 2000 + q * 13 + parte)
     for q in range(4):
         s = 1000 + q * 37
         for n in (0, 1):
