@@ -174,5 +174,8 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Ruta 3: la zona de la casa también está más alta que el camino: desnivel (acantilado de hierba) con escaleras en sus dos accesos y cerrada con árboles por el lado de la terraza media.
 
+- Entrenadores difíciles de esquivar: `tools/entrenadores.ts` mide, en cada mapa con entrada y salida (o entrada y líder en los gimnasios), qué entrenadores no se pueden esquivar (su línea de visión corta todos los caminos) y con `--colocar` busca, cerca de cada uno, una casilla y una dirección que corten el paso sin taparlo, lejos de puertas, objetos, carteles y otros PNJ. Recolocados 35 entrenadores: ahora son inesquivables al menos 2/3 de los de cada ruta, cueva y guarida y al menos uno de cada gimnasio (Rutas 2 y 3 conservan el diseño del usuario: 2/5 y 3/5). Los entrenadores sin patrón vigilan casi siempre en su dirección y solo echan vistazos breves a los lados (colarse exige calcular el momento).
+- Experiencia de entrenadores ×1,2 (antes ×1,5, la de 5.ª gen.): con todos los entrenadores vencidos y sin combates salvajes, el Microo principal llega a cada líder al nivel de su as o 1–4 niveles por encima (antes hasta +6), y el banquillo (50 %) unos 5 por debajo.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

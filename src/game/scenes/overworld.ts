@@ -276,14 +276,17 @@ export class Overworld implements Scene {
     if (this.blocked(nx, ny, n) || (nx === this.px && ny === this.py) || this.warpAt(nx, ny)) return;
     n.moving = 16;
   }
-  /** Entrenadores: cada pocos segundos miran hacia otro lado con campo de visión despejado (y vuelven a
-   *  su dirección original a menudo). Si al girarse ven al jugador, van a por él. */
+  /** Entrenadores: vigilan casi todo el tiempo en su dirección (la que corta el paso) y de vez en cuando echan
+   *  un vistazo breve a otro lado; colarse por detrás exige calcular bien el momento. */
   private vigilar(n: NpcState) {
     if (--n.timer > 0) return;
-    n.timer = 100 + Math.floor(Math.random() * 140);
     const base = n.def.dir ?? 0;
-    const abiertas = [0, 1, 2, 3].filter((d) => d === base || !this.blocked(n.x + DX[d], n.y + DY[d], n) || (n.x + DX[d] === this.px && n.y + DY[d] === this.py));
-    n.dir = n.dir !== base && Math.random() < 0.5 ? base : abiertas[Math.floor(Math.random() * abiertas.length)];
+    if (n.dir !== base) { n.dir = base; n.timer = 180 + Math.floor(Math.random() * 120); }
+    else {
+      const abiertas = [0, 1, 2, 3].filter((d) => d !== base && (!this.blocked(n.x + DX[d], n.y + DY[d], n) || (n.x + DX[d] === this.px && n.y + DY[d] === this.py)));
+      if (abiertas.length) n.dir = abiertas[Math.floor(Math.random() * abiertas.length)];
+      n.timer = 40 + Math.floor(Math.random() * 20);
+    }
     if (this.moving === 0 && !this.game.overlays.length && !this.game.state.flags[`entrenador:${n.def.id}`]) void this.checkTrainers();
   }
   /** Patrones fijos: girar en el sentido de las agujas del reloj, alternar la mirada o patrullar. */

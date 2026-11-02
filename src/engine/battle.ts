@@ -893,7 +893,9 @@ export class Battle {
   private awardExp(fainted: Microo) {
     const sp = getSpecies(fainted.species);
     const parts = this.sides[0].participants.get(fainted.uid) ?? new Set<number>();
-    const a = this.wild ? 1 : 1.5;
+    // entrenadores ×1,2 (no ×1,5): hay muchos y la mayoría no se pueden esquivar; con este factor el Microo
+    // principal llega a cada líder más o menos a la altura de su as (ver tools/entrenadores.ts y PROGRESO.md)
+    const a = this.wild ? 1 : 1.2;
     const mult = this.difficulty === "facil" ? 1.2 : 1;
     for (const [i, m] of this.sides[0].party.entries()) {
       if (m.hp <= 0 || this.isAlly(i)) continue;   // los Microos del compañero no ganan experiencia

@@ -186,10 +186,10 @@ add(casa("casa-viral", "Casa de Ciudad Viral", { to: "ciudad-viral", x: 17, y: 1
   b.item(7, 20, "criobola-roja", "item:bv-criobola", 3);
   b.item(26, 3, "solucion-salina", "item:bv-salina");
   b.item(12, 4, "medio-lb", "item:bv-lb");
-  b.npc({ id: "bv-becario1", x: 7, y: 9, sprite: "becario", dir: 0, trainer: {
+  b.npc({ id: "bv-becario1", x: 6, y: 14, sprite: "becario", dir: 2, trainer: {
     name: "Raúl", clase: "Becario", team: [["leptospir", 6], ["micrococ", 6]], sight: 4, money: 25,
     intro: "Vengo cada semana a buscar fagos para mi tesis… y nada, ni uno desde la pandemia. ¡Al menos combate conmigo!", lose: "Ni fagos ni victoria…", after: "Dicen que los últimos virus huyeron a islas remotas, más allá del mar de Ciudad Pili." } });
-  b.npc({ id: "bv-becaria", x: 16, y: 10, sprite: "chica", dir: 2, trainer: {
+  b.npc({ id: "bv-becaria", x: 24, y: 14, sprite: "chica", dir: 3, trainer: {
     name: "Marta", clase: "Becaria", team: [["griseus", 7], ["mucorin", 7]], sight: 4, money: 25,
     intro: "¡Shh! Estoy tomando muestras de suelo. ¡Ahora verás lo que he encontrado!", lose: "¡Mis estreptomicetos!", after: "Casi todos los antibióticos naturales vienen de bacterias del suelo como mi Griseus." } });
   b.npc({ id: "bv-micologo", x: 25, y: 11, sprite: "estudiante", dir: 2, trainer: {
@@ -293,7 +293,7 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.npc({ id: "r2-agronomo", x: 16, y: 8, sprite: "estudiante", dir: 0, move: "patrulla:h:3:mira", trainer: {
     name: "Ramón", clase: "Agrónomo", team: [["rhizobi", 11], ["thuringien", 11], ["serratia", 12]], sight: 4, money: 45,
     intro: "¡Mis Rhizobium fijan nitrógeno en las raíces! ¡Y luchan!", lose: "Se me ha secado la cosecha…", after: "Bacillus thuringiensis es un insecticida natural. ¡Lo usan en agricultura ecológica!" } });
-  b.npc({ id: "r2-micologa", x: 20, y: 14, sprite: "chica", dir: 0, move: "mirar:0,2", trainer: {
+  b.npc({ id: "r2-micologa", x: 28, y: 14, sprite: "chica", dir: 0, trainer: {
     name: "Elena", clase: "Micóloga", team: [["roqueforti", 11], ["mucorin", 12]], sight: 4, money: 40,
     intro: "¡Los hongos son los reyes del bosque! ¿Quieres comprobarlo?", lose: "Mis esporas no han germinado…", after: "Penicillium roqueforti es el que da el color azul a los quesos. ¡Precioso!" } });
   b.npc({ id: "r2-biologo", x: 29, y: 17, sprite: "chico", dir: 1, move: "quieto", trainer: {
@@ -329,10 +329,10 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.item(14, 4, "glicerol", "item:mm-glicerol");
   const recluta = (id: string, x: number, y: number, dir: number, sprite: string, name: string, team: [string, number][], intro: string, lose: string, after: string) =>
     b.npc({ id, x, y, sprite, dir, trainer: { name, clase: "Recluta de la Unidad", team, sight: 4, money: 60, intro, lose, after } });
-  recluta("mm-recluta-1", 5, 12, 0, "recluta", "Becario", [["griseus", 13], ["mycoplas", 13]],
+  recluta("mm-recluta-1", 21, 14, 3, "recluta", "Becario", [["griseus", 13], ["mycoplas", 13]],
     "¡Eh! Este becario está picando datos de 16S y no se puede distraer. ¡Fuera de aquí!",
     "¡Mi portátil se ha reiniciado!", "Llevo tres meses sin ver una placa de Petri… solo terminales negras.");
-  recluta("mm-recluta-2", 11, 4, 2, "recluta-b", "Doctoranda", [["serratia", 13], ["bacteroid", 14]],
+  recluta("mm-recluta-2", 23, 4, 3, "recluta-b", "Doctoranda", [["serratia", 13], ["bacteroid", 14]],
     "¿Microbióloga? ¡Ja! Los Microos son solo excusas con ADN para publicar en Nature.",
     "No puede ser… ¡mi pipeline no tenía control de errores!", "Mi contrato acabó hace dos años. Sigo aquí por el paper.");
   recluta("mm-recluta-3", 19, 13, 2, "recluta", "Becario", [["mucorin", 13], ["roqueforti", 14], ["thermus", 14]],
@@ -459,7 +459,7 @@ add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16
     .set(1, 13, "Z").set(11, 13, "Z").set(0, 15, "n").set(12, 15, "n");
   b.fill(5, 16, 3, 1, "a");
   b.npc({ id: "lider-gaju", x: 6, y: 2, sprite: "gaju", dir: 0, script: "liderGaju" });
-  b.npc({ id: "gym2-ana", x: 9, y: 7, sprite: "chica", dir: 2, trainer: {
+  b.npc({ id: "gym2-ana", x: 9, y: 6, sprite: "chica", dir: 2, trainer: {
     name: "Sara", clase: "Ecóloga", team: [["euglena", 17], ["navicula", 17]], sight: 3, money: 70,
     intro: "¡Bienvenid{o} al invernadero! ¿Sabes qué capa de la columna prefieres?", lose: "Me has dejado sin oxígeno…", after: "Arriba, Fotótrofos. Abajo, Anaerobios. ¡Todo es cuestión de gradientes!" } });
   b.npc({ id: "gym2-pau", x: 4, y: 11, sprite: "estudiante", dir: 3, trainer: {
@@ -486,10 +486,10 @@ add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16
   b.item(33, 13, "atp-concentrado", "item:r4-atp", 1, true);
   b.npc({ id: "r4-guarda", x: 10, y: 14, sprite: "dependiente", dir: 0, script: "guardaCueva", hideIf: "mascara-ok" });
   b.npc({ id: "r4-guarda-2", x: 11, y: 14, sprite: "dependiente", dir: 2, showIf: "mascara-ok", talk: "Dentro hay metano y sulfuro. ¡No te quites la máscara!" });
-  b.npc({ id: "r4-ciclista", x: 12, y: 8, sprite: "chico", dir: 3, trainer: {
+  b.npc({ id: "r4-ciclista", x: 2, y: 5, sprite: "chico", dir: 0, trainer: {
     name: "Nil", clase: "Técnico de Depuradora", team: [["putida", 19], ["klebsi", 20]], sight: 4, money: 80,
     intro: "¡Las Pseudomonas se comen el petróleo! ¿Te apuntas a un combate?", lose: "Me has dejado el agua más limpia que nunca…", after: "En la depuradora, las bacterias hacen todo el trabajo sucio. Literalmente." } });
-  b.npc({ id: "r4-parasit", x: 22, y: 10, sprite: "chica", dir: 1, trainer: {
+  b.npc({ id: "r4-parasit", x: 32, y: 8, sprite: "chica", dir: 3, trainer: {
     name: "Inés", clase: "Parasitóloga", team: [["giardia", 20], ["proteus-am", 19], ["entamoeba", 21]], sight: 3, money: 85,
     intro: "¡No bebas del estanque! Bueno, primero luchemos.", lose: "Tendré que hervir el agua…", after: "Giardia tiene dos núcleos y parece que te mira. ¡Dan escalofríos!" } });
   b.npc({ id: "r4-micro", x: 30, y: 9, sprite: "estudiante", dir: 2, trainer: {
@@ -587,7 +587,7 @@ add(casa("casa-gram", "Casa de Ciudad Gram", { to: "ciudad-gram", x: 7, y: 15 },
   b.set(0, 2, "o").set(12, 2, "o").set(0, 6, "o").set(12, 10, "o").set(0, 15, "n").set(12, 15, "n");
   b.fill(5, 16, 3, 1, "a");
   b.npc({ id: "lider-guardia", x: 6, y: 2, sprite: "guardia", dir: 0, script: "liderGuardia" });
-  b.npc({ id: "gym3-a", x: 10, y: 6, sprite: "estudiante", dir: 2, trainer: {
+  b.npc({ id: "gym3-a", x: 10, y: 5, sprite: "estudiante", dir: 2, trainer: {
     name: "Jordi", clase: "Micólogo", team: [["roqueforti", 23], ["niger", 24]], sight: 4, money: 110,
     intro: "¡Bienvenid{o} a la placa de Sabouraud más grande del mundo!", lose: "Me has dejado sin conidios…", after: "A los hongos les hacen daño los Anaerobios, los Gram+ y las Algas. ¡Pero aguantan bien a los Fotótrofos!" } });
   b.npc({ id: "gym3-b", x: 3, y: 10, sprite: "chica", dir: 3, trainer: {
@@ -609,10 +609,10 @@ add(casa("casa-gram", "Casa de Ciudad Gram", { to: "ciudad-gram", x: 7, y: 15 },
   b.sign(3, 9, "Ruta 5. Al este: Pueblo Levadura.");
   b.item(30, 3, "medio-tsb", "item:r5-tsb");
   b.item(3, 12, "plasmido-r", "item:r5-plasmido-r");
-  b.npc({ id: "r5-a", x: 9, y: 9, sprite: "chico", dir: 1, trainer: {
+  b.npc({ id: "r5-a", x: 2, y: 10, sprite: "chico", dir: 1, trainer: {
     name: "Aleix", clase: "Epidemiólogo", team: [["rickettsia", 25], ["borrelia", 26]], sight: 3, money: 100,
     intro: "¡Las garrapatas transmiten de todo! ¿Te enseño mis Microos?", lose: "Brote controlado…", after: "Borrelia viaja en garrapatas y Rickettsia en piojos. ¡Siempre van de paquete!" } });
-  b.npc({ id: "r5-b", x: 19, y: 6, sprite: "chica", dir: 0, trainer: {
+  b.npc({ id: "r5-b", x: 30, y: 7, sprite: "chica", dir: 3, trainer: {
     name: "Nora", clase: "Dentista", team: [["mutans", 26], ["actinomyces", 26]], sight: 1, money: 110,
     intro: "¡Abre la boca! Ah, no, que eres rival. ¡Combate!", lose: "Me has dejado sin placa dental…", after: "Streptococcus mutans fabrica la placa que te da caries. ¡Cepíllate!" } });
   b.npc({ id: "r5-c", x: 27, y: 8, sprite: "estudiante", dir: 2, trainer: {
@@ -675,7 +675,7 @@ function torre(n: number) {
   const b = torre(2);
   b.fill(2, 4, 7, 1, "I").fill(0, 8, 4, 1, "I").fill(6, 8, 5, 1, "I").set(1, 11, "I").set(9, 11, "I");
   b.set(10, 2, "E").set(0, 12, "E");
-  b.npc({ id: "tp2-a", x: 5, y: 6, sprite: "estudiante", dir: 2, trainer: {
+  b.npc({ id: "tp2-a", x: 5, y: 7, sprite: "estudiante", dir: 2, trainer: {
     name: "Gerard", clase: "Bioquímico", team: [["pneumoniae", 30], ["genitalium", 30]], sight: 4, money: 120,
     intro: "¡He visto una proteína doblarse sola! ¡Lucha conmigo antes de que me doble yo!", lose: "Me he desnaturalizado…", after: "Los priones no tienen ADN. Solo una forma equivocada… que contagian." } });
   b.npc({ id: "tp2-b", x: 8, y: 10, sprite: "chica", dir: 2, trainer: {
@@ -712,10 +712,10 @@ function torre(n: number) {
   b.sign(3, 9, "Ruta 6. Al este: Ciudad Aerobia, la metrópolis del oxígeno.");
   b.item(25, 11, "criobola-amarilla", "item:r6-amarilla", 2);
   b.item(16, 6, "glicerol", "item:r6-glicerol", 1, true);
-  b.npc({ id: "r6-a", x: 8, y: 6, sprite: "chica", dir: 0, trainer: {
+  b.npc({ id: "r6-a", x: 2, y: 10, sprite: "chica", dir: 1, trainer: {
     name: "Lía", clase: "Geomicrobióloga", team: [["magnetospir", 27], ["geobacter", 28]], sight: 1, money: 120,
     intro: "¡Mi Magnetospirillum siempre sabe dónde está el norte!", lose: "He perdido el norte…", after: "Geobacter produce electricidad. ¡Hay pilas de combustible microbianas!" } });
-  b.npc({ id: "r6-b", x: 21, y: 9, sprite: "chico", dir: 1, trainer: {
+  b.npc({ id: "r6-b", x: 33, y: 5, sprite: "chico", dir: 0, trainer: {
     name: "Biel", clase: "Salinero", team: [["halobacter", 28], ["psychrobac", 27], ["baylyi", 28]], sight: 2, money: 120,
     intro: "¡Mis arqueas viven en salmueras rosas! ¿Y las tuyas?", lose: "Me he quedado sin sal…", after: "Las salinas se vuelven rosas por Halobacterium. ¡Es su pigmento, la bacteriorrodopsina!" } });
   b.npc({ id: "r6-c", x: 30, y: 8, sprite: "estudiante", dir: 2, trainer: {
@@ -770,7 +770,7 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
   b.npc({ id: "casino-fichas", x: 2, y: 1, sprite: "dependiente", dir: 0, script: "venderFichas" });
   b.npc({ id: "casino-premios", x: 11, y: 10, sprite: "chica", dir: 1, script: "premiosCasino" });
   b.npc({ id: "casino-jugador", x: 4, y: 6, sprite: "chico", dir: 2, talk: "Llevo seis horas aquí. Ya casi saco tres LUCA seguidos. ¡Casi!" });
-  b.npc({ id: "casino-recluta", x: 9, y: 2, sprite: "recluta", dir: 3, trainer: {
+  b.npc({ id: "casino-recluta", x: 9, y: 3, sprite: "recluta", dir: 3, trainer: {
     name: "Becario", clase: "Recluta de la Unidad", team: [["serratia", 28], ["klebsi", 28]], sight: 2, money: 120,
     intro: "¡Eh! ¡No mires ese póster! …Digo, ¡lucha conmigo!", lose: "Bueno, total, el póster es solo un póster… o no.", after: "Yo no he dicho nada de ningún interruptor." } });
   b.npc({ id: "casino-poster", x: 10, y: 1, sprite: "@tile:poster", script: "posterCasino", solid: true });
@@ -790,8 +790,8 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
   b.item(16, 3, "criobola-amarilla", "item:g1-amarilla", 2);
   const rec = (id: string, x: number, y: number, dir: number, sp: string, name: string, team: [string, number][], intro: string, after: string) =>
     b.npc({ id, x, y, sprite: sp, dir, trainer: { name, clase: "Recluta de la Unidad", team, sight: 4, money: 130, intro, lose: "¡Mi script ha petado!", after } });
-  rec("g1-a", 3, 6, 3, "recluta", "Doctorando", [["aureus", 29], ["marcescens", 29]], "¡Estos servidores llevan cinco días al 90%! ¡No toques nada!", "El Dr. Barbadilla se mira en las cabinas de flujo. ¡Dice que es para controlar la esterilidad!");
-  rec("g1-b", 11, 3, 0, "recluta-b", "Becaria", [["klebsi", 29], ["mycoplas", 29], ["serratia", 29]], "¿Sabes cuántos genomas he ensamblado esta semana? ¡Ni yo!", "Llevo tres años sin vacaciones. Pero salgo en los agradecimientos.");
+  rec("g1-a", 8, 6, 1, "recluta", "Doctorando", [["aureus", 29], ["marcescens", 29]], "¡Estos servidores llevan cinco días al 90%! ¡No toques nada!", "El Dr. Barbadilla se mira en las cabinas de flujo. ¡Dice que es para controlar la esterilidad!");
+  rec("g1-b", 10, 2, 0, "recluta-b", "Becaria", [["klebsi", 29], ["mycoplas", 29], ["serratia", 29]], "¿Sabes cuántos genomas he ensamblado esta semana? ¡Ni yo!", "Llevo tres años sin vacaciones. Pero salgo en los agradecimientos.");
   rec("g1-c", 12, 10, 2, "recluta", "Doctorando", [["vulgaris", 29], ["serratia", 30]], "¡Alto! ¡Este pasillo es solo para gente con cuenta en el clúster!", "Abajo está el despacho del jefe. No grites, que está de mal humor.");
   b.npc({ id: "barbadilla", x: 18, y: 11, sprite: "barbadilla", dir: 1, script: "barbadilla", hideIf: "barbadilla1", solid: true });
   b.warp({ x: 1, y: 1, to: "casino", tx: 12, ty: 3, dir: 0 });
@@ -819,7 +819,7 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
   b.set(0, 2, "i").set(12, 2, "i").set(0, 15, "n").set(12, 15, "n");
   b.fill(5, 16, 3, 1, "a");
   b.npc({ id: "lider-yero", x: 6, y: 2, sprite: "yero", dir: 0, script: "liderYero" });
-  b.npc({ id: "gym4-a", x: 8, y: 7, sprite: "chica", dir: 2, trainer: {
+  b.npc({ id: "gym4-a", x: 8, y: 6, sprite: "chica", dir: 2, trainer: {
     name: "Clara", clase: "Panadera", team: [["sacchari", 28], ["kefirgran", 29]], sight: 4, money: 130,
     intro: "¡La masa madre está lista! ¿Y tú?", lose: "Se me ha bajado la masa…", after: "Saccharomyces hace subir el pan con el CO₂ de su fermentación." } });
   b.npc({ id: "gym4-b", x: 2, y: 11, sprite: "estudiante", dir: 3, trainer: {
@@ -841,10 +841,10 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
   b.item(34, 3, "medio-enriquecido", "item:r7-enriquecido");
   b.item(5, 13, "plasmido-col", "item:r7-col", 1, true);
   b.item(33, 14, "criobola-amarilla", "item:r7-amarilla", 2);
-  b.npc({ id: "r7-a", x: 10, y: 7, sprite: "chico", dir: 0, trainer: {
+  b.npc({ id: "r7-a", x: 2, y: 5, sprite: "chico", dir: 0, trainer: {
     name: "Arnau", clase: "Técnico de Biogás", team: [["methanosar", 31], ["sulfurreduc", 31]], sight: 1, money: 140,
     intro: "¡Mis arqueas convierten la basura en metano! ¿Combatimos?", lose: "Se me ha apagado el digestor…", after: "El biogás es casi todo metano. ¡Lo hacen las arqueas metanógenas!" } });
-  b.npc({ id: "r7-b", x: 24, y: 10, sprite: "chica", dir: 1, trainer: {
+  b.npc({ id: "r7-b", x: 35, y: 8, sprite: "chica", dir: 3, trainer: {
     name: "Paula", clase: "Médica de Urgencias", team: [["tetani", 32], ["meningitid", 32]], sight: 2, money: 140,
     intro: "¡Esta herida tiene pinta de tétanos! Bueno, luego te vacuno. ¡Primero luchamos!", lose: "Me han dado el alta…", after: "Clostridium tetani parece una raqueta de tambor al microscopio. ¡Es la espora en un extremo!" } });
   b.npc({ id: "r7-c", x: 33, y: 9, sprite: "estudiante", dir: 2, trainer: {
@@ -926,7 +926,7 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
   b.set(0, 2, "P").set(12, 2, "P").set(0, 15, "n").set(12, 15, "n");
   b.fill(5, 16, 3, 1, "a");
   b.npc({ id: "lider-mas", x: 6, y: 2, sprite: "mas", dir: 0, script: "liderMas" });
-  b.npc({ id: "gym5-a", x: 11, y: 6, sprite: "estudiante", dir: 2, trainer: {
+  b.npc({ id: "gym5-a", x: 10, y: 7, sprite: "estudiante", dir: 2, trainer: {
     name: "Marc", clase: "Ingeniero de Bioprocesos", team: [["mobilis", 33], ["marcescens", 33]], sight: 5, money: 150,
     intro: "¡Mi biorreactor trabaja a pleno rendimiento! ¡Igual que yo!", lose: "Se me ha disparado el pH…", after: "En un biorreactor hay que controlar el oxígeno disuelto. ¡Si no, los aerobios se ahogan!" } });
   b.npc({ id: "gym5-b", x: 1, y: 10, sprite: "chica", dir: 3, trainer: {
@@ -947,10 +947,10 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
   b.sign(3, 9, "Ruta 8. Al este: Parque Biotecnológico.");
   b.item(30, 3, "medio-enriquecido", "item:r8-enriquecido", 2);
   b.item(17, 12, "atp-concentrado", "item:r8-atp", 1, true);
-  b.npc({ id: "r8-a", x: 9, y: 6, sprite: "chica", dir: 0, trainer: {
+  b.npc({ id: "r8-a", x: 2, y: 10, sprite: "chica", dir: 1, trainer: {
     name: "Ona", clase: "Viróloga", team: [["chlamydia", 35], ["rickettsia", 35]], sight: 1, money: 160,
     intro: "Soy viróloga… sin virus. Desde la pandemia solo me quedan intracelulares. ¡Luchemos!", lose: "Me has dejado sin cápside…", after: "Dicen que en el hielo de las Islas Esporuladas todavía quedan virus latentes. Yo no me atrevo a ir." } });
-  b.npc({ id: "r8-b", x: 20, y: 9, sprite: "estudiante", dir: 1, trainer: {
+  b.npc({ id: "r8-b", x: 31, y: 7, sprite: "estudiante", dir: 3, trainer: {
     name: "Iván", clase: "Doctorando Rebelde", team: [["chlamydia", 36], ["nocardia", 36]], sight: 2, money: 160,
     intro: "¡Me he escapado del Instituto! ¿Eres de la Unidad? ¡Demuéstralo!", lose: "Vale, vale, no eres de la Unidad. ¡Ayúdanos!", after: "La Unidad ha tomado el Instituto. Tienen al Dr. Conchillo atado a una terminal…" } });
   b.npc({ id: "r8-c", x: 29, y: 8, sprite: "chico", dir: 2, trainer: {
@@ -1003,7 +1003,7 @@ function planta(id: string, name: string) {
   b.fill(8, 5, 1, 4, "B").fill(3, 8, 1, 4, "B");
   b.npc({ id: "i1-recepcion", x: 2, y: 2, sprite: "enfermera", dir: 0, talk: "Recepcionista: ¡Ayuda! Han tomado el edificio. El Dr. Conchillo está en la sala de servidores de la planta 5…" });
   b.npc({ id: "i1-rebelde", x: 10, y: 10, sprite: "estudiante", dir: 2, talk: ["Doctorando rebelde: ¡Estamos hartos! Tres años sin contrato y ni siquiera salimos en la guía docente.", "Las escaleras del fondo llevan arriba. Os cubrimos."] });
-  b.npc({ id: "i1-r1", x: 6, y: 6, sprite: "recluta", dir: 3, trainer: {
+  b.npc({ id: "i1-r1", x: 8, y: 3, sprite: "recluta", dir: 3, trainer: {
     name: "Becario", clase: "Recluta de la Unidad", team: [["pneumonia-k", 38], ["marcescens", 38]], sight: 3, money: 180,
     intro: "¡El Instituto es nuestro! ¡Bueno, del Dr. Martínez-Urtaza!", lose: "Me han quitado el acceso al VPN…", after: "Yo solo quería publicar en Nature…" } });
   b.npc({ id: "i1-r2", x: 10, y: 4, sprite: "recluta-b", dir: 0, trainer: {
@@ -1021,7 +1021,7 @@ function planta(id: string, name: string) {
   b.npc({ id: "i5-barbadilla", x: 6, y: 6, sprite: "barbadilla", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
   b.npc({ id: "i5-casillas", x: 7, y: 6, sprite: "casillas", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
   b.npc({ id: "i5-yero", x: 6, y: 9, sprite: "yero", dir: 0, showIf: "conchillo-libre", hideIf: "instituto-libre", talk: ["Dr. Yero: Me quedo con Òscar hasta que se le pase el susto. Le estoy dando un caldito de levadura.", "Dr. Yero: ¡Jaime está en la planta 11! ¡Corre!"] });
-  b.npc({ id: "i5-r1", x: 11, y: 6, sprite: "recluta", dir: 2, trainer: {
+  b.npc({ id: "i5-r1", x: 6, y: 12, sprite: "recluta", dir: 2, trainer: {
     name: "Doctorando", clase: "Recluta de la Unidad", team: [["methanosar", 39], ["prowazekii", 39], ["baumannii", 39]], sight: 3, money: 190,
     intro: "¡No toques los servidores! ¡Llevan cinco días calculando!", lose: "Se ha reiniciado el clúster… ¡Cinco días perdidos!", after: "El jefe está arriba, en la planta 11. Busca algo morado." } });
   b.item(12, 12, "criobola-amarilla", "item:i5-amarilla", 3);
@@ -1048,7 +1048,7 @@ function planta(id: string, name: string) {
   b.set(0, 2, "D").set(12, 2, "D").set(0, 15, "n").set(12, 15, "n");
   b.fill(5, 16, 3, 1, "a");
   b.npc({ id: "lider-conchillo", x: 6, y: 2, sprite: "conchillo", dir: 0, script: "liderConchillo" });
-  b.npc({ id: "gym6-a", x: 11, y: 7, sprite: "estudiante", dir: 2, trainer: {
+  b.npc({ id: "gym6-a", x: 9, y: 6, sprite: "estudiante", dir: 2, trainer: {
     name: "Pere", clase: "Bioinformático", team: [["rickettsia", 39], ["chlamydia", 40]], sight: 4, money: 190,
     intro: "¡Tengo un script que predice tus movimientos! …Tiene algún bug.", lose: "Segmentation fault (core dumped).", after: "Un genoma mínimo tiene unos 470 genes. ¡Mycoplasma genitalium casi no tiene más!" } });
   b.npc({ id: "gym6-b", x: 1, y: 11, sprite: "chica", dir: 3, trainer: {
@@ -1073,10 +1073,10 @@ function planta(id: string, name: string) {
   b.item(40, 11, "medio-enriquecido", "item:r9-enriquecido", 2);
   b.item(20, 11, "criobola-amarilla", "item:r9-amarilla", 3, true);
   b.npc({ id: "r9-tardigrado", x: 32, y: 8, sprite: "@microo:tardigrad", script: "tardigrado", hideIf: "tardigrado", solid: true });
-  b.npc({ id: "r9-a", x: 14, y: 11, sprite: "chica", dir: 1, trainer: {
+  b.npc({ id: "r9-a", x: 2, y: 12, sprite: "chica", dir: 1, trainer: {
     name: "Nerea", clase: "Bióloga Marina", team: [["cholerae", 40], ["diatomax", 41]], sight: 3, money: 190,
     intro: "¡El mar está lleno de Vibrios! ¿Te enseño los míos?", lose: "Me ha arrastrado la corriente…", after: "Los Vibrios se pegan al plancton. ¡Viajan en copépodos!" } });
-  b.npc({ id: "r9-b", x: 24, y: 9, sprite: "chico", dir: 2, trainer: {
+  b.npc({ id: "r9-b", x: 27, y: 8, sprite: "chico", dir: 3, trainer: {
     name: "Unai", clase: "Enfermero de UCI", team: [["baumannii", 41], ["aeruginosa", 41]], sight: 4, money: 200,
     intro: "¡En la UCI vemos Microos que resisten a todo! ¿Y los tuyos?", lose: "Me toca guardia doble…", after: "Acinetobacter baumannii sobrevive semanas en las superficies secas del hospital." } });
   b.npc({ id: "r9-c", x: 38, y: 11, sprite: "estudiante", dir: 2, trainer: {
@@ -1099,7 +1099,7 @@ function planta(id: string, name: string) {
   b.fill(2, 4, 2, 2, "K").fill(6, 4, 2, 2, "K").fill(10, 4, 2, 2, "K").fill(2, 8, 5, 1, "D").fill(9, 8, 5, 1, "D").fill(13, 3, 1, 4, "D");
   b.set(14, 2, "E").fill(5, 13, 3, 1, "a");
   b.item(1, 11, "atp-concentrado", "item:cm-atp", 2);
-  b.npc({ id: "cm-a", x: 8, y: 6, sprite: "chica", dir: 0, trainer: {
+  b.npc({ id: "cm-a", x: 14, y: 6, sprite: "chica", dir: 1, trainer: {
     name: "Èlia", clase: "Ingeniera Eléctrica", team: [["geobacter", 41], ["sulfurreduc", 42]], sight: 4, money: 200,
     intro: "¡Estas pilas funcionan con bacterias! ¡Y mis Microos dan calambre!", lose: "Cortocircuito…", after: "Geobacter transfiere electrones a un electrodo. ¡Eso es una pila de combustible microbiana!" } });
   b.npc({ id: "cm-tecnico", x: 12, y: 11, sprite: "becario", dir: 2, talk: ["Hace semanas que algo raro vive en la sala de control de arriba. No es una bacteria… ni un virus…", "Es solo una molécula de ARN circular. ¡Y se mueve!"] });
@@ -1156,7 +1156,7 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
   b.set(0, 2, "K").set(12, 2, "K").set(0, 15, "n").set(12, 15, "n");
   b.fill(5, 16, 3, 1, "a");
   b.npc({ id: "lider-luquin", x: 6, y: 2, sprite: "luquin", dir: 0, script: "liderLuquin" });
-  b.npc({ id: "gym7-a", x: 11, y: 7, sprite: "chica", dir: 2, trainer: {
+  b.npc({ id: "gym7-a", x: 9, y: 6, sprite: "chica", dir: 2, trainer: {
     name: "Sílvia", clase: "Técnica de BSL-3", team: [["nocardia", 43], ["bovis", 43]], sight: 4, money: 210,
     intro: "¡Presión negativa activada! Aquí no sale ni un aerosol… salvo mis ataques.", lose: "Me he quedado sin EPI…", after: "En un BSL-3 el aire siempre entra, nunca sale. ¡Así no escapan los patógenos!" } });
   b.npc({ id: "gym7-b", x: 1, y: 11, sprite: "estudiante", dir: 3, trainer: {
@@ -1266,7 +1266,7 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
   b.sign(5, 4, "Diario, 5 de julio: Nuestra cepa K-12 crece de maravilla. Docilísima. Perfecta para el laboratorio.");
   b.sign(10, 4, "Diario, 12 de agosto: Un fago portador de la toxina Shiga se ha colado en un cultivo. La cepa ha cambiado…");
   b.sign(8, 9, "Diario, 3 de septiembre: La nueva cepa produce toxina. La llamamos O157:H7. Ya no podemos controlarla.");
-  b.npc({ id: "m1-r1", x: 2, y: 6, sprite: "recluta", dir: 3, trainer: {
+  b.npc({ id: "m1-r1", x: 10, y: 2, sprite: "recluta", dir: 3, trainer: {
     name: "Doctorando", clase: "Recluta de la Unidad", team: [["marburg-v", 48], ["retrovir-x", 50]], sight: 4, money: 230,
     intro: "¡El jefe está a punto de despertar al Microo definitivo! ¡No pasarás!", lose: "Bueno… yo solo hacía los gráficos.", after: "El jefe dice que con Machine Learning controlará la selección poblacional. Yo ya no sé qué pensar." } });
   b.npc({ id: "m1-r2", x: 13, y: 10, sprite: "recluta-b", dir: 2, trainer: {
@@ -1295,7 +1295,7 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
   b.set(0, 2, "1").set(12, 2, "1").set(0, 15, "n").set(12, 15, "n");
   b.fill(5, 16, 3, 1, "a");
   b.npc({ id: "lider-campoy", x: 6, y: 2, sprite: "campoy", dir: 0, script: "liderCampoy" });
-  b.npc({ id: "gym8-a", x: 9, y: 7, sprite: "chica", dir: 2, trainer: {
+  b.npc({ id: "gym8-a", x: 9, y: 8, sprite: "chica", dir: 2, trainer: {
     name: "Mireia", clase: "Fagóloga", team: [["lambda-v", 49], ["phage-x174", 49], ["marburg-v", 50]], sight: 4, money: 240,
     intro: "¡Ciclo lítico o lisogénico! ¿Cuál prefieres sufrir?", lose: "Me has dejado en latencia…", after: "La terapia fágica usa virus para matar bacterias resistentes. ¡Es el futuro!" } });
   b.npc({ id: "gym8-b", x: 2, y: 11, sprite: "estudiante", dir: 3, trainer: {

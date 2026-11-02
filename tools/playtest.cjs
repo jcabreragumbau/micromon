@@ -7,7 +7,7 @@ const path = require("node:path");
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 720, height: 560 } });
   const errors = [];
-  page.on("pageerror", (e) => errors.push(String(e) + " @ " + String(e.stack).split("\n").slice(1, 6).join(" | ")));
+  page.on("pageerror", (e) => errors.push(String(e) + " @ " + String(e.stack).split("\n").slice(1, 6).join(" | ") + " ## " + blog.slice(-4).join(" / ")));
   page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
   await page.goto("file://" + path.resolve("dist/index.html"));
   await page.waitForTimeout(400);
@@ -64,6 +64,8 @@ const path = require("node:path");
   const beat = async (tag) => { for (let i = 0; i < 300 && !(await idle()); i++) { if ((await scene()) === "BattleScene") { await autobattle(tag, false); continue; } await press("a", 1, 80); } };
   const strong = () => G(() => { const g = window.micromon, e = micromonDebug.engine; g.state.party = [e.createMicroo("thermocel", 40), e.createMicroo("anthracis", 38), e.createMicroo("pinnularia", 38), e.createMicroo("spirulmax", 38)]; });
   // PART=early: del principio a la 4.ª medalla · PART=late: de la 5.ª medalla al final (con un estado preparado)
+  // el resto de entrenadores de los caminos se dan por vencidos: muchos son inesquivables y saltarían al teletransportarse
+  const vencerTodos = () => G(() => { for (const m of Object.values(micromonDebug.MAPS)) for (const n of m.npcs) if (n.trainer && n.id !== "casino-recluta") window.micromon.state.flags[`entrenador:${n.id}`] = true; });
   const PART = process.env.PART ?? "all";
   const R = {};
   if (PART !== "late") {
@@ -106,12 +108,13 @@ const path = require("node:path");
   await autobattle("21-captura", false); await advance(); await shot("22-tras-captura");
   // --- Entrenador que ve al jugador y encuentro en hierba alta caminando
   await G(() => { const g = window.micromon, E = micromonDebug.engine; g.state.party = [...g.state.party.map((m) => { const n = E.createMicroo(m.species, Math.max(m.level, 14), {}); n.uid = m.uid; return n; }), E.createMicroo("aureus", 14, {})]; });
-  await G(() => micromonDebug.enterWorld(window.micromon, "bosque-viral", 7, 10, 1)); await page.waitForTimeout(700);
+  await G(() => micromonDebug.enterWorld(window.micromon, "bosque-viral", 5, 14, 3)); await page.waitForTimeout(700);
   await press("a", 1, 300);
   for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
   await page.waitForTimeout(500); await shot("22b-entrenador");
   await autobattle("22c-entrenador", false); await advance();
   const trainerFlag = await G(() => !!window.micromon.state.flags["entrenador:bv-becario1"]);
+  await vencerTodos();
   await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 15, 20, 0)); await page.waitForTimeout(700);
   let wild = false;
   for (let i = 0; i < 80 && !wild; i++) { await walk(i % 2 ? "up" : "down", 1); if ((await scene()) === "BattleScene") wild = true; }
@@ -201,7 +204,7 @@ const path = require("node:path");
   const fich = await G(() => window.micromon.state.flags.fichas);
   await G(() => micromonDebug.enterWorld(window.micromon, "casino", 3, 5, 2)); await page.waitForTimeout(600);
   await press("a", 1, 400); await press("a", 1, 300); await press("a", 1, 200); await press("a", 1, 200); await press("a", 1, 1200); await shot("57-tragaperras"); await press("b", 1, 300); await advance();
-  await G(() => micromonDebug.enterWorld(window.micromon, "casino", 11, 3, 1)); await page.waitForTimeout(800);
+  await G(() => micromonDebug.enterWorld(window.micromon, "casino", 11, 4, 1)); await page.waitForTimeout(800);
   await walk("up", 1); await beat("58-recluta-casino");
   await G(() => micromonDebug.enterWorld(window.micromon, "casino", 10, 2, 1)); await page.waitForTimeout(600);
   await press("a", 1, 300); await advance(); await shot("59-guarida-abierta");
@@ -235,7 +238,7 @@ const path = require("node:path");
   } else {
     await G(() => { const g = window.micromon, s = g.state; Object.assign(s.flags, { starter: "butyricum", rivalStarter: "paramec", inicial: true, microdex: true, labIntro: true });
       s.badges = ["probiotico", "tapete", "micelio", "catalasa"]; s.money = 20000; });
-    await strong();
+    await strong(); await vencerTodos();
   }
   if (PART !== "early") {
   await G(() => { window.micromon.noEncounters = true; });
