@@ -96,7 +96,7 @@ const path = require("node:path");
   await press("b", 1, 250); await press("a", 1, 300); await shot("17-microdex"); await press("down", 3, 120); await shot("17b-microdex"); await press("b", 1, 250); await press("down", 3, 120); await press("a", 1, 300); await shot("17c-ficha"); await press("b", 1, 250); await press("b", 1, 250);
   await advance();
   // --- Ruta 1 con combate salvaje y captura
-  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 6, 22, 1)); await page.waitForTimeout(800); await shot("18-ruta1");
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 10, 30, 1)); await page.waitForTimeout(800); await shot("18-ruta1");
   await G(() => { const g = window.micromon; g.scene.busy = true; micromonDebug.wildBattle(g, g.scene, "coli-k12", 3).finally(() => (g.scene.busy = false)); });
   await page.waitForTimeout(1500); await shot("19-salvaje");
   // lanzar Criobola: MOCHILA → CRIOBOLAS → primera
@@ -106,13 +106,13 @@ const path = require("node:path");
   await autobattle("21-captura", false); await advance(); await shot("22-tras-captura");
   // --- Entrenador que ve al jugador y encuentro en hierba alta caminando
   await G(() => { const g = window.micromon; for (const m of g.state.party) { m.level = Math.max(m.level, 10); micromonDebug.engine.recalcStats(m); m.hp = m.stats.hp; } });
-  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 6, 20, 1)); await page.waitForTimeout(700);
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 10, 18, 1)); await page.waitForTimeout(700);
   await walk("up", 5);
   for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
   await page.waitForTimeout(500); await shot("22b-entrenador");
   await autobattle("22c-entrenador", false); await advance();
   const trainerFlag = await G(() => !!window.micromon.state.flags["entrenador:r1-estudiante"]);
-  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 3, 23, 0)); await page.waitForTimeout(700);
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 5, 19, 0)); await page.waitForTimeout(700);
   let wild = false;
   for (let i = 0; i < 80 && !wild; i++) { await walk(i % 2 ? "up" : "down", 1); if ((await scene()) === "BattleScene") wild = true; }
   if (wild) { await page.waitForTimeout(900); await shot("22d-salvaje-hierba"); await autobattle("22e", false); await advance(); }
@@ -135,7 +135,7 @@ const path = require("node:path");
   // --- Segundo tramo: Ruta 2, Monte Micelio, Ruta 3, Ciudad Cultivo y Gimnasio 2
   await G(() => { const g = window.micromon, e = micromonDebug.engine; if (!g.state.badges.includes("probiotico")) g.state.badges.push("probiotico");
     g.state.party = [e.createMicroo(g.state.flags.starter, 32), e.createMicroo("anthracis", 30), e.createMicroo("chrysogenum", 30)]; });
-  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-2", 13, 6, 1)); await page.waitForTimeout(800); await shot("32-ruta2");
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-2", 33, 4, 1)); await page.waitForTimeout(800); await shot("32-ruta2");
   await press("a", 1, 300); await press("a", 1, 300); await shot("33-hifas"); await press("a", 1, 300); await advance();
   const hifas = await G(() => !!window.micromon.state.flags["hifas-r2"]);
   await walk("up", 1); await walk("up", 1); await page.waitForTimeout(900); await shot("34-cueva");
@@ -150,7 +150,7 @@ const path = require("node:path");
   await press("a", 1, 300); await shot("38-disco"); await advance();
   const disco = await G(() => !!window.micromon.state.bag["disco-duro"]);
   await G(() => { for (const m of window.micromon.state.party) micromonDebug.engine.fullHeal?.(m); });
-  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-3", 9, 9, 1)); await page.waitForTimeout(800); await shot("39-ruta3");
+  await G(() => micromonDebug.enterWorld(window.micromon, "ruta-3", 34, 9, 1)); await page.waitForTimeout(800); await shot("39-ruta3");
   await walk("up", 1); await walk("up", 1);
   for (let i = 0; i < 40 && (await scene()) !== "BattleScene"; i++) await press("a", 1, 90);
   await page.waitForTimeout(900); await shot("40-rival3");

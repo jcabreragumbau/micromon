@@ -480,6 +480,37 @@ def holo_capsid(frame=0):
 
 def black(): return T(H("#000000"))
 
+# ---------------------------------------------------------------- montaña: puentes, escalones, riscos y cascada
+def bridge(vertical=False):
+    t = T(H("#b88a52"))
+    for k in range(0, 16, 4):                      # tablones
+        t.hline(0, 15, k, H("#8a6234")); t.hline(0, 15, k + 1, H("#d4a468"))
+    t.rect(0, 0, 1, 15, H("#5a3a1c")); t.rect(14, 0, 15, 15, H("#5a3a1c"))   # barandillas
+    t.vline(1, 0, 15, H("#7a5228")); t.vline(14, 0, 15, H("#7a5228"))
+    a = t.a if vertical else np.transpose(t.a, (1, 0, 2))
+    out = T(); out.a = a.copy(); return out
+def stone_steps():
+    t = T(H("#a8a0a0"))
+    for k in range(0, 16, 4):
+        t.hline(0, 15, k, H("#d8d2cc")); t.hline(0, 15, k + 3, H("#6e6668"))
+    t.vline(0, 0, 15, H("#5a5254")); t.vline(15, 0, 15, H("#5a5254"))
+    return t
+def rock_cliff():
+    t = T(H("#a87862"))
+    t.hline(0, 15, 0, H("#d8a88a")); t.hline(0, 15, 1, H("#c0907a"))
+    for y, c in ((5, "#8a5e4c"), (10, "#8a5e4c"), (15, "#6a4638")): t.hline(0, 15, y, H(c))
+    for x0, y0 in ((3, 2), (11, 6), (6, 11), (13, 12)): t.vline(x0, y0, y0 + 2, H("#7a5242"))
+    t.rect(1, 6, 3, 7, H("#c09078")); t.rect(8, 2, 10, 3, H("#c09078")); t.rect(10, 11, 12, 12, H("#c09078"))
+    return t
+def waterfall(frame):
+    t = T(H("#4a8ad8"))
+    for x in range(16):
+        for y in range(16):
+            v = (y + frame * 4 + (x * 7) % 5) % 8
+            if v < 2: t.px(x, y, H("#e8f4ff"))
+            elif v < 4: t.px(x, y, H("#9ac8f4"))
+    return t
+
 def build():
     tiles = {"vacio": black(), "hierba": grass(1), "hierba2": grass(2), "hierba_alta": tall_grass(), "hierba_oscura": tall_grass(True),
              "flores0": flowers(0), "flores1": flowers(1), "seto": bush(), "valla": fence(), "cartel": sign(), "roca": rock(), "bordillo": ledge()}
@@ -506,6 +537,9 @@ def build():
                   "suelo_casino": casino_floor(), "tragaperras0": slot_machine(0), "tragaperras1": slot_machine(1), "suelo_tecnico": tech_floor(),
                   "servidor0": server(0), "servidor1": server(1), "suelo_torre": tower_floor(), "placa_contaminada": cont_plate(), "poster": poster(),
                   "hielo": ice(), "nieve": snow(), "roca_hielo": ice_rock(), "pared_hielo": ice_wall(), "holo0": holo_capsid(0), "holo1": holo_capsid(1)})
+    # al final, para no mover los índices de los anteriores
+    tiles.update({"puente_h": bridge(False), "puente_v": bridge(True), "escalon": stone_steps(), "risco": rock_cliff(),
+                  "cascada0": waterfall(0), "cascada1": waterfall(1)})
     names = list(tiles)
     cols = 16; rows = (len(names) + cols - 1) // cols
     atlas = Image.new("RGBA", (cols * 16, rows * 16))

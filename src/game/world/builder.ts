@@ -55,6 +55,7 @@ export const LEGEND: Record<string, string> = {
   Y: "suelo_gimnasio", e: "estanteria", t: "mesa", c: "mostrador", P: "pc", b: "cama", n: "planta", a: "alfombra",
   i: "incubadora", B: "poyata", M: "microscopio", Q: "queso", C: "lata", K: "tanque", E: "escaleras", S: "cartel",
   H: "hielo", y: "nieve", U: "roca_hielo", R: "pared_hielo",
+  "=": "puente_h", "|": "puente_v", "^": "escalon", "%": "risco",
   x: "suelo_casino", N: "suelo_tecnico", F: "suelo_torre", I: "placa_contaminada", J: "poster",
   u: "suelo_cueva", X: "pared_cueva", d: "disco_duro", A: "acantilado", O: "cueva_entrada", Z: "winogradsky", j: "suelo_invernadero",
 };
@@ -76,6 +77,11 @@ export class MapBuilder {
   trees(x: number, y: number, w: number, h: number, ch = "T") {
     const x0 = x - (x % 2), y0 = y - (y % 2);
     return this.fill(x0, y0, w + (x - x0) + ((w + x - x0) % 2), h + (y - y0) + ((h + y - y0) % 2), ch);
+  }
+  /** Dibuja el mapa a partir de filas de texto (un carácter por casilla, ver LEGEND; espacio = no tocar). */
+  ascii(rows: string[], x0 = 0, y0 = 0) {
+    rows.forEach((r, j) => [...r].forEach((ch, i) => { if (ch !== " ") this.set(x0 + i, y0 + j, ch); }));
+    return this;
   }
   /** Texto en filas (útil para interiores pequeños). */
   rows(x: number, y: number, rows: string[]) {
@@ -143,12 +149,15 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
     return `${ch === "T" ? "arbol" : "arbolv"}_${p}`;
   }
   if (ch === "~" || ch === "p" || ch === "s") {
-    const same = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === ch || (ch === "p" && (c.startsWith("@muro_puerta") || c === "@puerta_hd")); };
+    // vecinos que no llevan borde de césped: en la montaña, riscos, escalones, puentes y cascadas
+    const sinBorde = ch === "p" ? "%^=|*O~" : ch === "~" ? "=|*%p" : "";
+    const same = (xx: number, yy: number) => { const c = m.grid[yy]?.[xx]; return c === undefined || c === ch || sinBorde.includes(c) || (ch === "p" && (c.startsWith("@muro_puerta") || c === "@puerta_hd")); };
     const mask = (same(x, y - 1) ? 0 : 1) | (same(x + 1, y) ? 0 : 2) | (same(x, y + 1) ? 0 : 4) | (same(x - 1, y) ? 0 : 8);
     if (ch === "~") return `agua_${mask}_${frame % 64 < 32 ? 0 : 1}`;
     return `${ch === "p" ? "camino" : "arena"}_${mask}`;
   }
   if (ch === "f") return frame % 64 < 32 ? "flores0" : "flores1";
+  if (ch === "*") return frame % 16 < 8 ? "cascada0" : "cascada1";
   if (ch === "h") return frame % 80 < 40 ? "hifas0" : "hifas1";
   if (ch === "o") return frame % 90 < 45 ? "seta0" : "seta1";
   if (ch === "q") return frame % 64 < 32 ? "piscina0" : "piscina1";
@@ -158,7 +167,7 @@ export function tileAt(m: MapDef, x: number, y: number, frame = 0): string {
   return LEGEND[ch] ?? "hierba";
 }
 
-const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
+const PASSABLE = new Set(["hierba", "hierba2", "hierba_alta", "hierba_oscura", "camino", "arena", "puente_h", "puente_v", "escalon", ...Array.from({ length: 16 }, (_, i) => `camino_${i}`), ...Array.from({ length: 16 }, (_, i) => `arena_${i}`), "flores0", "flores1",
   "suelo_madera", "suelo_lab", "suelo_gimnasio", "suelo_cueva", "suelo_invernadero", "cueva_entrada", "suelo_casino", "suelo_tecnico", "suelo_torre", "hielo", "nieve", "alfombra", "escaleras", "muro_puerta", "muro_puerta_cristal", "bordillo", "puerta_hd"]);
 export function passable(tile: string) { return PASSABLE.has(tile); }
 export function isGrass(tile: string) { return tile === "hierba_alta" || tile === "hierba_oscura"; }

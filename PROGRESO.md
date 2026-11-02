@@ -162,5 +162,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Acompañante (`flags.seguidor` = sprite; `colocarSeguidor`/`seguir` en overworld.ts): el Dr. Yero te sigue por el Parque Biotecnológico y el Instituto desde que habla contigo hasta liberar a Conchillo; se puede hablar con él (`hablarSeguidor`).
 - Combate en equipo (`BattleOptions.ally` en el motor): Yero lleva la casilla 1 con sus levaduras (IA, relevos automáticos, sin experiencia ni obediencia) contra Barbadilla y Casillas; los dos se giran hacia ti y salen sus dos retratos (`trainer.portrait2`).
 
+- Rutas 1, 2 y 3 rediseñadas según las referencias del usuario (`assets/reference/rutas/`): Ruta 1 vertical con bordillos escalonados, arena y hierba alta (22×36); Ruta 2 bosque horizontal con estanque y la cueva del Monte Micelio en el risco (40×22); Ruta 3 montaña con río, cascada, puentes y escalones, y pradera al este (40×26). Se dibujan con `MapBuilder.ascii`; los planos y su validador (árboles 2×2 y recorrido) están en `tools/rutas/`. Tiles nuevos: puente_h, puente_v, escalon, risco y cascada (animada). Un entrenador más en cada ruta (Joan, Nuria, Pere).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

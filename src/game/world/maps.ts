@@ -85,23 +85,59 @@ add(casa("casa-vecina", "Casa vecina", { to: "pueblo-plaqueta", x: 14, y: 5 }, [
 }
 
 // ---------------------------------------------------------------- Ruta 1
+// Ruta en vertical como la 201 de Diamante: bordillos escalonados con huecos para subir, parches de arena y hierba alta.
 {
-  const b = new MapBuilder("ruta-1", "Ruta 1", 14, 30);
-  b.trees(0, 0, 2, 30).trees(12, 0, 2, 30).trees(2, 0, 4, 2).trees(8, 0, 4, 2);
-  b.fill(6, 0, 2, 30, "p");
-  b.fill(2, 22, 4, 5, "g").fill(8, 18, 4, 4, "g").fill(2, 8, 4, 6, "g").fill(8, 4, 4, 5, "g");
-  b.fill(2, 16, 4, 1, "v").fill(8, 12, 4, 1, "v");
-  b.trees(2, 18, 4, 2).trees(8, 24, 4, 2);
-  b.fill(10, 14, 2, 2, "f").set(3, 3, "f").set(4, 3, "f");
-  b.sign(5, 27, "Ruta 1. Al norte: Ciudad Viral.");
-  b.item(9, 6, "criobola-roja", "item:r1-criobola", 2);
-  b.item(3, 24, "caldo-nutritivo", "item:r1-caldo");
-  b.npc({ id: "r1-estudiante", x: 8, y: 15, sprite: "estudiante", dir: 2, trainer: {
+  const b = new MapBuilder("ruta-1", "Ruta 1", 22, 36);
+  b.ascii([
+    "TTTTTTTTTTssTTTTTTTTTT",
+    "TTTTTTTTTTssTTTTTTTTTT",
+    "TTTTf...sss.....r.TTTT",
+    "TTTT.......f......TTTT",
+    "TTTTvvvvvv..vvvvvvTTTT",
+    "TTTT..ss.....gggggTTTT",
+    "TTTT..ss..TT.gggggTTTT",
+    "TTTT......TT.gggggTTTT",
+    "TTTTf.........ggggTTTT",
+    "TTTTvvv..vvvvvvvvvTTTT",
+    "TTTT.ss....f......TTTT",
+    "TTTT.ss.k...ggggggTTTT",
+    "TTTT........ggggggTTTT",
+    "TTTT..f.....ggggggTTTT",
+    "TTTTvvvvvvv..vvvvvTTTT",
+    "TTTT......s.......TTTT",
+    "TTTT....ssss..r...TTTT",
+    "TTTT...........f..TTTT",
+    "TTTTgggggg....vvvvTTTT",
+    "TTTTgggggg.k......TTTT",
+    "TTTTgggggg........TTTT",
+    "TTTTvvvvv..vvvvvvvTTTT",
+    "TTTT..f.....ggggggTTTT",
+    "TTTT.sssss..ggggggTTTT",
+    "TTTT.s......ggggggTTTT",
+    "TTTT....r...ggggggTTTT",
+    "TTTTvvvvvvvv..vvvvTTTT",
+    "TTTT..............TTTT",
+    "TTTTgggg...ss..gggTTTT",
+    "TTTTgggg.......gggTTTT",
+    "TTTTgggg..ss...gggTTTT",
+    "TTTT...l......l...TTTT",
+    "TTTT...l..gg..l...TTTT",
+    "TTTT...l..gg..l...TTTT",
+    "TTTTTTTTTT..TTTTTTTTTT",
+    "TTTTTTTTTT..TTTTTTTTTT",
+  ]);
+  b.sign(9, 31, "Ruta 1. Al norte: Ciudad Viral.");
+  b.item(5, 3, "criobola-roja", "item:r1-criobola", 2);
+  b.item(16, 10, "caldo-nutritivo", "item:r1-caldo");
+  b.npc({ id: "r1-estudiante", x: 13, y: 15, sprite: "estudiante", dir: 2, trainer: {
     name: "Pablo", clase: "Estudiante", team: [["sacchari", 4], ["casei", 4]], sight: 4, money: 20,
     intro: "¡Eh! ¡Acabo de aprobar Microbiología General! ¡Luchemos!", lose: "Vaya… tendré que repasar el temario.", after: "En la hierba alta aparecen Microos salvajes. ¡Debilítalos antes de lanzar una Criobola!" } });
-  b.npc({ id: "r1-chica", x: 9, y: 26, sprite: "chica", move: "girar", talk: "Si tu Microo está débil, vuelve a una Incubadora. ¡Es gratis!" });
-  b.warp({ x: 6, y: 29, w: 2, to: "pueblo-plaqueta", tx: 8, ty: 1, dir: 0, keep: "x" });
-  b.warp({ x: 6, y: 0, w: 2, to: "ciudad-viral", tx: 11, ty: 18, dir: 1, keep: "x" });
+  b.npc({ id: "r1-bioquimico", x: 14, y: 27, sprite: "chico", dir: 2, trainer: {
+    name: "Joan", clase: "Bioquímico", team: [["coli-k12", 4], ["navicula", 5]], sight: 4, money: 22,
+    intro: "¡Alto! Estoy midiendo la curva de crecimiento de mi E. coli. ¡Ayúdame con un combate!", lose: "Fase estacionaria… demasiado pronto.", after: "E. coli K-12 es la cepa de laboratorio por excelencia. ¡Lleva un siglo con nosotros!" } });
+  b.npc({ id: "r1-chica", x: 6, y: 32, sprite: "chica", move: "girar", talk: "Si tu Microo está débil, vuelve a una Incubadora. ¡Es gratis!" });
+  b.warp({ x: 10, y: 35, w: 2, to: "pueblo-plaqueta", tx: 8, ty: 1, dir: 0, keep: "x" });
+  b.warp({ x: 10, y: 0, w: 2, to: "ciudad-viral", tx: 11, ty: 18, dir: 1, keep: "x" });
   b.encounters([
     { sp: "mucorin", min: 2, max: 4, w: 30 }, { sp: "sacchari", min: 2, max: 4, w: 25 }, { sp: "casei", min: 3, max: 4, w: 12 },
     { sp: "navicula", min: 2, max: 4, w: 10 }, { sp: "epidermi", min: 3, max: 5, w: 10 }, { sp: "coli-k12", min: 2, max: 5, w: 8 },
@@ -109,7 +145,6 @@ add(casa("casa-vecina", "Casa vecina", { to: "pueblo-plaqueta", x: 14, y: 5 }, [
   ]);
   add(b.done({ music: "ruta" }));
 }
-
 // ---------------------------------------------------------------- Ciudad Viral
 {
   const b = new MapBuilder("ciudad-viral", "Ciudad Viral", 28, 26);
@@ -227,27 +262,50 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
 
 
 // ---------------------------------------------------------------- Ruta 2
+// Bosque en horizontal con un estanque; la cueva del Monte Micelio se abre en el risco del noreste.
 {
-  const b = new MapBuilder("ruta-2", "Ruta 2", 20, 30);
-  b.trees(0, 0, 2, 30).trees(18, 0, 2, 30).trees(2, 0, 16, 2).trees(2, 28, 6, 2).trees(12, 28, 6, 2);
-  b.fill(8, 28, 1, 2, "k").fill(11, 28, 1, 2, "k");
-  b.fill(2, 2, 16, 3, "A").set(13, 4, "O");
-  b.fill(9, 20, 2, 10, "p").fill(4, 18, 7, 2, "p").fill(4, 8, 2, 10, "p").fill(4, 8, 10, 2, "p").fill(13, 5, 1, 4, "p");
-  b.fill(11, 21, 6, 5, "g").fill(7, 11, 6, 5, "g").fill(14, 10, 4, 7, "g").fill(2, 21, 5, 4, "g");
-  b.trees(8, 16, 2, 2).fill(2, 6, 2, 1, "f").fill(15, 6, 2, 1, "f");
-  b.sign(11, 27, "Ruta 2. Al norte: Monte Micelio. ¡Cuidado con las hifas!");
-  b.item(16, 12, "solucion-salina", "item:r2-salina", 2);
-  b.item(3, 22, "criobola-azul", "item:r2-azul");
-  b.npc({ id: "hifas-r2", x: 13, y: 5, sprite: "@tile:hifas_bloqueo", script: "cortarHifas", hideIf: "hifas-r2", solid: true });
-  b.npc({ id: "r2-micologa", x: 11, y: 19, sprite: "chica", dir: 2, trainer: {
-    name: "Elena", clase: "Micóloga", team: [["roqueforti", 11], ["mucorin", 12]], sight: 3, money: 40,
+  const b = new MapBuilder("ruta-2", "Ruta 2", 40, 22);
+  b.ascii([
+    "TTTTTTTTTTTTTTTTTTTTTTTTTTAAAAAAAAAAAATT",
+    "TTTTTTTTTTTTTTTTTTTTTTTTTTAAAAAAAAAAAATT",
+    "TT.f....gggggggg..TT......AAAAAAAOAAAATT",
+    "TT......gggggggg..TT.....f.......p....TT",
+    "TT..TT..gggggggg........ss....TT.p....TT",
+    "TT..TT..gggggggg........ss....TT.p....TT",
+    "TTggg.....TT......gggg...........p....TT",
+    "TTggg.....TT......gggg...........p....TT",
+    "TTggg...pppppppppppppppppppppppppp....TT",
+    "TTggg...p....f....gggg........ggggg...TT",
+    "TT......p...TT....gggg..TT....ggggg...TT",
+    "TT......p...TT....gggg..TT....ggggg...TT",
+    "TT......p.........~~~~~...TT..ggggg...TT",
+    "TT......p........S~~~~~~..TT..........TT",
+    "TT.ss...p.........~~~~~~.....f........TT",
+    "TT.ss...p..gggggg..~~~~.........ggggg.TT",
+    "TT......p..gggggg...........TT..ggggg.TT",
+    "TTll....p..gggggg...........TT..ggggg.TT",
+    "TT..f...p..gggggg.....TT...f....ggggg.TT",
+    "TT......p.............TT............f.TT",
+    "TTTTTTTTppTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+    "TTTTTTTTppTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+  ]);
+  b.sign(17, 13, "Estanque de la Ruta 2. Agua dulce con algas, diatomeas y algún Microo curioso.");
+  b.sign(10, 19, "Ruta 2. Al noreste: Monte Micelio. ¡Cuidado con las hifas!");
+  b.item(36, 16, "solucion-salina", "item:r2-salina", 2);
+  b.item(3, 10, "criobola-azul", "item:r2-azul");
+  b.npc({ id: "hifas-r2", x: 33, y: 3, sprite: "@tile:hifas_bloqueo", script: "cortarHifas", hideIf: "hifas-r2", solid: true });
+  b.npc({ id: "r2-micologa", x: 9, y: 13, sprite: "chica", dir: 2, trainer: {
+    name: "Elena", clase: "Micóloga", team: [["roqueforti", 11], ["mucorin", 12]], sight: 4, money: 40,
     intro: "¡Los hongos son los reyes del bosque! ¿Quieres comprobarlo?", lose: "Mis esporas no han germinado…", after: "Penicillium roqueforti es el que da el color azul a los quesos. ¡Precioso!" } });
-  b.npc({ id: "r2-agronomo", x: 10, y: 7, sprite: "estudiante", dir: 0, trainer: {
-    name: "Ramón", clase: "Agrónomo", team: [["rhizobi", 11], ["thuringien", 11], ["serratia", 12]], sight: 2, money: 45,
+  b.npc({ id: "r2-agronomo", x: 20, y: 9, sprite: "estudiante", dir: 1, trainer: {
+    name: "Ramón", clase: "Agrónomo", team: [["rhizobi", 11], ["thuringien", 11], ["serratia", 12]], sight: 4, money: 45,
     intro: "¡Mis Rhizobium fijan nitrógeno en las raíces! ¡Y luchan!", lose: "Se me ha secado la cosecha…", after: "Bacillus thuringiensis es un insecticida natural. ¡Lo usan en agricultura ecológica!" } });
-  b.npc({ id: "r2-paseante", x: 15, y: 24, sprite: "chico", move: "pasear", talk: ["Arriba está el Monte Micelio. Una cueva llena de hifas que brillan en la oscuridad.", "Últimamente se ve entrar a gente con portátiles y ojeras… ¿Qué harán ahí dentro?"] });
-  b.warp({ x: 9, y: 29, w: 2, to: "ciudad-petri", tx: 20, ty: 1, dir: 0, keep: "x" });
-  b.warp({ x: 13, y: 4, to: "monte-micelio", tx: 14, ty: 22, dir: 1 });
+  b.npc({ id: "r2-excursionista", x: 33, y: 10, sprite: "chica", dir: 1, trainer: {
+    name: "Nuria", clase: "Excursionista", team: [["mirabilis", 11], ["euglena", 12]], sight: 4, money: 42,
+    intro: "¡Voy al Monte Micelio a ver las hifas que brillan! Pero antes… ¡un combate!", lose: "Me he quedado sin linterna y sin Microos…", after: "Euglena tiene un ojo rojo para buscar la luz. ¡Es medio alga, medio animal!" } });
+  b.npc({ id: "r2-paseante", x: 28, y: 6, sprite: "chico", move: "pasear", talk: ["Arriba está el Monte Micelio. Una cueva llena de hifas que brillan en la oscuridad.", "Últimamente se ve entrar a gente con portátiles y ojeras… ¿Qué harán ahí dentro?"] });
+  b.warp({ x: 8, y: 21, w: 2, to: "ciudad-petri", tx: 20, ty: 1, dir: 0, keep: "x" });
+  b.warp({ x: 33, y: 2, to: "monte-micelio", tx: 14, ty: 22, dir: 1 });
   b.encounters([
     { sp: "rhizobi", min: 9, max: 12, w: 22 }, { sp: "serratia", min: 9, max: 12, w: 18 }, { sp: "thuringien", min: 10, max: 12, w: 14 },
     { sp: "bifidum", min: 9, max: 11, w: 14 }, { sp: "euglena", min: 10, max: 12, w: 12 }, { sp: "casei", min: 10, max: 12, w: 12 },
@@ -255,7 +313,6 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   ]);
   add(b.done({ music: "ruta" }));
 }
-
 // ---------------------------------------------------------------- Monte Micelio
 {
   const b = new MapBuilder("monte-micelio", "Monte Micelio", 30, 24, "X", "cueva", false);
@@ -286,8 +343,8 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
     talk: "Dicen que buscan cepas ancestrales liofilizadas para llevarlas al Instituto Carlos III. ¿Para qué las querrán?" });
   b.npc({ id: "salazar", x: 24, y: 4, sprite: "salazar", dir: 0, script: "salazar", hideIf: "salazar1", solid: true });
   b.npc({ id: "disco-duro", x: 25, y: 4, sprite: "@tile:disco_duro", script: "discoDuro", hideIf: "disco", solid: true });
-  b.warp({ x: 14, y: 23, w: 1, to: "ruta-2", tx: 13, ty: 5, dir: 0 });
-  b.warp({ x: 24, y: 0, w: 2, to: "ruta-3", tx: 9, ty: 23, dir: 0 });
+  b.warp({ x: 14, y: 23, w: 1, to: "ruta-2", tx: 33, ty: 3, dir: 0 });
+  b.warp({ x: 24, y: 0, w: 2, to: "ruta-3", tx: 6, ty: 21, dir: 0 });
   b.encounters([
     { sp: "roqueforti", min: 12, max: 15, w: 20 }, { sp: "niger", min: 13, max: 15, w: 16 }, { sp: "mucorin", min: 12, max: 14, w: 14 },
     { sp: "rhizopupa", min: 13, max: 15, w: 12 }, { sp: "bacteroid", min: 12, max: 14, w: 12 }, { sp: "thermus", min: 13, max: 15, w: 10 },
@@ -297,27 +354,54 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
 }
 
 // ---------------------------------------------------------------- Ruta 3
+// Montaña con río y cascada, puentes y escalones entre terrazas; al este, la pradera que lleva a Ciudad Cultivo.
 {
-  const b = new MapBuilder("ruta-3", "Ruta 3", 20, 30);
-  b.trees(0, 0, 2, 30).trees(18, 0, 2, 30).trees(2, 0, 6, 2).trees(10, 0, 8, 2).trees(2, 26, 16, 4);
-  b.fill(4, 20, 12, 3, "A").set(9, 22, "O");
-  b.fill(11, 3, 6, 5, "~");
-  b.fill(9, 23, 9, 1, "p").fill(16, 10, 2, 14, "p").fill(8, 10, 10, 2, "p").fill(8, 0, 2, 12, "p");
-  b.fill(3, 7, 5, 9, "g").fill(10, 13, 5, 5, "g").fill(2, 23, 6, 3, "g");
-  b.fill(12, 8, 4, 1, "f").set(3, 17, "f").set(4, 17, "f");
-  b.sign(10, 24, "Ruta 3. Al norte: Ciudad Cultivo, la ciudad de los fotobiorreactores.");
-  b.item(16, 4, "caldo-nutritivo", "item:r3-caldo", 2);
-  b.item(3, 15, "medio-lb", "item:r3-lb");
-  b.npc({ id: "r3-limnologa", x: 13, y: 9, sprite: "chica", dir: 0, trainer: {
-    name: "Marta", clase: "Limnóloga", team: [["euglena", 15], ["navicula", 15], ["noctiluca", 16]], sight: 1, money: 60,
+  const b = new MapBuilder("ruta-3", "Ruta 3", 40, 26);
+  b.ascii([
+    "%%%%%%%%%%%%**%%%%%%%%%%TTTTTTTTTTppTTTT",
+    "%%%%%%%%%%%%**%%%%%%%%%%TTTTTTTTTTppTTTT",
+    "%%%%%%%%%%%%**%%%%%%%%%%TT........pp..TT",
+    "%%pppppppppp==pppppppp%%TT.ggggg..pp..TT",
+    "%%p%%%%%%%%%~~%%%%%%%p%%...ggggg..pp..TT",
+    "%%p%%%%%%%%%~~%%%%%%%p%%...ggggg..pp..TT",
+    "%%p%%%%%%%%%~~%%%%%%%p%%...ggggg..ppTTTT",
+    "%%ppppppppp%~~%ppppp%p%%....gggg..ppTTTT",
+    "%%^%%%%%%%%%~~%p%%%%%^%%..TTgggg..pp..TT",
+    "%%p%%%%%%%%%~~%^%%%%%p%%..TTgggg..pp..TT",
+    "%%p%%%%%%%%%~~%p%%%%%p%%..........pf..TT",
+    "%%p%%%%%%%%%~~%p%%%%%p%%..........ppS.TT",
+    "%%pppppppppp==pppppppppppppppppppppp..TT",
+    "%%p%%%%%%%%%~~%%%%%%%p%%.f......f.....TT",
+    "%%p%%%%%%%%%~~%%%%%%%p%%..gggggg....f.TT",
+    "%%p%%%%%%%%%~~%%%%%%%p%%..gggggg......TT",
+    "%%^p^pppppp%~~%ppppppp%%..gggggg.gggg.TT",
+    "%%p%%%%%%%%%~~%%%%%p%%%%..gggggg.gggg.TT",
+    "%%p%%%%%%%%%~~%pppp^p%%%..gggggg.gggg.TT",
+    "%%p%%%%%%%%%~~%%%%%p%%%%.........gggg.TT",
+    "%%p%%%O%%%%%~~%%%%%p%%%%TT....TT.gggg.TT",
+    "%%pppppppppp~~%%%%%%%%%%TT....TT.gggg.TT",
+    "%%%%%%%%%%%%~~%%%%%%%%%%...f..........TT",
+    "%%%%%%%%%%%%~~%%%%%%%%%%..............TT",
+    "%%%%%%%%%%%%~~%%%%%%%%%%TTTTTTTTTTTTTTTT",
+    "%%%%%%%%%%%%~~%%%%%%%%%%TTTTTTTTTTTTTTTT",
+  ]);
+  b.sign(36, 11, "Ruta 3. Al norte: Ciudad Cultivo, la ciudad de los fotobiorreactores.");
+  b.item(8, 3, "caldo-nutritivo", "item:r3-caldo", 2);
+  b.item(16, 7, "medio-lb", "item:r3-lb");
+  b.item(20, 18, "criobola-azul", "item:r3-azul");
+  b.npc({ id: "r3-limnologa", x: 14, y: 11, sprite: "chica", dir: 0, trainer: {
+    name: "Marta", clase: "Limnóloga", team: [["euglena", 15], ["navicula", 15], ["noctiluca", 16]], sight: 4, money: 60,
     intro: "¡Este lago tiene más diatomeas que gotas de agua!", lose: "Se me ha volcado el muestreador…", after: "La Dra. Gajú estudia los tapetes microbianos del Delta del Ebro. ¡Sus Microos aman la luz!" } });
-  b.npc({ id: "r3-cervecero", x: 7, y: 16, sprite: "estudiante", dir: 3, trainer: {
+  b.npc({ id: "r3-cervecero", x: 29, y: 11, sprite: "estudiante", dir: 0, trainer: {
     name: "Iker", clase: "Cervecero", team: [["sacchari", 15], ["zymomonas", 16]], sight: 3, money: 55,
     intro: "¡Fermentación alcohólica en marcha! ¿Un combate mientras sube la espuma?", lose: "Se me ha cortado la fermentación…", after: "Zymomonas fermenta el agave del pulque. ¡Y es una bacteria, no una levadura!" } });
-  b.npc({ id: "r3-rival", x: 9, y: 5, sprite: "rival", dir: 0, hideIf: "rival3" });
-  b.trigger({ x: 8, y: 7, w: 2, script: "rivalRuta3", once: "rival3" });
-  b.warp({ x: 9, y: 22, to: "monte-micelio", tx: 24, ty: 1, dir: 0 });
-  b.warp({ x: 8, y: 0, w: 2, to: "ciudad-cultivo", tx: 8, ty: 18, dir: 1, keep: "x" });
+  b.npc({ id: "r3-montanero", x: 3, y: 16, sprite: "chico", dir: 2, trainer: {
+    name: "Pere", clase: "Montañero", team: [["thermus", 15], ["griseus", 15], ["bacteroid", 16]], sight: 4, money: 58,
+    intro: "¡Acabo de bajar del Monte Micelio! Mis Microos aguantan cualquier cosa. ¿Lo comprobamos?", lose: "Uf… necesito un descanso en el refugio.", after: "Streptomyces griseus vive en el suelo. ¡De ella salió la estreptomicina, el primer antibiótico contra la tuberculosis!" } });
+  b.npc({ id: "r3-rival", x: 34, y: 3, sprite: "rival", dir: 0, hideIf: "rival3" });
+  b.trigger({ x: 34, y: 7, w: 2, script: "rivalRuta3", once: "rival3" });
+  b.warp({ x: 6, y: 20, to: "monte-micelio", tx: 24, ty: 1, dir: 0 });
+  b.warp({ x: 34, y: 0, w: 2, to: "ciudad-cultivo", tx: 8, ty: 18, dir: 1, keep: "x" });
   b.encounters([
     { sp: "euglena", min: 14, max: 17, w: 20 }, { sp: "noctiluca", min: 14, max: 16, w: 15 }, { sp: "ceratium", min: 14, max: 16, w: 15 },
     { sp: "zymomonas", min: 14, max: 16, w: 14 }, { sp: "rhizobi", min: 14, max: 16, w: 12 }, { sp: "albicans", min: 15, max: 17, w: 12 },
@@ -325,7 +409,6 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   ]);
   add(b.done({ music: "ruta" }));
 }
-
 // ---------------------------------------------------------------- Ciudad Cultivo
 {
   const b = new MapBuilder("ciudad-cultivo", "Ciudad Cultivo", 36, 28);
