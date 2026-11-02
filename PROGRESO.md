@@ -172,5 +172,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Ruta 3: deshechas las laderas laterales. Vallas verticales (`!`, `valla_v`, sobre la tierra de la terraza) en el borde este de las terrazas alta y baja, junto a los árboles; bajo el camino del prado, un desnivel (acantilado de hierba) con dos escaleras para bajar al césped de abajo, que está al nivel de la terraza baja (en lugar de los setos redondos).
 
+- Ruta 3: la zona de la casa también está más alta que el camino: desnivel (acantilado de hierba) con escaleras en sus dos accesos y cerrada con árboles por el lado de la terraza media.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

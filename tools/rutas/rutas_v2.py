@@ -101,6 +101,9 @@ def ruta3():
     fill(g, 26, 18, 8, 4, "g"); fill(g, 22, 23, 4, 3, "g")
     for x, y in ((36, 18), (38, 22), (30, 22)): fill(g, x, y, 2, 2, "T")
     for x, y in ((23, 3), (25, 10), (24, 21), (35, 23), (40, 20), (34, 17), (28, 24)): g[y][x] = "f"
+    # la zona de la casa está más alta que el camino: desnivel con escaleras en los dos accesos
+    fill(g, 20, 13, 22, 1, "A"); g[13][23] = "^"; g[13][32] = "^"; g[13][33] = "^"
+    fill(g, 20, 8, 2, 4, "T"); fill(g, 20, 12, 2, 1, "A")                # cerrada por el lado de la terraza media
     return g
 
 def normaliza(g):
