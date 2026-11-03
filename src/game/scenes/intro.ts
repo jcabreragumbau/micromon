@@ -152,7 +152,7 @@ export class IntroCine implements Scene {
     fondo(g, this.t);
     const c = g.ctx, k = gesto === "camina" ? 1.4 + p * 0.5 : 1.8;
     const x = W / 2 - 32 * k, y = H - 96 * k + (gesto === "camina" ? Math.abs(Math.sin(p * 18)) * -3 : Math.sin(p * 9) * 2);
-    c.save(); c.translate(x, y); c.scale(k, k); g.portrait(quien, 0, 0); c.restore();
+    c.save(); c.translate(x, y); c.scale(k, k); figura(g, quien, gesto === "camina" ? Math.floor(this.t / 9) % 4 : 0); c.restore();
     if (gesto === "pulgar" && p > 0.35) {
       // destello de «¡vamos!» junto al retrato
       const q = Math.min(1, (p - 0.35) * 4);
@@ -165,7 +165,7 @@ export class IntroCine implements Scene {
     siluetas.forEach((q, i) => {
       c.save(); c.filter = "brightness(0) opacity(0.55)";
       const x = siluetas.length === 1 ? -10 : i === 0 ? -16 : W - 100;
-      c.translate(x, H - 150); c.scale(1.6, 1.6); g.portrait(q, 0, 0); c.restore();
+      c.translate(x, H - 150); c.scale(1.6, 1.6); figura(g, q, 0); c.restore();
     });
     const sal = modo === "corre" ? Math.abs(Math.sin(p * 22)) * 6 : modo === "salta" ? Math.abs(Math.sin(p * 10)) * 22 : Math.abs(Math.sin(p * 16)) * 10;
     const x = modo === "corre" ? -60 + p * (W + 40) : W / 2 - 60;
@@ -175,7 +175,7 @@ export class IntroCine implements Scene {
     cielo(g, this.t);
     const c = g.ctx;
     [["protagonista", W / 2 - 112], ["protagonista-chica", W / 2 - 4]].forEach(([q, x]) => {
-      c.save(); c.translate(Number(x), H - 96 * 1.6 + 6); c.scale(1.6, 1.6); g.portrait(String(q), 0, 0); c.restore();
+      c.save(); c.translate(Number(x), H - 96 * 1.6 + 6); c.scale(1.6, 1.6); figura(g, String(q), Math.floor(this.t / 9) % 4); c.restore();
     });
   }
   // ---------------------------------------------------------------- 4. la sala de servidores de la Unidad
@@ -264,3 +264,11 @@ function burbujas(g: Gfx, t: number) {
 }
 /** Hash entero sencillo para los parpadeos de los LED (determinista). */
 function hash(n: number) { n = (n ^ 61) ^ (n >>> 16); n = (n + (n << 3)) | 0; n ^= n >>> 4; n = Math.imul(n, 0x27d4eb2d); n ^= n >>> 15; return n >>> 0; }
+
+/** Protagonistas: las figuras de cuerpo entero dibujadas por el usuario (atlas protas_intro, 64×96 lógicos como
+ *  los retratos; fotograma 0-3 del paso). El resto de personajes, con su retrato. */
+function figura(g: Gfx, quien: string, f: number) {
+  const fila = quien === "protagonista" ? 0 : quien === "protagonista-chica" ? 1 : -1;
+  if (fila >= 0 && IMG.protas_intro) g.ctx.drawImage(IMG.protas_intro, f * 256, fila * 384, 256, 384, 0, 0, 64, 96);
+  else g.portrait(quien, 0, 0);
+}
