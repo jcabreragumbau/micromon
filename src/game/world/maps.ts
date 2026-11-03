@@ -962,6 +962,8 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
     { sp: "neisseria", min: 34, max: 36, w: 12 }, { sp: "halobacter", min: 35, max: 37, w: 10 }, { sp: "psychrobac", min: 34, max: 36, w: 12 },
     { sp: "salinarum", min: 34, max: 36, w: 12 }, { sp: "nocardia", min: 35, max: 37, w: 12 }, { sp: "shewanella", min: 35, max: 37, w: 12 },
     { sp: "chlamydia", min: 35, max: 37, w: 12 }, { sp: "acantharia", min: 34, max: 36, w: 12 }, { sp: "bdellovib", min: 34, max: 36, w: 6 }, { sp: "listeria", min: 35, max: 37, w: 6 },
+    // primeros virus del tramo final: pocos y escondidos
+    { sp: "lambda-v", min: 34, max: 36, w: 6 }, { sp: "lentivir", min: 34, max: 36, w: 5 },
   ]);
   add(b.done({ music: "ruta" }));
 }
@@ -1088,6 +1090,7 @@ function planta(id: string, name: string) {
     { sp: "cholerae", min: 40, max: 42, w: 16 }, { sp: "aeruginosa", min: 41, max: 43, w: 14 }, { sp: "baumannii", min: 41, max: 43, w: 12 },
     { sp: "diatomax", min: 40, max: 42, w: 14 }, { sp: "shewanella", min: 40, max: 42, w: 14 }, { sp: "salinarum", min: 40, max: 42, w: 12 },
     { sp: "vulnificus", min: 42, max: 43, w: 6 }, { sp: "pneumonia-k", min: 40, max: 42, w: 12 },
+    { sp: "marburg-v", min: 40, max: 42, w: 7 }, { sp: "mimivir", min: 40, max: 42, w: 6 },
   ]);
   add(b.done({ music: "ruta" }));
 }
@@ -1239,9 +1242,11 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
   b.npc({ id: "conj-tecnica", x: 16, y: 18, sprite: "profesora", dir: 0, script: "conjugacion" });
   b.npc({ id: "conj-1", x: 12, y: 17, sprite: "chica", move: "pasear", talk: "La conjugación bacteriana es como un intercambio de genes con un puente de pilus. ¡Por eso la isla se llama así!" });
   b.encounters([
-    { sp: "marburg-v", min: 47, max: 49, w: 16 }, { sp: "mimivir", min: 47, max: 49, w: 16 }, { sp: "lambda-v", min: 46, max: 48, w: 16 },
-    { sp: "bacteriovor", min: 46, max: 48, w: 16 }, { sp: "retrovir-x", min: 50, max: 50, w: 4 }, { sp: "lentivir", min: 46, max: 48, w: 16 },
-    { sp: "pleomorph", min: 45, max: 46, w: 6 }, { sp: "coli-bl21", min: 46, max: 48, w: 10 },
+    // isla de la conjugación: bacterias que intercambian genes (plásmidos, T-DNA, fagos temperados) y algún virus
+    { sp: "coli-bl21", min: 46, max: 48, w: 14 }, { sp: "bacteriovor", min: 46, max: 48, w: 12 }, { sp: "agrobacter", min: 46, max: 48, w: 12 },
+    { sp: "aeruginosa", min: 46, max: 48, w: 10 }, { sp: "chlamydia", min: 46, max: 48, w: 8 }, { sp: "pleomorph", min: 45, max: 47, w: 8 },
+    { sp: "lambda-v", min: 46, max: 48, w: 10 }, { sp: "marburg-v", min: 47, max: 49, w: 8 }, { sp: "lentivir", min: 46, max: 48, w: 8 },
+    { sp: "mimivir", min: 47, max: 49, w: 6 }, { sp: "retrovir-x", min: 50, max: 50, w: 4 },
   ]);
   b.fill(2, 2, 7, 5, "g").fill(28, 2, 8, 4, "g").fill(2, 18, 5, 5, "g").fill(32, 18, 5, 5, "g");
   add(b.done({ music: "ciudad" }));
@@ -1274,7 +1279,7 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
     intro: "¡Tres años de postdoc para esto! ¡Al menos déjame ganar un combate!", lose: "Ni eso…", after: "Arriba está el laboratorio profundo. Y el jefe. Y… eso." } });
   b.warp({ x: 6, y: 13, w: 3, to: "isla-conjugada", tx: 23, ty: 8, dir: 0 });
   b.warp({ x: 15, y: 2, to: "mansion-2", tx: 14, ty: 3, dir: 0 });
-  b.encounters([{ sp: "coli-k12", min: 45, max: 47, w: 30 }, { sp: "coli-bl21", min: 46, max: 48, w: 30 }, { sp: "lambda-v", min: 46, max: 48, w: 25 }, { sp: "marburg-v", min: 47, max: 49, w: 15 }]);
+  b.encounters([{ sp: "coli-k12", min: 45, max: 47, w: 30 }, { sp: "coli-bl21", min: 46, max: 48, w: 30 }, { sp: "lambda-v", min: 46, max: 48, w: 15 }, { sp: "marburg-v", min: 47, max: 49, w: 10 }, { sp: "pleomorph", min: 46, max: 48, w: 15 }]);
   add(b.done({ music: "guarida", floorEncounters: "suelo_madera" }));
 }
 {

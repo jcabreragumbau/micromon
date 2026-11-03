@@ -196,5 +196,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Equipo: al usar un plásmido (u objeto de evolución) cada Microo muestra «APTO», «NO APTO» o «YA LO SABE» en lugar de la barra de PS; el Microo seleccionado se resalta siempre con un marco parpadeante, también si está debilitado (al usar un revivir).
 
+- Encuentros del tramo final: los virus se reparten (Lambda y Lentivir en la Ruta 8, Marburg y Mimivir en la Ruta 9, los básicos en las Islas Esporuladas) y la Isla Conjugada pasa a ser sobre todo de bacterias que intercambian genes (E. coli BL21, Bdellovibrio, Agrobacterium, Pseudomonas, Chlamydia, Pleomorph) con un 36 % de virus (antes 68 %); en la Mansión entra Pleomorph.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
