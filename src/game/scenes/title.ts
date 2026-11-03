@@ -133,9 +133,16 @@ class AvatarSelect {
       g.alpha(0.2, () => g.round(x + 14, y + 72, 40, 8, 4, "#000"));
       const heli = a.id === "apache";
       const fr = heli ? Math.floor(this.t / 3) % 3 : on ? [0, 1, 0, 2][Math.floor(this.t / 10) % 4] : 0;
-      g.ctx.save(); g.ctx.translate(x + 2, y + 10 + (on && !heli ? 0 : 0)); g.ctx.scale(2, 2);
-      g.character(AVATAR_SPRITE[a.id], 0, fr, 0, heli ? -Math.round(Math.sin(this.t / 12)) : 0);
-      g.ctx.restore();
+      const fila = a.id === "chico" ? 0 : a.id === "chica" ? 1 : -1;
+      if (fila >= 0 && IMG.protas_intro) {
+        // figura grande dibujada por el usuario: camina (4 fotogramas) si está elegida
+        const f = on ? Math.floor(this.t / 9) % 4 : 0;
+        g.ctx.drawImage(IMG.protas_intro, f * 256, fila * 384, 256, 384, x + 7, y + 2, 54, 81);
+      } else {
+        g.ctx.save(); g.ctx.translate(x + 2, y + 10); g.ctx.scale(2, 2);
+        g.character(AVATAR_SPRITE[a.id], 0, fr, 0, heli ? -Math.round(Math.sin(this.t / 12)) : 0);
+        g.ctx.restore();
+      }
       g.text(a.label, x + 34 - g.measure(a.label) / 2, y + 84, on ? "dark" : "white", on);
     });
     if (Math.floor(this.t / 20) % 2) { g.text("◀", 4, 66, "white"); g.text("▶", W - 10, 66, "white"); }

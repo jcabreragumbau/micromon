@@ -200,5 +200,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Protagonistas nuevos (chico y chica) con las hojas del usuario (`assets/reference/protagonistas/`, 4 direcciones × 5 fotogramas; se usan el 1.º, 2.º y 4.º): `python3 tools/art/protagonistas.py` → `<id>_hoja.png`, que `char_atlas.py` prefiere a la conversión del GDD. El retrato de combate no cambia.
 
+- Intro: la elección de personaje muestra las figuras grandes del chico y la chica dibujadas por el usuario (`assets/reference/protagonistas/intro-*.png`), que caminan (4 fotogramas) al estar elegidas: `python3 tools/art/protagonistas_intro.py` → `assets/atlas/protas_intro.png`.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

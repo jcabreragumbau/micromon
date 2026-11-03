@@ -9,7 +9,7 @@ const V2 = process.argv.includes("--v2");
 const NOMBRE = V2 ? "Micromón V2" : "Micromón";
 /** Carpeta de un atlas: la de la V2 si esta versión tiene el suyo. */
 const dirAtlas = (f: string) => (V2 && existsSync(join(ROOT, "assets/atlas_v2", f)) ? "assets/atlas_v2" : "assets/atlas");
-const ATLAS = ["portada.jpg", "portada_fondo.jpg", ...["hierba", "bosque", "interior", "laboratorio", "gimnasio", "cueva", "invernadero", "casino", "torre", "hielo"].map((e) => `fondo_${e}.jpg`), "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd.webp", "props_hd.webp", "terreno_hd.webp", "medallas_hd.webp", "mapa_region", "microos_frente", "microos_espalda", "microos_iconos"];
+const ATLAS = ["portada.jpg", "portada_fondo.jpg", ...["hierba", "bosque", "interior", "laboratorio", "gimnasio", "cueva", "invernadero", "casino", "torre", "hielo"].map((e) => `fondo_${e}.jpg`), "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd.webp", "props_hd.webp", "terreno_hd.webp", "medallas_hd.webp", "protas_intro", "mapa_region", "microos_frente", "microos_espalda", "microos_iconos"];
 // WebP sin pérdida de los atlas HD grandes (idénticos al PNG, pero ocupan menos)
 const WEBP = ATLAS.filter((f) => f.endsWith(".webp")).map((f) => f.slice(0, -5));
 const conv = Bun.spawnSync(["python3", join(ROOT, "tools/art/a_webp.py"), ...(V2 ? ["--v2"] : []), ...WEBP]);
