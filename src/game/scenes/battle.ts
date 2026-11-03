@@ -89,6 +89,15 @@ export class BattleScene implements Scene {
       this.showTrainer = false;
     }
     for (const e of initial.filter((e) => e.side === 1)) await this.play(e);
+    // el protagonista (de espaldas) lanza la Criobola y sale de escena
+    const fila = this.game.state.avatar === "chico" ? 0 : this.game.state.avatar === "chica" ? 1 : -1;
+    if (fila >= 0 && IMG.protas_espalda && !this.s.safari) {
+      this.jugador = { f: 0, dx: 0 };
+      await g.wait(14);
+      for (const f of [1, 2, 3, 4]) { this.jugador.f = f; await g.wait(f === 3 ? 10 : 7); }
+      for (let i = 0; i < 14; i++) { this.jugador.dx -= 8; await g.wait(1); }
+      this.jugador = null;
+    }
     for (const e of initial.filter((e) => e.side === 0)) await this.play(e);
     for (const m of b.sides[1].party) markSeen(g.state, m.species);
     if (this.s.safari) return this.runSafari();
@@ -290,6 +299,8 @@ export class BattleScene implements Scene {
   }
   /** Rival señalado al elegir objetivo (parpadea). */
   aim = -1;
+  /** Protagonista de espaldas al empezar el combate: fotograma (0-4) y desplazamiento al salir de escena. */
+  jugador: { f: number; dx: number } | null = null;
 
   // ---------------------------------------------------------------- eventos
   /** Contra investigadores, cada mensaje espera a que pulses A (para ver el combate y leer con calma). */
@@ -438,6 +449,10 @@ export class BattleScene implements Scene {
       const t = Math.max(0, this.ballAnim) / 30;
       const bx = 192 - t * 120 + this.ballShake * 2, by = 66 - Math.sin((1 - t) * Math.PI) * (t > 0 ? 34 : 0);
       drawBallBig(g, bx, by);
+    }
+    if (this.jugador) {
+      const fila = this.game.state.avatar === "chico" ? 0 : 1;
+      g.ctx.drawImage(IMG.protas_espalda, this.jugador.f * 512, fila * 384, 512, 384, -12 + this.jugador.dx, TB - 96, 128, 96);
     }
     // Propios (el segundo se dibuja detrás)
     [...this.disp[0].keys()].reverse().forEach((slot) => {

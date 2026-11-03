@@ -202,5 +202,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Intro: la elección de personaje muestra las figuras grandes del chico y la chica dibujadas por el usuario (`assets/reference/protagonistas/intro-*.png`), que caminan (4 fotogramas) al estar elegidas: `python3 tools/art/protagonistas_intro.py` → `assets/atlas/protas_intro.png`.
 
+- Combate: al empezar, el protagonista (chico o chica) aparece de espaldas y lanza la Criobola con los 5 fotogramas del usuario antes de salir de escena (`python3 tools/art/protagonistas_espalda.py` → `assets/atlas/protas_espalda.png`, celdas 512×384). Los atlas nuevos de protagonistas van en WebP; el HTML de la V1 ocupa ~15,7 MB (límite 16 MB).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
