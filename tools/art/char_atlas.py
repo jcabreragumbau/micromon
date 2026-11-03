@@ -100,6 +100,7 @@ def main():
     hd += [n for n in npc if n not in hd]
     A = Image.new("RGBA", (96 * K, 128 * K * len(hd)))
     for i, cid in enumerate(hd):
+        # una hoja completa dibujada por el usuario (PNJ, protagonistas) tiene prioridad sobre la conversión del GDD
         sheet = Image.open(CHD / f"{cid}_hoja.png").convert("RGBA") if cid in npc else ref_sheet_hd(REFS[cid])
         A.alpha_composite(sheet, (0, i * 128 * K))
     A.save(out / "personajes_hd.png", optimize=True)

@@ -198,5 +198,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Encuentros del tramo final: los virus se reparten (Lambda y Lentivir en la Ruta 8, Marburg y Mimivir en la Ruta 9, los básicos en las Islas Esporuladas) y la Isla Conjugada pasa a ser sobre todo de bacterias que intercambian genes (E. coli BL21, Bdellovibrio, Agrobacterium, Pseudomonas, Chlamydia, Pleomorph) con un 36 % de virus (antes 68 %); en la Mansión entra Pleomorph.
 
+- Protagonistas nuevos (chico y chica) con las hojas del usuario (`assets/reference/protagonistas/`, 4 direcciones × 5 fotogramas; se usan el 1.º, 2.º y 4.º): `python3 tools/art/protagonistas.py` → `<id>_hoja.png`, que `char_atlas.py` prefiere a la conversión del GDD. El retrato de combate no cambia.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
