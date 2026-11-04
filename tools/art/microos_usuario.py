@@ -23,6 +23,8 @@ LAMINAS = {
                         ["thuringien", "cereus"], ["mycoides", "anthracis"]],
     "lineas_14_18.png": [["casei", "acidophilus"], ["thermus", "aquaticus"], ["bifidum", "longum"], ["serratia", "marcescens"],
                          ["rhizobi", "meliloti", "agrobacter"]],
+    "lineas_19_23.png": [["roqueforti", "chrysogenum"], ["niger", "flavus"], ["bacteroid", "fragilis"], ["albicans", "auris"],
+                         ["euglena", "volvox"]],
 }
 
 def figuras(path, rejilla):
