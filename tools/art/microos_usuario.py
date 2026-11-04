@@ -19,6 +19,8 @@ LAMINAS = {
     "iniciales.png": [["synechoc", "anabaen", "spirulmax"], ["butyricum", "acetobuty", "thermocel"], ["paramec", "vorticel", "stentorox"]],
     "lineas_4_8.png": [["mucorin", "rhizopupa", "pilobolus"], ["griseus", "coelicol", "avermitil"], ["sacchari", "pastorian", "pichiamax"],
                        ["epidermi", "aureus", None], ["navicula", "pinnularia", None]],
+    "lineas_9_13.png": [["mirabilis", "vulgaris"], ["leptospir", "interrogan"], ["micrococ", "sarcina"], ["subtilis", "lichenifor"],
+                        ["thuringien", "cereus"], ["mycoides", "anthracis"]],
 }
 
 def figuras(path, rejilla):

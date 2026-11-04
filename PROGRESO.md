@@ -210,5 +210,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Sprites del usuario para las líneas 4-8 (Mucorín, Griseus, Sacchari, Epidermi, Navicula y evoluciones; `assets/reference/microos/lineas_4_8.png`). Los atlas de Microos pasan a WebP sin pérdida para seguir por debajo de 16 MB (V1 ~15,7 MB).
 
+- Sprites del usuario para las líneas 9-13 (Mirabilis, Leptospir, Micrococ, Subtilis, Cereus y evoluciones; `assets/reference/microos/lineas_9_13.png`). Música de combate contra entrenadores recodificada a 112 kbps (original en `assets/reference/audio/`) para dejar margen bajo los 16 MB: V1 ~14,9 MB.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
