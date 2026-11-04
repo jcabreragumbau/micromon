@@ -21,6 +21,8 @@ LAMINAS = {
                        ["epidermi", "aureus", None], ["navicula", "pinnularia", None]],
     "lineas_9_13.png": [["mirabilis", "vulgaris"], ["leptospir", "interrogan"], ["micrococ", "sarcina"], ["subtilis", "lichenifor"],
                         ["thuringien", "cereus"], ["mycoides", "anthracis"]],
+    "lineas_14_18.png": [["casei", "acidophilus"], ["thermus", "aquaticus"], ["bifidum", "longum"], ["serratia", "marcescens"],
+                         ["rhizobi", "meliloti", "agrobacter"]],
 }
 
 def figuras(path, rejilla):
@@ -44,6 +46,7 @@ def figuras(path, rejilla):
     filas, cols = len(rejilla), len(rejilla[0])
     out = {}
     for r in range(filas):
+        cols = len(rejilla[r])                     # cada fila puede tener su número de especies
         for c in range(cols):
             if rejilla[r][c] is None: continue
             celda = [q for q in comps if min(filas - 1, int((q["y"] - Y0) / ((Y1 - Y0) / filas))) == r and int(q["x"] / (W / cols)) == c]

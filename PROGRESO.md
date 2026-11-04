@@ -212,5 +212,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Sprites del usuario para las líneas 9-13 (Mirabilis, Leptospir, Micrococ, Subtilis, Cereus y evoluciones; `assets/reference/microos/lineas_9_13.png`). Música de combate contra entrenadores recodificada a 112 kbps (original en `assets/reference/audio/`) para dejar margen bajo los 16 MB: V1 ~14,9 MB.
 
+- Sprites del usuario para las líneas 14-18 (Casei, Thermus, Bifidum, Serratia, Rhizobi y evoluciones; `assets/reference/microos/lineas_14_18.png`); `microos_usuario.py` admite filas con distinto número de especies.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
