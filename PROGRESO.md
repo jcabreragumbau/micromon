@@ -226,7 +226,5 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Logotipo del usuario (`assets/reference/logo_micromon.png` → `assets/atlas/logo_micromon.png`, sin fondo) en la intro: entra creciendo con rebote al golpe del segundo 22, con un brillo que recorre solo las letras, y vuelve en el final.
 
-- Ruta 3 rehecha (52×28) según la referencia del usuario: montaña escalonada con el río que baja desde arriba y cae en cascada, lago con islote y dos puentes largos (más un puente vertical), escaleras en las paredes, peñascos sobre las terrazas, la cueva del Monte Micelio abajo a la izquierda y, al este, el prado con la granja. Montañero junto a la cueva, pescadora en el islote y culturista en el paso al prado son inesquivables.
-
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

@@ -70,56 +70,40 @@ def ruta2():
 
 # ---------------------------------------------------------------- RUTA 3 (44 x 28): desfiladero, río y cascada al oeste; granja al este
 def ruta3():
-    """Ruta 3 (52 × 28) al estilo de la referencia del usuario: montaña escalonada con el río que baja desde arriba,
-    cascada, lago con un islote y dos puentes largos, escaleras en las paredes; al este, prado con la granja."""
-    W, H = 52, 28
-    g = lienzo(W, H, ".")
-    fill(g, 0, 0, 34, H, "%")                                              # toda la montaña es roca de entrada
-    # río: entra por arriba a la izquierda, corre hacia el este y baja por el canal central hasta el borde sur
-    fill(g, 2, 1, 21, 2, "~")
-    fill(g, 20, 1, 3, H - 1, "~")
-    fill(g, 20, 6, 3, 2, "*")                                              # cascada en la pared alta
-    # terraza alta oeste (orilla del río) y terraza media oeste, con una escalera entre ambas
-    fill(g, 2, 3, 18, 3, "p")
-    fill(g, 4, 8, 15, 2, "p")
-    fill(g, 10, 6, 1, 2, "^")
-    # meseta alta este y terraza media este, con escaleras
-    fill(g, 24, 1, 8, 5, "p")
-    fill(g, 23, 8, 9, 2, "p")
-    fill(g, 28, 6, 1, 2, "^")
-    # lago bajo con islote; el puente vertical baja de la terraza media al islote
-    fill(g, 7, 10, 13, 7, "~")
-    fill(g, 11, 13, 5, 3, "p")
-    fill(g, 13, 10, 1, 3, "|")
-    # orilla oeste baja (x 2-6 junto al lago) y franja bajo el lago, con escalera desde la terraza media
-    fill(g, 2, 12, 5, 9, "p")
-    fill(g, 7, 17, 13, 4, "p")
-    fill(g, 4, 10, 1, 2, "^")
-    # dos puentes largos a la altura del islote: orilla oeste ⇄ islote ⇄ orilla este (cruza lago y río)
-    fill(g, 7, 14, 4, 1, "=")
-    fill(g, 16, 14, 7, 1, "=")
-    # orilla este baja, con escalera desde la terraza media este
-    fill(g, 23, 12, 10, 14, "p")
-    fill(g, 30, 10, 1, 2, "^")
-    # piso más bajo al suroeste: la boca de la cueva del Monte Micelio está en su pared norte
-    fill(g, 2, 23, 17, 3, "p")
-    g[22][4] = "O"
-    fill(g, 8, 21, 1, 2, "^")
-    # escalón bajo en la orilla este (otra terraza más abajo, con escalera) y peñascos sueltos sobre las terrazas
-    fill(g, 23, 19, 10, 2, "%"); fill(g, 27, 19, 1, 2, "^")
-    for x, y in ((25, 16), (29, 23), (16, 3), (26, 1), (14, 18)): fill(g, x, y, 2, 2, "%")
-    # paso a nivel entre la orilla este y el prado
-    fill(g, 33, 14, 1, 2, "p")
-    # ---- prado del este con la granja
-    fill(g, 34, 0, 18, 2, "T"); fill(g, 50, 0, 2, H, "T"); fill(g, 34, 26, 18, 2, "T")
-    fill(g, 34, 2, 2, 10, "T"); fill(g, 34, 18, 2, 8, "T")
-    fill(g, 34, 14, 18, 2, "p")                                            # camino hasta la salida este
-    fill(g, 42, 8, 2, 6, "p")                                              # desvío a la puerta de la granja
-    fill(g, 37, 8, 5, 1, "l"); fill(g, 44, 8, 5, 1, "l")                    # valla del jardín
-    fill(g, 37, 2, 1, 6, "k"); fill(g, 48, 2, 1, 6, "k")
-    fill(g, 37, 17, 8, 5, "g"); fill(g, 45, 10, 4, 3, "g"); fill(g, 37, 10, 4, 3, "g")
-    for x, y in ((46, 18), (44, 22), (38, 24)): fill(g, x, y, 2, 2, "T")
-    for x, y in ((39, 4), (46, 4), (41, 12), (48, 16), (36, 16), (43, 24)): g[y][x] = "f"
+    g = lienzo(44, 28)
+    # ---- oeste: desfiladero en tres terrazas que bajan hacia el sur y ocupan todo el ancho; entre una y otra solo
+    # hay la pared (2 casillas: labio arriba y sombra en la base), que cruza de lado a lado como un escalón
+    fill(g, 0, 0, 20, 28, "%")
+    fill(g, 0, 2, 20, 5, "p")                                             # terraza alta (filas 2-6)
+    fill(g, 0, 9, 20, 6, "p")                                             # terraza media (filas 9-14), a nivel del prado
+    fill(g, 0, 17, 20, 9, "p")                                            # terraza baja (filas 17-25)
+    fill(g, 15, 7, 1, 2, "^"); fill(g, 4, 15, 1, 2, "^")                  # escaleras talladas en las paredes
+    # el río baja de norte a sur y cae en cascada en cada pared
+    fill(g, 8, 0, 2, 2, "*"); fill(g, 8, 2, 2, 5, "~"); fill(g, 8, 7, 2, 2, "*"); fill(g, 8, 9, 2, 6, "~")
+    fill(g, 8, 15, 2, 2, "*"); fill(g, 8, 17, 2, 9, "~"); fill(g, 8, 26, 2, 2, "*")
+    fill(g, 8, 4, 2, 1, "="); fill(g, 8, 12, 2, 1, "="); fill(g, 8, 21, 2, 1, "=")
+    g[16][2] = "O"                                                        # boca de la cueva en la pared
+    # ---- este: terreno llano; vallas y setos llevan a la aduana de Ciudad Cultivo
+    fill(g, 20, 0, 24, 2, "T"); fill(g, 42, 0, 2, 28, "T"); fill(g, 20, 26, 24, 2, "T")
+    fill(g, 20, 14, 24, 2, "p")                                           # camino principal hasta la salida este
+    fill(g, 36, 13, 5, 4, "g")                                            # hierba densa justo antes de la salida
+    fill(g, 20, 13, 16, 1, "l"); fill(g, 22, 16, 20, 1, "A")              # el prado de abajo está más bajo
+    g[16][26] = "^"; g[16][37] = "^"                                      # escaleras para bajar al césped
+    g[13][23] = "p"; g[13][32] = "p"; g[13][33] = "p"
+    fill(g, 20, 2, 7, 11, ".")                                            # claro
+    fill(g, 20, 2, 2, 6, "T"); fill(g, 20, 16, 2, 10, "T")
+    fill(g, 19, 2, 1, 5, "!"); fill(g, 19, 17, 1, 9, "!")                # vallas en el borde de las terrazas, junto a los árboles
+    # casa con jardín vallado al noreste: la puerta queda en (32, 7)
+    fill(g, 27, 2, 1, 7, "k"); fill(g, 37, 2, 1, 7, "k"); fill(g, 27, 8, 11, 1, "l"); g[8][32] = "p"; g[8][33] = "p"
+    fill(g, 32, 9, 2, 4, "p")
+    fill(g, 24, 9, 3, 3, "g"); fill(g, 28, 9, 4, 2, "g"); fill(g, 34, 9, 4, 3, "g")   # franja de hierba al sur de la casa
+    # prado del sureste con hierba y árboles
+    fill(g, 26, 18, 8, 4, "g"); fill(g, 22, 23, 4, 3, "g")
+    for x, y in ((36, 18), (38, 22), (30, 22)): fill(g, x, y, 2, 2, "T")
+    for x, y in ((23, 3), (25, 10), (24, 21), (35, 23), (40, 20), (34, 17), (28, 24)): g[y][x] = "f"
+    # la zona de la casa está más alta que el camino: desnivel con escaleras en los dos accesos
+    fill(g, 20, 13, 22, 1, "A"); g[13][23] = "^"; g[13][32] = "^"; g[13][33] = "^"
+    fill(g, 20, 8, 2, 4, "T"); fill(g, 20, 12, 2, 1, "A")                # cerrada por el lado de la terraza media
     return g
 
 def normaliza(g):
@@ -151,7 +135,7 @@ def alcanzable(g, ini, solidos_extra=()):
 
 if __name__ == "__main__":
     out = {}
-    for nombre, f, ini, fin in (("R1", ruta1, (10, 33), (10, 0)), ("R2", ruta2, (1, 15), (38, 12)), ("R3", ruta3, (4, 23), (51, 14))):
+    for nombre, f, ini, fin in (("R1", ruta1, (10, 33), (10, 0)), ("R2", ruta2, (1, 15), (38, 12)), ("R3", ruta3, (2, 17), (43, 14))):
         g = f(); av = normaliza(g); vis = alcanzable(g, ini)
         print(nombre, len(g[0]), "x", len(g), "árboles desalineados:", av, "llega:", fin in vis, file=sys.stderr)
         if "--ver" in sys.argv:
