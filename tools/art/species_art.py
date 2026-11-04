@@ -101,15 +101,17 @@ ART = {
 }
 LEGENDARY = {"prion-sc", "viroid-cad", "sputnik-v", "ecoli-o157", "salmonella-typhimurium", "luca"}
 
-def icono_de(fr: Image.Image) -> Image.Image:
-    """Icono de 32 px a partir del sprite de frente (recortado a la figura y reducido sin perder el contorno)."""
+def icono_de(fr: Image.Image, n: int = 32) -> Image.Image:
+    """Icono de n px a partir del sprite de frente (recortado a la figura y reducido). A 32 px el borde se
+    binariza para que quede nítido; en HD (128 px) se conserva el suavizado."""
     import numpy as np
     a = np.array(fr); ys, xs = np.where(a[..., 3] > 0)
     fig = fr.crop((xs.min(), ys.min(), xs.max() + 1, ys.max() + 1))
-    k = 30 / max(fig.size)
+    k = (n - 2) / max(fig.size)
     s = fig.convert("RGBa").resize((max(1, round(fig.width * k)), max(1, round(fig.height * k))), Image.LANCZOS).convert("RGBA")
-    b = np.array(s); b[..., 3] = np.where(b[..., 3] > 110, 255, 0)
-    out = Image.new("RGBA", (32, 32)); out.alpha_composite(Image.fromarray(b), ((32 - s.width) // 2, 31 - s.height))
+    if n <= 32:
+        b = np.array(s); b[..., 3] = np.where(b[..., 3] > 110, 255, 0); s = Image.fromarray(b)
+    out = Image.new("RGBA", (n, n)); out.alpha_composite(s, ((n - s.width) // 2, n - 1 - s.height))
     return out
 
 def main():
@@ -153,7 +155,20 @@ def main():
         A.alpha_composite(fr, (x * C, y * C)); B.alpha_composite(bk, (x * C, y * C)); I.alpha_composite(strip, (x * 64, y * 32))
         index[i] = k
     A.save(at / "microos_frente.png"); B.save(at / "microos_espalda.png"); I.save(at / "microos_iconos.png")
-    json.dump({"cols": cols, "cell": C, "index": index}, open(at / "microos.json", "w"))
+    # versión HD (celdas de 320 px = 4×) de los Microos dibujados por el usuario: se ven sin reducir
+    UH = ROOT / "assets/sprites/microos_usuario_hd"
+    hd = [m["id"] for m in dex if (UH / f"{m['id']}_frente.png").exists()]
+    HC, HCOLS = 320, 8
+    hrows = max(1, (len(hd) + HCOLS - 1) // HCOLS)
+    AH = Image.new("RGBA", (HCOLS * HC, hrows * HC)); BH = Image.new("RGBA", (HCOLS * HC, hrows * HC)); IH = Image.new("RGBA", (HCOLS * 256, hrows * 128))
+    for k, i in enumerate(hd):
+        x, y = k % HCOLS, k // HCOLS
+        fr = Image.open(UH / f"{i}_frente.png").convert("RGBA"); bk = Image.open(UH / f"{i}_espalda.png").convert("RGBA")
+        AH.alpha_composite(fr, (x * HC, y * HC)); BH.alpha_composite(bk, (x * HC, y * HC))
+        ic = icono_de(fr, 128)
+        IH.alpha_composite(ic, (x * 256, y * 128)); IH.alpha_composite(ic.crop((0, 4, 128, 128)), (x * 256 + 128, y * 128))
+    AH.save(at / "microos_hd_frente.png"); BH.save(at / "microos_hd_espalda.png"); IH.save(at / "microos_hd_iconos.png")
+    json.dump({"cols": cols, "cell": C, "index": index, "hdCell": HC, "hdCols": HCOLS, "hd": {i: k for k, i in enumerate(hd)}}, open(at / "microos.json", "w"))
     print("OK", len(index), "Microos")
 
 if __name__ == "__main__":

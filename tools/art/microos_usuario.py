@@ -37,11 +37,14 @@ def figuras(path, rejilla):
     # piezas grandes (figuras); los rótulos son letras sueltas pequeñas y oscuras sobre una franja
     comps = []
     for k in range(1, n + 1):
-        if tam[k] < 60: continue
+        if tam[k] < 12: continue
         ys, xs = np.where(fl == k)
         # letras de los rótulos: piezas pequeñas casi negras
         tinta = ~fondo[ys, xs]
-        if tam[k] < 4000 and tinta.any() and (ys.max() - ys.min()) < 50 and (xs.max() - xs.min()) < 50 and f[ys, xs][tinta].sum(1).mean() < 420: continue
+        if tam[k] < 4000 and tinta.any() and (ys.max() - ys.min()) < 50 and (xs.max() - xs.min()) < 50:
+            px = f[ys, xs][tinta]
+            # letra: tinta oscura y poco saturada (azul marino); las burbujas y destellos son de colores vivos
+            if px.sum(1).mean() < 420 and (px.max(1) - px.min(1)).mean() < 70: continue
         comps.append(dict(k=k, x=xs.mean(), y=ys.mean(), x0=xs.min(), x1=xs.max() + 1, y0=ys.min(), y1=ys.max() + 1, n=tam[k]))
     H, W = fg.shape
     Y0, Y1 = min(q["y0"] for q in comps), max(q["y1"] for q in comps)       # zona con figuras
@@ -61,6 +64,16 @@ def figuras(path, rejilla):
                 out[(rejilla[r][c], lado)] = Image.fromarray(np.dstack([a[y0:y1, x0:x1], np.where(m, 255, 0).astype(np.uint8)]))
     return out
 
+CHD = 320          # celda HD (4× la del juego): se dibuja a su tamaño real, sin reducir el dibujo del usuario
+OUT_HD = ROOT / "assets/sprites/microos_usuario_hd"
+
+def a_celda_hd(im, k):
+    """Versión HD: misma composición que la de 80 px pero a 4×, con el borde suavizado (alfa parcial)."""
+    k4 = k * CHD / C
+    s = im.convert("RGBa").resize((max(1, round(im.width * k4)), max(1, round(im.height * k4))), Image.LANCZOS).convert("RGBA")
+    cel = Image.new("RGBA", (CHD, CHD)); cel.alpha_composite(s, ((CHD - s.width) // 2, CHD - 8 - s.height))
+    return cel
+
 def a_celda(im, k, alto_celda=C):
     s = im.convert("RGBa").resize((max(1, round(im.width * k)), max(1, round(im.height * k))), Image.LANCZOS).convert("RGBA")
     arr = np.array(s); arr[..., 3] = np.where(arr[..., 3] > 120, 255, 0)
@@ -69,13 +82,14 @@ def a_celda(im, k, alto_celda=C):
     return cel
 
 def main():
-    OUT.mkdir(parents=True, exist_ok=True)
+    OUT.mkdir(parents=True, exist_ok=True); OUT_HD.mkdir(parents=True, exist_ok=True)
     for lam, rejilla in LAMINAS.items():
         figs = figuras(SRC / lam, rejilla)
         k = MAXF / max(max(im.width, im.height) for im in figs.values())
         for (sp, lado), im in figs.items():
             if sp is None: continue
             a_celda(im, k).save(OUT / f"{sp}_{lado}.png")
+            a_celda_hd(im, k).save(OUT_HD / f"{sp}_{lado}.png")
         print("OK", lam, len(figs), "figuras")
 
 if __name__ == "__main__":

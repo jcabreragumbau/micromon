@@ -9,20 +9,33 @@ const V2 = process.argv.includes("--v2");
 const NOMBRE = V2 ? "Micromón V2" : "Micromón";
 /** Carpeta de un atlas: la de la V2 si esta versión tiene el suyo. */
 const dirAtlas = (f: string) => (V2 && existsSync(join(ROOT, "assets/atlas_v2", f)) ? "assets/atlas_v2" : "assets/atlas");
-const ATLAS = ["portada.jpg", "portada_fondo.jpg", ...["hierba", "bosque", "interior", "laboratorio", "gimnasio", "cueva", "invernadero", "casino", "torre", "hielo"].map((e) => `fondo_${e}.jpg`), "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd.webp", "props_hd.webp", "terreno_hd.webp", "medallas_hd.webp", "protas_intro.webp", "protas_espalda.webp", "mapa_region", "microos_frente.webp", "microos_espalda.webp", "microos_iconos.webp"];
+const ATLAS = ["portada.jpg", "portada_fondo.jpg", ...["hierba", "bosque", "interior", "laboratorio", "gimnasio", "cueva", "invernadero", "casino", "torre", "hielo"].map((e) => `fondo_${e}.jpg`), "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd.webp", "props_hd.webp", "terreno_hd.webp", "medallas_hd.webp", "protas_intro.webp", "protas_espalda.webp", "mapa_region", "microos_frente.webp", "microos_espalda.webp", "microos_iconos.webp", "microos_hd_frente.webp", "microos_hd_espalda.webp", "microos_hd_iconos.webp"];
 // WebP sin pérdida de los atlas HD grandes (idénticos al PNG, pero ocupan menos)
 const WEBP = ATLAS.filter((f) => f.endsWith(".webp")).map((f) => f.slice(0, -5));
 const conv = Bun.spawnSync(["python3", join(ROOT, "tools/art/a_webp.py"), ...(V2 ? ["--v2"] : []), ...WEBP]);
 if (conv.exitCode !== 0) { console.error(conv.stderr.toString()); process.exit(1); }
-const lines = ATLAS.map((f) => {
-  const [n, ext] = f.includes(".") ? f.split(".") : [f, "png"];
-  const mime = ext === "jpg" ? "image/jpeg" : ext === "webp" ? "image/webp" : "image/png";
-  return `  ${JSON.stringify(n)}: "data:${mime};base64,${readFileSync(join(ROOT, dirAtlas(`${n}.${ext}`), `${n}.${ext}`)).toString("base64")}",`;
-});
-// Música grabada (MP3) en un módulo aparte: no son imágenes.
+// Dos versiones del juego: «local» (todo incrustado en un único HTML, para abrirlo sin servidor y para las pruebas)
+// y «publicada» (las imágenes y la música van como archivos aparte junto a la página: el HTML no pasa del límite
+// de 16 MB y el arte se puede guardar a resolución completa).
+const PUB = join(ROOT, "dist", V2 ? "pub_v2" : "pub");
+mkdirSync(join(PUB, "a"), { recursive: true });
+const fuente = (f: string) => { const [n, ext] = f.includes(".") ? f.split(".") : [f, "png"]; return { n, ext, path: join(ROOT, dirAtlas(`${n}.${ext}`), `${n}.${ext}`) }; };
+const MIME: Record<string, string> = { jpg: "image/jpeg", webp: "image/webp", png: "image/png", mp3: "audio/mpeg" };
 const AUDIO: Record<string, string> = { entrenador: "combate_entrenador.mp3" };
-writeFileSync(join(ROOT, "src/game/assets_audio.ts"), `// Generado por tools/build_game.ts. No editar.\nexport default {\n${Object.entries(AUDIO).map(([k, f]) => `  ${JSON.stringify(k)}: "data:audio/mpeg;base64,${readFileSync(join(ROOT, "assets/audio", f)).toString("base64")}",`).join("\n")}\n};\n`);
-writeFileSync(join(ROOT, "src/game/assets_data.ts"), `// Generado por tools/build_game.ts. No editar.\nexport const V2 = ${V2};\nexport default {\n${lines.join("\n")}\n};\n`);
+function generarModulos(externo: boolean) {
+  const lines = ATLAS.map((f) => {
+    const { n, ext, path } = fuente(f);
+    if (externo) { writeFileSync(join(PUB, "a", `${n}.${ext}`), readFileSync(path)); return `  ${JSON.stringify(n)}: "a/${n}.${ext}",`; }
+    return `  ${JSON.stringify(n)}: "data:${MIME[ext]};base64,${readFileSync(path).toString("base64")}",`;
+  });
+  const audio = Object.entries(AUDIO).map(([k, f]) => {
+    const src = join(ROOT, "assets/audio", f);
+    if (externo) { writeFileSync(join(PUB, "a", f), readFileSync(src)); return `  ${JSON.stringify(k)}: "a/${f}",`; }
+    return `  ${JSON.stringify(k)}: "data:audio/mpeg;base64,${readFileSync(src).toString("base64")}",`;
+  });
+  writeFileSync(join(ROOT, "src/game/assets_audio.ts"), `// Generado por tools/build_game.ts. No editar.\nexport default {\n${audio.join("\n")}\n};\n`);
+  writeFileSync(join(ROOT, "src/game/assets_data.ts"), `// Generado por tools/build_game.ts. No editar.\nexport const V2 = ${V2};\nexport default {\n${lines.join("\n")}\n};\n`);
+}
 
 // V2: los metadatos JSON de los atlas también salen de assets/atlas_v2/
 const atlasV2 = { name: "atlas-v2", setup(b: any) {
@@ -31,9 +44,14 @@ const atlasV2 = { name: "atlas-v2", setup(b: any) {
     return { path: join(ROOT, dirAtlas(f), f) };
   });
 } };
-const res = await Bun.build({ entrypoints: [join(ROOT, "src/game/main.ts")], minify: { whitespace: true, syntax: true, identifiers: false }, target: "browser", plugins: V2 ? [atlasV2] : [] });
-if (!res.success) { console.error(res.logs); process.exit(1); }
-const js = await res.outputs[0].text();
+async function empaquetar(externo: boolean) {
+  generarModulos(externo);
+  const res = await Bun.build({ entrypoints: [join(ROOT, "src/game/main.ts")], minify: { whitespace: true, syntax: true, identifiers: false }, target: "browser", plugins: V2 ? [atlasV2] : [] });
+  if (!res.success) { console.error(res.logs); process.exit(1); }
+  return await res.outputs[0].text();
+}
+const js = await empaquetar(false);
+const jsPub = await empaquetar(true);
 const html = `<!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -98,7 +116,8 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;background:var(--ma
  <button id="select" data-key="select">SELECT</button><button id="start" data-key="start">START</button><button id="x2" data-speed="1">x2</button>
  <div id="ab"><button id="b-b" class="r" data-key="b">B</button><button id="b-a" class="r" data-key="a">A</button></div>
 </div>
-<script>${js.replaceAll("</script", "<\\/script")}</script>
+<script>${jsPub.replaceAll("</script", "<\\/script")}</script>
 `;
 writeFileSync(join(ROOT, "dist", SAL[1]), page);
-console.log(`dist/${SAL[1]}:`, (page.length / 1024).toFixed(0), "KB");
+writeFileSync(join(PUB, "index.html"), `<meta charset="utf-8">\n${page}`);   // copia para probar con un servidor local
+console.log(`dist/${SAL[1]}:`, (page.length / 1024).toFixed(0), "KB (+ archivos en", PUB.replace(ROOT + "/", "") + "/a)");

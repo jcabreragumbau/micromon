@@ -101,14 +101,20 @@ export class Gfx {
     this.ctx.drawImage(IMG.retratos, p * 64, 0, 64, 96, Math.round(x), Math.round(y), 64, 96);
   }
   microo(species: string, view: "frente" | "espalda", x: number, y: number, scale = 1, flipX = false) {
-    const i = MICRO.index[species] ?? 0;
     const C = MICRO.cell ?? 64;
-    const img = view === "frente" ? IMG.microos_frente : IMG.microos_espalda;
-    const sx = (i % MICRO.cols) * C, sy = Math.floor(i / MICRO.cols) * C;
+    // sprite HD del usuario (4×): se dibuja a su resolución real, con suavizado si se reduce
+    const h = MICRO.hd?.[species], hdImg = view === "frente" ? IMG.microos_hd_frente : IMG.microos_hd_espalda;
+    let img: CanvasImageSource, sx: number, sy: number, S: number;
+    if (h !== undefined && hdImg) { S = MICRO.hdCell!; img = hdImg; sx = (h % MICRO.hdCols!) * S; sy = Math.floor(h / MICRO.hdCols!) * S; }
+    else { const i = MICRO.index[species] ?? 0; S = C; img = view === "frente" ? IMG.microos_frente : IMG.microos_espalda; sx = (i % MICRO.cols) * C; sy = Math.floor(i / MICRO.cols) * C; }
+    const c = this.ctx;
+    c.save();
+    if (S !== C) { c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high"; }
     if (flipX) {
-      this.ctx.save(); this.ctx.translate(Math.round(x) + C * scale, Math.round(y)); this.ctx.scale(-1, 1);
-      this.ctx.drawImage(img, sx, sy, C, C, 0, 0, C * scale, C * scale); this.ctx.restore();
-    } else this.ctx.drawImage(img, sx, sy, C, C, Math.round(x), Math.round(y), C * scale, C * scale);
+      c.translate(Math.round(x) + C * scale, Math.round(y)); c.scale(-1, 1);
+      c.drawImage(img, sx, sy, S, S, 0, 0, C * scale, C * scale);
+    } else c.drawImage(img, sx, sy, S, S, Math.round(x), Math.round(y), C * scale, C * scale);
+    c.restore();
   }
   /** Medalla HD (size×size). Sin conseguir: silueta oscura. */
   medal(id: string, x: number, y: number, size: number, got = true) {
@@ -121,6 +127,12 @@ export class Gfx {
     c.restore();
   }
   icon(species: string, frame: number, x: number, y: number) {
+    const h = MICRO.hd?.[species];
+    if (h !== undefined && IMG.microos_hd_iconos) {
+      const c = this.ctx; c.save(); c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+      c.drawImage(IMG.microos_hd_iconos, (h % MICRO.hdCols!) * 256 + frame * 128, Math.floor(h / MICRO.hdCols!) * 128, 128, 128, Math.round(x), Math.round(y), 32, 32);
+      c.restore(); return;
+    }
     const i = MICRO.index[species] ?? 0;
     this.ctx.drawImage(IMG.microos_iconos, (i % MICRO.cols) * 64 + frame * 32, Math.floor(i / MICRO.cols) * 32, 32, 32, Math.round(x), Math.round(y), 32, 32);
   }

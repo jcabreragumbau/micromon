@@ -103,6 +103,11 @@ class Audio {
       const url = (FILES as Record<string, string>)[name];
       // sin fetch(): en algunos entornos (la página publicada) no se permite pedir data URL
       p = new Promise<AudioBuffer | null>((res) => {
+        if (!url.startsWith("data:")) {
+          // versión publicada: el MP3 es un archivo junto a la página
+          fetch(url).then((r) => r.arrayBuffer()).then((buf) => this.ctx!.decodeAudioData(buf, (b) => res(b), () => res(null))).catch(() => res(null));
+          return;
+        }
         try {
           const bin = atob(url.slice(url.indexOf(",") + 1)), bytes = new Uint8Array(bin.length);
           for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);

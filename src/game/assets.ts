@@ -13,7 +13,8 @@ export const IMG: Record<string, HTMLImageElement> = {};
 export const FONT = fontMeta as unknown as { cell: [number, number]; cols: number; height: number; glyphs: Record<string, [number, number]> };
 export const TILES = tilesMeta as Record<string, number>;
 export const CHARS = charMeta as { sheets: Record<string, number>; portraits: Record<string, number>; hdScale?: number; hd?: Record<string, number>; hdPortraits?: Record<string, number> };
-export const MICRO = microMeta as { cols: number; index: Record<string, number>; cell?: number };
+export const MICRO = microMeta as { cols: number; index: Record<string, number>; cell?: number;
+  /** Microos con sprite HD del usuario (celdas de hdCell px, 4× la del juego). */ hd?: Record<string, number>; hdCell?: number; hdCols?: number };
 
 export async function loadAssets(): Promise<void> {
   await Promise.all(Object.entries(DATA as Record<string, string>).map(([k, url]) => new Promise<void>((res, rej) => {
