@@ -20,7 +20,7 @@ const FIN = T(TITULO);
 type Fondo = (g: Gfx, t: number) => void;
 
 export class IntroCine implements Scene {
-  t = 0; esperando = true; private empezada = false; private espera = 0; private ow: Overworld | null = null; private owMap = "";
+  t = 0; esperando = true; private capaLogo: HTMLCanvasElement | null = null; private empezada = false; private espera = 0; private ow: Overworld | null = null; private owMap = "";
   constructor(public game: Game, public alAcabar: () => void) {}
 
   update(game: Game) {
@@ -131,23 +131,25 @@ export class IntroCine implements Scene {
   private logo(g: Gfx, s: number) {
     g.clear("#101014");
     for (let i = 0; i < 30; i++) g.rect((i * 71) % W, (i * 37 + s * 8) % H, 1, 1, "#404048");
-    // logotipo clásico en relieve blanco y negro: sombra negra, borde gris y letras blancas
-    const k = Math.min(1, s / 1.2), c = g.ctx, txt = "MICROMÓN", esc = 4.4 * (0.85 + 0.15 * k);
-    c.save(); c.globalAlpha = k; c.translate(W / 2, 50); c.scale(esc, esc);
-    const x = -g.measure(txt) / 2;
-    for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1], [1, 1], [2, 2]]) g.text(txt, x + dx * 0.6, dy * 0.6, "dark", false);
-    g.text(txt, x + 0.4, 0.4, "gray", false);
-    g.text(txt, x, 0, "white", false);
-    c.restore();
-    const sub = "EDICIÓN ESCHERICHIA";
-    g.alpha(Math.min(1, Math.max(0, (s - 1.5) / 1)), () => {
-      c.save(); c.translate(W / 2, 118); c.scale(1.6, 1.6);
-      g.text(sub, -g.measure(sub) / 2 + 0.6, 0.6, "dark", false); g.text(sub, -g.measure(sub) / 2, 0, "white", false);
-      c.restore();
-    });
-    // brillo que recorre el logotipo
-    const bx = ((s - 2) / 2) * 340 - 40;
-    if (s > 2 && s < 4) g.alpha(0.3, () => { c.fillStyle = "#ffffff"; c.beginPath(); c.moveTo(bx, 50); c.lineTo(bx + 14, 50); c.lineTo(bx - 6, 106); c.lineTo(bx - 20, 106); c.fill(); });
+    // logotipo del usuario: entra creciendo con un pequeño rebote
+    const c = g.ctx, k = Math.min(1, s / 0.6);
+    const esc = k < 1 ? 0.6 + 0.5 * k : 1 + 0.06 * Math.max(0, 1 - (s - 0.6) / 0.4) * Math.sin((s - 0.6) * 18);
+    const L = IMG.logo_micromon;
+    if (L) {
+      // capa propia del logotipo para que el brillo solo pase por encima de las letras
+      if (!this.capaLogo) { this.capaLogo = document.createElement("canvas"); this.capaLogo.width = L.width; this.capaLogo.height = L.height; }
+      const cl = this.capaLogo, x2 = cl.getContext("2d")!;
+      x2.globalCompositeOperation = "source-over"; x2.clearRect(0, 0, cl.width, cl.height); x2.drawImage(L, 0, 0);
+      if (s > 2 && s < 3.6) {
+        const bx = ((s - 2) / 1.6) * (cl.width + 400) - 200;
+        x2.globalCompositeOperation = "source-atop"; x2.globalAlpha = 0.45; x2.fillStyle = "#ffffff";
+        x2.beginPath(); x2.moveTo(bx, 0); x2.lineTo(bx + 90, 0); x2.lineTo(bx - 60, cl.height); x2.lineTo(bx - 150, cl.height); x2.fill();
+        x2.globalAlpha = 1;
+      }
+      const w = 224 * esc, h = (w * L.height) / L.width;
+      c.save(); c.globalAlpha = k; c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+      c.drawImage(cl, W / 2 - w / 2, 86 - h / 2, w, h); c.restore();
+    }
   }
   /** Panorámicas de los mapas (encuadres calculados con la planta actual de cada mapa, V1 o V2). */
   private panorama(g: Gfx, id: string, p: number, modo: "vertical" | "pueblo" | "montaña") {
@@ -213,14 +215,10 @@ export class IntroCine implements Scene {
       const sal = Math.abs(Math.sin(p * 14 + i * 1.3)) * 10;
       g.microo(sp, "frente", 18 + i * 78, H - 78 - sal, 0.85);
     });
-    if (p > 0.55) {
-      const a = Math.min(1, (p - 0.55) / 0.2), txt = "MICROMÓN";
-      g.alpha(a, () => {
-        c.save(); c.translate(W / 2, 22); c.scale(3, 3);
-        const x = -g.measure(txt) / 2;
-        for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1], [1, 1]]) g.text(txt, x + dx * 0.6, dy * 0.6, "dark", false);
-        g.text(txt, x, 0, "white", false); c.restore();
-      });
+    if (p > 0.55 && IMG.logo_micromon) {
+      const a = Math.min(1, (p - 0.55) / 0.2), w = 150, h = (w * IMG.logo_micromon.height) / IMG.logo_micromon.width;
+      c.save(); c.globalAlpha = a; c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+      c.drawImage(IMG.logo_micromon, W / 2 - w / 2, 4, w, h); c.restore();
     }
     if (p > 0.93) g.alpha((p - 0.93) / 0.07, () => g.rect(0, 0, W, H, "#ffffff"));
   }
