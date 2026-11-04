@@ -222,5 +222,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Vídeo de introducción: las panorámicas calculan el encuadre con la planta actual de cada mapa (V1 o V2): Ruta 1 centrada en el camino de sur a norte, Ciudad Petri a lo largo de la calle del gimnasio y Ruta 2 de la entrada oeste a la cueva.
 
+- Introducción sincronizada con la canción del título del usuario (`assets/audio/titulo.mp3`; original en `assets/reference/audio/`): la imagen sigue a la posición de la canción (`audio.filePos`), cortes en 7, 22 (golpe y logotipo), 33-73 (mapas, protagonistas e iniciales), 73-81,5 (servidores, durante el puente) y 81,5-94 (final con los protagonistas, los iniciales y el logotipo); a los 94 s, pantalla de título, donde la canción sigue y al acabar repite su tramo tranquilo (104,4-155,4 s). START salta al segundo 94 de la canción.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

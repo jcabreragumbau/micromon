@@ -13,7 +13,7 @@ export class TitleScene implements Scene {
   t = 0; busy = false;
   update(game: Game) {
     this.t++;
-    if (this.t === 1) audio.music("tema");
+    if (this.t === 1) audio.music("titulo");          // sigue la canción de la introducción (o empieza en el título)
     if (this.busy) return;
     if (game.input.pressed("a") || game.input.pressed("start")) { this.busy = true; this.menu(game).finally(() => (this.busy = false)); }
   }

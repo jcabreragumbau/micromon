@@ -60,7 +60,9 @@ function parse(s: string): [number | null, number][] {
 }
 const freq = (midi: number) => 440 * Math.pow(2, (midi - 69) / 12);
 
-const FILE_VOL: Record<string, number> = { entrenador: 0.55 };
+const FILE_VOL: Record<string, number> = { entrenador: 0.55, titulo: 0.6 };
+/** Temas grabados que no repiten entero: al acabar vuelven a este tramo [inicio, fin] en segundos. */
+const FILE_LOOP: Record<string, [number, number]> = { titulo: [104.4, 155.4] };
 
 class Audio {
   ctx: AudioContext | null = null;
@@ -177,13 +179,19 @@ class Audio {
     this.pad("sawtooth", 41.2, at, 3, 0.12, dest, 180);
   }
   /** Cambia la música (no la reinicia si ya suena la misma). */
-  music(name: string | undefined) {
+  /** Momento (ctx.currentTime) en que empezó a sonar el segundo 0 del tema grabado actual; null si aún no suena. */
+  private fileStart: number | null = null;
+  /** Segundos de reproducción del tema grabado actual (sin contar el bucle); null si aún no suena. */
+  filePos(): number | null { return this.ctx && this.fileStart !== null ? this.ctx.currentTime - this.fileStart : null; }
+  /** Cambia la música (no la reinicia si ya suena la misma, salvo que se pida un punto de inicio). */
+  music(name: string | undefined, desde?: number) {
     const n = name && (T[name] || (FILES as Record<string, string>)[name]) ? name : "ruta";
-    if (n === this.current) return;
+    if (n === this.current && desde === undefined) return;
     this.current = n;
     this.gen++;
     if (this.timer !== null) { clearInterval(this.timer); this.timer = null; }
     this.killBus();
+    this.fileStart = null;
     if (!this.ctx || !this.musicOn) return;
     const gen = this.gen;
     if ((FILES as Record<string, string>)[n]) {
@@ -193,7 +201,13 @@ class Audio {
       this.loadFile(n).then((buf) => {
         if (!buf) { this.fileState = "error"; return; }
         if (gen !== this.gen || !this.ctx) return;
-        const src = this.ctx.createBufferSource(); src.buffer = buf; src.loop = true; src.connect(bus); src.start(); this.src = src;
+        const src = this.ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+        const lp = FILE_LOOP[n];
+        if (lp) { src.loopStart = lp[0]; src.loopEnd = Math.min(lp[1], buf.duration); }
+        src.connect(bus);
+        const off = Math.max(0, Math.min(buf.duration - 0.1, desde ?? 0));
+        src.start(0, off); this.src = src;
+        this.fileStart = this.ctx.currentTime - off;
         this.fileState = "sonando";
       });
       return;
@@ -222,7 +236,7 @@ class Audio {
     schedule();
     this.timer = setInterval(schedule, 250) as unknown as number;
   }
-  stopMusic() { this.gen++; if (this.timer !== null) clearInterval(this.timer); this.timer = null; this.current = ""; this.killBus(); }
+  stopMusic() { this.fileStart = null; this.gen++; if (this.timer !== null) clearInterval(this.timer); this.timer = null; this.current = ""; this.killBus(); }
   /** Efectos cortos. */
   sfx(kind: "blip" | "ok" | "bump" | "hit" | "faint" | "ball" | "capture" | "levelup" | "heal" | "door") {
     if (!this.ctx || !this.sfxOn) return;

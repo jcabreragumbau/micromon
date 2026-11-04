@@ -21,7 +21,7 @@ const PUB = join(ROOT, "dist", V2 ? "pub_v2" : "pub");
 mkdirSync(join(PUB, "a"), { recursive: true });
 const fuente = (f: string) => { const [n, ext] = f.includes(".") ? f.split(".") : [f, "png"]; return { n, ext, path: join(ROOT, dirAtlas(`${n}.${ext}`), `${n}.${ext}`) }; };
 const MIME: Record<string, string> = { jpg: "image/jpeg", webp: "image/webp", png: "image/png", mp3: "audio/mpeg" };
-const AUDIO: Record<string, string> = { entrenador: "combate_entrenador.mp3" };
+const AUDIO: Record<string, string> = { entrenador: "combate_entrenador.mp3", titulo: "titulo.mp3" };
 function generarModulos(externo: boolean) {
   const lines = ATLAS.map((f) => {
     const { n, ext, path } = fuente(f);

@@ -1,4 +1,6 @@
-// Secuencia de introducción (antes de la pantalla de título), sincronizada con la música.
+// Secuencia de introducción (antes de la pantalla de título), sincronizada con la canción del título
+// (assets/audio/titulo.mp3): la imagen sigue a la posición de la canción. Los tiempos de abajo son de la V anterior;
+// los vigentes están en draw().
 // 00:00 avisos legales · 00:07 logotipo de Jordi Freak · 00:22 logotipo de Micromón con la fanfarria ·
 // 00:33 ruta · 00:39 pueblo con el Centro · 00:48 zona montañosa · 00:54-01:16 protagonistas e iniciales ·
 // 01:16 sala de servidores de la Unidad: siluetas de Urtaza, Barbadilla y Casillas · 01:30 fundido a negro y título.
@@ -11,12 +13,14 @@ import { Overworld } from "./overworld";
 
 const S = 60;                         // fotogramas por segundo
 const T = (s: number) => Math.round(s * S);
-const FIN = T(91);
+/** Segundo de la canción en que aparece la pantalla de título. */
+const TITULO = 94;
+const FIN = T(TITULO);
 
 type Fondo = (g: Gfx, t: number) => void;
 
 export class IntroCine implements Scene {
-  t = 0; esperando = true; private ow: Overworld | null = null; private owMap = "";
+  t = 0; esperando = true; private empezada = false; private espera = 0; private ow: Overworld | null = null; private owMap = "";
   constructor(public game: Game, public alAcabar: () => void) {}
 
   update(game: Game) {
@@ -25,15 +29,17 @@ export class IntroCine implements Scene {
       if (["a", "b", "start", "up", "down", "left", "right"].some((k) => game.input.pressed(k as "a"))) { this.esperando = false; audio.unlock(); }
       return;
     }
-    if (game.input.pressed("start")) { this.acabar(); return; }
-    const t = this.t++;
-    if (t === T(7)) audio.music("intro_brillo");
-    if (t === T(22)) audio.music("tema");
-    if (t === T(76)) audio.music("tetrico");
-    if (t >= FIN) this.acabar();
+    if (game.input.pressed("start")) { audio.music("titulo", TITULO); this.acabar(); return; }
+    // la imagen sigue a la canción (si suena); si no hay audio, a 60 fotogramas por segundo
+    if (!this.empezada) { audio.music("titulo", 0); this.empezada = true; }
+    const pos = audio.filePos();
+    if (pos !== null) this.t = Math.round(pos * S);
+    else if (audio.fileState === "cargando" && this.espera++ < 120) return;      // espera (2 s como mucho) a que cargue
+    else this.t++;
+    if (this.t >= FIN) this.acabar();
     if (this.ow) this.ow.animate();
   }
-  private acabar() { if (this.t < 0) return; this.t = -1; audio.stopMusic(); this.alAcabar(); }
+  private acabar() { if (this.t < 0) return; this.t = -1; this.alAcabar(); }        // la canción sigue en el título
 
   private mapa(id: string): Overworld {
     if (!this.ow || this.owMap !== id) { this.ow = new Overworld(this.game); this.ow.vista(id); this.owMap = id; }
@@ -50,22 +56,26 @@ export class IntroCine implements Scene {
     const tramo = (a: number, b: number) => s >= a && s < b;
     const prog = (a: number, b: number) => Math.min(1, Math.max(0, (s - a) / (b - a)));
     // fundido negro en los cortes (0,35 s a cada lado)
-    const cortes = [7, 22, 33, 39, 48, 54, 58, 61, 65, 69, 72, 76];
+    const cortes = [7, 33, 39, 45, 51, 55, 58.5, 62.5, 66, 69.5, 73, 81.5];
     const fundido = Math.max(0, ...cortes.map((c) => 1 - Math.abs(s - c) / 0.35));
 
+    // tiempos ajustados a la canción del título: entrada suave (0-17), silencio, golpe y tema a los 22 s, puente
+    // tranquilo a los 77 s, vuelta con fuerza a los 81,5 s y pantalla de título a los 94 s
     if (tramo(0, 7)) this.legal(g, s);
-    else if (tramo(7, 22)) this.jordiFreak(g, s - 7);
+    else if (tramo(7, 18)) this.jordiFreak(g, (s - 7) * 15 / 11);
+    else if (tramo(18, 22)) g.clear("#000");
     else if (tramo(22, 33)) this.logo(g, s - 22);
     else if (tramo(33, 39)) this.panorama(g, "ruta-1", prog(33, 39), "vertical");
-    else if (tramo(39, 48)) this.panorama(g, "ciudad-petri", prog(39, 48), "pueblo");
-    else if (tramo(48, 54)) this.panorama(g, "ruta-2", prog(48, 54), "montaña");
-    else if (tramo(54, 58)) this.retrato(g, cielo, "protagonista", prog(54, 58), "camina");
-    else if (tramo(58, 61)) this.inicial(g, prado, "synechoc", prog(58, 61), ["protagonista"], "corre");
-    else if (tramo(61, 65)) this.retrato(g, cielo, "protagonista-chica", prog(61, 65), "camina");
-    else if (tramo(65, 69)) this.inicial(g, brasas, "butyricum", prog(65, 69), ["protagonista-chica"], "salta");
-    else if (tramo(69, 72)) this.pareja(g, prog(69, 72));
-    else if (tramo(72, 76)) this.inicial(g, burbujas, "paramec", prog(72, 76), ["protagonista", "protagonista-chica"], "saltitos");
-    else if (tramo(76, 90)) this.servidor(g, s - 76);
+    else if (tramo(39, 45)) this.panorama(g, "ciudad-petri", prog(39, 45), "pueblo");
+    else if (tramo(45, 51)) this.panorama(g, "ruta-2", prog(45, 51), "montaña");
+    else if (tramo(51, 55)) this.retrato(g, cielo, "protagonista", prog(51, 55), "camina");
+    else if (tramo(55, 58.5)) this.inicial(g, prado, "synechoc", prog(55, 58.5), ["protagonista"], "corre");
+    else if (tramo(58.5, 62.5)) this.retrato(g, cielo, "protagonista-chica", prog(58.5, 62.5), "camina");
+    else if (tramo(62.5, 66)) this.inicial(g, brasas, "butyricum", prog(62.5, 66), ["protagonista-chica"], "salta");
+    else if (tramo(66, 69.5)) this.pareja(g, prog(66, 69.5));
+    else if (tramo(69.5, 73)) this.inicial(g, burbujas, "paramec", prog(69.5, 73), ["protagonista", "protagonista-chica"], "saltitos");
+    else if (tramo(73, 81.5)) this.servidor(g, (s - 73) * 14 / 8.5);
+    else if (tramo(81.5, TITULO)) this.final(g, prog(81.5, TITULO));
     else g.clear("#000");
     if (fundido > 0) g.alpha(Math.min(1, fundido), () => g.rect(0, 0, W, H, "#000"));
   }
@@ -190,6 +200,29 @@ export class IntroCine implements Scene {
     [["protagonista", W / 2 - 112], ["protagonista-chica", W / 2 - 4]].forEach(([q, x]) => {
       c.save(); c.translate(Number(x), H - 96 * 1.6 + 6); c.scale(1.6, 1.6); figura(g, String(q), Math.floor(this.t / 9) % 4); c.restore();
     });
+  }
+  /** Final (vuelta del tema): los dos protagonistas avanzan con los tres iniciales y aparece el logotipo. */
+  private final(g: Gfx, p: number) {
+    cielo(g, this.t);
+    const c = g.ctx, f = Math.floor(this.t / 9) % 4;
+    const k = 1.25 + p * 0.25;
+    [["protagonista", W / 2 - 100], ["protagonista-chica", W / 2 + 20]].forEach(([q, x]) => {
+      c.save(); c.translate(Number(x) - (k - 1.25) * 40, H - 96 * k + 2); c.scale(k, k); figura(g, String(q), f); c.restore();
+    });
+    (["synechoc", "butyricum", "paramec"] as const).forEach((sp, i) => {
+      const sal = Math.abs(Math.sin(p * 14 + i * 1.3)) * 10;
+      g.microo(sp, "frente", 18 + i * 78, H - 78 - sal, 0.85);
+    });
+    if (p > 0.55) {
+      const a = Math.min(1, (p - 0.55) / 0.2), txt = "MICROMÓN";
+      g.alpha(a, () => {
+        c.save(); c.translate(W / 2, 22); c.scale(3, 3);
+        const x = -g.measure(txt) / 2;
+        for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1], [1, 1]]) g.text(txt, x + dx * 0.6, dy * 0.6, "dark", false);
+        g.text(txt, x, 0, "white", false); c.restore();
+      });
+    }
+    if (p > 0.93) g.alpha((p - 0.93) / 0.07, () => g.rect(0, 0, W, H, "#ffffff"));
   }
   // ---------------------------------------------------------------- 4. la sala de servidores de la Unidad
   // Racks en marcha con LED verdes y amarillos; las siluetas de Urtaza, Barbadilla y Casillas
