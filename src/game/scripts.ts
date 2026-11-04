@@ -221,7 +221,13 @@ const SCRIPTS: Record<string, Script> = {
     if (out.outcome === "lose") await game.say("{rival}: ¡Ja! ¡Mi cepa es más virulenta! Ya aprenderás.");
     s.flags.rival1 = true;
     await game.say("{rival}: Me voy a la Ruta 1 a aislar más Microos. ¡Nos vemos, {nombre}!");
-    if (rival) { await world.walkNpc(rival, 0, 3); }
+    // sale por la puerta del laboratorio (alfombra en x 5-6, fila 9): baja, va hacia la puerta y sale
+    if (rival) {
+      await world.walkNpc(rival, 0, 1);
+      await world.walkNpc(rival, 3, Math.max(0, 5 - rival.x));
+      await world.walkNpc(rival, 0, Math.max(0, 9 - rival.y));
+      audio.sfx("door");
+    }
     world.refreshNpcs();
     await SCRIPTS.darMicrodex(game, world);
   },

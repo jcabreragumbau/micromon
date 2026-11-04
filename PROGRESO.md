@@ -218,5 +218,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Publicación con archivos aparte: `build_game.ts` genera la versión local (`dist/index.html`, todo incrustado; para pruebas) y la publicada (`dist/micromon.html` de ~0,7 MB + imágenes y música en `dist/pub/a/`; V2 en `dist/pub_v2/a/`), que se publica con `files` {"a/<archivo>": "dist/pub/a/<archivo>"}. Sin límite práctico de tamaño. Microos del usuario en HD: `microos_usuario.py` guarda también celdas de 320 px (`assets/sprites/microos_usuario_hd/`, sin binarizar el borde y conservando los adornos pequeños) y `species_art.py` crea `microos_hd_frente/espalda/iconos`; el juego los dibuja a resolución real. Música de entrenador de nuevo a calidad original.
 
+- Koch sale del laboratorio andando hasta la puerta (baja, va a la alfombra y sale) en lugar de quedarse en una esquina; en el vídeo de introducción el chico también avanza caminando.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

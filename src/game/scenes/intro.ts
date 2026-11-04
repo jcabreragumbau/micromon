@@ -59,7 +59,7 @@ export class IntroCine implements Scene {
     else if (tramo(33, 39)) this.panorama(g, "ruta-1", prog(33, 39), "vertical");
     else if (tramo(39, 48)) this.panorama(g, "ciudad-petri", prog(39, 48), "pueblo");
     else if (tramo(48, 54)) this.panorama(g, "ruta-2", prog(48, 54), "montaña");
-    else if (tramo(54, 58)) this.retrato(g, cielo, "protagonista", prog(54, 58), "pulgar");
+    else if (tramo(54, 58)) this.retrato(g, cielo, "protagonista", prog(54, 58), "camina");
     else if (tramo(58, 61)) this.inicial(g, prado, "synechoc", prog(58, 61), ["protagonista"], "corre");
     else if (tramo(61, 65)) this.retrato(g, cielo, "protagonista-chica", prog(61, 65), "camina");
     else if (tramo(65, 69)) this.inicial(g, brasas, "butyricum", prog(65, 69), ["protagonista-chica"], "salta");
