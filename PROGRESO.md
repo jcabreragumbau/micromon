@@ -220,5 +220,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Koch sale del laboratorio andando hasta la puerta (baja, va a la alfombra y sale) en lugar de quedarse en una esquina; en el vídeo de introducción el chico también avanza caminando.
 
+- Vídeo de introducción: las panorámicas calculan el encuadre con la planta actual de cada mapa (V1 o V2): Ruta 1 centrada en el camino de sur a norte, Ciudad Petri a lo largo de la calle del gimnasio y Ruta 2 de la entrada oeste a la cueva.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

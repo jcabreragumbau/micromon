@@ -139,12 +139,25 @@ export class IntroCine implements Scene {
     const bx = ((s - 2) / 2) * 340 - 40;
     if (s > 2 && s < 4) g.alpha(0.3, () => { c.fillStyle = "#ffffff"; c.beginPath(); c.moveTo(bx, 50); c.lineTo(bx + 14, 50); c.lineTo(bx - 6, 106); c.lineTo(bx - 20, 106); c.fill(); });
   }
+  /** Panorámicas de los mapas (encuadres calculados con la planta actual de cada mapa, V1 o V2). */
   private panorama(g: Gfx, id: string, p: number, modo: "vertical" | "pueblo" | "montaña") {
-    const ow = this.mapa(id), mw = ow.map.w * 16, mh = ow.map.h * 16;
+    const ow = this.mapa(id), m = ow.map, mw = m.w * 16, mh = m.h * 16;
     const e = p * p * (3 - 2 * p);
-    if (modo === "vertical") ow.debugCam = [Math.min(0, (mw - W) / 2), (mh - H) * (1 - e)];
-    else if (modo === "pueblo") ow.debugCam = [(mw - W) * e, Math.max(0, Math.min(mh - H, 9 * 16))];
-    else ow.debugCam = [Math.min(0, (mw - W) / 2), (mh - H) * (1 - e) * 0.7];
+    const cx = (x: number) => Math.max(0, Math.min(mw - W, x)), cy = (y: number) => Math.max(0, Math.min(mh - H, y));
+    if (modo === "vertical") {
+      // la ruta de sur a norte, centrada en el camino
+      ow.debugCam = [cx((mw - W) / 2), cy((mh - H) * (1 - e))];
+    } else if (modo === "pueblo") {
+      // recorre la calle del gimnasio de oeste a este, con el gimnasio y la Incubadora a la vista
+      const gym = (m.props ?? []).find((q) => q.sprite === "gimnasio") ?? (m.props ?? [])[0];
+      const yBase = gym ? (gym.y + gym.h) * 16 : mh / 2;
+      ow.debugCam = [cx((mw - W) * (0.1 + 0.8 * e)), cy(yBase - H + 40)];
+    } else {
+      // ruta de montaña: de la entrada oeste a la cueva del este, por el nivel bajo y el desnivel
+      const cueva = m.warps.find((w) => w.to === "monte-micelio");
+      const yC = cueva ? cueva.y * 16 : mh / 2;
+      ow.debugCam = [cx((mw - W) * e), cy(yC - H / 2 + 8)];
+    }
     ow.draw(g, this.game);
   }
   // ---------------------------------------------------------------- 3. protagonistas e iniciales
