@@ -101,6 +101,17 @@ ART = {
 }
 LEGENDARY = {"prion-sc", "viroid-cad", "sputnik-v", "ecoli-o157", "salmonella-typhimurium", "luca"}
 
+def icono_de(fr: Image.Image) -> Image.Image:
+    """Icono de 32 px a partir del sprite de frente (recortado a la figura y reducido sin perder el contorno)."""
+    import numpy as np
+    a = np.array(fr); ys, xs = np.where(a[..., 3] > 0)
+    fig = fr.crop((xs.min(), ys.min(), xs.max() + 1, ys.max() + 1))
+    k = 30 / max(fig.size)
+    s = fig.convert("RGBa").resize((max(1, round(fig.width * k)), max(1, round(fig.height * k))), Image.LANCZOS).convert("RGBA")
+    b = np.array(s); b[..., 3] = np.where(b[..., 3] > 110, 255, 0)
+    out = Image.new("RGBA", (32, 32)); out.alpha_composite(Image.fromarray(b), ((32 - s.width) // 2, 31 - s.height))
+    return out
+
 def main():
     dex = json.load(open(ROOT / "data/microdex.json", encoding="utf-8"))
     sp = {s["id"]: s for s in json.load(open(ROOT / "data/species.json", encoding="utf-8"))}
@@ -131,6 +142,11 @@ def main():
             fr = draw(i, m["types"], st, ms, fam, P, 80, True, **kw).image()
             bk = back_view(draw(i, m["types"], st, ms, fam, P, 80, False, **kw).image())
             ic = draw(i, m["types"], st, ms, fam, P, 32, True, **kw).image()
+        # sprites dibujados por el usuario (tools/art/microos_usuario.py) en lugar de los generados
+        U = ROOT / "assets/sprites/microos_usuario"
+        if (U / f"{i}_frente.png").exists():
+            fr = Image.open(U / f"{i}_frente.png").convert("RGBA"); bk = Image.open(U / f"{i}_espalda.png").convert("RGBA")
+            ic = icono_de(fr)
         strip = Image.new("RGBA", (64, 32)); strip.alpha_composite(ic, (0, 0)); strip.alpha_composite(ic.crop((0, 1, 32, 32)), (32, 0))
         fr.save(out / f"{i}_frente.png"); bk.save(out / f"{i}_espalda.png"); strip.save(out / f"{i}_icono.png")
         x, y = (k % cols), (k // cols)

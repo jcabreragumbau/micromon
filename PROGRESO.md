@@ -206,5 +206,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Vídeo de introducción: las escenas de los protagonistas usan sus figuras de cuerpo entero (atlas protas_intro), que caminan con sus 4 fotogramas al presentarse la chica y en la escena de la pareja; también en las siluetas de los iniciales.
 
+- Sprites de los iniciales y sus evoluciones dibujados por el usuario (`assets/reference/microos/iniciales.png`): `python3 tools/art/microos_usuario.py` → `assets/sprites/microos_usuario/`, que `species_art.py` usa en lugar de los generados (frente, espalda e icono). Para más láminas, añadirlas a `LAMINAS`.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
