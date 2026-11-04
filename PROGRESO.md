@@ -208,5 +208,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Sprites de los iniciales y sus evoluciones dibujados por el usuario (`assets/reference/microos/iniciales.png`): `python3 tools/art/microos_usuario.py` → `assets/sprites/microos_usuario/`, que `species_art.py` usa en lugar de los generados (frente, espalda e icono). Para más láminas, añadirlas a `LAMINAS`.
 
+- Sprites del usuario para las líneas 4-8 (Mucorín, Griseus, Sacchari, Epidermi, Navicula y evoluciones; `assets/reference/microos/lineas_4_8.png`). Los atlas de Microos pasan a WebP sin pérdida para seguir por debajo de 16 MB (V1 ~15,7 MB).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

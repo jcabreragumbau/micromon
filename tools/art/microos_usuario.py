@@ -17,6 +17,8 @@ C, MAXF = 80, 76
 
 LAMINAS = {
     "iniciales.png": [["synechoc", "anabaen", "spirulmax"], ["butyricum", "acetobuty", "thermocel"], ["paramec", "vorticel", "stentorox"]],
+    "lineas_4_8.png": [["mucorin", "rhizopupa", "pilobolus"], ["griseus", "coelicol", "avermitil"], ["sacchari", "pastorian", "pichiamax"],
+                       ["epidermi", "aureus", None], ["navicula", "pinnularia", None]],
 }
 
 def figuras(path, rejilla):
@@ -33,14 +35,16 @@ def figuras(path, rejilla):
         ys, xs = np.where(fl == k)
         # letras de los rótulos: piezas pequeñas casi negras
         tinta = ~fondo[ys, xs]
-        if tam[k] < 4000 and tinta.any() and f[ys, xs][tinta].sum(1).mean() < 260 and (ys.max() - ys.min()) < 50: continue
+        if tam[k] < 4000 and tinta.any() and (ys.max() - ys.min()) < 50 and (xs.max() - xs.min()) < 50 and f[ys, xs][tinta].sum(1).mean() < 420: continue
         comps.append(dict(k=k, x=xs.mean(), y=ys.mean(), x0=xs.min(), x1=xs.max() + 1, y0=ys.min(), y1=ys.max() + 1, n=tam[k]))
     H, W = fg.shape
+    Y0, Y1 = min(q["y0"] for q in comps), max(q["y1"] for q in comps)       # zona con figuras
     filas, cols = len(rejilla), len(rejilla[0])
     out = {}
     for r in range(filas):
         for c in range(cols):
-            celda = [q for q in comps if int(q["y"] / (H / filas)) == r and int(q["x"] / (W / cols)) == c]
+            if rejilla[r][c] is None: continue
+            celda = [q for q in comps if min(filas - 1, int((q["y"] - Y0) / ((Y1 - Y0) / filas))) == r and int(q["x"] / (W / cols)) == c]
             cuerpo = celda
             xm = c * W / cols + W / cols / 2
             for lado, sel in (("frente", [q for q in cuerpo if q["x"] < xm]), ("espalda", [q for q in cuerpo if q["x"] >= xm])):
@@ -63,6 +67,7 @@ def main():
         figs = figuras(SRC / lam, rejilla)
         k = MAXF / max(max(im.width, im.height) for im in figs.values())
         for (sp, lado), im in figs.items():
+            if sp is None: continue
             a_celda(im, k).save(OUT / f"{sp}_{lado}.png")
         print("OK", lam, len(figs), "figuras")
 
