@@ -345,7 +345,7 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.npc({ id: "salazar", x: 24, y: 4, sprite: "salazar", dir: 0, script: "salazar", hideIf: "salazar1", solid: true });
   b.npc({ id: "disco-duro", x: 25, y: 4, sprite: "@tile:disco_duro", script: "discoDuro", hideIf: "disco", solid: true });
   b.warp({ x: 14, y: 23, w: 1, to: "ruta-2", tx: 38, ty: 12, dir: 0 });
-  b.warp({ x: 24, y: 0, w: 2, to: "ruta-3", tx: 2, ty: 17, dir: 0 });
+  b.warp({ x: 24, y: 0, w: 2, to: "ruta-3", tx: 4, ty: 23, dir: 0 });
   b.encounters([
     { sp: "roqueforti", min: 12, max: 15, w: 20 }, { sp: "niger", min: 13, max: 15, w: 16 }, { sp: "mucorin", min: 12, max: 14, w: 14 },
     { sp: "rhizopupa", min: 13, max: 15, w: 12 }, { sp: "bacteroid", min: 12, max: 14, w: 12 }, { sp: "thermus", min: 13, max: 15, w: 10 },
@@ -358,61 +358,64 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
 // Empieza en la boca de la cueva del Monte Micelio (terraza baja, oeste): se sube a la terraza media por la escalera,
 // se cruza el río por el puente y se sale al prado del este hasta la aduana de Ciudad Cultivo. La terraza alta es opcional.
 {
-  const b = new MapBuilder("ruta-3", "Ruta 3", 44, 28);
+  // Ruta 3: montaña escalonada con el río que baja desde arriba (cascada), lago con islote y dos puentes largos,
+  // escaleras en las paredes y la boca de la cueva del Monte Micelio abajo a la izquierda; al este, el prado con la
+  // granja. Plano en tools/rutas/rutas_v2.py (ruta3).
+  const b = new MapBuilder("ruta-3", "Ruta 3", 52, 28);
   b.ascii([
-    "%%%%%%%%**%%%%%%%%%%TTTTTTTTTTTTTTTTTTTTTTTT",
-    "%%%%%%%%**%%%%%%%%%%TTTTTTTTTTTTTTTTTTTTTTTT",
-    "pppppppp~~ppppppppp!TT.....k.........k....TT",
-    "pppppppp~~ppppppppp!TT.f...k.........k....TT",
-    "pppppppp==ppppppppp!TT.....k.........k....TT",
-    "pppppppp~~ppppppppp!TT.....k.........k....TT",
-    "pppppppp~~ppppppppp!TT.....k.........k....TT",
-    "%%%%%%%%**%%%%%^%%%%TT.....k.........k....TT",
-    "%%%%%%%%**%%%%%^%%%%TT.....lllllppllll....TT",
-    "pppppppp~~ppppppppppTT..ggg.ggggppgggg....TT",
-    "pppppppp~~ppppppppppTT..gfg.ggggppgggg....TT",
-    "pppppppp~~ppppppppppTT..ggg.....ppgggg....TT",
-    "pppppppp==ppppppppppAA..........pp........TT",
-    "pppppppp~~ppppppppppAAA^AAAAAAAA^^AAAAAAAATT",
-    "pppppppp~~ppppppppppppppppppppppppppgggggppp",
-    "%%%%^%%%**%%%%%%%%%%ppppppppppppppppgggggppp",
-    "%%O%^%%%**%%%%%%%%%%TTAAAA^AAAAAAAAAA^AAAATT",
-    "pppppppp~~ppppppppp!TT............f.......TT",
-    "pppppppp~~ppppppppp!TT....gggggggg..TT....TT",
-    "pppppppp~~ppppppppp!TT....gggggggg..TT....TT",
-    "pppppppp~~ppppppppp!TT....gggggggg......f.TT",
-    "pppppppp==ppppppppp!TT..f.gggggggg........TT",
-    "pppppppp~~ppppppppp!TT........TT......TT..TT",
-    "pppppppp~~ppppppppp!TTgggg....TT...f..TT..TT",
-    "pppppppp~~ppppppppp!TTgggg..f.............TT",
-    "pppppppp~~ppppppppp!TTgggg................TT",
-    "%%%%%%%%**%%%%%%%%%%TTTTTTTTTTTTTTTTTTTTTTTT",
-    "%%%%%%%%**%%%%%%%%%%TTTTTTTTTTTTTTTTTTTTTTTT",
+    "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%TTTTTTTTTTTTTTTTTT",
+    "%%~~~~~~~~~~~~~~~~~~~~~%pp%%pppp%%TTTTTTTTTTTTTTTTTT",
+    "%%~~~~~~~~~~~~~~~~~~~~~%pp%%pppp%%TT.k..........k.TT",
+    "%%pppppppppppppp%%pp~~~%pppppppp%%TT.k..........k.TT",
+    "%%pppppppppppppp%%pp~~~%pppppppp%%TT.k.f......f.k.TT",
+    "%%pppppppppppppppppp~~~%pppppppp%%TT.k..........k.TT",
+    "%%%%%%%%%%^%%%%%%%%%***%%%%%^%%%%%TT.k..........k.TT",
+    "%%%%%%%%%%^%%%%%%%%%***%%%%%^%%%%%TT.k..........k.TT",
+    "%%%%ppppppppppppppp%~~~ppppppppp%%TT.lllllpplllll.TT",
+    "%%%%ppppppppppppppp%~~~ppppppppp%%TT......pp......TT",
+    "%%%%^%%~~~~~~|~~~~~~~~~%%%%%%%^%%%TT.gggg.pp.gggg.TT",
+    "%%%%^%%~~~~~~|~~~~~~~~~%%%%%%%^%%%TT.gggg.pp.gggg.TT",
+    "%%ppppp~~~~~~|~~~~~~~~~pppppppppp%...ggggfpp.gggg.TT",
+    "%%ppppp~~~~ppppp~~~~~~~pppppppppp%........pp......TT",
+    "%%ppppp====ppppp=======ppppppppppppppppppppppppppppp",
+    "%%ppppp~~~~ppppp~~~~~~~ppppppppppppppppppppppppppppp",
+    "%%ppppp~~~~~~~~~~~~~~~~pp%%pppppp%..f...........f.TT",
+    "%%pppppppppppppppppp~~~pp%%pppppp%...gggggggg.....TT",
+    "%%pppppppppppp%%pppp~~~pppppppppp%TT.gggggggg.TT..TT",
+    "%%pppppppppppp%%pppp~~~%%%%^%%%%%%TT.gggggggg.TT..TT",
+    "%%pppppppppppppppppp~~~%%%%^%%%%%%TT.gggggggg.....TT",
+    "%%%%%%%%^%%%%%%%%%%%~~~pppppppppp%TT.gggggggg.....TT",
+    "%%%%O%%%^%%%%%%%%%%%~~~pppppppppp%TT........TT....TT",
+    "%%ppppppppppppppppp%~~~pppppp%%pp%TT........TT....TT",
+    "%%ppppppppppppppppp%~~~pppppp%%pp%TT..TT...f......TT",
+    "%%ppppppppppppppppp%~~~pppppppppp%TT..TT..........TT",
+    "%%%%%%%%%%%%%%%%%%%%~~~%%%%%%%%%%%TTTTTTTTTTTTTTTTTT",
+    "%%%%%%%%%%%%%%%%%%%%~~~%%%%%%%%%%%TTTTTTTTTTTTTTTTTT",
   ]);
-  b.building(30, 2, { kind: "casa", w: 5, color: "rojo", door: 2, to: "casa-ruta3", tx: 3, ty: 5 });
-  b.sign(34, 9, "Granja de los Rhizobium. «Aquí el nitrógeno lo fijan las bacterias».");
-  b.sign(41, 16, "Ruta 3. Al este: Ciudad Cultivo, la ciudad de los fotobiorreactores.");
-  b.item(10, 2, "caldo-nutritivo", "item:r3-caldo", 2);
-  b.item(16, 23, "medio-lb", "item:r3-lb");
-  b.item(12, 8, "criobola-azul", "item:r3-oculto", 2, true);
-  b.npc({ id: "r3-culturista", x: 16, y: 12, sprite: "chico", dir: 2, move: "reloj", trainer: {
+  b.building(40, 2, { kind: "casa", w: 5, color: "rojo", door: 2, to: "casa-ruta3", tx: 3, ty: 5 });
+  b.sign(44, 9, "Granja de los Rhizobium. «Aquí el nitrógeno lo fijan las bacterias».");
+  b.sign(49, 13, "Ruta 3. Al este: Ciudad Cultivo, la ciudad de los fotobiorreactores.");
+  b.item(6, 4, "caldo-nutritivo", "item:r3-caldo", 2);
+  b.item(15, 24, "medio-lb", "item:r3-lb");
+  b.item(16, 9, "criobola-azul", "item:r3-oculto", 2, true);
+  b.npc({ id: "r3-culturista", x: 32, y: 12, sprite: "chico", dir: 0, trainer: {
     name: "Bruno", clase: "Culturista", team: [["subtilis", 15], ["thermus", 16]], sight: 4, money: 56,
     intro: "¡Culturista de placas, no de gimnasio! Aunque también levanto pesas. ¡En guardia!", lose: "Me he quedado sin medio de cultivo…", after: "Culturista viene de cultivo. Bueno, en mi caso también de los bíceps." } });
-  b.npc({ id: "r3-montanero", x: 7, y: 17, sprite: "chico", dir: 2, move: "mirar:2,0", trainer: {
+  b.npc({ id: "r3-montanero", x: 11, y: 23, sprite: "chico", dir: 2, trainer: {
     name: "Pere", clase: "Montañero", team: [["thermus", 15], ["griseus", 15], ["bacteroid", 16]], sight: 4, money: 58,
     intro: "¡Acabo de bajar del Monte Micelio! Mis Microos aguantan cualquier cosa. ¿Lo comprobamos?", lose: "Uf… necesito un descanso en el refugio.", after: "Streptomyces griseus vive en el suelo. ¡De ella salió la estreptomicina, el primer antibiótico contra la tuberculosis!" } });
-  b.npc({ id: "r3-montanero2", x: 12, y: 6, sprite: "estudiante", dir: 3, move: "quieto", trainer: {
+  b.npc({ id: "r3-montanero2", x: 12, y: 4, sprite: "estudiante", dir: 2, move: "quieto", trainer: {
     name: "Txema", clase: "Montañero", team: [["thermus", 17], ["griseus", 17], ["roqueforti", 17]], sight: 4, money: 64,
     intro: "¡Has llegado a la terraza alta! Desde aquí se ve todo el desfiladero. ¿Un combate con vistas?", lose: "Bajo contigo por las escaleras…", after: "Fíjate en la roca del este: algo brilla incrustado en la pared." } });
-  b.npc({ id: "r3-limnologa", x: 10, y: 9, sprite: "chica", dir: 0, move: "quieto", trainer: {
+  b.npc({ id: "r3-limnologa", x: 13, y: 15, sprite: "chica", dir: 1, trainer: {
     name: "Marta", clase: "Pescadora", team: [["euglena", 15], ["navicula", 15], ["noctiluca", 16]], sight: 4, money: 60,
     intro: "¡Este lago tiene más diatomeas que gotas de agua!", lose: "Se me ha volcado el muestreador…", after: "La Dra. Gajú estudia los tapetes microbianos del Delta del Ebro. ¡Sus Microos aman la luz!" } });
-  b.npc({ id: "r3-cervecero", x: 32, y: 11, sprite: "estudiante", dir: 0, move: "mirar:0,2", trainer: {
+  b.npc({ id: "r3-cervecero", x: 46, y: 12, sprite: "estudiante", dir: 0, move: "mirar:0,2", trainer: {
     name: "Laia", clase: "Aromaterapeuta", team: [["roqueforti", 15], ["sacchari", 15], ["zymomonas", 16]], sight: 4, money: 55,
     intro: "¿Hueles eso? ¡Son los ésteres afrutados que producen mis levaduras! Respira hondo… ¡y lucha!", lose: "Se me ha evaporado el aroma…", after: "El olor a plátano de algunas cervezas es acetato de isoamilo, un éster que fabrican las levaduras." } });
-  b.npc({ id: "r3-arqueologo", x: 22, y: 22, sprite: "jubilado", dir: 2, move: "quieto", script: "placaKoch" });
-  b.warp({ x: 2, y: 16, to: "monte-micelio", tx: 24, ty: 1, dir: 0 });
-  b.warp({ x: 43, y: 14, h: 2, to: "ciudad-cultivo", tx: 8, ty: 26, dir: 1 });
+  b.npc({ id: "r3-arqueologo", x: 12, y: 25, sprite: "jubilado", dir: 1, move: "quieto", script: "placaKoch" });
+  b.warp({ x: 4, y: 22, to: "monte-micelio", tx: 24, ty: 1, dir: 0 });
+  b.warp({ x: 51, y: 14, h: 2, to: "ciudad-cultivo", tx: 8, ty: 26, dir: 1 });
   b.encounters([
     { sp: "euglena", min: 14, max: 17, w: 20 }, { sp: "noctiluca", min: 14, max: 16, w: 15 }, { sp: "ceratium", min: 14, max: 16, w: 15 },
     { sp: "zymomonas", min: 14, max: 16, w: 14 }, { sp: "rhizobi", min: 14, max: 16, w: 12 }, { sp: "albicans", min: 15, max: 17, w: 12 },
