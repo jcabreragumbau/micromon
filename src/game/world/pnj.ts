@@ -11,8 +11,8 @@ const CHICAS = n(1, 19, 20, 22, 24, 26, 28, 30, 32);
 const CHICOS = n(5, 6, 7, 9, 10, 13, 14, 16, 17, 29, 31, 33);
 const MUJERES = n(18, 19, 22, 30, 4);
 const MAYORES_H = n(2, 15, 35, 34);
-const MAYORES_M = n(36, 37, 23);
-const CIENTIFICOS_H = n(3), CIENTIFICAS = n(4, 23);
+const MAYORES_M = n(36, 37);          // el npc23 no se usa (a petición del usuario)
+const CIENTIFICOS_H = n(3), CIENTIFICAS = n(4);
 const POLICIA = n(25), MARINERO = n(27);
 const GENERICOS = new Set(["chica", "chico", "estudiante", "becario", "madre", "jubilado", "dependiente", "enfermera"]);
 
@@ -70,21 +70,24 @@ function hash(s: string): number {
   return h >>> 0;
 }
 
-/** Sustituye los sprites genéricos por los nuevos. Determinista (por id) y sin repetir aspecto dentro de un mapa
- *  mientras haya opciones. */
+/** Sustituye los sprites genéricos por los nuevos. Determinista (por id), sin repetir aspecto dentro de un mapa
+ *  mientras haya opciones y repartiendo por igual entre todo el juego (se elige el menos usado hasta el momento). */
 export function asignarAspectos() {
+  const total = new Map<string, number>();
   for (const m of Object.values(MAPS)) {
     const usados = new Set<string>();
     for (const d of m.npcs) {
       const op = opciones(m.id, d);
       if (!op?.length) continue;
       const h = hash(d.id + "@" + m.id);
-      let elegido = op[h % op.length];
+      let elegido = "", mejor = Infinity;
       for (let k = 0; k < op.length; k++) {
         const c = op[(h + k) % op.length];
-        if (!usados.has(c)) { elegido = c; break; }
+        const coste = (usados.has(c) ? 1000 : 0) + (total.get(c) ?? 0);
+        if (coste < mejor) { mejor = coste; elegido = c; }
       }
       usados.add(elegido);
+      total.set(elegido, (total.get(elegido) ?? 0) + 1);
       d.sprite = elegido;
     }
   }
