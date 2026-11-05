@@ -47,12 +47,18 @@ export function loadGame(): GameState | null {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return null;
-    const s = JSON.parse(raw) as GameState;
+    const s = JSON.parse(migrarIds(raw)) as GameState;
     if (s.version !== 1) return null;
     s.avatar ??= "chica";
     repararUids(s);
     return s;
   } catch { return null; }
+}
+/** Especies renombradas: E. coli solo existe como el legendario O157, así que la línea Coli pasó a ser Legionella. */
+const IDS_VIEJOS: [string, string][] = [["coli-k12", "legionel"], ["coli-bl21", "pneumophila"]];
+export function migrarIds(raw: string): string {
+  for (const [a, b] of IDS_VIEJOS) raw = raw.split(`"${a}"`).join(`"${b}"`);
+  return raw;
 }
 /** Cada Microo necesita un uid único (las evoluciones y la experiencia se asignan por uid). Las partidas
  *  guardadas antes de corregirlo pueden tener repetidos: se renumeran y el contador sigue después del mayor. */

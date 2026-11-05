@@ -42,7 +42,7 @@ LEGEND = {"prion-sc": 580, "viroid-cad": 580, "sputnik-v": 580,
 def bst_for(i):
     if i in LEGEND: return LEGEND[i]
     r, s, d = root(i), stage(i), depth(root(i))
-    special = {"coli-k12": 200, "coli-bl21": 540, "tardigrad": 540, "myxococcus": 288,
+    special = {"legionel": 200, "pneumophila": 540, "tardigrad": 540, "myxococcus": 288,
                "pleomorph": 325, "halomorph": 525, "electromorph": 525, "pyromorph": 525,
                "poxvir": 300, "mimivir": 420, "pandoravir": 600, "kefirgran": 450,
                "stromatol": 355, "cyanofossil": 495, "amberspor": 355, "palaeobacil": 495,
@@ -75,7 +75,7 @@ W = {  # hp atk def spa spd spe
 }
 SHAPE = {  # formas fijadas a mano
  "tardigrad": [1.9,1.05,1.05,0.6,1.1,0.3], "kefirgran": [2.6,0.45,0.55,0.8,1.35,0.6],
- "coli-k12": [0.8,0.4,1.4,0.6,0.8,1.6], "myxococcus": [1,1,1,1,1,1], "luca": [1,1,1,1,1,1],
+ "legionel": [0.8,0.4,1.4,0.6,0.8,1.6], "myxococcus": [1,1,1,1,1,1], "luca": [1,1,1,1,1,1],
  "ecoli-o157": [1.0,1.2,0.9,1.2,0.9,1.1], "salmonella-typhimurium": [1.0,0.9,0.9,1.3,1.0,1.2],
 }
 STATS = ["hp", "atk", "def", "spa", "spd", "spe"]
@@ -123,7 +123,7 @@ def size_class(i):
     return max(1, min(6, stage(i) + round(bst_for(i) / 200) - 1))
 
 # --- Movimientos ------------------------------------------------------------------
-EXCLUSIVE = {"mimetismo-molecular": {"myxococcus", "luca"}, "agitacion-en-placa": {"coli-k12", "luca"},
+EXCLUSIVE = {"mimetismo-molecular": {"myxococcus", "luca"}, "agitacion-en-placa": {"legionel", "luca"},
              "agotamiento-de-nutrientes": set()}
 HM = {m["id"] for m in moves if m.get("hm")}
 POOL = [m for m in moves if m["id"] not in EXCLUSIVE and m["id"] not in HM]
@@ -146,7 +146,7 @@ def learnset(i, doc_moves):
     if i == "luca":
         return [{"level": 1 + (k * 99) // 164, "move": x["id"]} for k, x in enumerate(moves) if x["id"] != "agotamiento-de-nutrientes"]
     if i == "myxococcus": return [{"level": 1, "move": "mimetismo-molecular"}]
-    if i == "coli-k12": return [{"level": 1, "move": "agitacion-en-placa"}, {"level": 15, "move": "contacto-celular"}]
+    if i == "legionel": return [{"level": 1, "move": "agitacion-en-placa"}, {"level": 15, "move": "contacto-celular"}]
     seed = r
     chosen = {}
     chosen[pick([mv[x] for x in STARTER_HIT], seed, 1)[0]["id"]] = 1
@@ -203,7 +203,7 @@ def mo_compat(i):
              "quorum-sensing-lux": {"Simbionte", "Gram-", "Intracelular", "Archaea", "Espiroqueta", "Alga"}}
     for k, tys in rules.items():
         if t & tys or i == "luca": res.append(k)
-    if by_id[i]["id"] in ("coli-k12", "myxococcus"): return []
+    if by_id[i]["id"] in ("legionel", "myxococcus"): return []
     return res
 
 def main():

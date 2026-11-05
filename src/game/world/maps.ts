@@ -130,7 +130,7 @@ add(casa("casa-vecina", "Casa vecina", { to: "pueblo-plaqueta", x: 14, y: 5 }, [
   b.warp({ x: 10, y: 0, w: 2, to: "ciudad-viral", tx: 11, ty: 18, dir: 1, keep: "x" });
   b.encounters([
     { sp: "mucorin", min: 2, max: 4, w: 30 }, { sp: "sacchari", min: 2, max: 4, w: 25 }, { sp: "casei", min: 3, max: 4, w: 12 },
-    { sp: "navicula", min: 2, max: 4, w: 10 }, { sp: "epidermi", min: 3, max: 5, w: 10 }, { sp: "coli-k12", min: 2, max: 5, w: 8 },
+    { sp: "navicula", min: 2, max: 4, w: 10 }, { sp: "epidermi", min: 3, max: 5, w: 10 }, { sp: "legionel", min: 2, max: 5, w: 8 },
     { sp: "proteus-am", min: 3, max: 4, w: 5 },
   ]);
   add(b.done({ music: "ruta" }));
@@ -932,7 +932,7 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
   b.npc({ id: "gym5-b", x: 1, y: 10, sprite: "chica", dir: 3, trainer: {
     name: "Laura", clase: "Técnica de Fermentación", team: [["perfringens", 33], ["thermus", 33], ["acetobuty", 34]], sight: 5, money: 150,
     intro: "¡Fermentación ABE: acetona, butanol y etanol! ¿Sabes quién la inventó?", lose: "Chaim Weizmann estaría decepcionado…", after: "La fermentación ABE se usó en la Primera Guerra Mundial para fabricar acetona." } });
-  b.npc({ id: "guia-gym5", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "El Dr. Mas usa Anaerobios, Antibióticos y Extremófilos de escala industrial.", "¡Su Coli-BL21 es una superfactoría: aguanta mucho!"] });
+  b.npc({ id: "guia-gym5", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "El Dr. Mas usa Anaerobios, Antibióticos y Extremófilos de escala industrial.", "¡Su Pneumophila salió de una torre de refrigeración: aguanta mucho!"] });
   b.warp({ x: 5, y: 16, w: 3, to: "ciudad-agar", tx: 20, ty: 8, dir: 0 });
   add(b.done({ music: "gimnasio" }));
 }
@@ -1243,7 +1243,7 @@ add(casa("casa-pili", "Casa de Ciudad Pili", { to: "ciudad-pili", x: 21, y: 14 }
   b.npc({ id: "conj-1", x: 12, y: 17, sprite: "chica", move: "pasear", talk: "La conjugación bacteriana es como un intercambio de genes con un puente de pilus. ¡Por eso la isla se llama así!" });
   b.encounters([
     // isla de la conjugación: bacterias que intercambian genes (plásmidos, T-DNA, fagos temperados) y algún virus
-    { sp: "coli-bl21", min: 46, max: 48, w: 14 }, { sp: "bacteriovor", min: 46, max: 48, w: 12 }, { sp: "agrobacter", min: 46, max: 48, w: 12 },
+    { sp: "pneumophila", min: 46, max: 48, w: 14 }, { sp: "bacteriovor", min: 46, max: 48, w: 12 }, { sp: "agrobacter", min: 46, max: 48, w: 12 },
     { sp: "aeruginosa", min: 46, max: 48, w: 10 }, { sp: "chlamydia", min: 46, max: 48, w: 8 }, { sp: "pleomorph", min: 45, max: 47, w: 8 },
     { sp: "lambda-v", min: 46, max: 48, w: 10 }, { sp: "marburg-v", min: 47, max: 49, w: 8 }, { sp: "lentivir", min: 46, max: 48, w: 8 },
     { sp: "mimivir", min: 47, max: 49, w: 6 }, { sp: "retrovir-x", min: 50, max: 50, w: 4 },
@@ -1279,7 +1279,7 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
     intro: "¡Tres años de postdoc para esto! ¡Al menos déjame ganar un combate!", lose: "Ni eso…", after: "Arriba está el laboratorio profundo. Y el jefe. Y… eso." } });
   b.warp({ x: 6, y: 13, w: 3, to: "isla-conjugada", tx: 23, ty: 8, dir: 0 });
   b.warp({ x: 15, y: 2, to: "mansion-2", tx: 14, ty: 3, dir: 0 });
-  b.encounters([{ sp: "coli-k12", min: 45, max: 47, w: 30 }, { sp: "coli-bl21", min: 46, max: 48, w: 30 }, { sp: "lambda-v", min: 46, max: 48, w: 15 }, { sp: "marburg-v", min: 47, max: 49, w: 10 }, { sp: "pleomorph", min: 46, max: 48, w: 15 }]);
+  b.encounters([{ sp: "pleomorph", min: 45, max: 47, w: 30 }, { sp: "lambda-v", min: 46, max: 48, w: 25 }, { sp: "bacteriovor", min: 46, max: 48, w: 20 }, { sp: "marburg-v", min: 47, max: 49, w: 10 }, { sp: "pneumonia-k", min: 46, max: 48, w: 15 }]);
   add(b.done({ music: "guarida", floorEncounters: "suelo_madera" }));
 }
 {

@@ -2680,9 +2680,9 @@
  },
  {
   "dex": 141,
-  "id": "coli-k12",
-  "name": "Coli-K12",
-  "organism": "E. coli K-12 de laboratorio, inofensiva, solo conoce Turbidez",
+  "id": "legionel",
+  "name": "Legionel",
+  "organism": "Legionella de agua dulce, inofensiva, solo conoce Turbidez",
   "types": [
    "Gram-"
   ],
@@ -2692,29 +2692,29 @@
   "evolves_from": null,
   "evolution": null,
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
-  "scientific": "Escherichia coli K-12",
-  "entry": "Cepa de laboratorio aislada en 1922. Inofensiva y dócil: la bacteria más estudiada de la historia."
+  "scientific": "Legionella sp.",
+  "entry": "Vive tranquila dentro de amebas de charcas y tuberías. En una placa normal ni siquiera crece."
  },
  {
   "dex": 142,
-  "id": "coli-bl21",
-  "name": "Coli-BL21",
-  "organism": "Superfactoría biotecnológica de expresión proteica masiva",
+  "id": "pneumophila",
+  "name": "Pneumophila",
+  "organism": "Legionella pneumophila de las torres de refrigeración",
   "types": [
    "Gram-",
-   "Simbionte"
+   "Intracelular"
   ],
   "gdd_ref": [
    130
   ],
-  "evolves_from": "coli-k12",
+  "evolves_from": "legionel",
   "evolution": {
    "method": "level",
    "level": 20
   },
   "gdd_section": "Zona Media, Torre Prión, Islas Esporuladas y Fósiles (#079 - #136)",
-  "scientific": "Escherichia coli BL21(DE3)",
-  "entry": "Fábrica de proteínas: sin proteasas molestas y con la polimerasa T7 lista para producir a toda máquina."
+  "scientific": "Legionella pneumophila",
+  "entry": "Prolifera en torres de refrigeración y aires acondicionados. Inhalada, causa la enfermedad del legionario."
  },
  {
   "dex": 143,

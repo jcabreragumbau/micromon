@@ -10900,7 +10900,7 @@
   ]
  },
  {
-  "id": "coli-k12",
+  "id": "legionel",
   "baseStats": {
    "hp": 29,
    "atk": 14,
@@ -10928,14 +10928,14 @@
   "mo": []
  },
  {
-  "id": "coli-bl21",
+  "id": "pneumophila",
   "baseStats": {
-   "hp": 85,
-   "atk": 96,
-   "def": 79,
-   "spa": 94,
-   "spd": 101,
-   "spe": 85
+   "hp": 77,
+   "atk": 83,
+   "def": 76,
+   "spa": 102,
+   "spd": 103,
+   "spe": 99
   },
   "bst": 540,
   "growth": "medium_fast",
@@ -10950,7 +10950,7 @@
    },
    {
     "level": 1,
-    "move": "resonancia-magnetica"
+    "move": "senal-quimica"
    },
    {
     "level": 7,
@@ -10962,47 +10962,39 @@
    },
    {
     "level": 11,
-    "move": "fimbrias-multiples"
+    "move": "respuesta-sos"
    },
    {
     "level": 15,
-    "move": "perforacion-bdellovibrio"
-   },
-   {
-    "level": 15,
-    "move": "enriquecimiento-medio"
+    "move": "propulsion-de-actina"
    },
    {
     "level": 21,
-    "move": "exotoxina-letal"
+    "move": "choque-septico"
    },
    {
     "level": 23,
-    "move": "sintesis-de-atp"
+    "move": "eflujo-multidrogas"
    },
    {
     "level": 28,
-    "move": "difusion-facilitada"
-   },
-   {
-    "level": 31,
-    "move": "choque-inclusion"
+    "move": "onda-quimiotactica"
    },
    {
     "level": 33,
-    "move": "fagocitosis"
+    "move": "vertigo-browniano"
    },
    {
     "level": 36,
-    "move": "senal-quimica"
+    "move": "silenciamiento-epigenetico"
    },
    {
     "level": 44,
-    "move": "secrecion-mucopurulenta"
+    "move": "secuestro-ribosomal"
    },
    {
     "level": 50,
-    "move": "crecimiento-descontrolado"
+    "move": "rayo-nitrogeno-liquido"
    },
    {
     "level": 57,

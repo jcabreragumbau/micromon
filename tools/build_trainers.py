@@ -8,7 +8,7 @@ T = [
  ("gym2","Dra. Núria Gajú","Gimnasio Ambiental · Ciudad Cultivo","Medalla Tapete",[("navicula",18),("desulfovib",19),("anabaen",21)]),
  ("gym3","Dra. Laia Guàrdia","Gimnasio Hongo · Ciudad Gram","Medalla Micelio",[("pilobolus",24),("flavus",25),("chrysogenum",27)]),
  ("gym4","Dr. Daniel Yero","Gimnasio Levadura · Ciudad Aerobia","Medalla Gemación",[("pastorian",29),("neoformans",30),("auris",32)]),
- ("gym5","Dr. Jordi Mas","Gimnasio Industrial · Ciudad Agar","Medalla Quimiostato",[("mobilis",35),("acetobuty",36),("avermitil",38),("coli-bl21",40)]),
+ ("gym5","Dr. Jordi Mas","Gimnasio Industrial · Ciudad Agar","Medalla Quimiostato",[("mobilis",35),("acetobuty",36),("avermitil",38),("pneumophila",40)]),
  ("gym6","Dr. Òscar Conchillo","Gimnasio Bioinfo · Instituto de Biotecnología","Medalla Algoritmo",[("pneumoniae",39),("aquaticus",40),("radiolaria",41),("pyrolobus",44)]),
  ("gym7","Dra. Marina Luquin","Gimnasio Clínico · Ciudad Pili","Medalla Ziehl-Neelsen",[("nocardia",47),("aeruginosa",48),("baumannii",48),("tuberculos",49)]),
  ("gym8","Dra. Susana Campoy","Gimnasio Fago · Isla Conjugada","Medalla Lisogenia",[("lambda-v",49),("bacteriovor",50),("marburg-v",51),("t4-titan",53)]),

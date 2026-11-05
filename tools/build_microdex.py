@@ -99,6 +99,18 @@ extra = {
 for k, v in extra.items():
     seen[k] = dict(name=k, **v)
 
+# --- E. coli solo existe como el legendario O157:H7 ---------------------------
+# La línea «Mutación Asombrosa» del GDD (Coli-K12 -> Coli-BL21, equivalente a Magikarp -> Gyarados) pasa a ser
+# Legionella: inofensiva dentro de amebas de charca (y ni siquiera crece en placa normal), temible en las torres de
+# refrigeración industriales.
+RENOMBRA = {"Coli-K12": ("Legionel", "Legionella de agua dulce, inofensiva, solo conoce Turbidez"),
+            "Coli-BL21": ("Pneumophila", "Legionella pneumophila de las torres de refrigeración")}
+for viejo, (nuevo, nota) in RENOMBRA.items():
+    r = seen.pop(viejo); r["name"], r["note"] = nuevo, nota; seen[nuevo] = r
+    order[order.index(viejo)] = nuevo
+for r in seen.values():
+    if r.get("prev") in RENOMBRA: r["prev"] = RENOMBRA[r["prev"]][0]
+
 # --- Conjunto canónico ------------------------------------------------------
 removed = []
 canon = []
@@ -199,7 +211,8 @@ TYPE_FIX = {
     "stromatol": ["Fotótrofo", "Biofilm"],     # tapete de cianobacterias
     "cyanofossil": ["Fotótrofo", "Gram-"],     # las cianobacterias tienen envoltura de tipo Gram-
     "prion-sc": ["Intracelular", "Extremófilo"],  # proteína, sin pared
-    "viroid-cad": ["Virus", "Intracelular"],   # ARN infeccioso de palmeras: ni espiroqueta ni fotótrofo
+    "viroid-cad": ["Virus", "Intracelular"],
+    "pneumophila": ["Gram-", "Intracelular"],  # Legionella se multiplica dentro de amebas y macrófagos   # ARN infeccioso de palmeras: ni espiroqueta ni fotótrofo
 }
 for o in out:
     if o["id"] in TYPE_FIX: o["types"] = TYPE_FIX[o["id"]]

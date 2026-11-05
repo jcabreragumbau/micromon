@@ -3,11 +3,11 @@ import type { Game, Overlay } from "../game";
 import { Gfx, W, H } from "../gfx";
 
 const REELS: string[][] = [
-  ["coli-k12", "casei", "synechoc", "coli-k12", "butyricum", "luca", "casei", "paramec", "coli-k12", "synechoc", "casei", "butyricum"],
-  ["casei", "coli-k12", "paramec", "luca", "synechoc", "coli-k12", "butyricum", "casei", "paramec", "coli-k12", "synechoc", "casei"],
-  ["synechoc", "casei", "coli-k12", "butyricum", "paramec", "casei", "luca", "coli-k12", "synechoc", "butyricum", "coli-k12", "paramec"],
+  ["legionel", "casei", "synechoc", "legionel", "butyricum", "luca", "casei", "paramec", "legionel", "synechoc", "casei", "butyricum"],
+  ["casei", "legionel", "paramec", "luca", "synechoc", "legionel", "butyricum", "casei", "paramec", "legionel", "synechoc", "casei"],
+  ["synechoc", "casei", "legionel", "butyricum", "paramec", "casei", "luca", "legionel", "synechoc", "butyricum", "legionel", "paramec"],
 ];
-const PAY: Record<string, number> = { luca: 100, synechoc: 15, butyricum: 15, paramec: 15, casei: 10, "coli-k12": 8 };
+const PAY: Record<string, number> = { luca: 100, synechoc: 15, butyricum: 15, paramec: 15, casei: 10, "legionel": 8 };
 const BET = 3;
 
 export function fichas(game: Game): number { return Number(game.state.flags.fichas ?? 0); }
@@ -57,7 +57,7 @@ export class SlotMachine implements Overlay {
     const s = this.pos.map((p, i) => REELS[i][Math.round(p) % 12]);
     let pay = 0;
     if (s[0] === s[1] && s[1] === s[2]) pay = PAY[s[0]] * BET;
-    else if (s[0] === "coli-k12" && s[1] === "coli-k12") pay = 2 * BET;
+    else if (s[0] === "legionel" && s[1] === "legionel") pay = 2 * BET;
     if (pay) {
       setFichas(this.game, fichas(this.game) + pay);
       this.win = pay; this.flash = 60;

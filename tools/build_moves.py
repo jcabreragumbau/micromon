@@ -65,7 +65,7 @@ for l in gdd[start:]:
         "type": mtype, "category": category,
         "power": int(pw.group(1)) if pw else (s["basePower"] or None),
         "accuracy": s["accuracy"], "pp": s["pp"], "priority": s["priority"],
-        "target": s["target"], "desc": (power_text if category != "status" else effect_text).rstrip("."),
+        "target": s["target"], "desc": (power_text if category != "status" else effect_text).rstrip(".").replace("Coli-K12", "Legionel"),  # E. coli solo es el legendario
         "contact": bool(fl.get("contact")),
     }
     if hm: rec["hm"] = hm

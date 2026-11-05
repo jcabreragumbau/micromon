@@ -99,7 +99,7 @@ const path = require("node:path");
   await advance();
   // --- Ruta 1 con combate salvaje y captura
   await G(() => micromonDebug.enterWorld(window.micromon, "ruta-1", 10, 30, 1)); await page.waitForTimeout(800); await shot("18-ruta1");
-  await G(() => { const g = window.micromon; g.scene.busy = true; micromonDebug.wildBattle(g, g.scene, "coli-k12", 3).finally(() => (g.scene.busy = false)); });
+  await G(() => { const g = window.micromon; g.scene.busy = true; micromonDebug.wildBattle(g, g.scene, "legionel", 3).finally(() => (g.scene.busy = false)); });
   await page.waitForTimeout(1500); await shot("19-salvaje");
   // lanzar Criobola: MOCHILA → CRIOBOLAS → primera
   for (let i = 0; i < 30 && (await top()) !== "ActionMenu"; i++) await press("a");

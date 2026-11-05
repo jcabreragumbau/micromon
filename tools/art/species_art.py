@@ -85,7 +85,7 @@ ART = {
  "rous-v": ("virus_env", {}), "lentivir": ("virus_env", {}), "retrovir-x": ("virus_env", {"fierce": True}),
  "lyssavir": ("virus_env", {"form": "bala"}), "marburg-v": ("virus_env", {"form": "filamento"}), "filovir-z": ("virus_env", {"form": "filamento", "fierce": True}),
  "poxvir": ("virus_env", {"form": "ladrillo"}), "mimivir": ("virus_env", {}), "pandoravir": ("virus_env", {"form": "anfora", "fierce": True}),
- "coli-k12": ("bacilo", {"flag": "peri", "mouth": "open"}), "coli-bl21": ("bacilo", {"flag": "peri", "chain": 2, "capsula": True, "fierce": True}),
+ "legionel": ("bacilo", {"flag": "polar", "mouth": "open"}), "pneumophila": ("bacilo", {"flag": "polar", "chain": 2, "capsula": True, "fierce": True}),
  "diatomax": ("diatomea", {"form": "radial"}), "myxococcus": ("arquea", {"r1": "Simbionte"}),
  "pleomorph": ("arquea", {"r1": "Levadura"}), "halomorph": ("arquea", {"form": "cuadrada", "r1": "Protozoo"}),
  "electromorph": ("espirilo", {"turns": 3, "r1": "Espiroqueta"}), "pyromorph": ("arquea", {"llama": True, "r1": "Anaerobio"}),

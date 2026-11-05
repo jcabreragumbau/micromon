@@ -173,13 +173,8 @@
     ]
    },
    {
-    "species": "coli-bl21",
-    "level": 40,
-    "moves": [
-     "enriquecimiento-medio",
-     "difusion-facilitada",
-     "choque-inclusion"
-    ]
+    "species": "pneumophila",
+    "level": 40
    }
   ]
  },

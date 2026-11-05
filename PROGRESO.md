@@ -260,5 +260,11 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Lámina `assets/reference/microos/lineas_49_53.png` (Acantharia→Radiolaria, Phage-X174→Lambda-V→T4-Titan, Rous-V→Lentivir→Retrovir-X, Lyssavir→Marburg-V→Filovir-Z, Poxvir→Mimivir→Pandoravir).
 
+## E. coli solo como legendario
+
+- La línea Coli-K12 → Coli-BL21 (equivalente a Magikarp → Gyarados) pasa a ser Legionel → Pneumophila (*Legionella*): `RENOMBRA` en `build_microdex.py`, textos en `dex_text.py`, ids en especies, entrenadores (Gimnasio 5), mapas, casino y tests. Pneumophila es Gram-/Intracelular.
+- La Mansión de las Cepas conserva el diario de la cepa K-12 (lore del O157) pero ya no tiene E. coli salvajes.
+- `state.ts`: `migrarIds` convierte las partidas guardadas con los ids antiguos.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

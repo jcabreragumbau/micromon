@@ -222,7 +222,7 @@ describe("Obediencia", () => {
     const run = (cap: number) => {
       let rebeld = 0;
       for (let seed = 1; seed <= 40; seed++) {
-        const b = new Battle({ player: [createMicroo("anthracis", 60, { rng: new Rng(seed) })], foe: [createMicroo("coli-k12", 60, { rng: new Rng(seed + 99) })], wild: true, seed, obeyCap: cap });
+        const b = new Battle({ player: [createMicroo("anthracis", 60, { rng: new Rng(seed) })], foe: [createMicroo("legionel", 60, { rng: new Rng(seed + 99) })], wild: true, seed, obeyCap: cap });
         b.drain();
         b.playTurn([{ kind: "move", slot: 0, move: 0, target: { side: 1, slot: 0 } }], [{ kind: "move", slot: 0, move: 0, target: { side: 0, slot: 0 } }]);
         if (b.drain().some((e) => /no te hace caso|pasa de tus|remolón|otra parte/.test(e.text))) rebeld++;
@@ -237,7 +237,7 @@ describe("Obediencia", () => {
 describe("Level Cap", () => {
   test("con levelCap, los Microos en el tope no ganan experiencia y se avisa", () => {
     const a = createMicroo("anthracis", 20, { rng: new Rng(3) }), lvl = a.level, exp = a.exp;
-    const b = new Battle({ player: [a], foe: [createMicroo("coli-k12", 5, { rng: new Rng(4) })], wild: true, seed: 5, levelCap: 20 });
+    const b = new Battle({ player: [a], foe: [createMicroo("legionel", 5, { rng: new Rng(4) })], wild: true, seed: 5, levelCap: 20 });
     b.drain();
     for (let t = 0; t < 6 && !b.ended; t++) b.playTurn([{ kind: "move", slot: 0, move: 0, target: { side: 1, slot: 0 } }], [{ kind: "move", slot: 0, move: 0, target: { side: 0, slot: 0 } }]);
     expect(b.outcome).toBe("win");

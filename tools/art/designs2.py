@@ -384,10 +384,10 @@ def entamoeba(S, face=True):
 
 DESIGNS2 = {
     "mucorin": mucorin, "sacchari": sacchari, "casei": casei, "navicula": navicula, "epidermi": epidermi,
-    "coli-k12": coli_k12, "proteus-am": proteus_am, "phage-x174": phage_x174, "lambda-v": lambda_v,
+    "proteus-am": proteus_am, "phage-x174": phage_x174, "lambda-v": lambda_v,
     "griseus": griseus, "coelicol": coelicol, "avermitil": avermitil, "leptospir": leptospir,
     "interrogan": interrogan, "micrococ": micrococ, "sarcina": sarcina, "subtilis": subtilis,
     "lichenifor": lichenifor, "cereus": cereus, "listeria": listeria, "rhizopupa": rhizopupa,
     "mycoplas": mycoplas, "genitalium": genitalium, "pastorian": pastorian, "acidophilus": acidophilus,
-    "aureus": aureus, "pinnularia": pinnularia, "coli-bl21": coli_bl21, "entamoeba": entamoeba,
+    "aureus": aureus, "pinnularia": pinnularia, "entamoeba": entamoeba,
 }
