@@ -32,6 +32,8 @@ LAMINAS = {
                          ["borrelia", "treponema"], ["klebsi", "pneumonia-k"]],
     "lineas_34_38.png": [["geobacter", "sulfurreduc"], ["perfringens", "tetani"], ["psychrobac", "colwellia"], ["putida", "aeruginosa"],
                          ["giardia", "cryptospor"]],
+    "lineas_39_43.png": [["methanococ", "methanosar", "pyrolobus"], ["rickettsia", "prowazekii"], ["halobacter", "salinarum"],
+                         ["neisseria", "meningitid"], ["cryptococ", "neoformans"]],
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
@@ -41,6 +43,8 @@ CORTES = {
                          [0, 238, 530, 720, 1199], [0, 288, 570, 888, 1199]],
     "lineas_34_38.png": [[0, 300, 580, 925, 9999], [0, 305, 600, 935, 9999], [0, 310, 600, 905, 9999], [0, 300, 608, 910, 9999],
                          [0, 315, 615, 912, 9999]],
+    "lineas_39_43.png": [[0, 205, 410, 625, 800, 1028, 9999], [0, 220, 420, 628, 9999], [0, 286, 630, 972, 9999],
+                         [0, 288, 580, 898, 9999], [0, 285, 585, 905, 9999]],
 }
 
 def figuras(path, rejilla, cortes=None):
@@ -61,7 +65,8 @@ def figuras(path, rejilla, cortes=None):
             px = f[ys, xs][tinta]
             # letra: tinta oscura y poco saturada (azul marino); las burbujas y destellos son de colores vivos
             peque = tam[k] < 4000 and (ys.max() - ys.min()) < 50 and (xs.max() - xs.min()) < 50
-            if peque and px.sum(1).mean() < 420 and (px.max(1) - px.min(1)).mean() < 70: continue
+            morado = px[:, 0].mean() > px[:, 1].mean() + 10          # garabatos morados del dibujo (las letras tienen r≈g)
+            if peque and not morado and px.sum(1).mean() < 420 and (px.max(1) - px.min(1)).mean() < 70: continue
             # rótulos grandes o suavizados: azul marino (b > r) y oscuro en conjunto
             # letras finas (mucho borde suavizado): sus píxeles oscuros son azul marino puro (r≈g, b alto)
             osc = px[px.sum(1) < 300]
