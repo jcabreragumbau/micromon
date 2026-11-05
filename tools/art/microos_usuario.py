@@ -28,9 +28,18 @@ LAMINAS = {
     "lineas_24_28a.png": [["zymomonas", "mobilis"], ["cholerae", "parahaemolyticus"], ["proteus-am", "entamoeba"], ["naegleria", None]],
     "lineas_24_28b.png": [["mycoplas", "genitalium", "pneumoniae"]],
     "lineas_24_28c.png": [["mutans", "pyogenes", "agalactiae"]],
+    "lineas_29_33.png": [["noctiluca", "ceratium", "alexandrium"], ["pelagibac", "prochloron"], ["smegmatis", "bovis", "tuberculos"],
+                         ["borrelia", "treponema"], ["klebsi", "pneumonia-k"]],
 }
 
-def figuras(path, rejilla):
+# láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
+# (frente, espalda, frente, espalda…)
+CORTES = {
+    "lineas_29_33.png": [[0, 215, 410, 620, 810, 1005, 1199], [0, 220, 430, 720, 1199], [0, 222, 420, 625, 800, 1012, 1199],
+                         [0, 238, 530, 720, 1199], [0, 288, 570, 888, 1199]],
+}
+
+def figuras(path, rejilla, cortes=None):
     a = np.array(Image.open(path).convert("RGB")); f = a.astype(int)
     fondo = (f.min(2) > 215) & (f.max(2) - f.min(2) < 26)
     lab, _ = label(fondo)
@@ -50,6 +59,9 @@ def figuras(path, rejilla):
             peque = tam[k] < 4000 and (ys.max() - ys.min()) < 50 and (xs.max() - xs.min()) < 50
             if peque and px.sum(1).mean() < 420 and (px.max(1) - px.min(1)).mean() < 70: continue
             # rótulos grandes o suavizados: azul marino (b > r) y oscuro en conjunto
+            # letras finas (mucho borde suavizado): sus píxeles oscuros son azul marino puro (r≈g, b alto)
+            osc = px[px.sum(1) < 300]
+            if len(osc) > 0.5 * len(px) and abs(osc[:, 0].mean() - osc[:, 1].mean()) < 20 and osc[:, 2].mean() > 90: continue
             if tam[k] >= 20 and px.sum(1).mean() < 380 and (px[:, 2] > px[:, 0] + 20).mean() > 0.6 and (px[:, 0] < 90).mean() > 0.6 and (abs(px[:, 0] - px[:, 1]) < 15).mean() > 0.7: continue
         comps.append(dict(k=k, x=xs.mean(), y=ys.mean(), x0=xs.min(), x1=xs.max() + 1, y0=ys.min(), y1=ys.max() + 1, n=tam[k]))
     H, W = fg.shape
@@ -60,9 +72,13 @@ def figuras(path, rejilla):
         cols = len(rejilla[r])                     # cada fila puede tener su número de especies
         for c in range(cols):
             if rejilla[r][c] is None: continue
-            celda = [q for q in comps if min(filas - 1, int((q["y"] - Y0) / ((Y1 - Y0) / filas))) == r and int(q["x"] / (W / cols)) == c]
-            cuerpo = celda
-            xm = c * W / cols + W / cols / 2
+            fila = [q for q in comps if min(filas - 1, int((q["y"] - Y0) / ((Y1 - Y0) / filas))) == r]
+            if cortes:
+                k0, k1, k2 = cortes[r][2 * c], cortes[r][2 * c + 1], cortes[r][2 * c + 2]
+                cuerpo = [q for q in fila if k0 <= q["x"] < k2]; xm = k1
+            else:
+                cuerpo = [q for q in fila if int(q["x"] / (W / cols)) == c]
+                xm = c * W / cols + W / cols / 2
             for lado, sel in (("frente", [q for q in cuerpo if q["x"] < xm]), ("espalda", [q for q in cuerpo if q["x"] >= xm])):
                 if not sel: raise SystemExit(f"{rejilla[r][c]} {lado}: sin figura")
                 x0 = min(q["x0"] for q in sel); x1 = max(q["x1"] for q in sel); y0 = min(q["y0"] for q in sel); y1 = max(q["y1"] for q in sel)
@@ -90,7 +106,7 @@ def a_celda(im, k, alto_celda=C):
 def main():
     OUT.mkdir(parents=True, exist_ok=True); OUT_HD.mkdir(parents=True, exist_ok=True)
     for lam, rejilla in LAMINAS.items():
-        figs = figuras(SRC / lam, rejilla)
+        figs = figuras(SRC / lam, rejilla, CORTES.get(lam))
         k = MAXF / max(max(im.width, im.height) for im in figs.values())
         for (sp, lado), im in figs.items():
             if sp is None: continue

@@ -231,5 +231,10 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Láminas `assets/reference/microos/lineas_24_28{a,b,c}.png` (Zymomonas→Mobilis, Cholerae→Parahaemolyticus, Proteus-Am→Entamoeba→Naegleria, Mycoplas→Genitalium→Pneumoniae, Mutans→Pyogenes→Agalactiae) añadidas a `microos_usuario.py`.
 - Filtro de rótulos ampliado para letras grandes o suavizadas (azul marino, r≈g); las láminas anteriores no cambian.
 
+## Sprites del usuario: líneas 29–33
+
+- Lámina `assets/reference/microos/lineas_29_33.png` (Noctiluca→Ceratium→Alexandrium, Pelagibac→Prochloron, Smegmatis→Bovis→Tuberculos, Borrelia→Treponema, Klebsi→Pneumonia-K).
+- `microos_usuario.py`: `CORTES` permite cortes en x por fila cuando las figuras no ocupan columnas iguales; filtro extra para letras finas (píxeles oscuros azul marino con r≈g).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
