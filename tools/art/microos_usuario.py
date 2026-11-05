@@ -30,6 +30,8 @@ LAMINAS = {
     "lineas_24_28c.png": [["mutans", "pyogenes", "agalactiae"]],
     "lineas_29_33.png": [["noctiluca", "ceratium", "alexandrium"], ["pelagibac", "prochloron"], ["smegmatis", "bovis", "tuberculos"],
                          ["borrelia", "treponema"], ["klebsi", "pneumonia-k"]],
+    "lineas_34_38.png": [["geobacter", "sulfurreduc"], ["perfringens", "tetani"], ["psychrobac", "colwellia"], ["putida", "aeruginosa"],
+                         ["giardia", "cryptospor"]],
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
@@ -37,6 +39,8 @@ LAMINAS = {
 CORTES = {
     "lineas_29_33.png": [[0, 215, 410, 620, 810, 1005, 1199], [0, 220, 430, 720, 1199], [0, 222, 420, 625, 800, 1012, 1199],
                          [0, 238, 530, 720, 1199], [0, 288, 570, 888, 1199]],
+    "lineas_34_38.png": [[0, 300, 580, 925, 9999], [0, 305, 600, 935, 9999], [0, 310, 600, 905, 9999], [0, 300, 608, 910, 9999],
+                         [0, 315, 615, 912, 9999]],
 }
 
 def figuras(path, rejilla, cortes=None):
