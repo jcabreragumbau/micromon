@@ -10,9 +10,11 @@ import { TitleScene, enterWorld } from "./scenes/title";
 import { runScript, wildBattle, startBattle, battleFor } from "./scripts";
 import { MAPS } from "./world/maps";
 import { aplicarCiudadesV2 } from "./world/ciudades_v2";
+import { asignarAspectos } from "./world/pnj";
 import { V2 } from "./assets_data";
 // Micromón V2: ciudades nuevas, más grandes (la V1 conserva las suyas)
 if (V2) aplicarCiudadesV2();
+asignarAspectos();
 import * as engine from "../engine";
 
 async function boot() {
