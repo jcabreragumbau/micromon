@@ -256,5 +256,9 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Regla: tipos de pared o grupo (Gram±, Ácido-Alc., Esporulado, Espiroqueta, Hongo, Levadura, Protozoo, Alga, Archaea, Virus) solo para quien lo es.
 - Equilibrio (simulate.ts): Gimnasio 3 pasa del 58 % al 42 % de victorias del equipo de prueba; Alto Mando 2 del 55 % al 52 %; el resto igual.
 
+## Sprites del usuario: líneas 49–53
+
+- Lámina `assets/reference/microos/lineas_49_53.png` (Acantharia→Radiolaria, Phage-X174→Lambda-V→T4-Titan, Rous-V→Lentivir→Retrovir-X, Lyssavir→Marburg-V→Filovir-Z, Poxvir→Mimivir→Pandoravir).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

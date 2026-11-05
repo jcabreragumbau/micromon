@@ -36,6 +36,8 @@ LAMINAS = {
                          ["neisseria", "meningitid"], ["cryptococ", "neoformans"]],
     "lineas_44_48.png": [["bdellovib", "bacteriovor"], ["desulfovib", "thiomargar"], ["baylyi", "baumannii"], ["caulobac", "crescentus"],
                          ["leishmania", "trypanosom"]],
+    "lineas_49_53.png": [["acantharia", "radiolaria"], ["phage-x174", "lambda-v", "t4-titan"], ["rous-v", "lentivir", "retrovir-x"],
+                         ["lyssavir", "marburg-v", "filovir-z"], ["poxvir", "mimivir", "pandoravir"]],
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
@@ -49,6 +51,8 @@ CORTES = {
                          [0, 288, 580, 898, 9999], [0, 285, 585, 905, 9999]],
     "lineas_44_48.png": [[0, 302, 540, 823, 9999], [0, 272, 540, 818, 9999], [0, 270, 545, 822, 9999], [0, 272, 545, 820, 9999],
                          [0, 295, 545, 815, 9999]],
+    "lineas_49_53.png": [[0, 283, 580, 890, 9999], [0, 195, 400, 608, 800, 1030, 9999], [0, 200, 405, 610, 820, 1020, 9999],
+                         [0, 208, 400, 585, 820, 988, 9999], [0, 203, 405, 605, 810, 1012, 9999]],
 }
 
 def figuras(path, rejilla, cortes=None):
