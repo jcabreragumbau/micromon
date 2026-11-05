@@ -110,8 +110,14 @@ def main():
     R = Image.new("RGBA", (64 * K * len(hdp), 96 * K))
     for i, cid in enumerate(hdp): R.alpha_composite(Image.open(CHD / f"{REFS.get(cid, cid)}_combate.png").convert("RGBA"), (i * 64 * K, 0))
     R.save(out / "retratos_hd.png", optimize=True)
+    # sprites de combate de 80×80 de los PNJ entrenadores (tools/art/npcs_combate.py)
+    npcc = sorted(p.stem[:-len("_combate80")] for p in CHD.glob("*_combate80.png"))
+    RN = Image.new("RGBA", (80 * K * max(1, len(npcc)), 80 * K))
+    for i, cid in enumerate(npcc): RN.alpha_composite(Image.open(CHD / f"{cid}_combate80.png").convert("RGBA"), (i * 80 * K, 0))
+    RN.save(out / "retratos_npc.png", optimize=True)
     json.dump({"sheets": idx, "portraits": {c: i for i, c in enumerate(ports)}, "hdScale": K,
-               "hd": {c: i for i, c in enumerate(hd)}, "hdPortraits": {c: i for i, c in enumerate(hdp)}}, open(out / "personajes.json", "w"))
+               "hd": {c: i for i, c in enumerate(hd)}, "hdPortraits": {c: i for i, c in enumerate(hdp)},
+               "npcPortraits": {c: i for i, c in enumerate(npcc)}}, open(out / "personajes.json", "w"))
     print("OK", len(sheets), "personajes;", len(ports), "retratos")
 
 if __name__ == "__main__":

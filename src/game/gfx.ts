@@ -83,6 +83,13 @@ export class Gfx {
     this.ctx.drawImage(IMG.personajes, frame * 32, s * 128 + dir * 32, 32, 32, Math.round(x), Math.round(y), 32, 32);
   }
   portrait(id: string, x: number, y: number) {
+    // PNJ entrenador con sprite de combate de 80×80 del usuario
+    const np = CHARS.npcPortraits?.[id];
+    if (np !== undefined && IMG.retratos_npc) {
+      const k = CHARS.hdScale ?? 4;
+      this.ctx.drawImage(IMG.retratos_npc, np * 80 * k, 0, 80 * k, 80 * k, Math.round(x) - 8, Math.round(y) + 16, 80, 80);
+      return;
+    }
     const hp = CHARS.hdPortraits?.[id];
     if (hp !== undefined && IMG.retratos_hd) {
       const k = CHARS.hdScale ?? 4;

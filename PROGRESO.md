@@ -271,5 +271,10 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - `tools/art/npcs_ds.py`: recorta los 37 personajes de `assets/reference/npcs/npcs_{1,2,3}.png` (bloques de fondo liso, 12 fotogramas de 32×32 en el orden de la hoja: espalda (0,0)(0,2)(3,1), frente (1,2)(2,2)(3,2), derecha (0,1)(1,1)(2,1), izquierda (2,0)(1,0)(3,0); el primero es el quieto) → `characters_hd/npcNN_hoja.png` a 4× sin suavizar. La hoja 3 se sustituyó por una versión completa (4 filas) y más nítida.
 - `src/game/world/pnj.ts` (`asignarAspectos`, en main.ts): los PNJ con sprite genérico (chico, chica, estudiante, becario, madre, jubilado) reciben uno de los nuevos, determinista por id, sin repetir en el mismo mapa y respetando el género; oficios con aspecto propio (montañeros, granjeros, micólogos, surfistas…); guardas → policía, marineros del ferri → marinero. No se tocan líderes, Alto Mando, Unidad, Koch, profesora, rival, madre del jugador, enfermeras ni dependientes de tienda.
 
+## Sprites de combate de los PNJ entrenadores
+
+- `tools/art/npcs_combate.py`: los 26 sprites de combate del usuario (`assets/reference/npcs_combate/NN.png`, ~80×80, fondo azul) → `characters_hd/npcNN_combate80.png` (4×, sin fondo). `char_atlas.py` los junta en `assets/atlas/retratos_npc.png` (`npcPortraits` en personajes.json) y `Gfx.portrait` los dibuja a 80×80.
+- `pnj.ts`: los entrenadores genéricos solo usan esos modelos (01, 02, 03, 04, 06–15, 18, 20, 21, 22, 24–28, 31–33); los de aspecto de oficio (granjero, pescador, marinero, karateca, explorador, cámara…) solo para su oficio.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
