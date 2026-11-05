@@ -245,5 +245,10 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Lámina `assets/reference/microos/lineas_39_43.png` (Methanococ→Methanosar→Pyrolobus, Rickettsia→Prowazekii, Halobacter→Salinarum, Neisseria→Meningitid, Cryptococ→Neoformans).
 - Filtro de letras: no descarta garabatos morados (r > g); recupera motas del dibujo en Tuberculos y Aquaticus.
 
+## Sprites del usuario: líneas 44–48
+
+- Lámina `assets/reference/microos/lineas_44_48.png` (Bdellovib→Bacteriovor, Desulfovib→Thiomargar, Baylyi→Baumannii, Caulobac→Crescentus, Leishmania→Trypanosom).
+- Filtro: fragmentos sueltos de letra (<30 px, azul marino) se descartan.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

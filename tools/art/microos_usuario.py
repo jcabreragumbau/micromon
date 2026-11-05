@@ -34,6 +34,8 @@ LAMINAS = {
                          ["giardia", "cryptospor"]],
     "lineas_39_43.png": [["methanococ", "methanosar", "pyrolobus"], ["rickettsia", "prowazekii"], ["halobacter", "salinarum"],
                          ["neisseria", "meningitid"], ["cryptococ", "neoformans"]],
+    "lineas_44_48.png": [["bdellovib", "bacteriovor"], ["desulfovib", "thiomargar"], ["baylyi", "baumannii"], ["caulobac", "crescentus"],
+                         ["leishmania", "trypanosom"]],
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
@@ -45,6 +47,8 @@ CORTES = {
                          [0, 315, 615, 912, 9999]],
     "lineas_39_43.png": [[0, 205, 410, 625, 800, 1028, 9999], [0, 220, 420, 628, 9999], [0, 286, 630, 972, 9999],
                          [0, 288, 580, 898, 9999], [0, 285, 585, 905, 9999]],
+    "lineas_44_48.png": [[0, 302, 540, 823, 9999], [0, 272, 540, 818, 9999], [0, 270, 545, 822, 9999], [0, 272, 545, 820, 9999],
+                         [0, 295, 545, 815, 9999]],
 }
 
 def figuras(path, rejilla, cortes=None):
@@ -59,6 +63,9 @@ def figuras(path, rejilla, cortes=None):
     for k in range(1, n + 1):
         if tam[k] < 12: continue
         ys, xs = np.where(fl == k)
+        if tam[k] < 30:                            # fragmento suelto de letra (azul marino)
+            m = f[ys, xs].mean(0)
+            if m.sum() < 450 and m[2] > m[0] + 20 and abs(m[0] - m[1]) < 20: continue
         # letras de los rótulos: piezas pequeñas casi negras
         tinta = ~fondo[ys, xs]
         if tam[k] < 8000 and tinta.any() and (ys.max() - ys.min()) < 90 and (xs.max() - xs.min()) < 90:
