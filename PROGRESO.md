@@ -226,5 +226,10 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Logotipo del usuario (`assets/reference/logo_micromon.png` → `assets/atlas/logo_micromon.png`, sin fondo) en la intro: entra creciendo con rebote al golpe del segundo 22, con un brillo que recorre solo las letras, y vuelve en el final.
 
+## Sprites del usuario: líneas 24–28
+
+- Láminas `assets/reference/microos/lineas_24_28{a,b,c}.png` (Zymomonas→Mobilis, Cholerae→Parahaemolyticus, Proteus-Am→Entamoeba→Naegleria, Mycoplas→Genitalium→Pneumoniae, Mutans→Pyogenes→Agalactiae) añadidas a `microos_usuario.py`.
+- Filtro de rótulos ampliado para letras grandes o suavizadas (azul marino, r≈g); las láminas anteriores no cambian.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

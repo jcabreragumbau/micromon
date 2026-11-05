@@ -25,6 +25,9 @@ LAMINAS = {
                          ["rhizobi", "meliloti", "agrobacter"]],
     "lineas_19_23.png": [["roqueforti", "chrysogenum"], ["niger", "flavus"], ["bacteroid", "fragilis"], ["albicans", "auris"],
                          ["euglena", "volvox"]],
+    "lineas_24_28a.png": [["zymomonas", "mobilis"], ["cholerae", "parahaemolyticus"], ["proteus-am", "entamoeba"], ["naegleria", None]],
+    "lineas_24_28b.png": [["mycoplas", "genitalium", "pneumoniae"]],
+    "lineas_24_28c.png": [["mutans", "pyogenes", "agalactiae"]],
 }
 
 def figuras(path, rejilla):
@@ -41,10 +44,13 @@ def figuras(path, rejilla):
         ys, xs = np.where(fl == k)
         # letras de los rótulos: piezas pequeñas casi negras
         tinta = ~fondo[ys, xs]
-        if tam[k] < 4000 and tinta.any() and (ys.max() - ys.min()) < 50 and (xs.max() - xs.min()) < 50:
+        if tam[k] < 8000 and tinta.any() and (ys.max() - ys.min()) < 90 and (xs.max() - xs.min()) < 90:
             px = f[ys, xs][tinta]
             # letra: tinta oscura y poco saturada (azul marino); las burbujas y destellos son de colores vivos
-            if px.sum(1).mean() < 420 and (px.max(1) - px.min(1)).mean() < 70: continue
+            peque = tam[k] < 4000 and (ys.max() - ys.min()) < 50 and (xs.max() - xs.min()) < 50
+            if peque and px.sum(1).mean() < 420 and (px.max(1) - px.min(1)).mean() < 70: continue
+            # rótulos grandes o suavizados: azul marino (b > r) y oscuro en conjunto
+            if tam[k] >= 20 and px.sum(1).mean() < 380 and (px[:, 2] > px[:, 0] + 20).mean() > 0.6 and (px[:, 0] < 90).mean() > 0.6 and (abs(px[:, 0] - px[:, 1]) < 15).mean() > 0.7: continue
         comps.append(dict(k=k, x=xs.mean(), y=ys.mean(), x0=xs.min(), x1=xs.max() + 1, y0=ys.min(), y1=ys.max() + 1, n=tam[k]))
     H, W = fg.shape
     Y0, Y1 = min(q["y0"] for q in comps), max(q["y1"] for q in comps)       # zona con figuras
