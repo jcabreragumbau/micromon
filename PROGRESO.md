@@ -250,5 +250,11 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Lámina `assets/reference/microos/lineas_44_48.png` (Bdellovib→Bacteriovor, Desulfovib→Thiomargar, Baylyi→Baumannii, Caulobac→Crescentus, Leishmania→Trypanosom).
 - Filtro: fragmentos sueltos de letra (<30 px, azul marino) se descartan.
 
+## Tipos corregidos (coherencia biológica)
+
+- `TYPE_FIX` en `tools/build_microdex.py`: 40 Microos con tipos del GDD que no encajaban con el organismo (Streptomyces como Hongo, Bifidobacterium como Levadura, Rhizobium como Fotótrofo, Vibrio como Protozoo, virus Gram-, Geobacter/Shewanella como Espiroqueta, psicrófilos Gram- como Ácido-Alc., formas L como Levadura/Protozoo, etc.). Cada línea lleva su justificación.
+- Regla: tipos de pared o grupo (Gram±, Ácido-Alc., Esporulado, Espiroqueta, Hongo, Levadura, Protozoo, Alga, Archaea, Virus) solo para quien lo es.
+- Equilibrio (simulate.ts): Gimnasio 3 pasa del 58 % al 42 % de victorias del equipo de prueba; Alto Mando 2 del 55 % al 52 %; el resto igual.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

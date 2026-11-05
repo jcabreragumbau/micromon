@@ -156,6 +156,54 @@ for i, r in enumerate(canon, 1):
         "evolution": r["evo_from_prev"] if r["prev"] in by_name else None,
         "gdd_section": r["section"],
     })
+# Correcciones de tipo respecto al GDD: los tipos de pared o grupo (Gram+, Gram-, Ácido-Alc., Esporulado, Espiroqueta,
+# Hongo, Levadura, Protozoo, Alga, Archaea, Virus) solo se dan a organismos que lo son de verdad, y se quitan rasgos falsos
+# (p. ej. Anaerobio en un aerobio, Fotótrofo en quien no hace fotosíntesis).
+TYPE_FIX = {
+    "griseus": ["Gram+", "Antibiótico"],       # Streptomyces: bacteria filamentosa, no hongo
+    "coelicol": ["Gram+", "Antibiótico"],
+    "avermitil": ["Gram+", "Antibiótico"],
+    "pilobolus": ["Hongo", "Biofilm"],         # hongo de micelio en tapete; no es un alga
+    "interrogan": ["Espiroqueta", "Biofilm"],  # Leptospira: espiroqueta, no protozoo
+    "aquaticus": ["Extremófilo", "Gram-"],     # Thermus aquaticus es aerobio y Gram-
+    "bifidum": ["Simbionte", "Anaerobio"],     # Bifidobacterium: bacteria anaerobia, no levadura
+    "longum": ["Simbionte", "Anaerobio"],
+    "rhizobi": ["Gram-", "Simbionte"],         # Rhizobium fija nitrógeno, no hace fotosíntesis
+    "meliloti": ["Gram-", "Simbionte"],
+    "agrobacter": ["Gram-", "Intracelular"],
+    "flavus": ["Hongo"],                       # Aspergillus: hongo, no Gram-
+    "bacteroid": ["Anaerobio", "Gram-"],       # Bacteroides no forma esporas
+    "fragilis": ["Anaerobio", "Gram-"],
+    "volvox": ["Alga", "Fotótrofo"],           # Volvox es un alga verde
+    "cholerae": ["Gram-", "Biofilm"],          # Vibrio: bacteria, no protozoo
+    "vulnificus": ["Gram-", "Extremófilo"],
+    "alexandrium": ["Alga"],                   # dinoflagelado: protista fotosintético, no Gram-
+    "pelagibac": ["Gram-", "Fotótrofo"],       # bacteria con proteorrodopsina; no es un alga
+    "geobacter": ["Gram-", "Biofilm"],         # Geobacter es un bacilo Gram-, no una espiroqueta
+    "sulfurreduc": ["Gram-", "Biofilm"],
+    "shewanella": ["Gram-", "Extremófilo"],
+    "psychrobac": ["Gram-", "Extremófilo"],    # psicrófilos Gram-, no ácido-alcohol resistentes
+    "colwellia": ["Gram-", "Extremófilo"],
+    "baylyi": ["Gram-"],                       # Acinetobacter es Gram-
+    "trypanosom": ["Protozoo", "Extremófilo"], # no es una espiroqueta
+    "acantharia": ["Protozoo", "Simbionte"],   # protozoo con algas simbiontes; no es un alga
+    "sulfolobus": ["Archaea", "Extremófilo"],  # Saccharolobus es aerobio
+    "marburg-v": ["Virus", "Intracelular"],    # un virus no tiene tinción de Gram
+    "filovir-z": ["Virus", "Extremófilo"],
+    "mimivir": ["Virus", "Intracelular"],      # infecta amebas, pero es un virus
+    "pandoravir": ["Virus", "Intracelular"],
+    "sputnik-v": ["Virus", "Intracelular"],    # virófago: virus, no anaerobio
+    "diatomax": ["Alga", "Fotótrofo"],         # diatomea, no ácido-alcohol resistente
+    "pleomorph": ["Intracelular"],             # forma L: bacteria sin pared, no levadura
+    "halomorph": ["Intracelular", "Extremófilo"],
+    "stromatol": ["Fotótrofo", "Biofilm"],     # tapete de cianobacterias
+    "cyanofossil": ["Fotótrofo", "Gram-"],     # las cianobacterias tienen envoltura de tipo Gram-
+    "prion-sc": ["Intracelular", "Extremófilo"],  # proteína, sin pared
+    "viroid-cad": ["Virus", "Intracelular"],   # ARN infeccioso de palmeras: ni espiroqueta ni fotótrofo
+}
+for o in out:
+    if o["id"] in TYPE_FIX: o["types"] = TYPE_FIX[o["id"]]
+assert set(TYPE_FIX) <= {o["id"] for o in out}, set(TYPE_FIX) - {o["id"] for o in out}
 ids = [o["id"] for o in out]
 import sys; sys.path.insert(0, str(Path(__file__).parent))
 from dex_text import DEX

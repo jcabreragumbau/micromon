@@ -219,7 +219,7 @@
   "organism": "Dispara esporas a gran velocidad",
   "types": [
    "Hongo",
-   "Alga"
+   "Biofilm"
   ],
   "gdd_ref": [
    12
@@ -239,7 +239,7 @@
   "name": "Griseus",
   "organism": "",
   "types": [
-   "Hongo",
+   "Gram+",
    "Antibiótico"
   ],
   "gdd_ref": [
@@ -257,7 +257,7 @@
   "name": "Coelicol",
   "organism": "",
   "types": [
-   "Hongo",
+   "Gram+",
    "Antibiótico"
   ],
   "gdd_ref": [
@@ -278,7 +278,7 @@
   "name": "Avermitil",
   "organism": "Streptomyces",
   "types": [
-   "Hongo",
+   "Gram+",
    "Antibiótico"
   ],
   "gdd_ref": [
@@ -490,7 +490,7 @@
   "organism": "",
   "types": [
    "Espiroqueta",
-   "Protozoo"
+   "Biofilm"
   ],
   "gdd_ref": [
    26
@@ -720,7 +720,7 @@
   "organism": "Productor de Taq Polimerasa",
   "types": [
    "Extremófilo",
-   "Anaerobio"
+   "Gram-"
   ],
   "gdd_ref": [
    38
@@ -741,7 +741,7 @@
   "organism": "",
   "types": [
    "Simbionte",
-   "Levadura"
+   "Anaerobio"
   ],
   "gdd_ref": [
    39
@@ -759,7 +759,7 @@
   "organism": "",
   "types": [
    "Simbionte",
-   "Levadura"
+   "Anaerobio"
   ],
   "gdd_ref": [
    40
@@ -817,7 +817,7 @@
   "name": "Rhizobi",
   "organism": "",
   "types": [
-   "Fotótrofo",
+   "Gram-",
    "Simbionte"
   ],
   "gdd_ref": [
@@ -835,7 +835,7 @@
   "name": "Meliloti",
   "organism": "",
   "types": [
-   "Fotótrofo",
+   "Gram-",
    "Simbionte"
   ],
   "gdd_ref": [
@@ -856,7 +856,7 @@
   "name": "Agrobacter",
   "organism": "A. tumefaciens ingeniero genético",
   "types": [
-   "Fotótrofo",
+   "Gram-",
    "Intracelular"
   ],
   "gdd_ref": [
@@ -932,8 +932,7 @@
   "name": "Flavus",
   "organism": "Aflatoxinas",
   "types": [
-   "Hongo",
-   "Gram-"
+   "Hongo"
   ],
   "gdd_ref": [
    49
@@ -954,7 +953,7 @@
   "organism": "",
   "types": [
    "Anaerobio",
-   "Esporulado"
+   "Gram-"
   ],
   "gdd_ref": [
    50
@@ -972,7 +971,7 @@
   "organism": "",
   "types": [
    "Anaerobio",
-   "Esporulado"
+   "Gram-"
   ],
   "gdd_ref": [
    51
@@ -1048,7 +1047,7 @@
   "name": "Volvox",
   "organism": "Colonia esférica coordinada",
   "types": [
-   "Protozoo",
+   "Alga",
    "Fotótrofo"
   ],
   "gdd_ref": [
@@ -1108,7 +1107,7 @@
   "organism": "",
   "types": [
    "Gram-",
-   "Protozoo"
+   "Biofilm"
   ],
   "gdd_ref": [
    59
@@ -1356,8 +1355,7 @@
   "name": "Alexandrium",
   "organism": "Marea roja neurotóxica",
   "types": [
-   "Alga",
-   "Gram-"
+   "Alga"
   ],
   "gdd_ref": [
    71
@@ -1378,7 +1376,7 @@
   "organism": "SAR11",
   "types": [
    "Gram-",
-   "Alga"
+   "Fotótrofo"
   ],
   "gdd_ref": [
    72
@@ -1548,7 +1546,7 @@
   "name": "Geobacter",
   "organism": "",
   "types": [
-   "Espiroqueta",
+   "Gram-",
    "Biofilm"
   ],
   "gdd_ref": [
@@ -1566,7 +1564,7 @@
   "name": "Sulfurreduc",
   "organism": "Produce nanocables conductores",
   "types": [
-   "Espiroqueta",
+   "Gram-",
    "Biofilm"
   ],
   "gdd_ref": [
@@ -1644,7 +1642,8 @@
   "name": "Psychrobac",
   "organism": "",
   "types": [
-   "Ácido-Alc."
+   "Gram-",
+   "Extremófilo"
   ],
   "gdd_ref": [
    86
@@ -1661,7 +1660,7 @@
   "name": "Colwellia",
   "organism": "Vive en hielo marino a -20°C",
   "types": [
-   "Ácido-Alc.",
+   "Gram-",
    "Extremófilo"
   ],
   "gdd_ref": [
@@ -2060,7 +2059,7 @@
   "organism": "Vibrio vulnificus",
   "types": [
    "Gram-",
-   "Protozoo"
+   "Extremófilo"
   ],
   "gdd_ref": [
    108
@@ -2116,7 +2115,7 @@
   "name": "Baylyi",
   "organism": "",
   "types": [
-   "Gram+"
+   "Gram-"
   ],
   "gdd_ref": [
    111
@@ -2264,7 +2263,7 @@
   "organism": "Membrana ondulante",
   "types": [
    "Protozoo",
-   "Espiroqueta"
+   "Extremófilo"
   ],
   "gdd_ref": [
    119
@@ -2285,7 +2284,7 @@
   "organism": "",
   "types": [
    "Protozoo",
-   "Alga"
+   "Simbionte"
   ],
   "gdd_ref": [
    120
@@ -2377,7 +2376,7 @@
   "name": "Shewanella",
   "organism": "S. oneidensis, respirador de metales pesados",
   "types": [
-   "Espiroqueta",
+   "Gram-",
    "Extremófilo"
   ],
   "gdd_ref": [
@@ -2396,7 +2395,7 @@
   "organism": "S. solfataricus, arquea termoacidófila volcánica a pH 2 y 80 °C",
   "types": [
    "Archaea",
-   "Anaerobio"
+   "Extremófilo"
   ],
   "gdd_ref": [
    126
@@ -2585,7 +2584,7 @@
   "organism": "",
   "types": [
    "Virus",
-   "Gram-"
+   "Intracelular"
   ],
   "gdd_ref": [
    123
@@ -2606,7 +2605,7 @@
   "organism": "Ébola",
   "types": [
    "Virus",
-   "Gram-"
+   "Extremófilo"
   ],
   "gdd_ref": [
    124
@@ -2644,7 +2643,7 @@
   "organism": "",
   "types": [
    "Virus",
-   "Protozoo"
+   "Intracelular"
   ],
   "gdd_ref": [
    126
@@ -2665,7 +2664,7 @@
   "organism": "Virus Gigante pseudo-legendario de 600 BST",
   "types": [
    "Virus",
-   "Protozoo"
+   "Intracelular"
   ],
   "gdd_ref": [
    127
@@ -2724,7 +2723,7 @@
   "organism": "Diatomea gigante acorazada para navegar con Flagelo Polar",
   "types": [
    "Alga",
-   "Ácido-Alc."
+   "Fotótrofo"
   ],
   "gdd_ref": [
    131
@@ -2758,7 +2757,7 @@
   "name": "Pleomorph",
   "organism": "Bacteria L-form sin pared fija",
   "types": [
-   "Levadura"
+   "Intracelular"
   ],
   "gdd_ref": [
    133
@@ -2775,7 +2774,7 @@
   "name": "Halomorph",
   "organism": "",
   "types": [
-   "Protozoo",
+   "Intracelular",
    "Extremófilo"
   ],
   "gdd_ref": [
@@ -2837,8 +2836,8 @@
   "name": "Stromatol",
   "organism": "",
   "types": [
-   "Gram+",
-   "Fotótrofo"
+   "Fotótrofo",
+   "Biofilm"
   ],
   "gdd_ref": [
    137
@@ -2855,8 +2854,8 @@
   "name": "Cyanofossil",
   "organism": "",
   "types": [
-   "Gram+",
-   "Fotótrofo"
+   "Fotótrofo",
+   "Gram-"
   ],
   "gdd_ref": [
    138
@@ -2950,8 +2949,8 @@
   "name": "Prion-Sc",
   "organism": "PrPSc en la cima de la Torre Prión",
   "types": [
-   "Ácido-Alc.",
-   "Intracelular"
+   "Intracelular",
+   "Extremófilo"
   ],
   "gdd_ref": [
    143
@@ -2968,8 +2967,8 @@
   "name": "Viroid-Cad",
   "organism": "Viroide del Cadang-Cadang en la Central Metabólica",
   "types": [
-   "Espiroqueta",
-   "Fotótrofo"
+   "Virus",
+   "Intracelular"
   ],
   "gdd_ref": [
    144
@@ -2986,8 +2985,8 @@
   "name": "Sputnik-V",
   "organism": "Virofago Sputnik en las Islas Esporuladas, devorador de virus gigantes",
   "types": [
-   "Anaerobio",
-   "Virus"
+   "Virus",
+   "Intracelular"
   ],
   "gdd_ref": [
    145
