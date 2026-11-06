@@ -284,5 +284,9 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - `assets/reference/microos/sueltos_1.png`: Radiodurans, Magnetospir, Nocardia, Actinomyces, Vulnificus, Kefirgran, Spirogyra, Mixotricha, Chlamydia. Electromorph con su lámina propia mejorada.
 
+## Sprites del usuario: Microos sin evolución (tanda 2)
+
+- `assets/reference/microos/sueltos_2.png`: Plasmodium, Toxoplasma, Shewanella, Sulfolobus, Yersinia, Listeria, Diatomax, Myxococcus, Lokiarca.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

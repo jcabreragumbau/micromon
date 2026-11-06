@@ -42,7 +42,9 @@ LAMINAS = {
                          ["stromatol", "cyanofossil"], ["amberspor", "palaeobacil"]],
     "electromorph.png": [["electromorph"]],
     "sueltos_1.png": [["radiodurans", "magnetospir", "nocardia"], ["actinomyces", "vulnificus", "kefirgran"],
-                      ["spirogyra", "mixotricha", "chlamydia"]],      # versión mejorada (sustituye a la de lineas_54_57)
+                      ["spirogyra", "mixotricha", "chlamydia"]],
+    "sueltos_2.png": [["plasmodium", "toxoplasma", "shewanella"], ["sulfolobus", "yersinia", "listeria"],
+                      ["diatomax", "myxococcus", "lokiarca"]],      # versión mejorada (sustituye a la de lineas_54_57)
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
@@ -62,10 +64,13 @@ CORTES = {
                          [0, 210, 470, 728, 9999]],
     "sueltos_1.png": [[0, 252, 510, 768, 1020, 1285, 9999], [0, 255, 510, 768, 1020, 1288, 9999],
                       [0, 245, 510, 772, 1030, 1283, 9999]],
+    "sueltos_2.png": [[0, 248, 510, 762, 1020, 1276, 9999], [0, 255, 515, 758, 1020, 1283, 9999],
+                      [0, 260, 515, 765, 1020, 1275, 9999]],
 }
 
 # cortes en y (px) entre filas, para láminas cuyas filas no son de igual altura
-FILAS = {"lineas_54_57.png": [0, 240, 485, 760, 9999], "sueltos_1.png": [0, 330, 650, 9999]}
+FILAS = {"lineas_54_57.png": [0, 240, 485, 760, 9999], "sueltos_1.png": [0, 330, 650, 9999],
+         "sueltos_2.png": [0, 330, 650, 9999]}
 
 
 def figuras(path, rejilla, cortes=None, filas_y=None):
