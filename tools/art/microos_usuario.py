@@ -40,6 +40,7 @@ LAMINAS = {
                          ["lyssavir", "marburg-v", "filovir-z"], ["poxvir", "mimivir", "pandoravir"]],
     "lineas_54_57.png": [["legionel", "pneumophila"], ["pleomorph", "halomorph", "electromorph", "pyromorph"],
                          ["stromatol", "cyanofossil"], ["amberspor", "palaeobacil"]],
+    "electromorph.png": [["electromorph"]],      # versión mejorada (sustituye a la de lineas_54_57)
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
