@@ -40,7 +40,9 @@ LAMINAS = {
                          ["lyssavir", "marburg-v", "filovir-z"], ["poxvir", "mimivir", "pandoravir"]],
     "lineas_54_57.png": [["legionel", "pneumophila"], ["pleomorph", "halomorph", "electromorph", "pyromorph"],
                          ["stromatol", "cyanofossil"], ["amberspor", "palaeobacil"]],
-    "electromorph.png": [["electromorph"]],      # versión mejorada (sustituye a la de lineas_54_57)
+    "electromorph.png": [["electromorph"]],
+    "sueltos_1.png": [["radiodurans", "magnetospir", "nocardia"], ["actinomyces", "vulnificus", "kefirgran"],
+                      ["spirogyra", "mixotricha", "chlamydia"]],      # versión mejorada (sustituye a la de lineas_54_57)
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
@@ -58,10 +60,12 @@ CORTES = {
                          [0, 208, 400, 585, 820, 988, 9999], [0, 203, 405, 605, 810, 1012, 9999]],
     "lineas_54_57.png": [[0, 255, 485, 765, 9999], [0, 210, 392, 580, 772, 990, 1170, 1335, 9999], [0, 210, 478, 656, 9999],
                          [0, 210, 470, 728, 9999]],
+    "sueltos_1.png": [[0, 252, 510, 768, 1020, 1285, 9999], [0, 255, 510, 768, 1020, 1288, 9999],
+                      [0, 245, 510, 772, 1030, 1283, 9999]],
 }
 
 # cortes en y (px) entre filas, para láminas cuyas filas no son de igual altura
-FILAS = {"lineas_54_57.png": [0, 240, 485, 760, 9999]}
+FILAS = {"lineas_54_57.png": [0, 240, 485, 760, 9999], "sueltos_1.png": [0, 330, 650, 9999]}
 
 
 def figuras(path, rejilla, cortes=None, filas_y=None):

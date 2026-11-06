@@ -280,5 +280,9 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - Lámina `assets/reference/microos/lineas_54_57.png` (Legionel→Pneumophila, Pleomorph y sus 3 ramas, Stromatol→Cyanofossil, Amberspor→Palaeobacil). `FILAS` permite cortes en y por lámina; filtro de rótulos ampliado al azul pizarra.
 
+## Sprites del usuario: Microos sin evolución (tanda 1)
+
+- `assets/reference/microos/sueltos_1.png`: Radiodurans, Magnetospir, Nocardia, Actinomyces, Vulnificus, Kefirgran, Spirogyra, Mixotricha, Chlamydia. Electromorph con su lámina propia mejorada.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
