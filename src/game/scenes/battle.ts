@@ -64,6 +64,7 @@ export class BattleScene implements Scene {
       if (d.drop > 0 && d.drop < 48) d.drop += 3;
     }
     if (this.ballAnim > 0) this.ballAnim--;
+    for (const t of this.tiros) if (t.t < TIRO) t.t++;
     if (this.fx) this.fx.t++;
     if (this.absorb && this.absorb.t > 0) this.absorb.t--;
     if (this.trainerSlide > 0) this.trainerSlide -= 4;
@@ -94,9 +95,16 @@ export class BattleScene implements Scene {
     if (fila >= 0 && IMG.protas_espalda && !this.s.safari) {
       this.jugador = { f: 0, dx: 0 };
       await g.wait(14);
-      for (const f of [1, 2, 3, 4]) { this.jugador.f = f; await g.wait(f === 3 ? 10 : 7); }
+      for (const f of [1, 2, 3, 4]) {
+        this.jugador.f = f;
+        // al soltar el brazo sale la Criobola hacia cada Microo propio
+        if (f === 3) { audio.sfx("ball"); this.tiros = initial.filter((e) => e.side === 0).map((e) => ({ t: 0, slot: (e.slot as number) ?? 0 })); }
+        await g.wait(f === 3 ? 10 : 7);
+      }
       for (let i = 0; i < 14; i++) { this.jugador.dx -= 8; await g.wait(1); }
       this.jugador = null;
+      while (this.tiros.some((t) => t.t < TIRO)) await g.wait(1);
+      this.tiros = [];
     }
     for (const e of initial.filter((e) => e.side === 0)) await this.play(e);
     for (const m of b.sides[1].party) markSeen(g.state, m.species);
@@ -301,6 +309,8 @@ export class BattleScene implements Scene {
   aim = -1;
   /** Protagonista de espaldas al empezar el combate: fotograma (0-4) y desplazamiento al salir de escena. */
   jugador: { f: number; dx: number } | null = null;
+  /** Criobolas lanzadas por el protagonista al empezar el combate (t: fotogramas desde que salen de la mano). */
+  tiros: { t: number; slot: number }[] = [];
 
   // ---------------------------------------------------------------- eventos
   /** Contra investigadores, cada mensaje espera a que pulses A (para ver el combate y leer con calma). */
@@ -453,6 +463,17 @@ export class BattleScene implements Scene {
     if (this.jugador) {
       const fila = this.game.state.avatar === "chico" ? 0 : 1;
       g.ctx.drawImage(IMG.protas_espalda, this.jugador.f * 512, fila * 384, 512, 384, -12 + this.jugador.dx, TB - 96, 128, 96);
+      // con el brazo atrás, la Criobola en la mano
+      if (this.jugador.f === 2) drawBallBig(g, 0, TB - 59);
+    }
+    // Criobolas en vuelo: de la mano (brazo extendido) al sitio del Microo, en arco y girando
+    for (const tr of this.tiros) {
+      if (tr.t >= TIRO) continue;
+      const q = tr.t / TIRO;
+      const [sx, sy, k] = this.spot(0, tr.slot);
+      const x0 = 81, y0 = TB - 60, x1 = sx + 46 * k, y1 = sy + 62 * k;
+      const x = x0 + (x1 - x0) * q, y = y0 + (y1 - y0) * q - Math.sin(q * Math.PI) * 46;
+      const c = g.ctx; c.save(); c.translate(x, y); c.rotate(q * Math.PI * 4); drawBallBig(g, 0, 0); c.restore();
     }
     // Propios (el segundo se dibuja detrás)
     [...this.disp[0].keys()].reverse().forEach((slot) => {
@@ -591,6 +612,8 @@ export function drawBattleBackground(g: Gfx, env: string, cache: { env?: string;
   }
   g.ctx.drawImage(cache.c!, 0, 0);
 }
+
+const TIRO = 22;   // fotogramas que tarda la Criobola del protagonista en llegar
 
 function drawBallBig(g: Gfx, x: number, y: number) {
   const c = g.ctx;
