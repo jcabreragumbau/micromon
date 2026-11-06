@@ -276,5 +276,9 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - `tools/art/npcs_combate.py`: los 26 sprites de combate del usuario (`assets/reference/npcs_combate/NN.png`, ~80×80, fondo azul) → `characters_hd/npcNN_combate80.png` (4×, sin fondo). `char_atlas.py` los junta en `assets/atlas/retratos_npc.png` (`npcPortraits` en personajes.json) y `Gfx.portrait` los dibuja a 80×80.
 - `pnj.ts`: los entrenadores genéricos solo usan esos modelos (01, 02, 03, 04, 06–15, 18, 20, 21, 22, 24–28, 31–33); los de aspecto de oficio (granjero, pescador, marinero, karateca, explorador, cámara…) solo para su oficio.
 
+## Sprites del usuario: líneas 54–57
+
+- Lámina `assets/reference/microos/lineas_54_57.png` (Legionel→Pneumophila, Pleomorph y sus 3 ramas, Stromatol→Cyanofossil, Amberspor→Palaeobacil). `FILAS` permite cortes en y por lámina; filtro de rótulos ampliado al azul pizarra.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
