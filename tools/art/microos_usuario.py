@@ -46,7 +46,8 @@ LAMINAS = {
     "sueltos_2.png": [["plasmodium", "toxoplasma", "shewanella"], ["sulfolobus", "yersinia", "listeria"],
                       ["diatomax", "myxococcus", "lokiarca"]],
     # incluye un Plasmodium mejorado que sustituye al de sueltos_2
-    "sueltos_3a.png": [["plasmodium", "prion-sc", "viroid-cad"], ["sputnik-v", "deinococ", "pyrococcus"]],      # versión mejorada (sustituye a la de lineas_54_57)
+    "sueltos_3a.png": [["plasmodium", "prion-sc", "viroid-cad"], ["sputnik-v", "deinococ", "pyrococcus"]],
+    "tardigrad.png": [["tardigrad"]],      # versión mejorada (sustituye a la de lineas_54_57)
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
@@ -69,6 +70,7 @@ CORTES = {
     "sueltos_2.png": [[0, 248, 510, 762, 1020, 1276, 9999], [0, 255, 515, 758, 1020, 1283, 9999],
                       [0, 260, 515, 765, 1020, 1275, 9999]],
     "sueltos_3a.png": [[0, 258, 515, 770, 1020, 1288, 9999], [0, 260, 515, 780, 1020, 1295, 9999]],
+    "tardigrad.png": [[0, 266, 9999]],
 }
 
 HUECOS = {"sueltos_3a.png"}
