@@ -288,5 +288,10 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - `assets/reference/microos/sueltos_2.png`: Plasmodium, Toxoplasma, Shewanella, Sulfolobus, Yersinia, Listeria, Diatomax, Myxococcus, Lokiarca.
 
+## Sprites del usuario: Microos sin evolución (tanda 3a)
+
+- `assets/reference/microos/sueltos_3a.png`: Plasmodium (mejorado), Prion-Sc, Viroid-Cad, Sputnik-V, Deinococ, Pyrococcus. `HUECOS`: en esa lámina el fondo grande encerrado (anillo de Viroid-Cad) queda transparente.
+- Faltan Tardigrad, E. coli O157:H7, Salmonella Typhimurium y LUCA.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

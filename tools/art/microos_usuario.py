@@ -44,7 +44,9 @@ LAMINAS = {
     "sueltos_1.png": [["radiodurans", "magnetospir", "nocardia"], ["actinomyces", "vulnificus", "kefirgran"],
                       ["spirogyra", "mixotricha", "chlamydia"]],
     "sueltos_2.png": [["plasmodium", "toxoplasma", "shewanella"], ["sulfolobus", "yersinia", "listeria"],
-                      ["diatomax", "myxococcus", "lokiarca"]],      # versión mejorada (sustituye a la de lineas_54_57)
+                      ["diatomax", "myxococcus", "lokiarca"]],
+    # incluye un Plasmodium mejorado que sustituye al de sueltos_2
+    "sueltos_3a.png": [["plasmodium", "prion-sc", "viroid-cad"], ["sputnik-v", "deinococ", "pyrococcus"]],      # versión mejorada (sustituye a la de lineas_54_57)
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
@@ -66,11 +68,14 @@ CORTES = {
                       [0, 245, 510, 772, 1030, 1283, 9999]],
     "sueltos_2.png": [[0, 248, 510, 762, 1020, 1276, 9999], [0, 255, 515, 758, 1020, 1283, 9999],
                       [0, 260, 515, 765, 1020, 1275, 9999]],
+    "sueltos_3a.png": [[0, 258, 515, 770, 1020, 1288, 9999], [0, 260, 515, 780, 1020, 1295, 9999]],
 }
+
+HUECOS = {"sueltos_3a.png"}
 
 # cortes en y (px) entre filas, para láminas cuyas filas no son de igual altura
 FILAS = {"lineas_54_57.png": [0, 240, 485, 760, 9999], "sueltos_1.png": [0, 330, 650, 9999],
-         "sueltos_2.png": [0, 330, 650, 9999]}
+         "sueltos_2.png": [0, 330, 650, 9999], "sueltos_3a.png": [0, 310, 9999]}
 
 
 def figuras(path, rejilla, cortes=None, filas_y=None):
@@ -78,7 +83,11 @@ def figuras(path, rejilla, cortes=None, filas_y=None):
     fondo = (f.min(2) > 215) & (f.max(2) - f.min(2) < 26)
     lab, _ = label(fondo)
     borde = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
-    fg = binary_fill_holes(~np.isin(lab, list(borde)))
+    # zonas de fondo encerradas: normalmente son brillos o cápsulas translúcidas del dibujo y se conservan; en las
+    # láminas de HUECOS las grandes (el interior del anillo de Viroid-Cad) son fondo de verdad y quedan transparentes
+    tl = np.bincount(lab.ravel())
+    grandes = [k for k in np.nonzero(tl > 1500)[0] if k and k not in borde] if path.name in HUECOS else []
+    fg = binary_fill_holes(~np.isin(lab, list(borde))) & ~np.isin(lab, grandes)
     fl, n = label(fg); tam = np.bincount(fl.ravel()); tam[0] = 0
     # piezas grandes (figuras); los rótulos son letras sueltas pequeñas y oscuras sobre una franja
     comps = []
