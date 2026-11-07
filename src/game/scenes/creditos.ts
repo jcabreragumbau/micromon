@@ -1,5 +1,6 @@
 // Registro de Cepas Tipo de La UAB (salón de la fama) y créditos finales.
 import type { Game, Overlay } from "../game";
+import { T } from "../edicion";
 import { Gfx, W, H } from "../gfx";
 import { displayName, type Microo } from "../../engine/microo";
 import { getSpecies } from "../../engine/data";
@@ -42,7 +43,7 @@ export class HallOfFame implements Overlay {
 }
 
 const CREDITOS = [
-  "MICROMÓN", "Edición Escherichia", "",
+  "MICROMÓN", T.nombre, "",
   "— Diseño del juego —", "El documento de diseño original", "y sus 150 Microos (+12 virus)", "",
   "— Programación, motor y combates —", "Claude Opus 5.5", "",
   "— Arte: Microos, personajes y mapas —", "Dibujado en código por Claude Opus 5.5", "",

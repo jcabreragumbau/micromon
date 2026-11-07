@@ -293,5 +293,13 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - `assets/reference/microos/sueltos_3a.png`: Plasmodium (mejorado), Prion-Sc, Viroid-Cad, Sputnik-V, Deinococ, Pyrococcus. `HUECOS`: en esa lámina el fondo grande encerrado (anillo de Viroid-Cad) queda transparente.
 - Tardigrad con su lámina propia. Faltan E. coli O157:H7, Salmonella Typhimurium y LUCA.
 
+## Ediciones Escherichia y Salmonella (sobre la V2)
+
+- `bun run tools/build_game.ts --ed=escherichia|salmonella` → `dist/micromon{Escherichia,Salmonella}.html` + `dist/pub_<ed>/a/`; local `dist/index<Ed>.html`. Artifacts: Escherichia https://claude.ai/artifact/V8XKeSMrZwn57KU6WZXb5F, Salmonella https://claude.ai/artifact/8F3UvmiXs3uefVXsYTzg3a. V1 y V2 no cambian.
+- Portadas del usuario en `assets/reference/portadas/`; `tools/art/portadas.py` → `assets/atlas_ed/<ed>/portada{,_fondo}.jpg` (el build los prefiere). En las ediciones el «Pulsa A» va arriba y en la Salmonella las ascuas son burbujas.
+- `src/game/edicion.ts` (`ED`, `T`, `EXCLUSIVOS`, `aplicarEdicion`): legendario de la historia (Mansión, Nv 60) O157 o Typhimurium; el otro tras la Liga (UAB, Nv 70). En Salmonella cambian los diarios de la Mansión (cepa LT2, fago P22 transductor), la Dra. Campoy, el Dr. Martínez-Urtaza, el rumor de Hesse, la Microdex y los créditos.
+- Exclusivos (mismo poder): Escherichia Perfringens→Tetani, Klebsi→Pneumonia-K, Pyrococcus; Salmonella Cholerae→Parahaemolyticus, Psychrobac→Colwellia, Vulnificus. En cada edición los de la otra se sustituyen por su pareja en las tablas de encuentros (entrenadores sin cambios).
+- `tools/playtest_v2.cjs` acepta `HTML=`; ambas ediciones pasan las 81 puertas. (`tools/playtest.cjs` es solo para la V1.)
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

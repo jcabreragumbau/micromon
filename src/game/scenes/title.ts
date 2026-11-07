@@ -3,7 +3,7 @@ import type { Game, Scene } from "../game";
 import { audio } from "../audio";
 import { Gfx, W, H } from "../gfx";
 import { IMG } from "../assets";
-import { V2 } from "../assets_data";
+import { V2, EDICION } from "../assets_data";
 import { Overworld } from "./overworld";
 import { newState, loadGame, hasSave, AVATAR_SPRITE, levelCap, type Avatar } from "../state";
 import { runScript } from "../scripts";
@@ -38,14 +38,14 @@ export class TitleScene implements Scene {
       c.drawImage(IMG.portada, cx, 0, cw, H);
     }
     c.restore();
-    // ascuas que suben por toda la pantalla
+    // ascuas que suben por toda la pantalla (burbujas en la Edición Salmonella)
     for (let i = 0; i < 26; i++) {
       const sp = 0.25 + (i % 5) * 0.09, x = (i * 53 + Math.sin((this.t + i * 40) / 37) * 8) % W;
       const y = H - ((this.t * sp + i * 71) % (H + 20)) + 10;
-      g.alpha(0.5 + 0.5 * Math.sin((this.t + i * 13) / 9), () => g.rect(x, y, i % 3 ? 1 : 2, i % 3 ? 1 : 2, i % 2 ? "#ffd060" : "#ff7a20"));
+      g.alpha(0.5 + 0.5 * Math.sin((this.t + i * 13) / 9), () => g.rect(x, y, i % 3 ? 1 : 2, i % 3 ? 1 : 2, EDICION === "salmonella" ? (i % 2 ? "#bff4ff" : "#58c8f0") : i % 2 ? "#ffd060" : "#ff7a20"));
     }
     // Micromón V2 (tileset de 4.ª generación): sello en la esquina para distinguir las dos versiones
-    if (V2) {
+    if (V2 && !EDICION) {
       g.round(W - 30, 4, 26, 15, 4, "#1c2a6a"); g.round(W - 29, 5, 24, 13, 3, "#3858c8");
       g.text("V2", W - 24, 6, "white");
     }
@@ -53,8 +53,10 @@ export class TitleScene implements Scene {
     if (this.t < 40) g.alpha(1 - this.t / 40, () => g.rect(0, 0, W, H, "#000"));
     if (Math.floor(this.t / 30) % 2 === 0 && !game.overlays.length && this.t > 40) {
       const t = "Pulsa A para empezar", w = g.measure(t) + 12;
-      g.alpha(0.7, () => g.round(W / 2 - w / 2, H - 17, w, 14, 6, "#140404"));
-      g.text(t, W / 2 - w / 2 + 6, H - 16, "white");
+      // en las ediciones el nombre de la edición ocupa el pie de la portada: el aviso va arriba, bajo la franja roja
+      const y = EDICION ? 17 : H - 17;
+      g.alpha(0.7, () => g.round(W / 2 - w / 2, y, w, 14, 6, "#140404"));
+      g.text(t, W / 2 - w / 2 + 6, y + 1, "white");
     }
   }
 }

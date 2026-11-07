@@ -1,6 +1,7 @@
 // Guiones de historia, conversaciones y combates.
 import type { Game } from "./game";
 import { audio } from "./audio";
+import { T as ED } from "./edicion";
 import { curiosidadPara } from "./curiosidades";
 import type { Overworld, NpcState } from "./scenes/overworld";
 import { BattleScene, battleTrack, type BattleSetup, type BattleOutcome } from "./scenes/battle";
@@ -184,7 +185,7 @@ const SCRIPTS: Record<string, Script> = {
       s.flags.iniciales2 = true;
       await game.say(`Profesora Hesse: ¡${s.avatar === "chica" ? "Campeona" : "Campeón"} de La UAB! Estoy orgullosísima. Toma: los dos Inóculos que no elegiste aquel primer día.`);
       for (const sp of ["synechoc", "butyricum", "paramec"]) if (sp !== s.flags.starter) await giveMicroo(game, sp, 5);
-      await game.say("Profesora Hesse: Por cierto… dicen que una Salmonella muy rara ronda los jardines de La UAB desde tu victoria.");
+      await game.say(ED.rumorPostLiga);
       return;
     }
     if (s.caught.length >= 162) { await game.say("Profesora Hesse: ¡162 especies! ¡Has completado la Microdex! Eres la persona que más sabe de microbios del mundo."); return; }
@@ -944,7 +945,7 @@ const SCRIPTS: Record<string, Script> = {
 
   async urtazaFinal(game, world) {
     const s = S(game);
-    await game.say("Dr. Jaime Martínez-Urtaza: Llegas tarde. Las muestras de Cádiz, el fago con la toxina Shiga y mi modelo de Machine Learning… ya está hecho.");
+    await game.say(ED.urtaza1);
     await game.say("Dr. Martínez-Urtaza: El «Proyecto Pandemia Global». PPG para los vagos que no leen los títulos completos. Selección poblacional quirúrgica contra quien no cite bien el Lancet Countdown.");
     await game.say("Dr. Martínez-Urtaza: Y tú, con tus placas de Petri, no vas a detener la genómica de poblaciones. ¡Última lección!");
     const r = rng(game);
@@ -953,7 +954,7 @@ const SCRIPTS: Record<string, Script> = {
       trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "Imposible… mi modelo tenía un 99% de precisión…", money: 1200 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
     await game.say("Dr. Martínez-Urtaza: No… ¡El modelo decía que ganaría! ¡Los datos no mienten!");
-    await game.say("Del tanque central sale un brillo rojizo. ¡La cepa O157:H7 ha roto el cristal!");
+    await game.say(ED.tanque);
     await game.say("Dr. Martínez-Urtaza: ¡Quieta! ¡Obedece al script! ¡Te he programado yo!");
     await game.say("La cepa se revuelve contra él. La biología real no cabe en un script mal hecho.");
     await game.say("Dr. Martínez-Urtaza: … Veinte años. Veinte años sin vacaciones, sin fines de semana, sin… nada.");
@@ -963,7 +964,7 @@ const SCRIPTS: Record<string, Script> = {
     s.flags.urtaza3 = true;
     world.refreshNpcs();
     await game.fade(false, 14);
-    await game.say("Dra. Campoy: ¡Se ha ido! Pero la cepa O157 sigue ahí… ¡Tienes que aislarla o detenerla, {nombre}! Después te espero en mi gimnasio.");
+    await game.say(ED.campoyFin);
   },
 
   async liderCampoy(game, world) {

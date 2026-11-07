@@ -6,7 +6,7 @@ const path = require("path");
   const dir = process.argv[2] ?? "/tmp";
   const b = await chromium.launch(); const page = await b.newPage({ viewport: { width: 1100, height: 800 } });
   const errors = []; page.on("pageerror", (e) => errors.push(String(e)));
-  await page.goto("file://" + path.resolve("dist/indexV2.html"));
+  await page.goto("file://" + path.resolve(process.env.HTML || "dist/indexV2.html"));
   const G = (f, a) => page.evaluate(f, a);
   await page.waitForFunction(() => !!window.micromon);
   await page.keyboard.press("KeyZ"); await page.waitForTimeout(150); await page.keyboard.press("Enter"); await page.waitForTimeout(600);
