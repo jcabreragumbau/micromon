@@ -1,13 +1,17 @@
 // Ediciones Escherichia y Salmonella (ambas sobre la V2). Cada una tiene su legendario de la historia, su portada y
 // cinco Microos exclusivos; el legendario de la otra edición aparece tras ganar la Liga.
-// Sin edición (V1 y V2) el juego es la Edición Escherichia de siempre.
+// Sin edición (V1 y V2) el juego es la Edición Escherichia de siempre. En la página con las dos ediciones
+// (EDICION = "ambas") se elige al abrir el juego con `elegirEdicion`, antes de crear el mundo.
 import { EDICION } from "./assets_data";
 import { MAPS } from "./world/maps";
 import { SPECIES } from "../engine";
 
 export type Edicion = "escherichia" | "salmonella";
-export const ED: Edicion = (EDICION as Edicion | null) ?? "escherichia";
-const SAL = ED === "salmonella";
+/** ¿Esta página trae las dos ediciones (se elige al empezar)? */
+export const AMBAS = EDICION === "ambas";
+let actual: Edicion = EDICION === "salmonella" ? "salmonella" : "escherichia";
+/** Edición en curso. */
+export function ed(): Edicion { return actual; }
 
 /** Exclusivos: cada par tiene el mismo poder (BST 330 → 485 en las líneas; 500 frente a 481 el suelto). */
 export const EXCLUSIVOS: Record<Edicion, string[]> = {
@@ -16,7 +20,8 @@ export const EXCLUSIVOS: Record<Edicion, string[]> = {
 };
 
 /** Textos de la historia que dependen del legendario de la edición. */
-export const T = SAL ? {
+const TEXTOS = {
+  salmonella: {
   nombre: "Edición Salmonella",
   legendario: "salmonella-typhimurium", flagLeg: "salmonella",
   postLiga: "ecoli-o157", flagPost: "o157",
@@ -30,7 +35,8 @@ export const T = SAL ? {
     "Diario, 12 de agosto: Un fago P22 ha transducido genes de virulencia a un cultivo. La cepa ha cambiado…",
     "Diario, 3 de septiembre: La nueva cepa inyecta proteínas con su jeringa molecular y se cuela en cualquier célula. Ya no podemos controlarla.",
   ],
-} : {
+},
+  escherichia: {
   nombre: "Edición Escherichia",
   legendario: "ecoli-o157", flagLeg: "o157",
   postLiga: "salmonella-typhimurium", flagPost: "salmonella",
@@ -44,11 +50,26 @@ export const T = SAL ? {
     "Diario, 12 de agosto: Un fago portador de la toxina Shiga se ha colado en un cultivo. La cepa ha cambiado…",
     "Diario, 3 de septiembre: La nueva cepa produce toxina. La llamamos O157:H7. Ya no podemos controlarla.",
   ],
+},
 };
+/** Textos de la edición en curso (el objeto se rellena de nuevo al elegir edición). */
+export const T = { ...TEXTOS[actual] };
 
 /** Ajusta mapas y Microdex a la edición. Solo actúa en las ediciones (V1 y V2 no cambian). */
 export function aplicarEdicion() {
-  if (!EDICION) return;
+  if (!EDICION || AMBAS) return;
+  aplicar();
+}
+let aplicada = false;
+/** Página con las dos ediciones: fija la edición elegida y ajusta el mundo (una sola vez por carga). */
+export function elegirEdicion(e: Edicion) {
+  if (aplicada) return;
+  actual = e; Object.assign(T, TEXTOS[e]);
+  aplicar();
+}
+function aplicar() {
+  aplicada = true;
+  const SAL = actual === "salmonella", ED = actual;
   // los exclusivos de la otra edición se sustituyen por su pareja de esta, en el mismo sitio y nivel
   const mios = EXCLUSIVOS[ED], suyos = EXCLUSIVOS[SAL ? "escherichia" : "salmonella"];
   const cambio = new Map(suyos.map((s, i) => [s, mios[i]]));

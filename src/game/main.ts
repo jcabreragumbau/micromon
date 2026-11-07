@@ -11,7 +11,9 @@ import { runScript, wildBattle, startBattle, battleFor } from "./scripts";
 import { MAPS } from "./world/maps";
 import { aplicarCiudadesV2 } from "./world/ciudades_v2";
 import { asignarAspectos } from "./world/pnj";
-import { aplicarEdicion } from "./edicion";
+import { aplicarEdicion, elegirEdicion, AMBAS, ed } from "./edicion";
+import { EleccionEdicion } from "./scenes/eleccion";
+import { claveEdicion } from "./state";
 import { V2 } from "./assets_data";
 // Micromón V2: ciudades nuevas, más grandes (la V1 conserva las suyas)
 if (V2) aplicarCiudadesV2();
@@ -27,7 +29,11 @@ async function boot() {
   if (pad) game.input.attachTouch(pad);
   await loadAssets();
   // introducción (START la salta) y después la pantalla de título
-  game.scene = new IntroCine(game, () => { game.scene = new TitleScene(); });
+  const intro = () => { game.scene = new IntroCine(game, () => { game.scene = new TitleScene(); }); };
+  claveEdicion(ed());
+  // página con las dos ediciones: primero se elige cuál jugar (cada una con su partida)
+  if (AMBAS) game.scene = new EleccionEdicion(game, (e) => { elegirEdicion(e); claveEdicion(e); intro(); });
+  else intro();
   game.start();
   (window as unknown as { micromon: Game }).micromon = game;   // para pruebas automáticas
   (window as unknown as { micromonDebug: unknown }).micromonDebug = { runScript, wildBattle, enterWorld, MAPS, engine, startBattle, battleFor, DexDetail, BadgeGet, audio, enseñarPlasmido, drawBattleBackground };

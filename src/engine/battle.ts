@@ -50,6 +50,12 @@ export interface BattleOptions {
   inventory?: Record<string, number>; foeItems?: Record<string, number>;
   /** Combate en equipo (doble): un compañero controlado por la IA lleva la casilla 1 con sus Microos. */
   ally?: { name: string; microos: Microo[] };
+  /** Combate de conexión entre dos jugadores: sin experiencia, sin evoluciones ni desobediencia. */
+  link?: boolean;
+  /** En un combate de conexión, el segundo jugador ve el combate con los bandos al revés (él es el bando 0):
+   *  con `mirror` el motor procesa los bandos en el mismo orden que el primero (el anfitrión), así los dos
+   *  calculan exactamente el mismo combate con la misma semilla y las mismas órdenes. */
+  mirror?: boolean;
 }
 
 const STATUS_NAME: Record<StatusCode, string> = {
@@ -88,10 +94,15 @@ export class Battle {
   allyName = "";
   /** ¿Este Microo del bando del jugador pertenece al compañero? */
   isAlly(partyIndex: number) { return this.allyFrom >= 0 && partyIndex >= this.allyFrom; }
+  link = false;
+  /** Orden canónico de los bandos (el anfitrión primero). */
+  orden: [0 | 1, 0 | 1] = [0, 1];
   constructor(o: BattleOptions) {
     this.format = o.format ?? "single";
     if (o.ally) { this.format = "double"; this.allyFrom = o.player.length; this.allyName = o.ally.name; o = { ...o, player: [...o.player, ...o.ally.microos] }; }
     this.wild = o.wild ?? false;
+    this.link = !!o.link;
+    if (o.mirror) this.orden = [1, 0];
     this.rng = new Rng(o.seed ?? 1);
     this.difficulty = o.difficulty ?? "normal";
     this.levelCap = o.levelCap ?? 100;
@@ -141,7 +152,7 @@ export class Battle {
     if (k === "spe" && b.mon.status === "par") v = Math.floor(v / 4);
     return Math.max(1, v);
   }
-  allActive(): Battler[] { return [...this.sides[0].active, ...this.sides[1].active].filter((b): b is Battler => !!b && b.mon.hp > 0); }
+  allActive(): Battler[] { return [...this.sides[this.orden[0]].active, ...this.sides[this.orden[1]].active].filter((b): b is Battler => !!b && b.mon.hp > 0); }
   foesOf(r: Ref): Battler[] { return this.sides[1 - r.side].active.filter((b): b is Battler => !!b && b.mon.hp > 0); }
   allyOf(r: Ref): Battler | null {
     const a = this.sides[r.side].active[1 - r.slot];
@@ -224,7 +235,9 @@ export class Battle {
     for (const b of this.allActive()) { b.vol.flinch = false; b.vol.damagedBy = null; }
     type Q = { side: 0 | 1; a: Action; b: Battler | null; prio: number; spe: number; tie: number };
     const queue: Q[] = [];
-    for (const [side, acts] of [[0, player], [1, foe]] as const) {
+    const porBando = [player, foe] as const;
+    for (const side of this.orden) {
+      const acts = porBando[side];
       for (const a of acts) {
         const b = this.sides[side].active[a.slot];
         if (!b || b.mon.hp <= 0) continue;
@@ -864,7 +877,9 @@ export class Battle {
   private checkEnd() {
     if (this.ended && this.outcome) { this.cleanup(); this.finishEvolutions(); return; }
     const alive = [this.usable(0).length, this.usable(1).length];
-    if (alive[1] === 0) { this.ended = true; this.winner = 0; this.outcome = "win"; this.emit("end", this.wild ? "" : `¡Has vencido a ${this.sides[1].name}!`, { winner: 0 }); }
+    // si caen los dos a la vez gana el anfitrión (bando 0, o el 1 en espejo): igual en las dos pantallas
+    if (this.orden[0] === 1 && alive[0] === 0 && alive[1] === 0) { this.ended = true; this.winner = 1; this.outcome = "lose"; this.emit("end", "¡No te quedan Microos en condiciones de luchar!", { winner: 1 }); }
+    else if (alive[1] === 0) { this.ended = true; this.winner = 0; this.outcome = "win"; this.emit("end", this.wild ? "" : `¡Has vencido a ${this.sides[1].name}!`, { winner: 0 }); }
     else if (alive[0] === 0) { this.ended = true; this.winner = 1; this.outcome = "lose"; this.emit("end", "¡No te quedan Microos en condiciones de luchar!", { winner: 1 }); }
     if (this.ended) { this.cleanup(); this.finishEvolutions(); }
   }
@@ -880,7 +895,7 @@ export class Battle {
   evolutionsPending: { uid: number; to: string }[] = [];
   private capWarned = new Set<number>();
   private finishEvolutions() {
-    if (this.evolutionsPending.length) return;
+    if (this.evolutionsPending.length || this.link) return;
     for (const m of this.sides[0].party) {
       if (m.hp <= 0) continue;
       const to = levelEvolution(m);
@@ -891,6 +906,7 @@ export class Battle {
   // ---------------------------------------------------------------- experiencia
   /** Difusión de Nutrientes: 100 % a los participantes y 50 % al resto del equipo. */
   private awardExp(fainted: Microo) {
+    if (this.link) return;
     const sp = getSpecies(fainted.species);
     const parts = this.sides[0].participants.get(fainted.uid) ?? new Set<number>();
     // entrenadores ×1,2 (no ×1,5): hay muchos y la mayoría no se pueden esquivar; con este factor el Microo

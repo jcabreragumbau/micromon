@@ -38,7 +38,9 @@ export function newState(): GameState {
   };
 }
 
-const KEY = "micromon-partida-1";
+/** Cada edición guarda su partida aparte (la Escherichia conserva la clave de siempre). */
+let KEY = "micromon-partida-1";
+export function claveEdicion(edicion: "escherichia" | "salmonella") { KEY = edicion === "salmonella" ? "micromon-partida-1-salmonella" : "micromon-partida-1"; }
 
 export function saveGame(s: GameState): boolean {
   try { localStorage.setItem(KEY, JSON.stringify(s)); return true; } catch { return false; }

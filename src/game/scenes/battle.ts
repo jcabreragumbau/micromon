@@ -1,5 +1,6 @@
 // Pantalla de combate: dibuja la placa y traduce los eventos del motor en textos y animaciones.
 import type { Game, Overlay, Scene } from "../game";
+import type { Enlace } from "../conexion";
 import { IMG } from "../assets";
 import { audio } from "../audio";
 import { Gfx, W, H, TB, TYPE_COLORS, shade } from "../gfx";
@@ -23,6 +24,17 @@ export interface BattleSetup {
   env: string;
   /** Reserva Microbiana: no se lucha; se lanzan Criobolas Verdes. */
   safari?: boolean;
+  /** Combate de conexión con otra persona (Club de Conexión): sus órdenes llegan por la sala. */
+  link?: Enlace;
+}
+/** Huella del estado de un combate de conexión, igual en las dos pantallas (el anfitrión primero). */
+export function huellaCombate(b: Battle, host: boolean): string {
+  const lados = host ? [b.sides[0], b.sides[1]] : [b.sides[1], b.sides[0]];
+  return lados.map((s) => s.party.map((m) => `${m.hp}${m.status ?? ""}`).join(".")).join("|");
+}
+/** Las órdenes del otro llegan con su perspectiva: su objetivo «bando 1» es el bando 0 de esta pantalla. */
+export function girar(acts: Action[]): Action[] {
+  return acts.map((a) => (a.kind === "move" && a.target ? { ...a, target: { side: (1 - a.target.side) as 0 | 1, slot: a.target.slot } } : a));
 }
 /** Tema del combate: salvaje o contra un investigador (MP3 del usuario). */
 export function battleTrack(s: { wild?: boolean; trainer?: { clase?: string } }) {
@@ -112,9 +124,11 @@ export class BattleScene implements Scene {
     while (!b.ended) {
       const acts = await this.chooseActions();
       if (!acts) continue;
-      b.playTurn(acts, chooseActions(b, 1, this.s.wild ? "facil" : g.state.difficulty));
+      if (this.s.link) { if (!(await this.turnoLink(acts))) break; }
+      else b.playTurn(acts, chooseActions(b, 1, this.s.wild ? "facil" : g.state.difficulty));
       for (const e of b.drain()) await this.play(e);
-      await this.replacements();
+      if (this.s.link) { if (!(await this.reemplazosLink())) break; }
+      else await this.replacements();
     }
     return this.finish();
   }
@@ -172,6 +186,57 @@ export class BattleScene implements Scene {
     b.freeSwitch(0, 0, idx);
     for (const e of b.drain()) await this.play(e);
   }
+  /** Resultado de un combate de conexión que no terminó en el campo (rendición o conexión perdida). */
+  linkFin: "gana" | "pierde" | "cortado" | null = null;
+  /** Turno de un combate de conexión: se envían las órdenes con la huella del estado y se esperan las del otro. */
+  private async turnoLink(acts: Action[]): Promise<boolean> {
+    const en = this.s.link!, b = this.b;
+    if (acts.some((a) => a.kind === "run")) {
+      en.enviar("sal", { rinde: true });
+      await this.text("Te has rendido.");
+      this.linkFin = "pierde"; return false;
+    }
+    const h = huellaCombate(b, en.host);
+    en.enviar("ac", { t: b.turn, a: acts, h });
+    const d = await en.esperar(this.game, "ac", (x) => x?.t === b.turn && Array.isArray(x.a), `Esperando a ${en.rival}`, false);
+    if (!d) return this.linkCortado();
+    if (d.h !== h) { await this.text("Los dos combates se han desincronizado. Se cancela el combate."); this.linkFin = "cortado"; return false; }
+    b.playTurn(acts, girar(d.a as Action[]));
+    return true;
+  }
+  private async linkCortado(): Promise<false> {
+    const en = this.s.link!;
+    if (en.motivo === "rinde") { await this.text(`¡${en.rival} se ha rendido!`); this.linkFin = "gana"; }
+    else { await this.text(`Se ha perdido la conexión con ${en.rival}.`); this.linkFin = "cortado"; }
+    return false;
+  }
+  /** Cambios tras un debilitamiento en un combate de conexión: cada uno elige el suyo y se aplican en el mismo
+   *  orden en las dos pantallas (primero el anfitrión). */
+  private async reemplazosLink(): Promise<boolean> {
+    const en = this.s.link!, b = this.b, g = this.game;
+    if (b.ended) return true;
+    const mias = b.needsReplacement(0), suyas = b.needsReplacement(1);
+    if (!mias.length && !suyas.length) return true;
+    const mios: { slot: number; idx: number }[] = [];
+    for (const slot of mias) {
+      let idx = -1;
+      while (idx < 0) idx = await partyMenu(g, { mode: "replace", battle: b });
+      mios.push({ slot, idx });
+    }
+    if (mias.length) en.enviar("rp", { t: b.turn, r: mios });
+    let otros: { slot: number; idx: number }[] = [];
+    if (suyas.length) {
+      const d = await en.esperar(g, "rp", (x) => x?.t === b.turn && Array.isArray(x.r), `Esperando a ${en.rival}`, false);
+      if (!d) return this.linkCortado();
+      otros = d.r;
+    }
+    try {
+      const poner = (side: 0 | 1, l: { slot: number; idx: number }[]) => { for (const r of l) b.replace(side, Number(r.slot), Number(r.idx)); };
+      if (en.host) { poner(0, mios); poner(1, otros); } else { poner(1, otros); poner(0, mios); }
+    } catch { await this.text("Los dos combates se han desincronizado. Se cancela el combate."); this.linkFin = "cortado"; return false; }
+    for (const e of b.drain()) await this.play(e);
+    return true;
+  }
   private async replacements() {
     const b = this.b, g = this.game;
     if (b.ended) return;
@@ -201,6 +266,14 @@ export class BattleScene implements Scene {
   private async finish(): Promise<BattleOutcome> {
     const b = this.b, g = this.game;
     g.onSelect = null;
+    if (this.s.link) {
+      // combate de conexión: ni dinero, ni experiencia, ni evoluciones; el equipo real no ha cambiado
+      const gana = this.linkFin ? this.linkFin === "gana" : b.winner === 0;
+      if (this.linkFin === "cortado") return { outcome: "run" };
+      if (gana) audio.music("victoria");
+      await this.text(gana ? `¡Has ganado el combate contra ${this.s.link.rival}!` : `${this.s.link.rival} ha ganado el combate.`);
+      return { outcome: gana ? "win" : "lose" };
+    }
     const out: BattleOutcome = { outcome: b.outcome ?? (b.winner === 0 ? "win" : "lose") };
     if (out.outcome === "win" || out.outcome === "capture") audio.music("victoria");
     if (b.outcome === "win" && this.s.trainer) {
@@ -281,6 +354,7 @@ export class BattleScene implements Scene {
       }
       return { kind: "move", slot, move: mv, target };
     }
+    if (c === 1 && this.s.link) { await this.text("¡En un combate de conexión no se usan objetos!"); return null; }
     if (c === 1) {
       if (itemUsed) { await this.text("¡Solo puedes usar un objeto por turno!"); return null; }
       const r = await bagMenu(g, { mode: "battle", wild: this.s.wild });
@@ -298,6 +372,10 @@ export class BattleScene implements Scene {
       if (idx < 0) return null;
       if (reserved.has(idx)) { await this.text(`¡${displayName(g.state.party[idx])} ya va a salir!`); return null; }
       return { kind: "switch", slot, party: idx };
+    }
+    if (c === 3 && this.s.link) {
+      const r = await g.yesno("¿Quieres rendirte?");
+      return r ? { kind: "run", slot } : null;
     }
     if (c === 3) {
       if (!this.s.wild) { await this.text("¡No puedes huir de un combate contra otro investigador!"); return null; }

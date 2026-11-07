@@ -4,6 +4,7 @@ import { audio } from "../audio";
 import { Gfx, W, H } from "../gfx";
 import { IMG } from "../assets";
 import { V2, EDICION } from "../assets_data";
+import { ed } from "../edicion";
 import { Overworld } from "./overworld";
 import { newState, loadGame, hasSave, AVATAR_SPRITE, levelCap, type Avatar } from "../state";
 import { runScript } from "../scripts";
@@ -31,18 +32,20 @@ export class TitleScene implements Scene {
     // Portada del juego: la ilustración entera en el centro y una versión desenfocada a los lados
     const c = g.ctx;
     c.save(); c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
-    if (IMG.portada_fondo) c.drawImage(IMG.portada_fondo, 0, 0, W, H); else g.clear("#200806");
-    const cw = IMG.portada ? (H * IMG.portada.width) / IMG.portada.height : 0, cx = (W - cw) / 2;
-    if (IMG.portada) {
+    // en la página con las dos ediciones cada una trae su portada (portada_escherichia, portada_salmonella)
+    const portada = IMG[`portada_${ed()}`] ?? IMG.portada, fondo = IMG[`portada_fondo_${ed()}`] ?? IMG.portada_fondo;
+    if (fondo) c.drawImage(fondo, 0, 0, W, H); else g.clear("#200806");
+    const cw = portada ? (H * portada.width) / portada.height : 0, cx = (W - cw) / 2;
+    if (portada) {
       g.alpha(0.5, () => g.rect(cx - 2, 0, cw + 4, H, "#000"));
-      c.drawImage(IMG.portada, cx, 0, cw, H);
+      c.drawImage(portada, cx, 0, cw, H);
     }
     c.restore();
     // ascuas que suben por toda la pantalla (burbujas en la Edición Salmonella)
     for (let i = 0; i < 26; i++) {
       const sp = 0.25 + (i % 5) * 0.09, x = (i * 53 + Math.sin((this.t + i * 40) / 37) * 8) % W;
       const y = H - ((this.t * sp + i * 71) % (H + 20)) + 10;
-      g.alpha(0.5 + 0.5 * Math.sin((this.t + i * 13) / 9), () => g.rect(x, y, i % 3 ? 1 : 2, i % 3 ? 1 : 2, EDICION === "salmonella" ? (i % 2 ? "#bff4ff" : "#58c8f0") : i % 2 ? "#ffd060" : "#ff7a20"));
+      g.alpha(0.5 + 0.5 * Math.sin((this.t + i * 13) / 9), () => g.rect(x, y, i % 3 ? 1 : 2, i % 3 ? 1 : 2, EDICION && ed() === "salmonella" ? (i % 2 ? "#bff4ff" : "#58c8f0") : i % 2 ? "#ffd060" : "#ff7a20"));
     }
     // Micromón V2 (tileset de 4.ª generación): sello en la esquina para distinguir las dos versiones
     if (V2 && !EDICION) {

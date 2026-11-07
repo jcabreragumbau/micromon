@@ -7,14 +7,16 @@ import { join } from "node:path";
 const ROOT = join(import.meta.dir, "..");
 // Ediciones (--ed=escherichia | --ed=salmonella): parten de la V2 y cambian portada, legendario y exclusivos
 const ED = (process.argv.find((a) => a.startsWith("--ed=")) ?? "").slice(5) || null;
-if (ED && !["escherichia", "salmonella"].includes(ED)) { console.error("Edición desconocida:", ED); process.exit(1); }
+if (ED && !["escherichia", "salmonella", "ambas"].includes(ED)) { console.error("Edición desconocida:", ED); process.exit(1); }
 const V2 = !!ED || process.argv.includes("--v2");
-const ED_NOMBRE = ED ? ED[0].toUpperCase() + ED.slice(1) : "";
-const NOMBRE = ED ? `Micromón ${ED_NOMBRE}` : V2 ? "Micromón V2" : "Micromón";
+const ED_NOMBRE = ED === "ambas" ? "Ediciones" : ED ? ED[0].toUpperCase() + ED.slice(1) : "";
+const NOMBRE = ED === "ambas" ? "Micromón" : ED ? `Micromón ${ED_NOMBRE}` : V2 ? "Micromón V2" : "Micromón";
 /** Carpeta de un atlas: la de la V2 si esta versión tiene el suyo. */
 const dirAtlas = (f: string) => (ED && existsSync(join(ROOT, "assets/atlas_ed", ED, f)) ? `assets/atlas_ed/${ED}`
   : V2 && existsSync(join(ROOT, "assets/atlas_v2", f)) ? "assets/atlas_v2" : "assets/atlas");
-const ATLAS = ["portada.jpg", "portada_fondo.jpg", ...["hierba", "bosque", "interior", "laboratorio", "gimnasio", "cueva", "invernadero", "casino", "torre", "hielo"].map((e) => `fondo_${e}.jpg`), "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd.webp", "retratos_npc", "props_hd.webp", "terreno_hd.webp", "medallas_hd.webp", "protas_intro.webp", "protas_espalda.webp", "logo_micromon.webp", "mapa_region", "microos_frente.webp", "microos_espalda.webp", "microos_iconos.webp", "microos_hd_frente.webp", "microos_hd_espalda.webp", "microos_hd_iconos.webp"];
+const ATLAS: string[] = ["portada.jpg", "portada_fondo.jpg", ...["hierba", "bosque", "interior", "laboratorio", "gimnasio", "cueva", "invernadero", "casino", "torre", "hielo"].map((e) => `fondo_${e}.jpg`), "tiles", "font", "personajes", "retratos", "personajes_hd", "retratos_hd.webp", "retratos_npc", "props_hd.webp", "terreno_hd.webp", "medallas_hd.webp", "protas_intro.webp", "protas_espalda.webp", "logo_micromon.webp", "mapa_region", "microos_frente.webp", "microos_espalda.webp", "microos_iconos.webp", "microos_hd_frente.webp", "microos_hd_espalda.webp", "microos_hd_iconos.webp"];
+// página con las dos ediciones: las dos portadas (de assets/atlas_ed/<edición>/)
+if (ED === "ambas") for (const e of ["escherichia", "salmonella"]) ATLAS.push(`portada_${e}.jpg`, `portada_fondo_${e}.jpg`);
 // WebP sin pérdida de los atlas HD grandes (idénticos al PNG, pero ocupan menos)
 const WEBP = ATLAS.filter((f) => f.endsWith(".webp")).map((f) => f.slice(0, -5));
 const conv = Bun.spawnSync(["python3", join(ROOT, "tools/art/a_webp.py"), ...(V2 ? ["--v2"] : []), ...WEBP]);
@@ -24,7 +26,12 @@ if (conv.exitCode !== 0) { console.error(conv.stderr.toString()); process.exit(1
 // de 16 MB y el arte se puede guardar a resolución completa).
 const PUB = join(ROOT, "dist", ED ? `pub_${ED}` : V2 ? "pub_v2" : "pub");
 mkdirSync(join(PUB, "a"), { recursive: true });
-const fuente = (f: string) => { const [n, ext] = f.includes(".") ? f.split(".") : [f, "png"]; return { n, ext, path: join(ROOT, dirAtlas(`${n}.${ext}`), `${n}.${ext}`) }; };
+const fuente = (f: string) => {
+  const [n, ext] = f.includes(".") ? f.split(".") : [f, "png"];
+  const p = n.match(/^(portada(?:_fondo)?)_(escherichia|salmonella)$/);
+  if (p) return { n, ext, path: join(ROOT, "assets/atlas_ed", p[2], `${p[1]}.${ext}`) };
+  return { n, ext, path: join(ROOT, dirAtlas(`${n}.${ext}`), `${n}.${ext}`) };
+};
 const MIME: Record<string, string> = { jpg: "image/jpeg", webp: "image/webp", png: "image/png", mp3: "audio/mpeg" };
 const AUDIO: Record<string, string> = { entrenador: "combate_entrenador.mp3", titulo: "titulo.mp3" };
 function generarModulos(externo: boolean) {

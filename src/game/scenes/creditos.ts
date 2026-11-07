@@ -55,6 +55,7 @@ const CREDITOS = [
 ];
 export class Credits implements Overlay {
   y = H + 10;
+  constructor() { CREDITOS[1] = T.nombre; }
   update(game: Game) {
     this.y -= game.input.down("a") ? 1.5 : 0.5;
     return this.y < -CREDITOS.length * 16 - 20;

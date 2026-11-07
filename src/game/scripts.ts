@@ -2,6 +2,7 @@
 import type { Game } from "./game";
 import { audio } from "./audio";
 import { T as ED } from "./edicion";
+import { clubConexion } from "./conexion";
 import { curiosidadPara } from "./curiosidades";
 import type { Overworld, NpcState } from "./scenes/overworld";
 import { BattleScene, battleTrack, type BattleSetup, type BattleOutcome } from "./scenes/battle";
@@ -1247,6 +1248,9 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Catedrático: ¡Matrícula de Honor! Toma, para tus prácticas de campo.");
     await game.say("¡{nombre} ha recibido 3 × Criobola Amarilla y 2 × Medio Enriquecido!");
   },
+
+  /** Club de Conexión (Incubadoras): intercambios y combates con otra persona conectada. */
+  async club(game, world) { await clubConexion(game, world); },
 
   /** Estación de Conjugación: evoluciones que en el GDD requieren intercambio (conjugación bacteriana). */
   async conjugacion(game, world) {

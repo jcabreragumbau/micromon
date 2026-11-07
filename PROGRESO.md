@@ -301,5 +301,13 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Exclusivos (mismo poder): Escherichia Perfringens→Tetani, Klebsi→Pneumonia-K, Pyrococcus; Salmonella Cholerae→Parahaemolyticus, Psychrobac→Colwellia, Vulnificus. En cada edición los de la otra se sustituyen por su pareja en las tablas de encuentros (entrenadores sin cambios).
 - `tools/playtest_v2.cjs` acepta `HTML=`; ambas ediciones pasan las 81 puertas. (`tools/playtest.cjs` es solo para la V1.)
 
+## Club de Conexión y página con las dos ediciones
+
+- `bun run tools/build_game.ts --ed=ambas` → `dist/micromonEdiciones.html` + `dist/pub_ambas/a/` (artifact https://claude.ai/artifact/MhtinicUJucdcybCMoNDvN, capacidad `room` con los temas de `TEMAS` abiertos a «interact»). Al abrir se elige edición (`scenes/eleccion.ts`); cada una guarda su partida (`claveEdicion` en state.ts) y su portada (`portada_<ed>`). `edicion.ts`: `elegirEdicion`, `T` se rellena al elegir.
+- `src/game/conexion.ts`: técnica del Club en cada Incubadora (solo en esta página). Vestíbulo con presencia (nombre, edición, avatar), invitación con código y sala privada (`m-<código>`); los dos abren el buzón antes de anunciarse y esperan a estar juntos.
+  - Intercambio: oferta, confirmación con huella de los dos Microos, cambio con uid nuevo, guardado inmediato y evolución por conjugación al recibir.
+  - Combate: equipos curados (copias; la partida no cambia), semilla común; motor con `link` (sin experiencia ni evoluciones) y `mirror` en el invitado (mismo orden de proceso que el anfitrión). Cada turno se envían órdenes y huella del estado; cambios tras debilitarse en orden del anfitrión. Sin objetos; huir = rendirse.
+- `tests/conexion.test.ts`: 60 combates aleatorios anfitrión/invitado idénticos turno a turno. `tools/pruebas/conexion.cjs` + `sala_falsa.js`: prueba con dos pestañas (intercambio y combate) sobre una sala simulada con BroadcastChannel.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
