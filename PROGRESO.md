@@ -319,5 +319,9 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 
 - `assets/reference/microos/legendarios.png` (E. coli O157:H7, Salmonella Typhimurium) y `luca.png`; `FILAS` deja fuera los rótulos adornados y `UMBRAL_FONDO` quita la sombra gris bajo los pies. Ya no queda ningún Microo con sprite generado.
 
+## Logotipo de la Edición Salmonella
+
+- `assets/reference/logo_salmonella.png` (del usuario) → `assets/atlas_ed/salmonella/logo_micromon.webp` (fondo blanco quitado desde los bordes). La página Salmonella lo toma como su `logo_micromon`; en la de las dos ediciones va como `logo_salmonella` y `intro.ts` (`logoEdicion`) lo usa si se eligió Salmonella.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

@@ -6,6 +6,9 @@
 // 01:16 sala de servidores de la Unidad: siluetas de Urtaza, Barbadilla y Casillas · 01:30 fundido a negro y título.
 // START salta la introducción en cualquier momento.
 import type { Game, Scene } from "../game";
+import { ed } from "../edicion";
+/** Logotipo de la intro: la Edición Salmonella tiene el suyo (en su página ya viene como logo_micromon). */
+const logoEdicion = () => (ed() === "salmonella" ? IMG.logo_salmonella : undefined) ?? IMG.logo_micromon;
 import { Gfx, W, H } from "../gfx";
 import { IMG } from "../assets";
 import { audio } from "../audio";
@@ -134,7 +137,7 @@ export class IntroCine implements Scene {
     // logotipo del usuario: entra creciendo con un pequeño rebote
     const c = g.ctx, k = Math.min(1, s / 0.6);
     const esc = k < 1 ? 0.6 + 0.5 * k : 1 + 0.06 * Math.max(0, 1 - (s - 0.6) / 0.4) * Math.sin((s - 0.6) * 18);
-    const L = IMG.logo_micromon;
+    const L = logoEdicion();
     if (L) {
       // capa propia del logotipo para que el brillo solo pase por encima de las letras
       if (!this.capaLogo) { this.capaLogo = document.createElement("canvas"); this.capaLogo.width = L.width; this.capaLogo.height = L.height; }
@@ -215,10 +218,11 @@ export class IntroCine implements Scene {
       const sal = Math.abs(Math.sin(p * 14 + i * 1.3)) * 10;
       g.microo(sp, "frente", 18 + i * 78, H - 78 - sal, 0.85);
     });
-    if (p > 0.55 && IMG.logo_micromon) {
-      const a = Math.min(1, (p - 0.55) / 0.2), w = 150, h = (w * IMG.logo_micromon.height) / IMG.logo_micromon.width;
+    const LG = logoEdicion();
+    if (p > 0.55 && LG) {
+      const a = Math.min(1, (p - 0.55) / 0.2), w = 150, h = (w * LG.height) / LG.width;
       c.save(); c.globalAlpha = a; c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
-      c.drawImage(IMG.logo_micromon, W / 2 - w / 2, 4, w, h); c.restore();
+      c.drawImage(LG, W / 2 - w / 2, 4, w, h); c.restore();
     }
     if (p > 0.93) g.alpha((p - 0.93) / 0.07, () => g.rect(0, 0, W, H, "#ffffff"));
   }
