@@ -315,5 +315,9 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - `conexion.ts`: si no hay sala de la página publicada, la técnica ofrece CREAR / UNIRSE; la conexión se reutiliza al volver al Club.
 - Archivo para jugar en local: `dist/indexEdiciones.html` (todo incrustado). Prueba: `tools/pruebas/conexion_directa.cjs` (dos pestañas, WebRTC real; intercambio y combate OK).
 
+## Sprites del usuario: legendarios y LUCA (162/162)
+
+- `assets/reference/microos/legendarios.png` (E. coli O157:H7, Salmonella Typhimurium) y `luca.png`; `FILAS` deja fuera los rótulos adornados y `UMBRAL_FONDO` quita la sombra gris bajo los pies. Ya no queda ningún Microo con sprite generado.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

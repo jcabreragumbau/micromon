@@ -47,7 +47,9 @@ LAMINAS = {
                       ["diatomax", "myxococcus", "lokiarca"]],
     # incluye un Plasmodium mejorado que sustituye al de sueltos_2
     "sueltos_3a.png": [["plasmodium", "prion-sc", "viroid-cad"], ["sputnik-v", "deinococ", "pyrococcus"]],
-    "tardigrad.png": [["tardigrad"]],      # versión mejorada (sustituye a la de lineas_54_57)
+    "tardigrad.png": [["tardigrad"]],
+    "legendarios.png": [["ecoli-o157", "salmonella-typhimurium"]],
+    "luca.png": [["luca"]],      # versión mejorada (sustituye a la de lineas_54_57)
 }
 
 # láminas con figuras que no ocupan columnas iguales: cortes en x (px) por fila; entre cada par de cortes va una figura
@@ -71,18 +73,24 @@ CORTES = {
                       [0, 260, 515, 765, 1020, 1275, 9999]],
     "sueltos_3a.png": [[0, 258, 515, 770, 1020, 1288, 9999], [0, 260, 515, 780, 1020, 1295, 9999]],
     "tardigrad.png": [[0, 266, 9999]],
+    "legendarios.png": [[0, 410, 775, 1165, 9999]],
+    "luca.png": [[0, 885, 9999]],
 }
 
 HUECOS = {"sueltos_3a.png"}
+UMBRAL_FONDO = {"legendarios.png": 192}
 
 # cortes en y (px) entre filas, para láminas cuyas filas no son de igual altura
 FILAS = {"lineas_54_57.png": [0, 240, 485, 760, 9999], "sueltos_1.png": [0, 330, 650, 9999],
-         "sueltos_2.png": [0, 330, 650, 9999], "sueltos_3a.png": [0, 310, 9999]}
+         "sueltos_2.png": [0, 330, 650, 9999], "sueltos_3a.png": [0, 310, 9999],
+         # los rótulos llevan adornos (líneas, criobola, ADN): se toma solo lo que queda por debajo
+         "legendarios.png": [250, 9999], "luca.png": [182, 9999]}
 
 
 def figuras(path, rejilla, cortes=None, filas_y=None):
     a = np.array(Image.open(path).convert("RGB")); f = a.astype(int)
-    fondo = (f.min(2) > 215) & (f.max(2) - f.min(2) < 26)
+    # en algunas láminas el dibujo lleva una sombra gris clara bajo los pies: también cuenta como fondo
+    fondo = (f.min(2) > (UMBRAL_FONDO.get(path.name, 215))) & (f.max(2) - f.min(2) < 26)
     lab, _ = label(fondo)
     borde = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))) - {0}
     # zonas de fondo encerradas: normalmente son brillos o cápsulas translúcidas del dibujo y se conservan; en las
