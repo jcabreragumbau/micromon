@@ -16,6 +16,7 @@ import { BattleScene, evolutionSequence, battleTrack } from "./scenes/battle";
 import { PetriSweep } from "./scenes/transiciones";
 import { audio } from "./audio";
 import type { Overworld } from "./scenes/overworld";
+import { salaP2P, crearConexion, unirseConexion } from "./p2p";
 
 /** Temas de la sala (deben coincidir con los declarados al publicar: «capabilities.room.topics»). */
 export const TEMAS = ["inv", "resp", "of", "ok", "no", "eq", "ac", "rp", "sal"] as const;
@@ -161,8 +162,9 @@ class ListaClub implements Overlay {
 /** Script de la técnica del Club (Incubadoras). */
 export async function clubConexion(game: Game, world: Overworld) {
   await game.say("Técnica del Club: ¡Bienvenid{o} al Club de Conexión! Aquí puedes intercambiar Microos o combatir con otra persona que tenga el juego abierto ahora mismo.");
-  const s = await abrirSala();
-  if (!s) { await game.say("Técnica del Club: Vaya… La conexión solo funciona en la página publicada del juego, y con permiso para interactuar con ella."); return; }
+  // en la página publicada se usa su sala; si no (archivo abierto en el ordenador), conexión directa por código
+  const s = (await abrirSala()) ?? salaP2P() ?? (await conectarDirecto(game));
+  if (!s) return;
   const st = game.state;
   const yo = { n: st.name, e: ed(), a: st.avatar };
   await s.presence({ club: 1, ...yo });
@@ -199,6 +201,28 @@ export async function clubConexion(game: Game, world: Overworld) {
   } finally {
     buzon.cerrar();
     void s.presence({ club: null, n: null, e: null, a: null });
+  }
+}
+
+/** Bloquea el juego (sin mover al personaje) mientras se resuelve una promesa del panel de códigos. */
+function bloquear<T>(game: Game, p: Promise<T>): Promise<T> {
+  let listo = false, valor: T, error: unknown = null;
+  p.then((v) => { valor = v; listo = true; }, (e) => { error = e; listo = true; });
+  return game.run<unknown>({ update: () => listo, draw: () => {}, transparent: true } as Overlay).then(() => { if (error) throw error; return valor!; });
+}
+
+/** Conexión directa entre dos ordenadores: uno crea el código y el otro se une con él. */
+async function conectarDirecto(game: Game): Promise<Sala | null> {
+  await game.say("Técnica del Club: Para conectar con un amigo en otro ordenador, uno de los dos crea la conexión y el otro se une. Os tendréis que pasar un código cada uno (por WhatsApp, por ejemplo).");
+  const c = await game.choose(["CREAR", "UNIRSE", "SALIR"], { prompt: "¿Creas la conexión o te unes a la de tu amigo?", cancel: 2 });
+  if (c !== 0 && c !== 1) return null;
+  try {
+    const sala = await bloquear(game, c === 0 ? crearConexion() : unirseConexion());
+    if (sala) await game.say("Técnica del Club: ¡Conectados! Ahora elige a tu amigo en la lista del Club.");
+    return sala as unknown as Sala | null;
+  } catch (e) {
+    await game.say(`Técnica del Club: ${e instanceof Error ? e.message : "No se ha podido conectar."}`);
+    return null;
   }
 }
 

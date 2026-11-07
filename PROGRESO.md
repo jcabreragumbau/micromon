@@ -309,5 +309,11 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
   - Combate: equipos curados (copias; la partida no cambia), semilla común; motor con `link` (sin experiencia ni evoluciones) y `mirror` en el invitado (mismo orden de proceso que el anfitrión). Cada turno se envían órdenes y huella del estado; cambios tras debilitarse en orden del anfitrión. Sin objetos; huir = rendirse.
 - `tests/conexion.test.ts`: 60 combates aleatorios anfitrión/invitado idénticos turno a turno. `tools/pruebas/conexion.cjs` + `sala_falsa.js`: prueba con dos pestañas (intercambio y combate) sobre una sala simulada con BroadcastChannel.
 
+## Conexión directa entre ordenadores (sin página publicada)
+
+- `src/game/p2p.ts`: WebRTC con canal de datos; señalización por código copiado y pegado (oferta y respuesta comprimidas, ~600 caracteres, prefijo `MICROMON1-`), panel HTML sobre el juego con Copiar/Pegar. STUN público de Google solo para descubrir direcciones. Imita la interfaz de la sala (presencia, temas, salas con nombre), así que el Club de Conexión no cambia.
+- `conexion.ts`: si no hay sala de la página publicada, la técnica ofrece CREAR / UNIRSE; la conexión se reutiliza al volver al Club.
+- Archivo para jugar en local: `dist/indexEdiciones.html` (todo incrustado). Prueba: `tools/pruebas/conexion_directa.cjs` (dos pestañas, WebRTC real; intercambio y combate OK).
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
