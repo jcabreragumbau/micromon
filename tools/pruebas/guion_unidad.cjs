@@ -4,7 +4,7 @@
 const { chromium } = require("playwright");
 const path = require("path"), fs = require("fs");
 (async () => {
-  const dir = process.argv[2] ?? "/tmp";
+  const out = process.argv[2] ?? "/tmp";
   const b = await chromium.launch(); const page = await b.newPage({ viewport: { width: 960, height: 720 } });
   const errors = []; page.on("pageerror", (e) => errors.push(String(e)));
   await page.goto("file://" + path.resolve(process.env.HTML || "dist/indexEscherichia.html"));
@@ -42,15 +42,15 @@ const path = require("path"), fs = require("fs");
     for (let t = 0; t < 12000 && !fin; t++) {
       await G(() => { const g = window.micromon, b = g.scene?.s?.battle; if (b) for (const m of b.sides[1].party) if (m.hp > 1) m.hp = 1; const top = g.overlays.at(-1); g.input.press((top?.ov ?? top)?.constructor.name === "PartyScreen" ? "b" : "a"); }); await page.waitForTimeout(25);
       fin = await G(() => window.__fin);
-      if (t === 60 && shot++ === 0) await page.screenshot({ path: `${dir}/guion_${String(k).padStart(2, "0")}_${name}.png` });
+      if (t === 60 && shot++ === 0) await page.screenshot({ path: `${out}/guion_${String(k).padStart(2, "0")}_${name}.png` });
     }
     const textos = await G((i0) => window.__log.slice(i0), i0);
     const flagsDespues = await G(() => ({ ...window.micromon.state.flags }));
     res.push({ name, fin, n: textos.length, primero: textos[0], ultimo: textos.at(-1), flags: Object.keys(flagsDespues).filter((f) => /urtaza|disco|blot|hernandez|plasmido|conchillo|morada|campoy|salazar/.test(f)) });
-    fs.writeFileSync(`${dir}/guion_${String(k++).padStart(2, "0")}_${name}.txt`, textos.join("\n"));
+    fs.writeFileSync(`${out}/guion_${String(k++).padStart(2, "0")}_${name}.txt`, textos.join("\n"));
     // dejar el mundo en calma
     for (let t = 0; t < 40; t++) { await G(() => window.micromon.input.press("b")); await page.waitForTimeout(20); }
   }
-  console.log(JSON.stringify({ dir, errors, res: res.map((r) => `${r.fin === true ? "OK " : "ATASCO "}${r.name} (${r.n} textos) → ${r.ultimo}`) }, null, 1));
+  console.log(JSON.stringify({ out, errors, res: res.map((r) => `${r.fin === true ? "OK " : "ATASCO "}${r.name} (${r.n} textos) → ${r.ultimo}`) }, null, 1));
   await b.close();
 })();
