@@ -13,10 +13,12 @@ let actual: Edicion = EDICION === "salmonella" ? "salmonella" : "escherichia";
 /** Edición en curso. */
 export function ed(): Edicion { return actual; }
 
-/** Exclusivos: cada par tiene el mismo poder (BST 330 → 485 en las líneas; 500 frente a 481 el suelto). */
+/** Exclusivos: cada par tiene el mismo poder (BST 330 → 485 en las líneas; 500 frente a 481 el suelto).
+ *  Cholerae → Parahaemolyticus no es exclusivo: el Plásmido Vir de la Torre Prión sirve en las dos ediciones.
+ *  Su sitio en Salmonella lo ocupa Proteus (Mirabilis → Vulgaris), enterobacteria como la Salmonella. */
 export const EXCLUSIVOS: Record<Edicion, string[]> = {
   escherichia: ["perfringens", "tetani", "klebsi", "pneumonia-k", "pyrococcus"],
-  salmonella: ["cholerae", "parahaemolyticus", "psychrobac", "colwellia", "vulnificus"],
+  salmonella: ["mirabilis", "vulgaris", "psychrobac", "colwellia", "vulnificus"],
 };
 
 /** Textos de la historia que dependen del legendario de la edición. */

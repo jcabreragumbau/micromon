@@ -298,7 +298,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - `bun run tools/build_game.ts --ed=escherichia|salmonella` → `dist/micromon{Escherichia,Salmonella}.html` + `dist/pub_<ed>/a/`; local `dist/index<Ed>.html`. Artifacts: Escherichia https://claude.ai/artifact/V8XKeSMrZwn57KU6WZXb5F, Salmonella https://claude.ai/artifact/8F3UvmiXs3uefVXsYTzg3a. V1 y V2 no cambian.
 - Portadas del usuario en `assets/reference/portadas/`; `tools/art/portadas.py` → `assets/atlas_ed/<ed>/portada{,_fondo}.jpg` (el build los prefiere). En las ediciones el «Pulsa A» va arriba y en la Salmonella las ascuas son burbujas.
 - `src/game/edicion.ts` (`ED`, `T`, `EXCLUSIVOS`, `aplicarEdicion`): legendario de la historia (Mansión, Nv 60) O157 o Typhimurium; el otro tras la Liga (UAB, Nv 70). En Salmonella cambian los diarios de la Mansión (cepa LT2, fago P22 transductor), la Dra. Campoy, el Dr. Martínez-Urtaza, el rumor de Hesse, la Microdex y los créditos.
-- Exclusivos (mismo poder): Escherichia Perfringens→Tetani, Klebsi→Pneumonia-K, Pyrococcus; Salmonella Cholerae→Parahaemolyticus, Psychrobac→Colwellia, Vulnificus. En cada edición los de la otra se sustituyen por su pareja en las tablas de encuentros (entrenadores sin cambios).
+- Exclusivos (mismo poder): Escherichia Perfringens→Tetani, Klebsi→Pneumonia-K, Pyrococcus; Salmonella Mirabilis→Vulgaris (antes Cholerae→Parahaemolyticus), Psychrobac→Colwellia, Vulnificus. En cada edición los de la otra se sustituyen por su pareja en las tablas de encuentros (entrenadores sin cambios).
 - `tools/playtest_v2.cjs` acepta `HTML=`; ambas ediciones pasan las 81 puertas. (`tools/playtest.cjs` es solo para la V1.)
 
 ## Club de Conexión y página con las dos ediciones
@@ -322,6 +322,11 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 ## Logotipo de la Edición Salmonella
 
 - `assets/reference/logo_salmonella.png` (del usuario) → `assets/atlas_ed/salmonella/logo_micromon.webp` (fondo blanco quitado desde los bordes). La página Salmonella lo toma como su `logo_micromon`; en la de las dos ediciones va como `logo_salmonella` y `intro.ts` (`logoEdicion`) lo usa si se eligió Salmonella.
+
+### Lote: Cholerae deja de ser exclusivo
+- Cholerae → Parahaemolyticus sale de los exclusivos de Salmonella: el Plásmido Vir que regala el jubilado de la Torre Prión sirve ya en las dos ediciones (Cholerae salvaje en la Ruta 9, Nv 40–42, en ambas).
+- Su hueco lo ocupa Proteus, Mirabilis → Vulgaris (mismo BST 330 → 485 que Perfringens → Tetani; enterobacteria, como la Salmonella). En Salmonella sale donde Escherichia tiene Perfringens/Tetani (Rutas 2, 4 y 7, Cueva Anaeróbica, Túnel Endospórico); en Escherichia, al revés.
+- Reconstruidas las tres páginas de ediciones (Escherichia, Salmonella y la de las dos).
 
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
