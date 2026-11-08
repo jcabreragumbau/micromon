@@ -20,30 +20,32 @@ const path = require("path"), fs = require("fs");
     ["torre-prion-3", 5, 9, 1, "albaHernandez", {}],
     ["torre-prion-3", 5, 4, 1, "jubiladoTorre", { hernandez1: true }],
     ["instituto-5", 6, 7, 1, "asedioEjecutivos", { "yero-equipo": true, seguidor: "yero" }],
-    ["instituto-11", 7, 6, 1, "urtazaInstituto", {}],
-    ["instituto-11", 6, 3, 1, "directorInstituto", {}],
+    ["instituto-11", 7, 6, 1, "urtazaInstituto", { "conchillo-libre": true }],
+    ["instituto-11", 6, 3, 1, "directorInstituto", { urtaza2: true }],
     ["mansion-2", 10, 10, 1, "campoyMansion", {}],
     ["mansion-2", 5, 4, 1, "diarioJaime", {}],
     ["mansion-2", 7, 6, 1, "urtazaFinal", {}],
     ["mansion-2", 10, 10, 1, "campoyMansion", {}],
-    ["mansion-2", 10, 10, 1, "campoyMansion", { o157: true, salmonella: true }],
+    ["mansion-2", 10, 10, 1, "campoyMansion", { urtaza3: true, o157: true, salmonella: true }],
     ["calle-seleccion", 11, 3, 1, "hernandezFinal", {}],
     ["instituto-1", 10, 11, 1, "rebeldeIBB", { campeon: true }],
     ["instituto-1", 8, 12, 1, "pasteurEpilogo", {}],
   ];
   const res = [];
-  let k = 0;
-  for (const [map, x, y, dir, name, flags] of escenas) {
+  let k = Number(process.env.K) || 0;
+  const solo = process.env.ESCENAS?.split(",");
+  for (const [map, x, y, dir, name, flags] of escenas.filter((e, i) => !solo || solo.includes(e[4]) || solo.includes(String(i)))) {
     await G(([map, x, y, dir, flags]) => { const g = window.micromon; Object.assign(g.state.flags, flags); micromonDebug.enterWorld(g, map, x, y, dir); }, [map, x, y, dir, flags]);
     await page.waitForTimeout(500);
     const i0 = await G(() => window.__log.length);
     await G((name) => { const g = window.micromon; window.__fin = false; micromonDebug.runScript(g, g.scene, name).then(() => { window.__fin = true; }, (e) => { window.__fin = "error " + e; }); }, name);
     let fin = false, shot = 0;
-    for (let t = 0; t < 12000 && !fin; t++) {
+    for (let t = 0; t < (Number(process.env.PASOS) || 12000) && !fin; t++) {
       await G(() => { const g = window.micromon, b = g.scene?.s?.battle; if (b) for (const m of b.sides[1].party) if (m.hp > 1) m.hp = 1; const top = g.overlays.at(-1); g.input.press((top?.ov ?? top)?.constructor.name === "PartyScreen" ? "b" : "a"); }); await page.waitForTimeout(25);
       fin = await G(() => window.__fin);
       if (t === 60 && shot++ === 0) await page.screenshot({ path: `${out}/guion_${String(k).padStart(2, "0")}_${name}.png` });
     }
+    if (fin !== true) await page.screenshot({ path: `${out}/atasco_${name}.png` });
     const textos = await G((i0) => window.__log.slice(i0), i0);
     const flagsDespues = await G(() => ({ ...window.micromon.state.flags }));
     res.push({ name, fin, n: textos.length, primero: textos[0], ultimo: textos.at(-1), flags: Object.keys(flagsDespues).filter((f) => /urtaza|disco|blot|hernandez|plasmido|conchillo|morada|campoy|salazar/.test(f)) });
