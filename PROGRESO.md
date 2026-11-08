@@ -328,5 +328,17 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Su hueco lo ocupa Proteus, Mirabilis → Vulgaris (mismo BST 330 → 485 que Perfringens → Tetani; enterobacteria, como la Salmonella). En Salmonella sale donde Escherichia tiene Perfringens/Tetani (Rutas 2, 4 y 7, Cueva Anaeróbica, Túnel Endospórico); en Escherichia, al revés.
 - Reconstruidas las tres páginas de ediciones (Escherichia, Salmonella y la de las dos).
 
+### Lote: guion final de la Unidad de Genética
+- Guion del usuario en `docs/guion_unidad_genetica.pdf`; pasado al juego escena a escena (prólogo, 6 actos y epílogo) en `scripts.ts`, `maps.ts` y `edicion.ts`. Afecta a todas las versiones (V1, V2 y ediciones): la trama es compartida.
+- Disco Duro Externo: lo deja Salazar al perder (Monte Micelio). En la Guarida, Jaime lo reclama, un becario (`g2-ayudante`) lo deja caer y se pierde el dataset global de Vibrio (flag `disco-roto`, el objeto sale de la mochila). La idea del PPG nace tras el primer combate.
+- Instituto: zona de descanso con tres reclutas (planta 1, `i1-descanso-*`); la Criobola Morada nunca llega a manos de Jaime.
+- Mansión: Campoy con script propio (`campoyMansion`: explica el plan; tras capturar al legendario se va al gimnasio, flag `campoy-gimnasio`); diario personal de Jaime (`diarioJaime`); combate final con Campoy presente; Jaime se marcha a otra institución y no vuelve a aparecer.
+- Hernández: reclutadora y gestora en la Torre Prión; en la Calle Selección Natural combate y se disculpa.
+- Epílogo tras la Liga en el Instituto: el doctorando rebelde (`rebeldeIBB`) y Pasteur con los investigadores liberados (`pasteurEpilogo`). Barbé abre su combate hablando del daño a la genética.
+- Louis: las visitas 2–5 usan el texto del guion (se mantienen sus preguntas, que recuerda en la Liga).
+- Lokiarca del Carlos III: trama aparte (ya no agradece haber detenido a Jaime). El becario del Monte Micelio ya no habla de cepas para el Carlos III.
+- Decisión 8: el legendario de la otra edición ya no aparece en La UAB tras la Liga (ni rumor de Hesse); solo se consigue conectándose con la otra edición. Diarios de la Mansión y frase de Campoy según la edición.
+- Prueba: `tools/pruebas/guion_unidad.cjs` ejecuta cada escena y guarda el texto mostrado.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

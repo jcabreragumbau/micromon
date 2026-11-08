@@ -186,7 +186,6 @@ const SCRIPTS: Record<string, Script> = {
       s.flags.iniciales2 = true;
       await game.say(`Profesora Hesse: ¡${s.avatar === "chica" ? "Campeona" : "Campeón"} de La UAB! Estoy orgullosísima. Toma: los dos Inóculos que no elegiste aquel primer día.`);
       for (const sp of ["synechoc", "butyricum", "paramec"]) if (sp !== s.flags.starter) await giveMicroo(game, sp, 5);
-      await game.say(ED.rumorPostLiga);
       return;
     }
     if (s.caught.length >= 162) { await game.say("Profesora Hesse: ¡162 especies! ¡Has completado la Microdex! Eres la persona que más sabe de microbios del mundo."); return; }
@@ -380,26 +379,32 @@ const SCRIPTS: Record<string, Script> = {
 
   async salazar(game, world) {
     const s = S(game);
-    await game.say("Dr. Salazar: …¿Eh? ¿Quién eres tú? No, no me levanto. Se está muy bien sentado.");
-    await game.say("Dr. Salazar: Alguien ha tirado un disco duro al suelo. ¿Lo ves ahí? Pues yo no pienso hacer nada.");
-    await game.say("Dr. Salazar: ¿Que los becarios están picando datos de 16S sin supervisión? Ya aprenderán. Yo aprendí así… creo.");
-    await game.say("Dr. Salazar: ¿Quieres pasar? Uf… vale, te gano desde la silla.");
+    await game.say("Dr. Isaac Salazar: ¿Qué quieres?");
+    await game.say("{nombre}: …");
+    await game.say("Dr. Salazar: Si vienes a quejarte del olor, abre una ventana.");
+    await game.say("Dr. Salazar: El servidor funciona. Que tú tengas problemas con el resto de la instalación no es asunto mío.");
+    await game.say("Dr. Salazar: Jaime quiere los datos. Yo quiero que me dejen tranquilo.");
+    await game.say("Dr. Salazar: No me toques. Y no desenchufes nada.");
     const team = [createMicroo("niger", 15, { rng: rng(game) }), createMicroo("fragilis", 16, { rng: rng(game) }), createMicroo("desulfovib", 17, { rng: rng(game) })];
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Salazar"), wild: false,
-      trainer: { name: "Isaac Salazar", clase: "Ejecutivo", portrait: "salazar", lose: "Bah… tampoco me importaba tanto.", money: 400 } });
+      trainer: { name: "Isaac Salazar", clase: "Ejecutivo", portrait: "salazar", lose: "Qué pérdida de tiempo.", money: 400 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
-    await game.say("Dr. Salazar: Pfff. Vale, vale. Me voy a mi cuarto de servidores, que ahí no me molesta nadie.");
-    await game.say("Dr. Salazar: Y llevaos a los becarios, que ya hacen mucho ruido. La Unidad de Genética tiene planes más grandes…");
+    await game.say("Dr. Salazar: Qué pérdida de tiempo. Tengo que volver a revisar los registros.");
+    await game.say("Dr. Salazar: La Unidad tiene planes más grandes. Si te interesa seguir molestando, busca a alguien que tenga ganas de hablar.");
     await game.fade(true, 14);
     s.flags.salazar1 = true;
+    s.flags.disco = true;
     world.refreshNpcs();
     await game.fade(false, 14);
-    await game.say("Los becarios secuestrados han salido corriendo hacia Ciudad Cultivo.");
+    await game.say("Al marcharse, el Dr. Salazar ha dejado el disco duro en el suelo. En la carcasa hay una etiqueta: «BACKUP_FINAL_v3_ESTE_SÍ».");
+    if (!s.bag["disco-duro"]) addItem(s, "disco-duro");
+    await game.say("¡{nombre} ha guardado el DISCO DURO EXTERNO en la mochila!");
+    await game.say("Los becarios retenidos han salido corriendo hacia Ciudad Cultivo.");
   },
 
   async discoDuro(game, world) {
     const s = S(game);
-    if (!s.flags.salazar1) { await game.say("Dr. Salazar: Ni lo toques. Bueno… en realidad me da igual. Pero no lo toques."); return; }
+    if (!s.flags.salazar1) { await game.say("Dr. Salazar: No me toques. Y no desenchufes nada."); return; }
     await game.say("Es un disco duro externo atado con celo. Pone «BACKUP_FINAL_v3_ESTE_SÍ».");
     addItem(s, "disco-duro");
     s.flags.disco = true;
@@ -412,8 +417,9 @@ const SCRIPTS: Record<string, Script> = {
     if (s.flags.rival3) return;
     const r = world.npc("r3-rival");
     if (r) { r.emote = 40; r.dir = 0; await game.wait(30); }
-    await game.say("{rival}: ¡{nombre}! ¿Vas al Monte Micelio? Dicen que dentro hay unos tipos raros con portátiles… ¡pero a mí no me dan ningún miedo!");
-    await game.say("{rival}: He entrenado mucho. ¡Esta vez no tienes nada que hacer!");
+    await game.say("{rival}: ¿Ves a esos tipos de ahí arriba? Llevan portátiles, mochilas y unas batas que parecen no haber pasado por una lavadora. No sé qué hacen, pero no tienen pinta de excursionistas.");
+    await game.say("{rival}: En fin, seguro que no es nada. ¡Vamos, que aún nos queda camino!");
+    await game.say("{rival}: Pero antes… he entrenado mucho. ¡Esta vez no tienes nada que hacer!");
     const rv = String(s.flags.rivalStarter ?? "butyricum");
     const evo = [...SPECIES.values()].find((x) => x.evolvesFrom === rv && x.evolution?.method === "level" && (x.evolution.level ?? 99) <= 15);
     const foe = [createMicroo("rhizopupa", 13, { rng: rng(game) }), createMicroo("subtilis", 13, { rng: rng(game) }), createMicroo(evo?.id ?? rv, 15, { rng: rng(game) })];
@@ -547,47 +553,100 @@ const SCRIPTS: Record<string, Script> = {
 
   async barbadilla(game, world) {
     const s = S(game);
-    await game.say("Dr. Antonio Barbadilla: ¿Has visto mi reflejo en esa cabina de flujo? Impecable. Como mis Microos: simétricos y vistosos.");
-    await game.say("Dr. Barbadilla: ¿Qué es eso de la bioinformática moderna? Bah, yo me encargo de las malas noticias financieras. ¡Y tú eres una de ellas!");
+    await game.say("Dr. Antonio Barbadilla: Ah. Un visitante. Acércate, que no muerdo.");
+    await game.say("Dr. Barbadilla: Tienes una expresión muy interesante. ¿Siempre miras así a los investigadores?");
+    await game.say("Dr. Barbadilla: Soy el doctor Barbadilla. Quizá hayas oído hablar de mí. He estado en congresos importantes. Algunos muy importantes.");
+    await game.say("{nombre}: …");
+    await game.say("Dr. Barbadilla: La PCR cuantitativa está muy bien, pero donde esté una buena PCR convencional… La gente se ha vuelto demasiado dependiente de las máquinas.");
+    await game.say("Dr. Barbadilla: Eso ya se sabía en los años noventa. Lo que pasa es que ahora nadie lee.");
+    await game.say("Dr. Barbadilla: ¿Me estás llevando la contraria? Te recomiendo que leas un poquito más.");
     const team = [createMicroo("volvox", 30, { rng: rng(game) }), createMicroo("spirulmax", 31, { rng: rng(game) }), createMicroo("salinarum", 31, { rng: rng(game) })];
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Barbadilla"), wild: false,
-      trainer: { name: "Antonio Barbadilla", clase: "Ejecutivo", portrait: "barbadilla", lose: "¡Mi peinado! ¡Me has despeinado la simetría!", money: 500 } });
+      trainer: { name: "Antonio Barbadilla", clase: "Ejecutivo", portrait: "barbadilla", lose: "¡Imposible! Espera… no te acerques tanto.", money: 500 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
-    await game.say("Dr. Barbadilla: Tengo que retocarme. Abajo está Jaime… y no le gusta que le interrumpan.");
+    await game.say("Dr. Barbadilla: ¡Imposible! Espera… no te acerques tanto, que necesito comprobar una cosa en el reflejo de esa pantalla.");
+    await game.say("El Dr. Barbadilla se mira en el cristal y se arregla el peinado.");
     s.flags.barbadilla1 = true;
     world.refreshNpcs();
   },
 
   async casillas(game, world) {
     const s = S(game);
-    await game.say("Dra. Sonia Casillas: ¡¿Tú eres quien está estresando a mis becarios?! ¿Han comido? ¿Has comido tú? ¡Da igual!");
-    await game.say("Dra. Casillas: ¡Mis niños están aprendiendo muchísimo! ¡Y no voy a dejar que nadie les ponga nerviosos! ¡Combate doble!");
+    await game.say("Dra. Sonia Casillas: ¡Por fin alguien nuevo! ¿Has comido? Tengo un táper de sobra.");
+    await game.say("Dra. Casillas: Los chicos están muy ocupados. Hay que cuidarlos, ¿sabes? A veces se olvidan de comer cuando están con sus análisis.");
+    await game.say("Becario: Doctora, hoy habíamos dicho que salíamos a las seis.");
+    await game.say("Dra. Casillas: ¿Cómo que a las seis? Si todavía queda muchísimo por hacer. Lo importante es formarte. Ya tendrás tiempo de descansar cuando tengas una plaza.");
+    await game.say("Dra. Casillas: No os preocupéis, que yo os organizo. He preparado turnos para que nadie se quede sin cenar.");
+    await game.say("Becario: El turno de noche también cuenta como cena, doctora.");
+    await game.say("Dra. Casillas: ¡Qué gracioso! Anda, guarda el táper.");
     const team = [createMicroo("kefirgran", 30, { rng: rng(game) }), createMicroo("putida", 30, { rng: rng(game) }), createMicroo("myxococcus", 31, { rng: rng(game) }), createMicroo("crescentus", 31, { rng: rng(game) })];
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dra. Casillas", { "medio-tsb": 1 }, "double"), wild: false,
-      trainer: { name: "Sonia Casillas", clase: "Comandante", portrait: "casillas", lose: "¡Mis pobres becarios! ¡Os haré un caldito!", money: 500 } });
+      trainer: { name: "Sonia Casillas", clase: "Comandante", portrait: "casillas", lose: "No me gusta que te metas con mis chicos.", money: 500 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
-    await game.say("Dra. Casillas: Venga, niños, a casa a descansar. Y tú… ¡abrígate, que en el sótano hace frío!");
+    await game.say("Dra. Casillas: No me gusta que te metas con mis chicos. Son buenos muchachos. Solo necesitan aprender a comprometerse.");
     s.flags.casillas1 = true;
     world.refreshNpcs();
   },
 
   async urtaza(game, world) {
     const s = S(game);
-    await game.say("Dr. Jaime Martínez-Urtaza: Así que tú eres quien ha bajado hasta aquí. He visto tu plan de análisis.");
-    await game.say("Dr. Martínez-Urtaza: Es basura. Sin control de calidad, sin réplicas, sin un mal árbol filogenético. ¿Y te llamas investigador?");
-    await game.say("Dr. Martínez-Urtaza: Yo duermo cuatro horas. Mis becarios, tres. Si no publicas este mes, el mes que viene lo publicará otro.");
-    await game.say("Dr. Martínez-Urtaza: Los Microos son solo datos. Y yo tengo los mejores datos del mundo. ¡Te lo demostraré!");
+    if (!s.flags["disco-roto"]) {
+      // ESCENA 6 — el disco duro de campo y el dataset global de Vibrio
+      await game.say("El Dr. Jaime Martínez-Urtaza está leyendo un informe. Al ver el disco duro en tus manos, extiende la mano sin levantar la voz.");
+      await game.say("Dr. Jaime Martínez-Urtaza: Eso que llevas. Dámelo, por favor.");
+      await game.say("Dr. Martínez-Urtaza: Es el disco de campo. Me preguntaba dónde había acabado.");
+      await game.say("{nombre}: …");
+      await game.say("Dr. Martínez-Urtaza: No es una petición complicada.");
+      await game.say("Un becario se acerca a recoger el disco. Al girarse, tropieza con un cable de alimentación… ¡El disco cae al suelo con un golpe seco y la carcasa se abre!");
+      await game.say("Becario: ¡Lo siento! ¡Lo siento muchísimo, doctor!");
+      await game.say("Jaime recoge el disco y examina la carcasa. Su voz es baja, casi amable.");
+      await game.say("Dr. Martínez-Urtaza: Vaya…");
+      await game.say("Dr. Martínez-Urtaza: Por suerte tenemos una copia de seguridad, ¿verdad?");
+      await game.say("Becario: …");
+      await game.say("Dr. Martínez-Urtaza: ¿Verdad?");
+      await game.say("Becario: Yo… Pensaba que la sincronización del servidor se había completado.");
+      await game.say("Dr. Martínez-Urtaza: No te he preguntado qué pensabas. Te he preguntado si tenemos una copia.");
+      await game.say("Becario: No, doctor. No hay copia de seguridad.");
+      await game.say("Jaime levanta lentamente la mirada.");
+      await game.say("Dr. Martínez-Urtaza: ¿Cómo que no hay copia de seguridad?");
+      await game.say("Becario: El servidor estaba dando problemas. La última sincronización no terminó. Pensé que podríamos hacerla después.");
+      await game.say("Dr. Martínez-Urtaza: ¿Pensaste que podríamos hacerla después?");
+      await game.say("Dr. Martínez-Urtaza: ¡Había registros de distribución, campañas, series temporales, observaciones ambientales! ¡Décadas de trabajo reunidas en un único archivo! ¡Todo mi dataset de Vibrio!");
+      await game.say("Dr. Martínez-Urtaza: ¡Treinta años de trabajo! ¡Treinta! ¿Tienes la más mínima idea de lo que acabas de destruir?");
+      await game.say("Becario: Lo siento, doctor…");
+      await game.say("Dr. Martínez-Urtaza: ¡No! No lo sientes. Si lo sintieras, habrías comprobado el estado de la copia. Te confié una tarea elemental.");
+      await game.say("Dr. Martínez-Urtaza: ¡Fuera!");
+      await game.say("Becario: Doctor, yo…");
+      await game.say("Dr. Martínez-Urtaza: ¡FUERA!");
+      await game.fade(true, 12);
+      if (s.bag["disco-duro"]) addItem(s, "disco-duro", -1);
+      s.flags["disco-roto"] = true;
+      world.refreshNpcs();
+      await game.fade(false, 12);
+      await game.say("Jaime mira los gráficos de Vibrio de la pared. Deja el disco roto sobre la mesa con cuidado y apaga la pantalla.");
+      await game.say("Dr. Martínez-Urtaza: Treinta años…");
+      await game.say("Dr. Martínez-Urtaza: No voy a improvisar una solución ahora. Fuera de mi despacho.");
+      await game.say("Dr. Martínez-Urtaza: No necesito que estés de acuerdo conmigo. Necesito que seas capaz de comprenderlo.");
+      await game.say("Dr. Martínez-Urtaza: Ahora, si me disculpas, tengo que ocuparme de este desastre.");
+    }
+    // ESCENA 7 — combate 1
+    await game.say("Jaime se coloca detrás de su mesa. Ya no parece enfadado: ha vuelto a su tono de autoridad.");
+    await game.say("Dr. Martínez-Urtaza: No todos estamos hechos para conformarnos con resultados mediocres. Veamos si tienes algo más que suerte.");
+    await game.say("Dr. Martínez-Urtaza: He dormido cuatro horas durante años. No necesito que me expliques lo que cuesta llegar a lo más alto.");
     const team = [createMicroo("cholerae", 31, { rng: rng(game) }), createMicroo("klebsi", 31, { rng: rng(game) }), createMicroo("smegmatis", 32, { rng: rng(game) }), createMicroo("aeruginosa", 33, { rng: rng(game) })];
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-tsb": 2 }), wild: false,
-      trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "Esto… esto es un outlier. ¡No cuenta!", money: 800 } });
+      trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "Un resultado atípico. Eso es todo.", money: 800 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
-    await game.say("Dr. Martínez-Urtaza: Hmpf. Disfruta tu victoria estadísticamente insignificante. La Unidad de Genética tiene planes mucho más grandes.");
-    await game.say("¡El Dr. Martínez-Urtaza sale del despacho dando un portazo!");
+    await game.say("Dr. Martínez-Urtaza: Un resultado atípico. Eso es todo. No confundas una anomalía con una conclusión.");
+    await game.say("Dr. Martínez-Urtaza: Tengo planes mucho más grandes que este despacho. ¡Fuera de mi vista!");
+    await game.say("Jaime se queda solo mirando la pantalla apagada. Ha dejado de intentar reconstruir el trabajo perdido.");
+    await game.say("Dr. Martínez-Urtaza (en voz baja): Si no puedo recuperar lo que he perdido, tendré que encontrar algo que esté por encima de todo lo que he hecho hasta ahora.");
+    await game.say("Dr. Martínez-Urtaza: El legendario de Isla Conjugada… Si consigo que responda a un modelo, ya no estaré intentando explicar el mundo. Podré cambiarlo.");
     await game.fade(true, 12);
     s.flags.urtaza1 = true;
     world.refreshNpcs();
     await game.fade(false, 12);
-    await game.say("Con las prisas, se ha dejado algo encima de la mesa…");
+    await game.say("Jaime ha abandonado el despacho. Encima de la mesa ha quedado algo…");
     addItem(s, "western-blot");
     s.flags.blot = true;
     await game.say("¡{nombre} ha encontrado el WESTERN BLOT! Con él podrás identificar las proteínas de la Torre Prión.");
@@ -598,10 +657,16 @@ const SCRIPTS: Record<string, Script> = {
     if (s.flags.hernandez1) return;
     const h = world.npc("hernandez");
     if (h) { h.emote = 40; h.dir = 0; await game.wait(30); }
-    await game.say("Dra. Alba Hernández: Alto ahí. No, no voy a luchar contigo. Yo no me mancho las manos.");
-    await game.say("Dra. Hernández: Pero ¿sabes cuál es tu problema? Que no tienes perspectiva global. Los microbiólogos sois unos miopes: solo veis la placa.");
-    await game.say("Dra. Hernández: El plan de Vibrio parahaemolyticus en el mar se ha descartado. Todo el mundo sabe que los Vibrios siguen las corrientes superficiales… aunque nadie lo haya probado.");
-    await game.say("Dra. Hernández: Ahora vamos a por algo mucho mayor. Deberías callarte, agradecer la oportunidad y unirte a nosotros. Piénsalo.");
+    await game.say("Dra. Alba Hernández: Has llegado más lejos de lo que esperaba. He seguido tus avances. No es habitual encontrar a alguien con tu capacidad a estas alturas del viaje.");
+    await game.say("Dra. Hernández: No hace falta que esto termine en un combate. Preferiría que habláramos.");
+    await game.say("Dra. Hernández: Jaime siempre ha tenido una visión extraordinaria para detectar oportunidades. También puede ser impulsivo. Parte de mi trabajo consiste en que el proyecto no se desvíe y en que cada persona pueda aportar lo mejor que sabe hacer.");
+    await game.say("Dra. Hernández: La Unidad puede ofrecerte recursos, acceso a proyectos de primer nivel y una carrera brillante. No tendrías que abrirte camino a ciegas ni conformarte con oportunidades pequeñas.");
+    await game.say("Dra. Hernández: Sé lo que se dice de nosotros. No voy a negar que aquí se trabaja mucho ni que hay cosas que deberían hacerse mejor. Pero también hay talento, medios y proyectos que pueden cambiar tu futuro.");
+    await game.say("Dra. Hernández: No te estoy pidiendo que decidas ahora. Solo quiero que veas lo que podrías conseguir si trabajaras con nosotros. Puedo ayudarte a encontrar tu sitio en el proyecto.");
+    await game.say("Dra. Hernández: Jaime quiere ir más deprisa de lo que conviene. Yo intento que la ambición tenga dirección, que los equipos funcionen y que no perdamos de vista el objetivo común.");
+    await game.say("Dra. Hernández: Podrías unirte. Con tu talento, podrías tener una carrera brillante aquí. No estarías limitad{o} a observar desde fuera.");
+    await game.say("{nombre}: …");
+    await game.say("Dra. Hernández: Piénsalo. No todas las puertas se abren dos veces. Ya hablaremos cuando hayas visto el proyecto completo.");
     await game.fade(true, 12);
     s.flags.hernandez1 = true;
     world.refreshNpcs();
@@ -611,12 +676,13 @@ const SCRIPTS: Record<string, Script> = {
 
   async jubiladoTorre(game) {
     const s = S(game);
-    if (s.flags.plasmidoVir) { await game.say("Investigador jubilado: Esa mujer… siempre mirando desde la barandilla. Ten cuidado con la Unidad de Genética."); return; }
-    await game.say("Investigador jubilado: ¡Gracias por llegar hasta aquí! Llevaba días atrapado entre la niebla. Esa doctora no me dejaba bajar.");
-    await game.say("Investigador jubilado: Toma. Lo guardé de mis tiempos en el laboratorio de Vibrios. Un plásmido de virulencia…");
+    if (s.flags.plasmidoVir) { await game.say("Investigador jubilado: No sé qué pretende esa gente con sus proyectos, pero no deberían tratar el conocimiento como si fuera propiedad de una sola persona."); return; }
+    await game.say("Investigador jubilado: Gracias por abrir la puerta. La doctora Hernández no quería que saliera hasta que le entregara unos materiales.");
+    await game.say("Investigador jubilado: Toma. Es un Plásmido Vir. Puede servirte para evolucionar a Cholerae.");
     addItem(s, "plasmido-vir");
     s.flags.plasmidoVir = true;
     await game.say("¡{nombre} ha recibido el PLÁSMIDO VIR! Hace evolucionar a Cholerae.");
+    await game.say("Investigador jubilado: No sé qué pretende esa gente con sus proyectos, pero no deberían tratar el conocimiento como si fuera propiedad de una sola persona.");
   },
 
   async regaloPleomorph(game) {
@@ -706,16 +772,18 @@ const SCRIPTS: Record<string, Script> = {
     s.flags.medalla5 = true;
     await game.say("Dr. Mas: Te has ganado la MEDALLA QUIMIOSTATO.");
     await game.say("¡{nombre} ha recibido la MEDALLA QUIMIOSTATO del Dr. Mas!");
-    await game.say("Dr. Mas: Mi amigo Daniel Yero me ha dicho que la Unidad de Genética ha tomado el Instituto de Biotecnología, al este. ¡Tienes que ayudarles!");
+    await game.say("Dr. Mas: Necesito que vayas al Instituto de Biotecnología, al este. La Unidad de Genética ha tomado el edificio.");
+    await game.say("Dr. Mas: El doctor Yero está dentro intentando ayudar al personal. El gimnasio de Conchillo está cerrado y no podemos acceder a la sala de servidores.");
+    await game.say("Dr. Mas: No sabemos qué buscan, pero no parece una simple ocupación.");
   },
 
   // ---------------------------------------------------------------- Instituto de Biotecnología y Ciudad Pili
   async yeroInstituto(game, world) {
     const s = S(game);
     if (!s.flags["yero-equipo"]) {
-      await game.say("Dr. Daniel Yero: ¡{nombre}! Menos mal que has venido. La Unidad de Genética tiene a Òscar encerrado en la sala de servidores.");
-      await game.say("Dr. Yero: Lleva días calculando árboles de 10.000 réplicas mientras Jaime le dice «pues vaya bioinformático estás hecho». ¡No hay derecho!");
-      await game.say("Dr. Yero: Voy contigo. Dos investigadores llegan más lejos que uno. Toma, que tu equipo entre en plena forma.");
+      await game.say("Dr. Daniel Yero: Menos mal que has llegado. La planta baja está despejada, pero han bloqueado los ascensores.");
+      await game.say("Dr. Yero: Te acompañaré. No pienso dejar que conviertan el Instituto en una oficina privada.");
+      await game.say("Dr. Yero: Toma, que tu equipo entre en plena forma.");
       for (const m of s.party) fullHeal(m);
       await game.say("¡El equipo de {nombre} se ha recuperado por completo!");
       s.flags["yero-equipo"] = true;
@@ -733,7 +801,7 @@ const SCRIPTS: Record<string, Script> = {
   async hablarSeguidor(game) {
     const s = S(game);
     if (s.flags.seguidor === "yero") {
-      await game.say(s.map === "instituto-5" ? "Dr. Yero: ¡Ahí están Antonio y Sonia! Esta vez lucharemos juntos." : "Dr. Yero: ¡Te sigo! La sala de servidores está en la planta 5. Y si necesitas curar a tu equipo, dímelo… bueno, no, ¡no llevo nada! Ja, ja.");
+      await game.say(s.map === "instituto-5" ? "Dr. Yero: ¡Ahí están Antonio y Sonia! Esta vez lucharemos juntos." : "Dr. Yero: ¡Te sigo! La sala de servidores está en la planta 5.");
       return;
     }
     await game.say("…");
@@ -746,9 +814,15 @@ const SCRIPTS: Record<string, Script> = {
       const n = world.npc(id);
       if (n) n.dir = Math.abs(world.px - n.x) > Math.abs(world.py - n.y) ? (world.px > n.x ? 3 : 2) : (world.py > n.y ? 0 : 1);
     }
-    await game.say("Dr. Barbadilla: ¡Otra vez tú! Mira cómo me has dejado el flequillo la última vez.");
-    await game.say("Dra. Casillas: ¡Y encima vienes a estresar al pobre Òscar! ¿Ha comido? ¡Nadie le ha preguntado si ha comido!");
-    await game.say("Dr. Yero: ¡Antonio, Sonia, se acabó! ¡{nombre}, tú y yo contra ellos dos!");
+    await game.say("Dr. Òscar Conchillo: ¡No toquéis ese terminal! Llevo cinco días calculando árboles de diez mil réplicas.");
+    await game.say("Dr. Conchillo: Me han bloqueado el acceso administrativo y quieren que les entregue las credenciales del clúster.");
+    await game.say("Dr. Barbadilla: Doctor Conchillo, no hace falta ponerse así. Estamos intentando mejorar la gestión del Instituto.");
+    await game.say("Dr. Barbadilla: Por cierto, ¿te has fijado en que la luz de esta sala me favorece?");
+    await game.say("Dra. Casillas: No os alteréis. He traído algo de comer. Hay que mantener la cabeza despejada.");
+    await game.say("Dra. Casillas: Conchillo, cariño, si nos das las claves podremos terminar antes y todos podremos irnos a casa.");
+    await game.say("Dr. Conchillo: No voy a entregar las credenciales.");
+    await game.say("Dr. Barbadilla: Qué carácter. Deberías leer algo sobre colaboración institucional.");
+    await game.say("Dr. Yero: Se acabó. No vais a seguir utilizando a la gente de este Instituto. ¡{nombre}, tú y yo contra ellos dos!");
     const r = rng(game);
     // Barbadilla (vistoso y simétrico) y Casillas (protectora): tres Microos cada uno
     const team = [createMicroo("volvox", 40, { rng: r }), createMicroo("kefirgran", 40, { rng: r }), createMicroo("salinarum", 41, { rng: r }),
@@ -759,10 +833,10 @@ const SCRIPTS: Record<string, Script> = {
       difficulty: s.difficulty, playerName: s.name, foeName: "Barbadilla y Casillas", foeItems: { "medio-enriquecido": 2 },
       obeyCap: game.noObey ? 100 : obeyCap(s), levelCap: levelCap(s), inventory: {}, ally: { name: "Dr. Yero", microos: yero } });
     const out = await startBattle(game, world, { battle, wild: false, ally: { name: "Dr. Yero" },
-      trainer: { name: "Barbadilla y Casillas", clase: "Ejecutivos", portrait: "barbadilla", portrait2: "casillas", lose: "¡Retirada! ¡Pero abrígate al salir!", money: 300 } });
+      trainer: { name: "Barbadilla y Casillas", clase: "Ejecutivos", portrait: "barbadilla", portrait2: "casillas", lose: "¡Imposible! ¡Esto no estaba previsto!", money: 300 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
-    await game.say("Dr. Barbadilla: Me voy a retocar. Esto no ha pasado.");
-    await game.say("Dra. Casillas: ¡Niños, nos vamos! ¡Coged los táperes!");
+    await game.say("Dr. Barbadilla: ¡Imposible! ¡Esto no estaba previsto!");
+    await game.say("Dra. Casillas: ¡Chicos, atrás! No os preocupéis, luego hablamos de lo ocurrido. Y alguien que recoja los tápers.");
     await game.say("Dr. Yero: ¡Lo hemos conseguido! Formamos buen equipo, {nombre}.");
     await game.fade(true, 12);
     s.flags["conchillo-libre"] = true;
@@ -770,9 +844,12 @@ const SCRIPTS: Record<string, Script> = {
     world.seguidor = null;
     world.refreshNpcs();
     await game.fade(false, 12);
-    await game.say("Dr. Òscar Conchillo: ¡Libre! Y ahora… ¡acceso al clúster revocado para toda la Unidad de Genética! ¡Ja!");
-    await game.say("Dr. Conchillo: Gracias, de verdad. Cuando termines aquí, ven a mi gimnasio. Te debo un duelo limpio de pura bioinformática.");
-    await game.say("Dr. Conchillo: Jaime está en la planta 11. Va a por el prototipo de la Criobola Morada. ¡Corre!");
+    await game.say("Dr. Òscar Conchillo: Gracias. Ya puedo entrar como administrador.");
+    await game.say("Dr. Conchillo: Voy a revocar el acceso de la Unidad al clúster. No volverán a usar nuestros recursos.");
+    await game.say("La pantalla muestra «credenciales revocadas».");
+    await game.say("Dr. Conchillo: Jaime estaba buscando algo en la planta 11. Una especie de dispositivo de conservación. La Criobola Morada.");
+    await game.say("Dr. Conchillo: Si todavía no la ha conseguido, no podemos dejar que se la lleve.");
+    await game.say("Dr. Conchillo: Cuando termines, ven a mi gimnasio. Te debo un duelo limpio de pura bioinformática.");
   },
 
   async urtazaInstituto(game, world) {
@@ -781,28 +858,33 @@ const SCRIPTS: Record<string, Script> = {
       await game.say("Dr. Martínez-Urtaza: ¿Tú otra vez? Estoy ocupado. Mis ejecutivos de la planta 5 se encargarán de ti.");
       return;
     }
-    await game.say("Dr. Martínez-Urtaza: Así que has liberado a Òscar. Da igual: la Criobola Morada y la pipeline definitiva ya son mías.");
-    await game.say("Dr. Martínez-Urtaza: ¿Los creadores en la autoría? Por favor. Las ideas son de quien las publica primero.");
-    await game.say("Dr. Martínez-Urtaza: Un paper en Nature vale más que cien becarios. Los becarios se renuevan cada año; el índice h se queda.");
+    await game.say("Jaime examina la Criobola Morada, que sigue dentro de una vitrina.");
+    await game.say("Dr. Martínez-Urtaza: Llegas tarde. Este dispositivo es extraordinariamente interesante.");
+    await game.say("Dr. Martínez-Urtaza: No es mío todavía, pero lo será. Su capacidad de conservación podría mantener contenido al Microo legendario y permitir que el sistema de control lo sometiera al modelo. No necesito la Criobola como trofeo: necesito lo que puede hacer.");
+    await game.say("{nombre}: …");
+    await game.say("Dr. Martínez-Urtaza: ¿Los creadores en la autoría? Por favor. La autoría no es un premio de participación.");
+    await game.say("Dr. Martínez-Urtaza: La investigación exige resultados. Y los resultados exigen personas dispuestas a tomar decisiones.");
     const r = rng(game);
     const team = [createMicroo("parahaemolyticus", 43, { rng: r }), createMicroo("vulnificus", 43, { rng: r }), createMicroo("tuberculos", 44, { rng: r })];
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-enriquecido": 2 }), wild: false,
-      trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "¡¡DESGRACIADO SIN FUTURO!!", money: 900 } });
+      trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "¡Desgraciado sin futuro!", money: 900 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
-    await game.say("Dr. Martínez-Urtaza: ¡¡DESGRACIADO SIN FUTURO!! ¡Esto no acaba aquí! ¡En la Isla Conjugada lo verás!");
+    await game.say("Dr. Martínez-Urtaza: ¡Desgraciado sin futuro!");
+    await game.say("Dr. Martínez-Urtaza: No has entendido nada. Esto no termina aquí.");
     await game.fade(true, 12);
     s.flags.urtaza2 = true;
     world.refreshNpcs();
     await game.fade(false, 12);
-    await game.say("El Dr. Martínez-Urtaza ha huido hacia la Isla Conjugada…");
+    await game.say("El Dr. Martínez-Urtaza ha huido hacia la Isla Conjugada sin la Criobola Morada…");
   },
 
   async directorInstituto(game, world) {
     const s = S(game);
     if (!s.flags.urtaza2) { await game.say("Directora del Instituto: ¡Cuidado! Ese hombre quiere llevarse nuestro prototipo…"); return; }
     if (!s.flags.morada) {
-      await game.say("Directora del Instituto: ¡Lo has conseguido! Has salvado el Instituto. Y el prototipo sigue aquí.");
-      await game.say("Directora: Es la Criobola Morada: congelación instantánea en nitrógeno líquido. Nunca falla. Quédatela: estará más segura contigo.");
+      await game.say("Directora del Instituto: Gracias por impedir que se llevaran esto. La Criobola Morada debe permanecer bajo custodia.");
+      await game.say("Directora: No sé qué pretendía Jaime, pero no podemos permitir que se apropie de material del Instituto.");
+      await game.say("Directora: Congelación instantánea en nitrógeno líquido: nunca falla. Quédatela tú. Contigo estará a salvo.");
       addItem(s, "criobola-morada"); s.flags.morada = true;
       await game.say("¡{nombre} ha recibido la CRIOBOLA MORADA!");
       s.flags["instituto-libre"] = true;
@@ -883,7 +965,9 @@ const SCRIPTS: Record<string, Script> = {
     await game.say("Dra. Luquin: Te has ganado la MEDALLA ZIEHL-NEELSEN.");
     await game.say("¡{nombre} ha recibido la MEDALLA ZIEHL-NEELSEN de la Dra. Luquin!");
     addItem(s, "billete-ferri");
-    await game.say("Dra. Luquin: Y toma este billete. El ferri del puerto te llevará a las islas. Dicen que Jaime se esconde en la Isla Conjugada…");
+    await game.say("Dra. Luquin: Necesito pedirte un favor. Han llegado noticias de que Jaime Martínez-Urtaza se ha refugiado en Isla Conjugada.");
+    await game.say("Dra. Luquin: La Mansión de las Cepas lleva años cerrada, pero parece que alguien ha reactivado sus instalaciones.");
+    await game.say("Dra. Luquin: No sé qué está preparando. Toma este billete de ferri. Si hay alguien capaz de averiguarlo, eres tú.");
     await game.say("¡{nombre} ha recibido el BILLETE DE FERRI!");
   },
 
@@ -935,7 +1019,7 @@ const SCRIPTS: Record<string, Script> = {
       }
     }
     if (!s.flags.lokiarca && s.flags.urtaza3) {
-      await game.say("Investigadora: Gracias por detener a ese hombre. Toma: lo revivimos de un sedimento marino profundo. Es una arquea muy especial.");
+      await game.say("Investigadora: Has demostrado que sabes cuidar de los Microos. Toma: lo revivimos de un sedimento marino profundo. Es una arquea muy especial.");
       await game.say("Investigadora: Lokiarchaeota… dicen que es pariente de nuestros antepasados eucariotas.");
       s.flags.lokiarca = true;
       await giveMicroo(game, "lokiarca", 45);
@@ -946,26 +1030,79 @@ const SCRIPTS: Record<string, Script> = {
 
   async urtazaFinal(game, world) {
     const s = S(game);
-    await game.say(ED.urtaza1);
-    await game.say("Dr. Martínez-Urtaza: El «Proyecto Pandemia Global». PPG para los vagos que no leen los títulos completos. Selección poblacional quirúrgica contra quien no cite bien el Lancet Countdown.");
-    await game.say("Dr. Martínez-Urtaza: Y tú, con tus placas de Petri, no vas a detener la genómica de poblaciones. ¡Última lección!");
+    // ESCENA 6 — laboratorio profundo
+    await game.say("Dr. Jaime Martínez-Urtaza: Ah. Has llegado.");
+    await game.say("Dr. Martínez-Urtaza: Supongo que Campoy te habrá contado su versión. Siempre ha tenido cierta tendencia a confundir cautela con criterio.");
+    await game.say("Dra. Campoy: Jaime, no puedes controlar lo que hay ahí dentro.");
+    await game.say("Dr. Martínez-Urtaza: No necesito controlarlo todo. Solo necesito que el modelo sea correcto.");
+    await game.say("Dr. Martínez-Urtaza: El Proyecto Pandemia Global.");
+    await game.say("Dr. Martínez-Urtaza: Durante años he estudiado cómo cambian las poblaciones, cómo se distribuyen, cómo responden a su entorno. Vibrio me enseñó a mirar más allá de una muestra aislada. A pensar en sistemas.");
+    await game.say("Dr. Martínez-Urtaza: El dataset global de Vibrio iba a ser la base de un trabajo extraordinario. Su pérdida fue un contratiempo. Nada más. He construido una nueva aproximación con otros registros disponibles y con los conocimientos que conservo.");
+    await game.say("Dr. Martínez-Urtaza: Y entonces apareció esto.");
+    await game.say("Dr. Martínez-Urtaza: No conseguí la Criobola Morada. Habría sido el medio ideal para mantenerlo contenido y someterlo al sistema. He reproducido parte de sus propiedades en este tanque. Debería bastar.");
+    await game.say("Dr. Martínez-Urtaza: No quiero destruir el mundo. Quiero evitar que siga en manos de quienes no saben gestionarlo.");
+    await game.say("Dra. Campoy: ¿Y quién decide quién merece quedarse?");
+    await game.say("Dr. Martínez-Urtaza: Alguien tiene que decidir. La diferencia es que yo tengo la experiencia, los registros disponibles y la capacidad para hacerlo.");
+    await game.say("Dr. Martínez-Urtaza: La ética es importante. Naturalmente. Pero no confundamos la ética con la falta de ambición.");
+    await game.say("Dr. Martínez-Urtaza: No todos estamos hechos para conformarnos con resultados mediocres.");
+    await game.say("Dr. Martínez-Urtaza: Algún día entenderás que hay personas que nacen para hacer historia y otras que nacen para leerla.");
+    await game.say("Dr. Martínez-Urtaza: No necesito tu aprobación. Necesito que dejes de interponerte.");
     const r = rng(game);
     const team = trainerParty("villain", s.difficulty, r);
     const out = await startBattle(game, world, { battle: battleFor(game, team, false, "Dr. Martínez-Urtaza", { "medio-enriquecido": 3 }), wild: false,
-      trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "Imposible… mi modelo tenía un 99% de precisión…", money: 1200 } });
+      trainer: { name: "Jaime Martínez-Urtaza", clase: "Líder de la Unidad", portrait: "urtaza", lose: "Imposible. Mi modelo tenía un 99 % de precisión.", money: 1200 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
-    await game.say("Dr. Martínez-Urtaza: No… ¡El modelo decía que ganaría! ¡Los datos no mienten!");
+    await game.say("Dr. Martínez-Urtaza: Imposible. Mi modelo tenía un 99 % de precisión.");
+    await game.say("Dr. Martínez-Urtaza: El margen de error estaba calculado. Esto no puede estar ocurriendo.");
+    await game.say("Dr. Martínez-Urtaza: ¡Obedece al script!");
+    await game.say("El tanque empieza a vibrar. Las luces del sistema cambian de color. Suena una alarma y en el cristal aparece una grieta luminosa.");
+    await game.say("Dr. Martínez-Urtaza: No. No, no, no. La respuesta estaba prevista. ¡Obedece al script!");
     await game.say(ED.tanque);
-    await game.say("Dr. Martínez-Urtaza: ¡Quieta! ¡Obedece al script! ¡Te he programado yo!");
-    await game.say("La cepa se revuelve contra él. La biología real no cabe en un script mal hecho.");
-    await game.say("Dr. Martínez-Urtaza: … Veinte años. Veinte años sin vacaciones, sin fines de semana, sin… nada.");
-    await game.say("Dr. Martínez-Urtaza: Me perdí la función de fin de curso de mi hija por contestar al revisor 2. Y el revisor 2 rechazó el paper igualmente.");
-    await game.say("Dr. Martínez-Urtaza: … … Me retiro. Pero esto no ha terminado: la Unidad de Genética volverá.");
+    await game.say("El Microo legendario ignora las órdenes de Jaime y se vuelve hacia él. El sistema de control deja de responder y Jaime retrocede, incapaz de comprenderlo.");
+    await game.say("Dr. Martínez-Urtaza: ¡No! ¡Yo he construido el modelo! ¡Tú no deberías poder hacer eso!");
+    await game.say("Dra. Campoy: No era tuyo, Jaime. Nunca lo ha sido.");
+    await game.say("Dr. Martínez-Urtaza: ¡Silencio!");
+    await game.say("Jaime mira las pantallas. El modelo muestra errores en cascada.");
+    await game.say("Dr. Martínez-Urtaza: No. No puede terminar así.");
+    await game.say("Dr. Martínez-Urtaza: La historia no recordará quién me detuvo. Recordará que yo estuve a punto de conseguirlo.");
+    await game.say("Dr. Martínez-Urtaza: No pienso quedarme en una institución donde todos son una panda de energúmenos. Me iré a otra donde sepan reconocer lo que valgo.");
     await game.fade(true, 14);
     s.flags.urtaza3 = true;
     world.refreshNpcs();
     await game.fade(false, 14);
-    await game.say(ED.campoyFin);
+    await game.say("Jaime se ha marchado de Isla Conjugada. El Microo legendario sigue libre en el laboratorio…");
+  },
+
+  /** La Dra. Campoy en la Mansión: antes del combate final explica el plan; tras capturar al legendario se va a su gimnasio. */
+  async campoyMansion(game, world) {
+    const s = S(game);
+    if (!s.flags.urtaza3) {
+      await game.say(ED.campoyMansion);
+      await game.say("Dra. Campoy: ¡Por fin! Pensaba que no conseguiríamos llegar hasta aquí.");
+      await game.say("Dra. Campoy: Jaime está en el laboratorio profundo. Ha conectado el tanque al sistema de control y está preparando el despertar del Microo.");
+      await game.say("Dra. Campoy: No quiere estudiarlo. Quiere utilizarlo.");
+      await game.say("Dra. Campoy: El dataset global de Vibrio se perdió con el disco. Jaime no lo ha recuperado: ha construido un modelo a partir de otros registros disponibles y de los conocimientos acumulados durante su carrera.");
+      await game.say("Dra. Campoy: La Criobola Morada también le interesa. Como no consiguió hacerse con la original, está intentando reproducir sus propiedades para contener al legendario y mantenerlo sometido al sistema de control.");
+      await game.say("Dra. Campoy: No sé qué pretende hacer después de despertarlo, pero no podemos dejar que lo descubras demasiado tarde.");
+      return;
+    }
+    if (!s.flags[ED.flagLeg]) { await game.say("Dra. Campoy: El Microo sigue ahí. Si consigues aislarlo, estará más seguro contigo que en cualquier tanque."); return; }
+    await game.say("Dra. Campoy: Lo has conseguido. No sé qué habría pasado si Jaime hubiera completado el proceso.");
+    await game.say("Dra. Campoy: Gracias por detenerlo. Te estaré esperando en el gimnasio.");
+    await game.fade(true, 12);
+    s.flags["campoy-gimnasio"] = true;
+    world.refreshNpcs();
+    await game.fade(false, 12);
+  },
+
+  /** Diario personal de Jaime (laboratorio profundo de la Mansión). */
+  async diarioJaime(game) {
+    await game.say("Un cuaderno cerrado con una nota: «Personal. No archivar».");
+    await game.say("«He dedicado treinta años a Vibrio. Treinta años de campañas, muestras, viajes, reuniones y resultados que otros han citado sin entender del todo. He visto cómo cambiaban las costas y cómo se repetían los mismos errores en cada informe».");
+    await game.say("«El dataset global de Vibrio debía ser el punto de partida. Era el archivo de toda una vida de trabajo: campañas, registros de distribución, series temporales y observaciones ambientales. No pienso fingir que la pérdida no importa. Pero el trabajo no puede detenerse por un accidente, ni por la incompetencia de alguien que no fue capaz de hacer una copia».");
+    await game.say("«El Microo legendario de la Mansión ofrece una oportunidad que no se presenta dos veces. No es un cambio de campo. Es la consecuencia de haber aprendido a leer patrones a una escala que otros ni siquiera contemplan».");
+    await game.say("«Hernández habla de perspectiva global. Louis hablaría de límites. Ambos confunden prudencia con virtud. La ciencia no tiene por qué esperar a que el mundo esté preparado».");
+    await game.say("«No estoy aquí para pedir permiso. Si el modelo funciona, la discusión sobre los medios será irrelevante. Si funciona, todos tendrán que aceptar que yo vi lo que los demás no supieron ver».");
   },
 
   async liderCampoy(game, world) {
@@ -1008,8 +1145,8 @@ const SCRIPTS: Record<string, Script> = {
   },
   async pasteur2(game, world) {
     const s = S(game);
-    await game.say("Louis: ¡Hola otra vez! Me han contado lo del Monte Micelio. Becarios analizando datos sin nadie que les enseñe…");
-    await game.say("Louis: Pasa más de lo que crees. Gente joven con contratos de seis meses que no se atreve a decir que algo no funciona.");
+    await game.say("Louis: Has visto a los jóvenes de la Unidad. Algunos apenas han recibido formación y ya les han puesto a procesar datos como si fueran máquinas.");
+    await game.say("Louis: La ciencia necesita aprenderse con las manos, con paciencia y con alguien que te enseñe por qué haces cada cosa.");
     const r = Math.max(0, await game.choose(["LO REPITO", "LO ESCONDO", "LO ESTUDIO"], { prompt: "Louis: Si tu experimento sale al revés de lo que esperabas, ¿qué haces?" }));
     s.flags.pasteurQ2 = r;
     await game.say([
@@ -1017,16 +1154,17 @@ const SCRIPTS: Record<string, Script> = {
       "Louis: Te entiendo, da miedo. Pero un resultado escondido es un error que otro repetirá. Un experimento que no sale también es un resultado.",
       "Louis: ¡Eso! Mis mejores descubrimientos vinieron de cosas que salieron mal.",
     ][r]);
-    await game.say("Louis: Una vez, mi ayudante Chamberland se fue de vacaciones y dejó olvidado un cultivo del cólera de las gallinas.");
-    await game.say("Louis: Al volver, aquel cultivo viejo ya no mataba a las gallinas… las protegía. Así nació la primera vacuna atenuada.");
-    await game.say("Louis: Las vacaciones también son ciencia. Recuérdalo.");
+    await game.say("Louis: Chamberland y sus filtros nos recuerdan que una buena idea puede cambiar la historia. Pero una buena idea no justifica tratar a las personas como material fungible.");
+    await game.say("Louis: No confundas trabajar mucho con trabajar bien. Y no confundas obedecer con aprender.");
     s.flags.pasteur2 = true; world.refreshNpcs();
   },
   async pasteur3(game, world) {
     const s = S(game);
-    await game.say("Louis: Te veo serio. ¿Has conocido al Dr. Martínez-Urtaza?");
-    await game.say("Louis: «Los Microos son solo datos.» Sí, lo dice mucho. Lo conocí cuando era un doctorando brillante. Muy brillante.");
-    await game.say("Louis: Luego llegaron el factor de impacto, los proyectos que se renuevan o no, los rankings… Y un día dejó de mirar la placa.");
+    await game.say("Louis: Conocí a Jaime cuando era un doctorando brillante. Trabajaba más que nadie, leía más que nadie y tenía una intuición extraordinaria.");
+    await game.say("Louis: No fue su dedicación lo que le perdió. Fue que empezó a confundir la importancia de un descubrimiento con la importancia de que su nombre apareciera en él.");
+    await game.say("Louis: Puedes entregar tu vida a la ciencia. Lo que no puedes hacer es exigir que los demás entreguen la suya por ti.");
+    await game.say("Louis: Trabajar muchísimo no convierte automáticamente a alguien en una buena persona.");
+    await game.say("Louis: La ciencia pertenece a quienes están dispuestos a compartirla.");
     const r = Math.max(0, await game.choose(["TODAS", "LAS NECESARIAS", "OCHO Y A CASA"], { prompt: "Louis: ¿Cuántas horas debería trabajar un buen investigador?" }));
     s.flags.pasteurQ3 = r;
     await game.say([
@@ -1045,11 +1183,9 @@ const SCRIPTS: Record<string, Script> = {
   },
   async pasteur4(game, world) {
     const s = S(game);
-    await game.say("Louis: Así que Jaime intentó robar el prototipo de la Criobola Morada. «Las ideas son de quien las publica primero»…");
-    await game.say("Louis: Te contaré un secreto. Yo tuve un rival: un médico alemán llamado Robert Koch.");
-    await game.say("Louis: Él, con sus placas y sus tinciones; yo, con mis matraces. Nos peleamos en congresos y en revistas. Francia contra Alemania, como si los microbios tuvieran bandera.");
-    await game.say("Louis: ¿Sabes cuántos años perdimos? Si hubiéramos trabajado juntos…");
-    if (s.rival === "Koch") await game.say("Louis: Tu rival también se llama Koch, ¿no? Qué casualidad. Cuídalo.");
+    await game.say("Louis: Jaime y yo tuvimos una rivalidad larga. En su momento, ambos queríamos responder preguntas importantes.");
+    await game.say("Louis: Una vez me adelantaron con una idea que yo llevaba meses trabajando. Me dolió, por supuesto. Pero una idea no deja de ser valiosa porque otra persona llegue antes.");
+    await game.say("Louis: Lo que importa es cómo respondes. Puedes mejorar el trabajo, colaborar o aceptar que alguien más ha llegado a una conclusión. Lo que no puedes hacer es convertir tu frustración en una licencia para pisar a los demás.");
     const r = Math.max(0, await game.choose(["ME ENFADO", "LE ESCRIBO", "ME RINDO"], { prompt: "Louis: Si alguien publica tu idea antes que tú, ¿qué haces?" }));
     s.flags.pasteurQ5 = r;
     await game.say([
@@ -1070,12 +1206,31 @@ const SCRIPTS: Record<string, Script> = {
       "Louis: Pues para un momento. Mira. … … ¿Lo ves? Esto también es investigar.",
       "Louis: Eso diría Jaime. Y mira dónde está.",
     ][r]);
-    if (s.flags.urtaza3) await game.say("Louis: Me han contado lo de Jaime. Ojalá alguien le hubiera hecho estas preguntas a tiempo.");
-    else {
-      await game.say("Louis: Jaime está en la Mansión de las Cepas. Lo ha dejado todo atrás para ganar: amigos, familia, a sus propios becarios.");
-      await game.say("Louis: Ve. Y fíjate bien en qué le ha quedado.");
-    }
+    await game.say("Louis: Fíjate bien en qué le ha quedado.");
+    await game.say("Louis: Jaime ha dedicado su vida a investigar. No voy a decirte que eso esté mal. Yo también he pasado décadas persiguiendo preguntas.");
+    await game.say("Louis: Pero nunca he creído que mis sacrificios me dieran derecho a decidir por los demás.");
+    await game.say("Louis: Puedes entregar tu vida a la ciencia. Lo que no puedes hacer es exigir que los demás entreguen la suya por ti.");
+    await game.say("Louis: Conocí a Jaime cuando todavía sabía escuchar. Siempre fue brillante, trabajador y ambicioso. Lo que nunca aprendió fue a distinguir entre un descubrimiento importante y que su nombre apareciera en él.");
+    await game.say("Louis: Ojalá alguien le hubiera hecho estas preguntas a tiempo.");
     s.flags.pasteur5 = true; world.refreshNpcs();
+  },
+
+  // ---------------------------------------------------------------- Epílogo de la Unidad (tras la Liga, en el Instituto)
+  async rebeldeIBB(game) {
+    const s = S(game);
+    if (!s.flags.campeon) {
+      await game.say("Doctorando rebelde: Yo puedo distraerlos. Tres años sin contrato y ni siquiera salimos en la guía docente. Ya no tengo mucho que perder.");
+      await game.say("Doctorando rebelde: Subid. Intentaré mantenerlos aquí abajo.");
+      return;
+    }
+    await game.say("Doctorando rebelde: ¿Te acuerdas de cuando te dije que llevábamos tres años sin contrato y ni siquiera salíamos en la guía docente?");
+    await game.say("Doctorando rebelde: Pues algo ha cambiado. Han revisado las condiciones, han reconocido horas que antes ni aparecían y por fin se están formalizando algunos contratos.");
+    await game.say("Doctorando rebelde: No voy a decir que todo esté arreglado. Pero al menos ahora hay gente obligada a escuchar.");
+  },
+  async pasteurEpilogo(game) {
+    await game.say("Dr. Louis Pasteur: El Instituto Carlos III puede ofreceros plazas para continuar vuestra carrera investigadora. No os prometo que todo vaya a ser sencillo, pero sí un marco en el que vuestro trabajo tenga reconocimiento y condiciones claras.");
+    await game.say("Dr. Pasteur: También quiero proponeros una colaboración entre microbiólogos y genetistas. No para que una disciplina imponga sus objetivos a la otra, sino para que compartáis preguntas, métodos y responsabilidades.");
+    await game.say("Dr. Pasteur: La ciencia avanza mejor cuando nadie tiene que desaparecer detrás del nombre de otra persona.");
   },
 
   // ---------------------------------------------------------------- Calle Selección Natural y Liga
@@ -1104,16 +1259,23 @@ const SCRIPTS: Record<string, Script> = {
 
   async hernandezFinal(game, world) {
     const s = S(game);
-    await game.say("Dra. Alba Hernández: Tú otra vez. Has desmantelado la Unidad, has humillado a Jaime… y sigues sin tener perspectiva global.");
-    await game.say("Dra. Hernández: Siempre he dejado que peleen los becarios. Pero esta vez lo haré yo. Te voy a enseñar lo que es ver el panorama completo.");
+    await game.say("Dra. Alba Hernández: Has llegado.");
+    await game.say("Dra. Hernández: Jaime ha perdido. Lo sé.");
+    await game.say("Dra. Hernández: No voy a fingir que me sorprende del todo. Siempre confundió la capacidad de imaginar un proyecto con la capacidad de dirigirlo.");
+    await game.say("Dra. Hernández: Yo creía que podía corregir sus impulsos. Que bastaba con darle una perspectiva más amplia.");
+    await game.say("Dra. Hernández: Pero quizá estaba haciendo lo mismo que él: justificar cualquier decisión en nombre de una idea que consideraba superior.");
+    await game.say("Dra. Hernández: Esta vez lo haré yo. No voy a esconderme detrás de un discurso.");
     const r = rng(game);
     const foe = [createMicroo("thiomargar", 57, { rng: r }), createMicroo("mimivir", 57, { rng: r }), createMicroo("tardigrad", 58, { rng: r }),
       createMicroo("cyanofossil", 58, { rng: r }), createMicroo("filovir-z", 59, { rng: r })];
     const out = await startBattle(game, world, { battle: battleFor(game, foe, false, "Dra. Hernández", { "medio-enriquecido": 2 }), wild: false,
-      trainer: { name: "Alba Hernández", clase: "Ejecutiva", portrait: "hernandez", lose: "… Quizás… la miope era yo.", money: 700 } });
+      trainer: { name: "Alba Hernández", clase: "Ejecutiva", portrait: "hernandez", lose: "…", money: 700 } });
     if (out.outcome === "lose") { await whiteout(game, world); return; }
-    await game.say("Dra. Hernández: Está bien. Me rindo. A veces hay que mirar la placa de cerca para entender el mundo entero.");
-    await game.say("Dra. Hernández: Ve a La UAB. Y… perdona por el sermón de la torre.");
+    await game.say("Dra. Hernández: Quizás… la miope era yo.");
+    await game.say("Dra. Hernández: A veces hay que mirar la placa de cerca para entender el mundo entero.");
+    await game.say("Dra. Hernández: Te debo una disculpa por el sermón de la torre. No porque la perspectiva global no importe, sino porque la utilicé para despreciar todo lo que no encajaba en mi discurso.");
+    await game.say("Dra. Hernández: No sé qué haré ahora. Por primera vez, creo que tendré que escuchar antes de decidir.");
+    await game.say("La Dra. Hernández se aparta y deja libre el paso hacia La UAB.");
     s.flags.hernandez2 = true;
     world.refreshNpcs();
   },
@@ -1134,7 +1296,7 @@ const SCRIPTS: Record<string, Script> = {
     const intros: string[][] = [
       ["Dra. Laura Tusell: Bienvenid{o} a la Liga. Soy Laura Tusell, del Alto Mando. Mi especialidad: el ciclo celular… y los parásitos que lo secuestran.", "Dra. Tusell: El huso mitótico no perdona errores. ¡Yo tampoco!"],
       ["Dr. Joaquim Martí: Toxinas que paralizan, espiroquetas que invaden el sistema nervioso, priones… Bienvenid{o} a la neurobiología infecciosa.", "Dr. Martí: Veamos si tus neuronas aguantan."],
-      ["Dr. Jordi Barbé: Así que vienes a hablarme de genética. La Unidad de Urtaza ensució ese nombre. Yo te enseñaré lo que es la verdadera genética microbiana.", "Dr. Barbé: Regulón SOS, RecA, LexA… Mis Microos reparan su ADN más rápido de lo que tú lo dañas."],
+      ["Dr. Jordi Barbé: La Unidad de Genética ha ensuciado el nombre de la genética. Durante mucho tiempo, algunos confundieron autoridad con conocimiento y obediencia con colaboración.", "Dr. Barbé: La ciencia necesita ambición, sí. Pero también necesita límites, discusión y responsabilidad. Si no, deja de ser una búsqueda compartida y se convierte en el capricho de quien más poder tiene.", "Dr. Barbé: Yo te enseñaré lo que es la verdadera genética microbiana.", "Dr. Barbé: Regulón SOS, RecA, LexA… Mis Microos reparan su ADN más rápido de lo que tú lo dañas."],
       ["Dra. Montserrat Llagostera: Llevo toda una vida en esta Facultad estudiando la virulencia. Patógenos, fagos, sistemas de secreción…", "Dra. Llagostera: Soy la última del Alto Mando. ¡Demuéstrame que mereces ver al Campeón!"],
       [], // Pasteur: ver pasteurLiga()
     ];

@@ -1,5 +1,5 @@
 // Ediciones Escherichia y Salmonella (ambas sobre la V2). Cada una tiene su legendario de la historia, su portada y
-// cinco Microos exclusivos; el legendario de la otra edición aparece tras ganar la Liga.
+// cinco Microos exclusivos; el legendario de la otra edición solo se consigue conectándose con ella.
 // Sin edición (V1 y V2) el juego es la Edición Escherichia de siempre. En la página con las dos ediciones
 // (EDICION = "ambas") se elige al abrir el juego con `elegirEdicion`, antes de crear el mundo.
 import { EDICION } from "./assets_data";
@@ -21,36 +21,28 @@ export const EXCLUSIVOS: Record<Edicion, string[]> = {
   salmonella: ["mirabilis", "vulgaris", "psychrobac", "colwellia", "vulnificus"],
 };
 
-/** Textos de la historia que dependen del legendario de la edición. */
+/** Textos de la historia que dependen del legendario de la edición (guion final: docs/guion_unidad_genetica.pdf). */
 const TEXTOS = {
   salmonella: {
   nombre: "Edición Salmonella",
   legendario: "salmonella-typhimurium", flagLeg: "salmonella",
-  postLiga: "ecoli-o157", flagPost: "o157",
-  rumorPostLiga: "Profesora Hesse: Por cierto… dicen que una E. coli muy rara ronda los jardines de La UAB desde tu victoria.",
-  urtaza1: "Dr. Jaime Martínez-Urtaza: Llegas tarde. Las muestras de Cádiz, el fago P22 con los genes de virulencia y mi modelo de Machine Learning… ya está hecho.",
-  tanque: "Del tanque central sale un brillo azulado. ¡La cepa Typhimurium ha roto el cristal!",
-  campoyFin: "Dra. Campoy: ¡Se ha ido! Pero la cepa Typhimurium sigue ahí… ¡Tienes que aislarla o detenerla, {nombre}! Después te espero en mi gimnasio.",
-  campoyMansion: "Dra. Susana Campoy: ¡Ha usado el fago P22 para devolverle la virulencia a una Salmonella de laboratorio! Yo no puedo detenerle sola… ¡Ayúdame!",
+  tanque: "El tanque se rompe y el Microo legendario emerge envuelto en un brillo azulado.",
+  campoyMansion: "Dra. Susana Campoy: Ha utilizado el fago P22 en el proceso que ha dado lugar a una Salmonella distinta.",
   diarios: [
-    "Diario, 5 de julio: Nuestra cepa LT2 de Salmonella crece de maravilla. Atenuada y docilísima. Perfecta para el laboratorio.",
-    "Diario, 12 de agosto: Un fago P22 ha transducido genes de virulencia a un cultivo. La cepa ha cambiado…",
-    "Diario, 3 de septiembre: La nueva cepa inyecta proteínas con su jeringa molecular y se cuela en cualquier célula. Ya no podemos controlarla.",
+    "Diario, 5 de julio: «LT2 es una cepa de laboratorio de comportamiento dócil. Su estabilidad la convierte en una referencia para nuestras observaciones».",
+    "Diario, 12 de agosto: «Los registros asociados al fago P22 coinciden con cambios inesperados en las características heredables de la población».",
+    "Diario, 3 de septiembre: «La nueva variante presenta un perfil muy distinto al de partida. La llamaremos Typhimurium».",
   ],
 },
   escherichia: {
   nombre: "Edición Escherichia",
   legendario: "ecoli-o157", flagLeg: "o157",
-  postLiga: "salmonella-typhimurium", flagPost: "salmonella",
-  rumorPostLiga: "Profesora Hesse: Por cierto… dicen que una Salmonella muy rara ronda los jardines de La UAB desde tu victoria.",
-  urtaza1: "Dr. Jaime Martínez-Urtaza: Llegas tarde. Las muestras de Cádiz, el fago con la toxina Shiga y mi modelo de Machine Learning… ya está hecho.",
-  tanque: "Del tanque central sale un brillo rojizo. ¡La cepa O157:H7 ha roto el cristal!",
-  campoyFin: "Dra. Campoy: ¡Se ha ido! Pero la cepa O157 sigue ahí… ¡Tienes que aislarla o detenerla, {nombre}! Después te espero en mi gimnasio.",
-  campoyMansion: "Dra. Susana Campoy: ¡Ha usado un fago con la toxina Shiga para crear una cepa nueva! Yo no puedo detenerle sola… ¡Ayúdame!",
+  tanque: "El tanque se rompe y el Microo legendario emerge envuelto en un brillo rojizo.",
+  campoyMansion: "Dra. Susana Campoy: Ha usado un fago con la toxina Shiga para crear una cepa nueva.",
   diarios: [
-    "Diario, 5 de julio: Nuestra cepa K-12 crece de maravilla. Docilísima. Perfecta para el laboratorio.",
-    "Diario, 12 de agosto: Un fago portador de la toxina Shiga se ha colado en un cultivo. La cepa ha cambiado…",
-    "Diario, 3 de septiembre: La nueva cepa produce toxina. La llamamos O157:H7. Ya no podemos controlarla.",
+    "Diario, 5 de julio: «La cepa K-12 se comporta de forma dócil en nuestras observaciones. Es un punto de partida útil para comprender qué ocurre cuando una población adquiere características que no estaban presentes en su estado inicial».",
+    "Diario, 12 de agosto: «La presencia de un elemento asociado a un fago coincide con un cambio extraordinario en el comportamiento de la cepa. Los registros no encajan con nuestras previsiones».",
+    "Diario, 3 de septiembre: «La nueva cepa produce una toxina que altera por completo su perfil. La llamaremos O157:H7».",
   ],
 },
 };
@@ -80,11 +72,8 @@ function aplicar() {
   // Mansión de las Cepas: diarios, la Dra. Campoy y el legendario
   const m1 = MAPS["mansion-1"];
   m1?.signs.forEach((s, i) => { if (i < 3) s.text = T.diarios[i]; });
-  for (const m of Object.values(MAPS)) for (const n of m.npcs) {
-    if (n.id === "m2-campoy") n.talk = T.campoyMansion;
+  for (const m of Object.values(MAPS)) for (const n of m.npcs)
     if (n.id === "o157-legendario") Object.assign(n, { sprite: `@microo:${T.legendario}`, script: `estatico:${T.legendario}|60|${T.flagLeg}`, hideIf: T.flagLeg });
-    if (n.id === "salmonella-legendario") Object.assign(n, { sprite: `@microo:${T.postLiga}`, script: `estatico:${T.postLiga}|70|${T.flagPost}`, hideIf: T.flagPost });
-  }
   // Microdex: la Salmonella es la que da nombre a la edición
   const sal = SPECIES.get("salmonella-typhimurium"), eco = SPECIES.get("ecoli-o157");
   if (sal) sal.entry = "Inyecta proteínas con su jeringa molecular y obliga a la célula a tragársela. La Salmonella rebelde que da nombre a esta edición.";
