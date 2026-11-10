@@ -3,3 +3,4 @@ dist/
 *.log
 src/game/assets_data.ts
 src/game/assets_audio.ts
+__pycache__/
