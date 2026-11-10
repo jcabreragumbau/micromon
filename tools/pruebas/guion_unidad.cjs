@@ -10,9 +10,10 @@ const path = require("path"), fs = require("fs");
   await page.goto("file://" + path.resolve(process.env.HTML || "dist/indexEscherichia.html"));
   const G = (f, a) => page.evaluate(f, a);
   await page.waitForFunction(() => !!window.micromon);
+  if (process.env.DOS) await G(() => { window.__dos = true; });
   await page.keyboard.press("KeyZ"); await page.waitForTimeout(150); await page.keyboard.press("Enter"); await page.waitForTimeout(600);
   await G(() => { const g = window.micromon, E = micromonDebug.engine;
-    g.state.party = [E.createMicroo("pandoravir", 100, {})]; g.noEncounters = true; g.noObey = true; g.state.textSpeed = 99;
+    g.state.party = [E.createMicroo("pandoravir", 100, {})]; if (window.__dos) g.state.party.push(E.createMicroo("luca", 100, {})); g.noEncounters = true; g.noObey = true; g.state.textSpeed = 99;
     window.__log = []; const say = g.say.bind(g); g.say = (t, o) => { window.__log.push(t.replace(/\{nombre\}/g, g.state.name)); return say(t, o); }; });
   const escenas = [
     ["monte-micelio", 24, 5, 1, "salazar", {}],
@@ -47,7 +48,7 @@ const path = require("path"), fs = require("fs");
     await G((name) => { const g = window.micromon; window.__fin = false; micromonDebug.runScript(g, g.scene, name, g.scene.npcs.find((n) => n.def.script === name)).then(() => { window.__fin = true; }, (e) => { window.__fin = "error " + e; }); }, name);
     let fin = false, shot = 0;
     for (let t = 0; t < (Number(process.env.PASOS) || 12000) && !fin; t++) {
-      await G(() => { const g = window.micromon, b = g.scene?.s?.battle; if (b) for (const m of b.sides[1].party) if (m.hp > 1) m.hp = 1; const top = g.overlays.at(-1); g.input.press((top?.ov ?? top)?.constructor.name === "PartyScreen" ? "b" : "a"); }); await page.waitForTimeout(25);
+      await G(() => { const g = window.micromon, b = g.scene?.s?.battle; if (b) for (const m of b.sides[1].party) if (m.hp > 1) m.hp = 1; if (b) for (const m of b.sides[0].party) for (const mv of m.moves) mv.pp = mv.maxPp; const top = g.overlays.at(-1); g.input.press((top?.ov ?? top)?.constructor.name === "PartyScreen" ? "b" : "a"); }); await page.waitForTimeout(25);
       fin = await G(() => window.__fin);
       if ([60, 160, 300, 500].includes(t)) await page.screenshot({ path: `${out}/guion_${String(k).padStart(2, "0")}_${name}_${t}.png` });
     }

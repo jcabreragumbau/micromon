@@ -702,11 +702,14 @@ function drawProp(g: Gfx, name: string, x: number, y: number, w: number) {
 /** Burbuja de emoción (con un pequeño «pop» al aparecer). */
 function drawEmote(g: Gfx, x: number, y: number, e: Emocion = "!", t = 99) {
   const c = g.ctx, pop = t > 40 ? 2 : 0;
-  if (e === "ira") {      // vena de enfado: cruz roja sin bocadillo, palpitando
-    const s = 1 + (Math.floor(t / 6) % 2);
-    c.fillStyle = "#e02828";
-    for (const [dx, dy] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) { c.fillRect(x + 4 + dx * (2 + s), y + 6 + dy * (2 + s) - 1, 3, 3); }
-    c.fillRect(x + 3, y + 5, 3, 3);
+  if (e === "ira") {      // vena de enfado (cuatro arcos rojos que palpitan), sin bocadillo
+    const s = 2.2 + (Math.floor(t / 6) % 2) * 0.6, cx = x + 5, cy = y + 7;
+    c.save(); c.strokeStyle = "#e02828"; c.lineWidth = 1.4; c.lineCap = "round";
+    for (let k = 0; k < 4; k++) {
+      const a0 = k * Math.PI / 2 + Math.PI / 4, ox = Math.cos(a0) * s * 1.6, oy = Math.sin(a0) * s * 1.6;
+      c.beginPath(); c.arc(cx + ox, cy + oy, s, a0 + Math.PI * 0.6, a0 + Math.PI * 1.4); c.stroke();
+    }
+    c.restore();
     return;
   }
   if (e === "gota") {     // gota de sudor que resbala
@@ -717,7 +720,7 @@ function drawEmote(g: Gfx, x: number, y: number, e: Emocion = "!", t = 99) {
   g.frame(x - 2 - pop / 2, y - pop, 12 + pop, 14 + pop, "info");
   if (e === "!") g.text("!", x + 2, y + 2 - pop, "red", false);
   else if (e === "?") g.text("?", x + 1, y + 2 - pop, "blue", false);
-  else if (e === "…") { c.fillStyle = "#404040"; for (let i = 0; i < 3; i++) if (t < 44 - i * 10) c.fillRect(x + 1 + i * 3, y + 9, 2, 2); }
+  else if (e === "…") { const k = 1 + (Math.floor(performance.now() / 220) % 3); c.fillStyle = "#404040"; for (let i = 0; i < 3; i++) c.globalAlpha = i < k ? 1 : 0.25, c.fillRect(x + 1 + i * 3, y + 8 - pop, 2, 2); c.globalAlpha = 1; }
   else if (e === "nota") { c.fillStyle = "#3868d8"; c.fillRect(x + 5, y + 3, 1, 7); c.fillRect(x + 5, y + 3, 3, 1); c.fillRect(x + 7, y + 3, 1, 3); c.fillRect(x + 3, y + 9, 3, 2); }
   else if (e === "corazon") { c.fillStyle = "#e84870"; c.fillRect(x + 2, y + 4, 3, 3); c.fillRect(x + 6, y + 4, 3, 3); c.fillRect(x + 2, y + 6, 7, 2); c.fillRect(x + 3, y + 8, 5, 2); c.fillRect(x + 4, y + 10, 3, 1); }
 }
