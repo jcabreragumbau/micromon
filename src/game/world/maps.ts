@@ -1017,13 +1017,15 @@ function planta(id: string, name: string) {
   // zona de descanso: tres reclutas desmotivados (escena 4 del guion)
   b.fill(5, 6, 2, 1, "t");
   // zona de descanso: tres reclutas cotillean sobre sus jefes; la escena salta al pasar cerca (script descansoIBB)
-  b.npc({ id: "i1-descanso-1", x: 4, y: 6, sprite: "recluta", dir: 3, move: "quieto", hideIf: "urtaza2",
+  // con bata (no son de los que luchan) y siguen ahí hasta la Liga, aunque Jaime ya haya huido
+  b.npc({ id: "i1-descanso-1", x: 4, y: 6, sprite: "npc03", dir: 3, move: "quieto", hideIf: "campeon",
     talk: "Doctorando de la Unidad de Genética: Tú no has oído nada. Nada de nada." });
-  b.npc({ id: "i1-descanso-2", x: 7, y: 6, sprite: "recluta-b", dir: 2, move: "quieto", hideIf: "urtaza2",
+  b.npc({ id: "i1-descanso-2", x: 7, y: 6, sprite: "npc04", dir: 2, move: "quieto", hideIf: "campeon",
     talk: "Doctoranda de la Unidad de Genética: Si te pregunta Casillas, estábamos haciendo una reunión de seguimiento." });
-  b.npc({ id: "i1-descanso-3", x: 5, y: 7, sprite: "recluta", dir: 1, move: "quieto", hideIf: "urtaza2",
+  b.npc({ id: "i1-descanso-3", x: 5, y: 7, sprite: "becario", dir: 1, move: "quieto", hideIf: "campeon",
     talk: "Becario de la Unidad de Genética: Yo todavía quiero investigar. Lo que no sé es si quiero seguir haciéndolo aquí." });
-  b.trigger({ x: 4, y: 9, w: 10, script: "descansoIBB", once: "descanso-ibb" });
+  // cualquier camino de la entrada a la escalera cruza la fila 9
+  b.trigger({ x: 0, y: 9, w: 14, script: "descansoIBB", once: "descanso-ibb" });
   // epílogo: Pasteur con los investigadores que han quedado libres de la Unidad
   b.npc({ id: "i1-pasteur", x: 8, y: 11, sprite: "pasteur", dir: 2, showIf: "campeon", script: "pasteurEpilogo" });
   b.npc({ id: "i1-investigadora", x: 7, y: 11, sprite: "becario", dir: 3, showIf: "campeon", talk: "Investigadora: Pasteur dice que el Carlos III puede ofrecernos plazas. Plazas de verdad, con fechas." });

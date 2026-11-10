@@ -49,6 +49,7 @@ function opciones(m: string, d: NpcDef): string[] | null {
   const talk = Array.isArray(d.talk) ? d.talk.join(" ") : d.talk ?? "";
   const clase = d.trainer?.clase ?? "";
   if (!GENERICOS.has(d.sprite) || d.sprite === "enfermera") return null;   // los reclutas de la Unidad, etc., no se tocan
+  if (d.id.startsWith("i1-descanso")) return null;                       // el corrillo del Instituto: bata propia
   if (d.sprite === "madre" && m === "casa-jugador") return null;
   if (d.sprite === "dependiente") {
     if (d.script === "ferri" || /marinero/.test(d.id)) return MARINERO;

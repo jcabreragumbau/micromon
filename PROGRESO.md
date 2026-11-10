@@ -351,6 +351,7 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Instituto: disparadores en los dos pasillos de la planta 5 (Barbadilla y Casillas salen al encuentro); escena automática de los tres reclutas cotilleando en la planta 1 (`descansoIBB`).
 - Cinemáticas en el mapa (`Overworld`): burbujas de emoción (`!`, `?`, `…`, ira, gota, nota, corazón), saltos, temblores, empujones, sacudida y destello de pantalla, caminos automáticos (`ruta`, `irA`, `irseA`, `alejarse`) y objetos temporales (`aparecer`/`quitar`). Usadas en todas las escenas de la Unidad en lugar de texto narrado; en la Mansión el tanque estalla con el brillo de la edición (`T.brillo`) y el legendario aparece en el momento.
 - Louis se marcha andando hasta salir de cámara tras cada visita.
+- Corrillo del Instituto: con bata (npc03, npc04 y el becario original, fuera de `asignarAspectos`), visible hasta la Liga (antes desaparecía al vencer a Jaime en la planta 11) y disparador en toda la fila 9.
 
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.
