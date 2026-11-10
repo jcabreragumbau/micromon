@@ -59,13 +59,8 @@
     ]
    },
    {
-    "species": "anabaen",
-    "level": 21,
-    "moves": [
-     "latigo-ciliar",
-     "parasitismo-tisular",
-     "lipido-a-endotoxina"
-    ]
+    "species": "meliloti",
+    "level": 22
    }
   ]
  },
@@ -77,12 +72,7 @@
   "team": [
    {
     "species": "pilobolus",
-    "level": 24,
-    "moves": [
-     "disparo-esporangio",
-     "corriente-laminar",
-     "triptofano-fungico"
-    ]
+    "level": 23
    },
    {
     "species": "flavus",
@@ -155,13 +145,8 @@
     ]
    },
    {
-    "species": "acetobuty",
-    "level": 36,
-    "moves": [
-     "chorro-metano-ardiente",
-     "bomba-de-esporas",
-     "choque-termofilo"
-    ]
+    "species": "pastorian",
+    "level": 36
    },
    {
     "species": "avermitil",

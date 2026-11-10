@@ -16,10 +16,13 @@ const path = require("path"), fs = require("fs");
     window.__log = []; const say = g.say.bind(g); g.say = (t, o) => { window.__log.push(t.replace(/\{nombre\}/g, g.state.name)); return say(t, o); }; });
   const escenas = [
     ["monte-micelio", 24, 5, 1, "salazar", {}],
+    ["guarida-1", 18, 10, 0, "barbadilla", {}],
+    ["guarida-2", 5, 8, 0, "casillas", { barbadilla1: true }],
     ["guarida-2", 13, 4, 1, "urtaza", {}],
     ["torre-prion-3", 5, 9, 1, "albaHernandez", {}],
     ["torre-prion-3", 5, 4, 1, "jubiladoTorre", { hernandez1: true }],
-    ["instituto-5", 6, 7, 1, "asedioEjecutivos", { "yero-equipo": true, seguidor: "yero" }],
+    ["instituto-1", 10, 9, 1, "descansoIBB", {}],
+    ["instituto-5", 1, 5, 0, "asedioEjecutivos", { "yero-equipo": true, seguidor: "yero" }],
     ["instituto-11", 7, 6, 1, "urtazaInstituto", { "conchillo-libre": true }],
     ["instituto-11", 6, 3, 1, "directorInstituto", { urtaza2: true }],
     ["mansion-2", 10, 10, 1, "campoyMansion", {}],
@@ -30,20 +33,23 @@ const path = require("path"), fs = require("fs");
     ["calle-seleccion", 11, 3, 1, "hernandezFinal", {}],
     ["instituto-1", 10, 11, 1, "rebeldeIBB", { campeon: true }],
     ["instituto-1", 8, 12, 1, "pasteurEpilogo", {}],
+    ["ciudad-petri", null, null, 1, "pasteur1", { medalla1: true }],
   ];
   const res = [];
   let k = Number(process.env.K) || 0;
   const solo = process.env.ESCENAS?.split(",");
   for (const [map, x, y, dir, name, flags] of escenas.filter((e, i) => !solo || solo.includes(e[4]) || solo.includes(String(i)))) {
-    await G(([map, x, y, dir, flags]) => { const g = window.micromon; Object.assign(g.state.flags, flags); micromonDebug.enterWorld(g, map, x, y, dir); }, [map, x, y, dir, flags]);
+    await G(([map, x, y, dir, flags]) => { const g = window.micromon; Object.assign(g.state.flags, flags);
+      if (x === null) { const n = micromonDebug.MAPS[map].npcs.find((n) => n.script === "pasteur1"); x = n.x; y = n.y + 1; }
+      micromonDebug.enterWorld(g, map, x, y, dir); }, [map, x, y, dir, flags]);
     await page.waitForTimeout(500);
     const i0 = await G(() => window.__log.length);
-    await G((name) => { const g = window.micromon; window.__fin = false; micromonDebug.runScript(g, g.scene, name).then(() => { window.__fin = true; }, (e) => { window.__fin = "error " + e; }); }, name);
+    await G((name) => { const g = window.micromon; window.__fin = false; micromonDebug.runScript(g, g.scene, name, g.scene.npcs.find((n) => n.def.script === name)).then(() => { window.__fin = true; }, (e) => { window.__fin = "error " + e; }); }, name);
     let fin = false, shot = 0;
     for (let t = 0; t < (Number(process.env.PASOS) || 12000) && !fin; t++) {
       await G(() => { const g = window.micromon, b = g.scene?.s?.battle; if (b) for (const m of b.sides[1].party) if (m.hp > 1) m.hp = 1; const top = g.overlays.at(-1); g.input.press((top?.ov ?? top)?.constructor.name === "PartyScreen" ? "b" : "a"); }); await page.waitForTimeout(25);
       fin = await G(() => window.__fin);
-      if (t === 60 && shot++ === 0) await page.screenshot({ path: `${out}/guion_${String(k).padStart(2, "0")}_${name}.png` });
+      if ([60, 160, 300, 500].includes(t)) await page.screenshot({ path: `${out}/guion_${String(k).padStart(2, "0")}_${name}_${t}.png` });
     }
     if (fin !== true) await page.screenshot({ path: `${out}/atasco_${name}.png` });
     const textos = await G((i0) => window.__log.slice(i0), i0);

@@ -5,6 +5,7 @@ export const W = 256, H = 192;
 /** Resolución interna: el lienzo mide W·R × H·R y todo se dibuja en coordenadas lógicas (256×192).
  *  Así los sprites HD (las ilustraciones originales) se ven con todo su detalle. */
 export const R = 4;
+const siluetas = new Map<string, HTMLCanvasElement>();
 /** Parte superior de la caja de texto inferior. */
 export const TB = H - 48;
 export type TextColor = "dark" | "white" | "red" | "blue" | "gray" | "green" | "orange";
@@ -121,6 +122,27 @@ export class Gfx {
       c.translate(Math.round(x) + C * scale, Math.round(y)); c.scale(-1, 1);
       c.drawImage(img, sx, sy, S, S, 0, 0, C * scale, C * scale);
     } else c.drawImage(img, sx, sy, S, S, Math.round(x), Math.round(y), C * scale, C * scale);
+    c.restore();
+  }
+  /** Silueta de un Microo de un solo color, centrada en (cx, cy) y escalada (animación de evolución). */
+  microoSilueta(species: string, cx: number, cy: number, scale: number, color = "#ffffff", alpha = 1) {
+    if (scale <= 0.01 || alpha <= 0) return;
+    const C = MICRO.cell ?? 64, k = `${species}|${color}`;
+    let cv = siluetas.get(k);
+    if (!cv) {
+      const h = MICRO.hd?.[species], hdImg = IMG.microos_hd_frente;
+      let img: CanvasImageSource, sx: number, sy: number, S: number;
+      if (h !== undefined && hdImg) { S = MICRO.hdCell!; img = hdImg; sx = (h % MICRO.hdCols!) * S; sy = Math.floor(h / MICRO.hdCols!) * S; }
+      else { const i = MICRO.index[species] ?? 0; S = C; img = IMG.microos_frente; sx = (i % MICRO.cols) * C; sy = Math.floor(i / MICRO.cols) * C; }
+      cv = document.createElement("canvas"); cv.width = cv.height = S;
+      const x = cv.getContext("2d")!;
+      x.drawImage(img, sx, sy, S, S, 0, 0, S, S);
+      x.globalCompositeOperation = "source-in"; x.fillStyle = color; x.fillRect(0, 0, S, S);
+      siluetas.set(k, cv);
+    }
+    const c = this.ctx, d = C * scale;
+    c.save(); c.globalAlpha *= alpha; c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+    c.drawImage(cv, cx - d / 2, cy - d / 2, d, d);
     c.restore();
   }
   /** Medalla HD (size×size). Sin conseguir: silueta oscura. */

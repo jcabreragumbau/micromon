@@ -27,6 +27,7 @@ const TEXTOS = {
   nombre: "Edición Salmonella",
   legendario: "salmonella-typhimurium", flagLeg: "salmonella",
   tanque: "El tanque se rompe y el Microo legendario emerge envuelto en un brillo azulado.",
+  brillo: "#58a8ff",
   campoyMansion: "Dra. Susana Campoy: Ha utilizado el fago P22 en el proceso que ha dado lugar a una Salmonella distinta.",
   diarios: [
     "Diario, 5 de julio: «LT2 es una cepa de laboratorio de comportamiento dócil. Su estabilidad la convierte en una referencia para nuestras observaciones».",
@@ -38,6 +39,7 @@ const TEXTOS = {
   nombre: "Edición Escherichia",
   legendario: "ecoli-o157", flagLeg: "o157",
   tanque: "El tanque se rompe y el Microo legendario emerge envuelto en un brillo rojizo.",
+  brillo: "#ff5a48",
   campoyMansion: "Dra. Susana Campoy: Ha usado un fago con la toxina Shiga para crear una cepa nueva.",
   diarios: [
     "Diario, 5 de julio: «La cepa K-12 se comporta de forma dócil en nuestras observaciones. Es un punto de partida útil para comprender qué ocurre cuando una población adquiere características que no estaban presentes en su estado inicial».",

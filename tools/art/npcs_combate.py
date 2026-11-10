@@ -3,7 +3,8 @@
 4.ª gen. de ~80×80 sobre fondo azul claro. Cada NN corresponde al PNJ de mapa npcNN (tools/art/npcs_ds.py).
 
 Quita el fondo (relleno desde los bordes por los píxeles azulados parecidos al fondo, incluido el filete del marco),
-centra la figura en un lienzo de 80×80 con los pies abajo y la amplía 4× sin suavizar. Escribe
+centra la figura en un lienzo de 80×80 con los pies abajo y la amplía 4× con Scale2x dos veces (escalador de píxel
+art: suaviza bordes y diagonales sin inventar detalle ni redibujar). Escribe
 assets/sprites/characters_hd/npcNN_combate80.png (320×320). Solo estos PNJ dan combate (aparte de los especiales).
 """
 from pathlib import Path
@@ -37,7 +38,21 @@ def recorta(path):
     fig = im.crop(bb)
     cel = Image.new("RGBA", (L, L))
     cel.alpha_composite(fig, ((L - fig.width) // 2, L - fig.height))
-    return cel.resize((L * K, L * K), Image.NEAREST)
+    return Image.fromarray(scale2x(scale2x(np.array(cel))))
+
+
+def scale2x(a):
+    """Scale2x (EPX): duplica cada píxel copiando el vecino cuando dos lados coinciden; a es H×W×4."""
+    H, W = a.shape[:2]
+    p = np.pad(a, ((1, 1), (1, 1), (0, 0)), mode="edge")
+    E, B, D, F, Hh = p[1:-1, 1:-1], p[:-2, 1:-1], p[1:-1, :-2], p[1:-1, 2:], p[2:, 1:-1]
+    eq = lambda x, y: np.all(x == y, axis=2)
+    c = ~eq(B, Hh) & ~eq(D, F)
+    sel = lambda m, x: np.where((c & m)[..., None], x, E)
+    o = np.zeros((H * 2, W * 2, 4), np.uint8)
+    o[0::2, 0::2] = sel(eq(D, B), D); o[0::2, 1::2] = sel(eq(B, F), F)
+    o[1::2, 0::2] = sel(eq(D, Hh), D); o[1::2, 1::2] = sel(eq(Hh, F), F)
+    return o
 
 
 def main():

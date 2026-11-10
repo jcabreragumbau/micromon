@@ -206,7 +206,7 @@
   "evolves_from": "mucorin",
   "evolution": {
    "method": "level",
-   "level": 7
+   "level": 14
   },
   "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
   "scientific": "Rhizopus stolonifer",
@@ -227,7 +227,7 @@
   "evolves_from": "rhizopupa",
   "evolution": {
    "method": "level",
-   "level": 10
+   "level": 23
   },
   "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
   "scientific": "Pilobolus crystallinus",
@@ -266,7 +266,7 @@
   "evolves_from": "griseus",
   "evolution": {
    "method": "level",
-   "level": 7
+   "level": 14
   },
   "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
   "scientific": "Streptomyces coelicolor",
@@ -287,7 +287,7 @@
   "evolves_from": "coelicol",
   "evolution": {
    "method": "level",
-   "level": 10
+   "level": 23
   },
   "gdd_section": "Iniciales de Pueblo Plaqueta y Rutas Tempranas (#001 - #024)",
   "scientific": "Streptomyces avermitilis",

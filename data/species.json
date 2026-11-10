@@ -99,10 +99,6 @@
     "move": "latigo-ciliar"
    },
    {
-    "level": 20,
-    "move": "lipido-a-endotoxina"
-   },
-   {
     "level": 21,
     "move": "resonancia-magnetica"
    },
@@ -327,10 +323,6 @@
    {
     "level": 28,
     "move": "enquistamiento-subterraneo"
-   },
-   {
-    "level": 30,
-    "move": "choque-termofilo"
    },
    {
     "level": 33,
@@ -660,18 +652,18 @@
  {
   "id": "mucorin",
   "baseStats": {
-   "hp": 30,
-   "atk": 41,
-   "def": 34,
-   "spa": 32,
-   "spd": 34,
-   "spe": 34
+   "hp": 45,
+   "atk": 62,
+   "def": 51,
+   "spa": 47,
+   "spd": 50,
+   "spe": 50
   },
-  "bst": 205,
+  "bst": 305,
   "growth": "medium_fast",
-  "catchRate": 252,
-  "expYield": 41,
-  "size": 1,
+  "catchRate": 190,
+  "expYield": 61,
+  "size": 2,
   "stage": 1,
   "learnset": [
    {
@@ -735,18 +727,18 @@
  {
   "id": "rhizopupa",
   "baseStats": {
-   "hp": 31,
-   "atk": 43,
-   "def": 36,
-   "spa": 33,
-   "spd": 36,
-   "spe": 36
+   "hp": 59,
+   "atk": 82,
+   "def": 68,
+   "spa": 63,
+   "spd": 67,
+   "spe": 66
   },
-  "bst": 215,
+  "bst": 405,
   "growth": "medium_fast",
-  "catchRate": 246,
-  "expYield": 71,
-  "size": 2,
+  "catchRate": 128,
+  "expYield": 134,
+  "size": 3,
   "stage": 2,
   "learnset": [
    {
@@ -810,18 +802,18 @@
  {
   "id": "pilobolus",
   "baseStats": {
-   "hp": 57,
-   "atk": 76,
-   "def": 75,
-   "spa": 60,
-   "spd": 70,
-   "spe": 57
+   "hp": 73,
+   "atk": 97,
+   "def": 95,
+   "spa": 77,
+   "spd": 89,
+   "spe": 74
   },
-  "bst": 395,
+  "bst": 505,
   "growth": "medium_fast",
-  "catchRate": 134,
-  "expYield": 178,
-  "size": 4,
+  "catchRate": 66,
+  "expYield": 227,
+  "size": 5,
   "stage": 3,
   "learnset": [
    {
@@ -845,14 +837,6 @@
     "move": "hifa-envolvente"
    },
    {
-    "level": 14,
-    "move": "corriente-laminar"
-   },
-   {
-    "level": 15,
-    "move": "disparo-esporangio"
-   },
-   {
     "level": 17,
     "move": "nutricion-saprofita"
    },
@@ -863,10 +847,6 @@
    {
     "level": 25,
     "move": "doble-hifa"
-   },
-   {
-    "level": 26,
-    "move": "triptofano-fungico"
    },
    {
     "level": 30,
@@ -902,18 +882,18 @@
  {
   "id": "griseus",
   "baseStats": {
-   "hp": 38,
-   "atk": 47,
-   "def": 37,
-   "spa": 26,
-   "spd": 28,
-   "spe": 29
+   "hp": 57,
+   "atk": 69,
+   "def": 55,
+   "spa": 38,
+   "spd": 42,
+   "spe": 44
   },
-  "bst": 205,
+  "bst": 305,
   "growth": "medium_fast",
-  "catchRate": 252,
-  "expYield": 41,
-  "size": 1,
+  "catchRate": 190,
+  "expYield": 61,
+  "size": 2,
   "stage": 1,
   "learnset": [
    {
@@ -977,18 +957,18 @@
  {
   "id": "coelicol",
   "baseStats": {
-   "hp": 40,
-   "atk": 49,
-   "def": 39,
-   "spa": 27,
-   "spd": 29,
-   "spe": 31
+   "hp": 76,
+   "atk": 92,
+   "def": 73,
+   "spa": 51,
+   "spd": 55,
+   "spe": 58
   },
-  "bst": 215,
+  "bst": 405,
   "growth": "medium_fast",
-  "catchRate": 246,
-  "expYield": 71,
-  "size": 2,
+  "catchRate": 128,
+  "expYield": 134,
+  "size": 3,
   "stage": 2,
   "learnset": [
    {
@@ -1052,18 +1032,18 @@
  {
   "id": "avermitil",
   "baseStats": {
-   "hp": 74,
-   "atk": 90,
-   "def": 71,
-   "spa": 50,
-   "spd": 54,
-   "spe": 56
+   "hp": 95,
+   "atk": 115,
+   "def": 91,
+   "spa": 64,
+   "spd": 69,
+   "spe": 71
   },
-  "bst": 395,
+  "bst": 505,
   "growth": "medium_fast",
-  "catchRate": 134,
-  "expYield": 178,
-  "size": 4,
+  "catchRate": 66,
+  "expYield": 227,
+  "size": 5,
   "stage": 3,
   "learnset": [
    {

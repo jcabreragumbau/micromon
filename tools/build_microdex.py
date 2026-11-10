@@ -151,6 +151,9 @@ for line in VIRUS_LINES:
     seen[line[0]]["evo_from_prev"] = None
 
 seen["Flavus"]["evo_from_prev"] = {"method": "level", "level": 25}  # el GDD usa Flavus Nv.25 en el Gimnasio 3
+# El GDD les daba Nv.7/10 (evolucionaban casi al capturarlos): ritmo de las demás líneas de tres fases tempranas
+for _n, _lv in (("Rhizopupa", 14), ("Pilobolus", 23), ("Coelicol", 14), ("Avermitil", 23)):
+    seen[_n]["evo_from_prev"] = {"method": "level", "level": _lv}
 canon.sort(key=lambda r: sort_key[r["name"]])
 if len(canon) != 162:
     sys.exit(f"ERROR: {len(canon)} Microos canónicos, se esperaban 162")

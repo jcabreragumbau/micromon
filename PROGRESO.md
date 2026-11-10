@@ -340,5 +340,17 @@ Roadmap: 7 fases (0–6). Cada fase termina en una puerta.
 - Decisión 8: el legendario de la otra edición ya no aparece en La UAB tras la Liga (ni rumor de Hesse); solo se consigue conectándose con la otra edición. Diarios de la Mansión y frase de Campoy según la edición.
 - Prueba: `tools/pruebas/guion_unidad.cjs` ejecuta cada escena y guarda el texto mostrado.
 
+### Lote: correcciones del usuario (Unidad, evolución, combate)
+- Reclutas: clase «Becario/Doctorando/Postdoc de la Unidad de Genética» sin nombre propio (los textos recortan el espacio sobrante).
+- Monte Micelio: Salazar reescrito (administrador de sistemas parco, la cueva como sala de servidores, «la copia de seguridad la hago el lunes»); los rehenes están a la vista en su sala (npc03/npc04, con bata) y en Ciudad Cultivo aparecen los dos; al perder, Salazar y los reclutas se van andando por la boca norte y los becarios corren hacia el sur. El disco duro se recoge del suelo.
+- Mucorín y Griseus: evolucionan a Nv 14 y 23 (antes 7 y 10; `tools/build_microdex.py`); las estadísticas pasan a las de una línea normal de tres fases. Pilobolus de la Dra. Guàrdia a Nv 23 (gimnasio 3 sigue al 42 % en el simulador).
+- Evolución nueva (`EvolutionOverlay`): silueta blanca que encoge y crece alternando forma y evolución cada vez más deprisa, destello circular blanco y aparece la nueva forma (`Gfx.microoSilueta`).
+- Iniciales solo para el rival: fuera de Pau (Euglena), Laura y el Dr. Mas (Pastoriano), la Dra. Gajú (Meliloti Nv 22) y Barbadilla (Spirogyra).
+- Sprites de combate de los 26 PNJ entrenadores: ampliados con Scale2x dos veces en vez de vecino más próximo (`tools/art/npcs_combate.py`).
+- Combate salvaje: criobola junto al nombre si la especie ya se ha capturado.
+- Instituto: disparadores en los dos pasillos de la planta 5 (Barbadilla y Casillas salen al encuentro); escena automática de los tres reclutas cotilleando en la planta 1 (`descansoIBB`).
+- Cinemáticas en el mapa (`Overworld`): burbujas de emoción (`!`, `?`, `…`, ira, gota, nota, corazón), saltos, temblores, empujones, sacudida y destello de pantalla, caminos automáticos (`ruta`, `irA`, `irseA`, `alejarse`) y objetos temporales (`aparecer`/`quitar`). Usadas en todas las escenas de la Unidad en lugar de texto narrado; en la Mansión el tanque estalla con el brillo de la edición (`T.brillo`) y el legendario aparece en el momento.
+- Louis se marcha andando hasta salir de cámara tras cada visita.
+
 ## Siguiente tarea
 Pendiente del GDD: Modo Torneo y mochila bloqueada en Difícil, objetos equipados, variocolor y RandomLocke. Posibles mejoras: más diálogos y misiones secundarias, mejorar la calidad de los sprites (Microos diseñados por especie, retratos limpios, pasos), música y efectos.

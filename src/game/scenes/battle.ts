@@ -97,7 +97,7 @@ export class BattleScene implements Scene {
     if (this.s.trainer) {
       this.showTrainer = true; this.trainerSlide = 120;
       await g.wait(30);
-      await this.text(this.s.trainer.portrait2 ? `¡${this.s.trainer.clase} ${this.s.trainer.name} quieren luchar!` : `¡${this.s.trainer.clase} ${this.s.trainer.name} quiere luchar!`);
+      await this.text(`¡${`${this.s.trainer.clase} ${this.s.trainer.name}`.trim()} ${this.s.trainer.portrait2 ? "quieren" : "quiere"} luchar!`);
       if (this.s.ally) await this.text(`¡${this.s.ally.name} lucha a tu lado!`);
       this.showTrainer = false;
     }
@@ -278,7 +278,7 @@ export class BattleScene implements Scene {
     if (out.outcome === "win" || out.outcome === "capture") audio.music("victoria");
     if (b.outcome === "win" && this.s.trainer) {
       this.showTrainer = true; this.trainerSlide = 60; await g.wait(16);
-      if (this.s.trainer.lose) await this.text(`${this.s.trainer.name}: ${this.s.trainer.lose}`);
+      if (this.s.trainer.lose) await this.text(`${this.s.trainer.name || this.s.trainer.clase}: ${this.s.trainer.lose}`);
       const prize = (this.s.trainer.money ?? 20) * Math.max(...b.sides[1].party.map((m) => m.level));
       g.state.money += prize;
       await this.text(`¡Recibes ${prize} créditos de laboratorio por la victoria!`);
@@ -407,7 +407,7 @@ export class BattleScene implements Scene {
           this.dichos.add(mon.species);
           await this.text(this.s.trainer.sendOut[mon.species]);
         }
-        if (side === 1) { await this.text(`${this.s.trainer?.clase ?? ""} ${this.s.trainer?.name ?? ""} saca a ${displayName(mon)}.`.trim()); break; }
+        if (side === 1) { await this.text(`${`${this.s.trainer?.clase ?? ""} ${this.s.trainer?.name ?? ""}`.trim()} saca a ${displayName(mon)}.`.trim()); break; }
         await this.text(e.text);
         break;
       }
@@ -586,6 +586,8 @@ export class BattleScene implements Scene {
     const t = (b && b.mon === d.mon ? this.b.typesOf(b) : null) ?? getSpecies(d.species).types;
     return [...t];
   }
+  /** ¿El rival es un Microo salvaje de una especie que el jugador ya ha capturado? */
+  private yaCapturado(d: Disp, mine: boolean) { return !mine && this.s.wild && this.game.state.caught.includes(d.species); }
   /** Caja compacta del combate doble: nombre, nivel, PS y tipos abreviados. */
   private miniBox(g: Gfx, d: Disp, x: number, y: number, mine: boolean, types: string[]) {
     const m = d.mon!, w = 112, h = 35;
@@ -595,7 +597,9 @@ export class BattleScene implements Scene {
     c.fillStyle = gr; roundRect(c, x + 2, y + 2, w - 4, h - 4, 4); c.fill();
     c.fillStyle = mine ? "#e8d8a8" : "#c8d8e8"; c.fillRect(x + 4, y + 3, 2, h - 6);
     const lv = `Nv${d.level}`;
-    g.text(g.fit(displayName(m), w - 22 - g.measure(lv)), x + 9, y + 3);
+    const nom = g.fit(displayName(m), w - 22 - g.measure(lv) - (this.yaCapturado(d, mine) ? 9 : 0));
+    g.text(nom, x + 9, y + 3);
+    if (this.yaCapturado(d, mine)) drawBallMini(g, x + 9 + g.measure(nom) + 8, y + 9);
     g.text(lv, x + w - 6 - g.measure(lv), y + 3);
     c.fillStyle = "#3a3e4c"; roundRect(c, x + 8, y + 15, w - 16, 5, 2); c.fill();
     const frac = Math.max(0, d.hp / m.stats.hp);
@@ -616,6 +620,8 @@ export class BattleScene implements Scene {
     c.fillStyle = mine ? "#e8d8a8" : "#c8d8e8"; c.fillRect(x + 4, y + 3, 3, h - 6);
     g.text(displayName(m).slice(0, 12), x + 10, y + 5);
     g.text(`Nv${d.level}`, x + w - 32, y + 5);
+    // salvaje ya capturado alguna vez: criobola junto al nombre (como en los juegos originales)
+    if (this.yaCapturado(d, mine)) drawBallMini(g, Math.min(x + 10 + g.measure(displayName(m).slice(0, 12)) + 8, x + w - 38), y + 11);
     c.fillStyle = "#3a3e4c"; roundRect(c, x + 22, y + 17, w - 30, 7, 3); c.fill();
     g.text("PS", x + 10, y + 16, "orange", false);
     const frac = Math.max(0, d.hp / m.stats.hp);
@@ -693,6 +699,14 @@ export function drawBattleBackground(g: Gfx, env: string, cache: { env?: string;
 
 const TIRO = 22;   // fotogramas que tarda la Criobola del protagonista en llegar
 
+/** Criobola pequeña (indicador de especie ya capturada). */
+function drawBallMini(g: Gfx, x: number, y: number) {
+  const c = g.ctx;
+  c.fillStyle = "#1a1420"; c.beginPath(); c.arc(x, y, 4, 0, Math.PI * 2); c.fill();
+  c.fillStyle = "#e04848"; c.beginPath(); c.arc(x, y, 3.2, Math.PI, 0); c.fill();
+  c.fillStyle = "#f8f8f8"; c.beginPath(); c.arc(x, y, 3.2, 0, Math.PI); c.fill();
+  c.fillStyle = "#1a1420"; c.fillRect(x - 3.2, y - 0.4, 6.4, 0.8); c.fillStyle = "#f8f8f8"; c.fillRect(x - 0.8, y - 0.8, 1.6, 1.6);
+}
 function drawBallBig(g: Gfx, x: number, y: number) {
   const c = g.ctx;
   c.fillStyle = "#1a1420"; c.beginPath(); c.arc(x, y, 6, 0, Math.PI * 2); c.fill();
@@ -853,21 +867,51 @@ class TextOverlay implements Overlay {
   update(game: Game) { return this.t.update(game); }
   draw(g: Gfx, game: Game) { g.clear("#101828"); g.microo(this.sp, "frente", (W - 80) / 2, 30); this.t.draw(g, game); }
 }
+/** Evolución al estilo clásico: el Microo se vuelve una silueta blanca que encoge y crece alternando entre su forma
+ *  y la evolución, cada vez más rápido; al final, un destello blanco y aparece la nueva forma. B la detiene. */
+const EVO_TRAMOS = (() => { const d: number[] = []; let x = 52; while (d.reduce((a, b) => a + b, 0) < 250) { d.push(Math.round(x)); x = Math.max(6, x * 0.82); } return d; })();
+const EVO_INICIO = 40, EVO_FIN = EVO_INICIO + EVO_TRAMOS.reduce((a, b) => a + b, 0), EVO_DESTELLO = 50;
 class EvolutionOverlay implements Overlay {
   t = 0; result = true;
   constructor(public from: string, public to: string) {}
   update(game: Game) {
     this.t++;
-    if (game.input.pressed("b") && this.t < 200) { this.result = false; return true; }
-    return this.t > 240;
+    if (game.input.pressed("b") && this.t < EVO_FIN) { this.result = false; return true; }
+    return this.t > EVO_FIN + EVO_DESTELLO + 50;
   }
   draw(g: Gfx) {
     g.clear("#101828");
-    const phase = this.t < 200 ? Math.floor(this.t / Math.max(3, 24 - this.t / 9)) % 2 : 1;
-    const sp = phase ? this.to : this.from;
-    g.alpha(this.t > 200 ? 1 : 0.9, () => g.microo(sp, "frente", (W - 80) / 2, 30));
-    if (this.t < 200 && phase) g.alpha(0.6, () => g.rect((W - 80) / 2, 30, 80, 80, "#ffffff"));
+    const t = this.t, cx = W / 2, cy = 30 + 32, x0 = (W - 80) / 2;
+    // chispas de luz que suben
+    for (let i = 0; i < 14; i++) {
+      const p = (t * (0.6 + (i % 5) * 0.15) + i * 37) % 120, a = Math.min(1, t / 60) * (1 - p / 120);
+      g.alpha(a * 0.8, () => g.rect(cx - 60 + ((i * 53) % 120), cy + 50 - p, 2, 2, i % 3 ? "#fff8c0" : "#c8e8ff"));
+    }
+    if (t < EVO_INICIO) {
+      // la forma actual se va llenando de luz
+      g.microo(this.from, "frente", x0, 30);
+      g.microoSilueta(this.from, cx, cy, 1, "#ffffff", t / EVO_INICIO);
+    } else if (t < EVO_FIN) {
+      // tramos: encoge la forma de un tramo y crece la del siguiente, alternando, cada vez más deprisa
+      let u = t - EVO_INICIO, k = 0;
+      while (k < EVO_TRAMOS.length - 1 && u >= EVO_TRAMOS[k]) { u -= EVO_TRAMOS[k]; k++; }
+      const f = u / EVO_TRAMOS[k], peq = 0.28;
+      const actual = k % 2 === 0 ? this.from : this.to, otra = k % 2 === 0 ? this.to : this.from;
+      if (f < 0.5) g.microoSilueta(actual, cx, cy, 1 - (1 - peq) * (f / 0.5));
+      else g.microoSilueta(otra, cx, cy, peq + (1 - peq) * ((f - 0.5) / 0.5));
+    } else {
+      // destello: círculo blanco que se expande y cubre la pantalla; luego aparece la evolución
+      const d = t - EVO_FIN;
+      if (d < EVO_DESTELLO) {
+        g.microoSilueta(this.to, cx, cy, 1);
+        const r = (d / EVO_DESTELLO) * 260, c = g.ctx;
+        c.save(); c.fillStyle = "#ffffff"; c.beginPath(); c.arc(cx, cy, r, 0, Math.PI * 2); c.fill(); c.restore();
+      } else {
+        g.microo(this.to, "frente", x0, 30);
+        g.alpha(Math.max(0, 1 - (d - EVO_DESTELLO) / 40), () => g.rect(0, 0, W, H, "#ffffff"));
+      }
+    }
     g.frame(0, TB, W, 48, "oscuro");
-    g.text("Pulsa B para detener la evolución.", 10, TB + 18, "gray");
+    if (t < EVO_FIN) g.text("Pulsa B para detener la evolución.", 10, TB + 18, "gray");
   }
 }

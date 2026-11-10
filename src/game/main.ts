@@ -1,7 +1,7 @@
 // Punto de entrada del juego en el navegador.
 import { audio } from "./audio";
 import { IntroCine } from "./scenes/intro";
-import { drawBattleBackground } from "./scenes/battle";
+import { drawBattleBackground, evolutionSequence } from "./scenes/battle";
 import { Game } from "./game";
 import { DexDetail, BadgeGet, enseñarPlasmido } from "./scenes/menus";
 import { W, H } from "./gfx";
@@ -36,7 +36,7 @@ async function boot() {
   else intro();
   game.start();
   (window as unknown as { micromon: Game }).micromon = game;   // para pruebas automáticas
-  (window as unknown as { micromonDebug: unknown }).micromonDebug = { runScript, wildBattle, enterWorld, MAPS, engine, startBattle, battleFor, DexDetail, BadgeGet, audio, enseñarPlasmido, drawBattleBackground };
+  (window as unknown as { micromonDebug: unknown }).micromonDebug = { runScript, evolutionSequence, wildBattle, enterWorld, MAPS, engine, startBattle, battleFor, DexDetail, BadgeGet, audio, enseñarPlasmido, drawBattleBackground };
   const fit = () => {
     const s = Math.max(1, Math.floor(Math.min((window.innerWidth - 32) / W, (window.innerHeight - (pad && getComputedStyle(pad).display !== "none" ? 170 : 0)) / H)));
     canvas.style.width = `${W * s}px`; canvas.style.height = `${H * s}px`; canvas.style.maxWidth = "100%";

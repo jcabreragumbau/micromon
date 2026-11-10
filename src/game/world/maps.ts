@@ -196,7 +196,7 @@ add(casa("casa-viral", "Casa de Ciudad Viral", { to: "ciudad-viral", x: 17, y: 1
     name: "Marta", clase: "Becaria", team: [["griseus", 7], ["mucorin", 7]], sight: 4, money: 25,
     intro: "¡Shh! Estoy tomando muestras de suelo. ¡Ahora verás lo que he encontrado!", lose: "¡Mis estreptomicetos!", after: "Casi todos los antibióticos naturales vienen de bacterias del suelo como mi Griseus." } });
   b.npc({ id: "bv-micologo", x: 25, y: 11, sprite: "estudiante", dir: 2, trainer: {
-    name: "Íñigo", clase: "Micólogo", team: [["mucorin", 7], ["rhizopupa", 8]], sight: 3, money: 30,
+    name: "Íñigo", clase: "Micólogo", team: [["mucorin", 7], ["mucorin", 8]], sight: 3, money: 30,
     intro: "¡Las hifas lo invaden todo! ¡Prepárate!", lose: "Me has dejado sin esporas.", after: "Más adelante está Ciudad Petri. Su líder usa Microos de los alimentos." } });
   b.npc({ id: "rival-bosque", x: 27, y: 15, sprite: "rival", dir: 2, script: "rivalBosque", hideIf: "rival2" });
   b.trigger({ x: 28, y: 14, h: 4, script: "rivalBosque", once: "rival2" });
@@ -205,7 +205,7 @@ add(casa("casa-viral", "Casa de Ciudad Viral", { to: "ciudad-viral", x: 17, y: 1
   b.encounters([
     { sp: "mucorin", min: 5, max: 7, w: 20 }, { sp: "griseus", min: 4, max: 6, w: 20 },
     { sp: "leptospir", min: 5, max: 7, w: 10 }, { sp: "micrococ", min: 5, max: 7, w: 10 }, { sp: "subtilis", min: 5, max: 7, w: 10 },
-    { sp: "rhizopupa", min: 7, max: 8, w: 5 }, { sp: "mycoplas", min: 5, max: 6, w: 14 }, { sp: "proteus-am", min: 5, max: 7, w: 10 },
+    { sp: "mucorin", min: 7, max: 8, w: 5 }, { sp: "mycoplas", min: 5, max: 6, w: 14 }, { sp: "proteus-am", min: 5, max: 7, w: 10 },
   ]);
   add(b.done({ music: "bosque" }));
 }
@@ -331,21 +331,23 @@ add(casa("casa-petri", "Casa de Ciudad Petri", { to: "ciudad-petri", x: 18, y: 1
   b.item(26, 10, "criobola-azul", "item:mm-azul", 2);
   b.item(14, 4, "glicerol", "item:mm-glicerol");
   const recluta = (id: string, x: number, y: number, dir: number, sprite: string, name: string, team: [string, number][], intro: string, lose: string, after: string) =>
-    b.npc({ id, x, y, sprite, dir, trainer: { name, clase: "Recluta de la Unidad", team, sight: 4, money: 60, intro, lose, after } });
+    b.npc({ id, x, y, sprite, dir, hideIf: "salazar1", trainer: { name: "", clase: `${name} de la Unidad de Genética`, team, sight: 4, money: 60, intro, lose, after } });
   recluta("mm-recluta-1", 21, 14, 3, "recluta", "Becario", [["griseus", 13], ["mycoplas", 13]],
     "Alto. Esta zona está reservada para trabajo de la Unidad de Genética.",
     "¡Mi tarjeta de acceso…!", "No deberías estar aquí. El doctor Salazar se enfadará si alguien toca el material.");
-  recluta("mm-recluta-2", 23, 4, 3, "recluta-b", "Doctoranda", [["serratia", 13], ["bacteroid", 14]],
+  // vigila a los becarios retenidos en la sala del servidor
+  recluta("mm-recluta-2", 23, 9, 3, "recluta-b", "Doctoranda", [["serratia", 13], ["bacteroid", 14]],
     "Estamos procesando datos de 16S. No tenemos tiempo para atender visitantes.",
     "No puede ser… ¡mi pipeline no tenía control de errores!", "No te quejes. Al menos aquí no tenemos que preparar la presentación del grupo.");
   recluta("mm-recluta-3", 19, 13, 2, "recluta", "Becario", [["mucorin", 13], ["roqueforti", 14], ["thermus", 14]],
     "Llevo tres meses sin ver una placa de Petri. Solo terminales negras, hojas de cálculo y reuniones.",
     "Vale, vale, pasa… total, nadie me paga.", "El doctor Salazar está al fondo, sentado. No se levanta ni para comer.");
-  b.npc({ id: "mm-becario-1", x: 3, y: 9, sprite: "becario", dir: 0, hideIf: "salazar1",
-    talk: ["Becario retenido: ¡Eh! ¿Puedes ayudarnos? Nos han dicho que no podemos salir hasta terminar el inventario.", "Becario retenido: No somos técnicos de seguridad. Solo queríamos hacer investigación de campo.", "Becario retenido: El doctor Salazar está por esa puerta lateral, al fondo."] });
-  b.npc({ id: "mm-becario-2", x: 15, y: 3, sprite: "estudiante", dir: 0, hideIf: "salazar1",
-    talk: "Becario retenido: No nos han explicado por qué tenemos que quedarnos aquí ni cuándo podremos volver a nuestro trabajo." });
-  b.npc({ id: "salazar", x: 24, y: 4, sprite: "salazar", dir: 0, script: "salazar", hideIf: "salazar1", solid: true });
+  // becarios retenidos: a la vista, en la sala del servidor, junto al Dr. Salazar
+  b.npc({ id: "mm-becario-1", x: 26, y: 6, sprite: "npc03", dir: 2, hideIf: "salazar1",
+    talk: ["Becario retenido: ¡Eh! ¿Puedes ayudarnos? Nos han dicho que no podemos salir hasta terminar el inventario.", "Becario retenido: No somos técnicos de seguridad. Solo queríamos hacer investigación de campo."] });
+  b.npc({ id: "mm-becario-2", x: 27, y: 7, sprite: "npc04", dir: 2, hideIf: "salazar1",
+    talk: "Becaria retenida: No nos han explicado por qué tenemos que quedarnos aquí ni cuándo podremos volver a nuestro trabajo. El doctor Salazar está ahí, junto al servidor." });
+  b.npc({ id: "salazar", x: 24, y: 4, sprite: "salazar", dir: 1, script: "salazar", hideIf: "salazar1", solid: true });
   b.npc({ id: "disco-duro", x: 25, y: 4, sprite: "@tile:disco_duro", script: "discoDuro", hideIf: "disco", solid: true });
   b.warp({ x: 14, y: 23, w: 1, to: "ruta-2", tx: 38, ty: 12, dir: 0 });
   b.warp({ x: 24, y: 0, w: 2, to: "ruta-3", tx: 2, ty: 17, dir: 0 });
@@ -443,8 +445,10 @@ add(casa("casa-ruta3", "Casa de la granja", { to: "ruta-3", x: 32, y: 7 }, [
   b.sign(33, 13, "Ruta 4. Al este: Túnel Endospórico y Ciudad Gram.");
   b.npc({ id: "cultivo-1", x: 21, y: 16, sprite: "chico", dir: 1, talk: ["El gimnasio es un invernadero lleno de columnas de Winogradsky.", "Arriba crecen las algas y abajo, sin oxígeno, las bacterias del azufre. ¡Cada capa es un mundo!"] });
   b.npc({ id: "cultivo-2", x: 30, y: 18, sprite: "chica", move: "pasear", talk: "La Dra. Gajú usa Fotótrofos, Algas y Anaerobios. Un buen Microo de tipo Hongo o Gram- le dará guerra." });
-  b.npc({ id: "cultivo-becario", x: 5, y: 16, sprite: "becario", dir: 1, showIf: "salazar1",
-    talk: ["¡Eres quien nos sacó del Monte Micelio! Gracias.", "Por fin he vuelto a sembrar una placa. ¡Qué bien huele el agar!"] });
+  b.npc({ id: "cultivo-becario", x: 5, y: 16, sprite: "npc03", dir: 1, showIf: "salazar1",
+    talk: ["Becario: ¡Eres quien nos sacó del Monte Micelio! Gracias.", "Becario: Por fin he vuelto a sembrar una placa. ¡Qué bien huele el agar!"] });
+  b.npc({ id: "cultivo-becaria", x: 6, y: 16, sprite: "npc04", dir: 1, showIf: "salazar1",
+    talk: ["Becaria: Salazar ni siquiera se levantó de la silla para irse. Bueno, al final sí. Pero tardó.", "Becaria: Ahora el inventario lo cuadramos aquí, con luz natural."] });
   b.warp({ x: 35, y: 14, h: 2, to: "ruta-4", tx: 1, ty: 8, dir: 3, keep: "y" });
   b.warp({ x: 8, y: 27, w: 2, to: "ruta-3", tx: 42, ty: 14, dir: 2 });
   add(b.done({ music: "ciudad" }));
@@ -466,7 +470,7 @@ add(casa("casa-cultivo", "Casa de Ciudad Cultivo", { to: "ciudad-cultivo", x: 16
     name: "Sara", clase: "Ecóloga", team: [["euglena", 17], ["navicula", 17]], sight: 3, money: 70,
     intro: "¡Bienvenid{o} al invernadero! ¿Sabes qué capa de la columna prefieres?", lose: "Me has dejado sin oxígeno…", after: "Arriba, Fotótrofos. Abajo, Anaerobios. ¡Todo es cuestión de gradientes!" } });
   b.npc({ id: "gym2-pau", x: 4, y: 11, sprite: "estudiante", dir: 3, trainer: {
-    name: "Pau", clase: "Técnico de Fotobiorreactor", team: [["synechoc", 16], ["desulfovib", 17]], sight: 3, money: 70,
+    name: "Pau", clase: "Técnico de Fotobiorreactor", team: [["euglena", 16], ["desulfovib", 17]], sight: 3, money: 70,
     intro: "¡Mi fotobiorreactor produce biomasa sin parar! ¡Y Microos!", lose: "Se me ha apagado la lámpara…", after: "Desulfovibrio respira sulfato y suelta H₂S. ¡Por eso huele a huevo podrido!" } });
   b.npc({ id: "guia-gym2", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "La Dra. Gajú combina Algas, Anaerobios y Fotótrofos.", "Un tipo Hongo pega fuerte a los Fotótrofos… ¡pero cuidado con los Anaerobios!"] });
   b.warp({ x: 5, y: 16, w: 3, to: "ciudad-cultivo", tx: 15, ty: 8, dir: 0 });
@@ -774,7 +778,7 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
   b.npc({ id: "casino-premios", x: 11, y: 10, sprite: "chica", dir: 1, script: "premiosCasino" });
   b.npc({ id: "casino-jugador", x: 4, y: 6, sprite: "chico", dir: 2, talk: "Llevo seis horas aquí. Ya casi saco tres LUCA seguidos. ¡Casi!" });
   b.npc({ id: "casino-recluta", x: 9, y: 3, sprite: "recluta", dir: 3, trainer: {
-    name: "Becario", clase: "Recluta de la Unidad", team: [["serratia", 28], ["klebsi", 28]], sight: 2, money: 120,
+    name: "", clase: "Becario de la Unidad de Genética", team: [["serratia", 28], ["klebsi", 28]], sight: 2, money: 120,
     intro: "No toques esa portada. Es un número histórico.", lose: "Bueno, total, el póster es solo un póster… o no.", after: "El doctor Jaime dice que algún día tendremos una portada así. Bueno, dice que tendremos una mejor." } });
   b.npc({ id: "casino-poster", x: 10, y: 1, sprite: "@tile:poster", script: "posterCasino", solid: true });
   b.npc({ id: "casino-bloqueo", x: 12, y: 2, sprite: "@tile:tragaperras0", hideIf: "guarida", solid: true, talk: "Una máquina tragaperras… está desenchufada y suena hueca por detrás." });
@@ -792,7 +796,7 @@ add(casa("casa-aerobia", "Casa de Ciudad Aerobia", { to: "ciudad-aerobia", x: 10
   b.item(2, 12, "medio-enriquecido", "item:g1-enriquecido");
   b.item(16, 3, "criobola-amarilla", "item:g1-amarilla", 2);
   const rec = (id: string, x: number, y: number, dir: number, sp: string, name: string, team: [string, number][], intro: string, after: string) =>
-    b.npc({ id, x, y, sprite: sp, dir, trainer: { name, clase: "Recluta de la Unidad", team, sight: 4, money: 130, intro, lose: "¡Mi script ha petado!", after } });
+    b.npc({ id, x, y, sprite: sp, dir, trainer: { name: "", clase: `${name} de la Unidad de Genética`, team, sight: 4, money: 130, intro, lose: "¡Mi script ha petado!", after } });
   rec("g1-a", 8, 6, 1, "recluta", "Doctorando", [["aureus", 29], ["marcescens", 29]], "¡Este pasillo es solo para gente con cuenta en el clúster!", "El Dr. Barbadilla se mira en las cabinas de flujo. ¡Dice que es para controlar la esterilidad!");
   rec("g1-b", 10, 2, 0, "recluta-b", "Becaria", [["klebsi", 29], ["mycoplas", 29], ["serratia", 29]], "No puedes entrar sin autorización. Tenemos trabajos pendientes, colas de cálculo y una reunión de seguimiento.", "Llevo tres años sin vacaciones. Pero salgo en los agradecimientos.");
   rec("g1-c", 12, 10, 2, "recluta", "Doctorando", [["vulgaris", 29], ["serratia", 30]], "La reunión de seguimiento es para preparar la reunión de seguimiento.", "Abajo está el despacho del jefe. No grites, que está de mal humor.");
@@ -935,7 +939,7 @@ add(casa("casa-agar", "Casa de Ciudad Agar", { to: "ciudad-agar", x: 22, y: 16 }
     name: "Marc", clase: "Ingeniero de Bioprocesos", team: [["mobilis", 33], ["marcescens", 33]], sight: 5, money: 150,
     intro: "¡Mi biorreactor trabaja a pleno rendimiento! ¡Igual que yo!", lose: "Se me ha disparado el pH…", after: "En un biorreactor hay que controlar el oxígeno disuelto. ¡Si no, los aerobios se ahogan!" } });
   b.npc({ id: "gym5-b", x: 1, y: 10, sprite: "chica", dir: 3, trainer: {
-    name: "Laura", clase: "Técnica de Fermentación", team: [["perfringens", 33], ["thermus", 33], ["acetobuty", 34]], sight: 5, money: 150,
+    name: "Laura", clase: "Técnica de Fermentación", team: [["perfringens", 33], ["thermus", 33], ["pastorian", 34]], sight: 5, money: 150,
     intro: "¡Fermentación ABE: acetona, butanol y etanol! ¿Sabes quién la inventó?", lose: "Chaim Weizmann estaría decepcionado…", after: "La fermentación ABE se usó en la Primera Guerra Mundial para fabricar acetona." } });
   b.npc({ id: "guia-gym5", x: 4, y: 14, sprite: "becario", dir: 0, talk: ["¡Hola, aspirante! Te doy un consejo.", "El Dr. Mas usa Anaerobios, Antibióticos y Extremófilos de escala industrial.", "¡Su Pneumophila salió de una torre de refrigeración: aguanta mucho!"] });
   b.warp({ x: 5, y: 16, w: 3, to: "ciudad-agar", tx: 20, ty: 8, dir: 0 });
@@ -1012,18 +1016,22 @@ function planta(id: string, name: string) {
   b.npc({ id: "i1-rebelde", x: 10, y: 10, sprite: "estudiante", dir: 2, script: "rebeldeIBB" });
   // zona de descanso: tres reclutas desmotivados (escena 4 del guion)
   b.fill(5, 6, 2, 1, "t");
-  const descanso = ["Recluta 1: ¿Habéis decidido si vais a seguir con el doctorado?", "Recluta 2: Estoy esperando a que me digan si renuevan. De momento tengo trabajo para dos personas y sueldo para media.", "Recluta 3: Barbadilla me ha tenido veinte minutos explicándome que la PCR cuantitativa es una moda. Después me ha pedido que le prepare una presentación sobre sus grandes contribuciones.", "Recluta 1: A mí Casillas me dejó un táper. Muy amable. Luego me pidió que cubriera el turno de noche porque, según ella, somos una familia.", "Recluta 2: Salazar solo contesta «funciona» cuando le preguntas por el servidor. Si algo falla, dice que no es asunto suyo.", "Recluta 3: Hernández vino a hablarnos de la perspectiva global y de la carrera brillante que podríamos tener aquí. No mencionó contratos ni fechas.", "Recluta 1: ¿Y Jaime?", "Recluta 2: Jaime no pregunta cómo te llamas. Pregunta cuánto falta para el resultado.", "Los tres sueltan una risa breve y sarcástica. Después se hace un silencio incómodo.", "Recluta 3: Antes quería terminar el doctorado. Ahora no sé si quiero terminarlo o simplemente dejar de venir.", "Recluta 1: Yo todavía quiero investigar. Lo que no sé es si quiero seguir haciéndolo aquí."];
-  b.npc({ id: "i1-descanso-1", x: 4, y: 6, sprite: "recluta", dir: 3, hideIf: "urtaza2", talk: descanso });
-  b.npc({ id: "i1-descanso-2", x: 7, y: 6, sprite: "recluta-b", dir: 2, hideIf: "urtaza2", talk: descanso });
-  b.npc({ id: "i1-descanso-3", x: 5, y: 7, sprite: "recluta", dir: 1, hideIf: "urtaza2", talk: descanso });
+  // zona de descanso: tres reclutas cotillean sobre sus jefes; la escena salta al pasar cerca (script descansoIBB)
+  b.npc({ id: "i1-descanso-1", x: 4, y: 6, sprite: "recluta", dir: 3, move: "quieto", hideIf: "urtaza2",
+    talk: "Doctorando de la Unidad de Genética: Tú no has oído nada. Nada de nada." });
+  b.npc({ id: "i1-descanso-2", x: 7, y: 6, sprite: "recluta-b", dir: 2, move: "quieto", hideIf: "urtaza2",
+    talk: "Doctoranda de la Unidad de Genética: Si te pregunta Casillas, estábamos haciendo una reunión de seguimiento." });
+  b.npc({ id: "i1-descanso-3", x: 5, y: 7, sprite: "recluta", dir: 1, move: "quieto", hideIf: "urtaza2",
+    talk: "Becario de la Unidad de Genética: Yo todavía quiero investigar. Lo que no sé es si quiero seguir haciéndolo aquí." });
+  b.trigger({ x: 4, y: 9, w: 10, script: "descansoIBB", once: "descanso-ibb" });
   // epílogo: Pasteur con los investigadores que han quedado libres de la Unidad
   b.npc({ id: "i1-pasteur", x: 8, y: 11, sprite: "pasteur", dir: 2, showIf: "campeon", script: "pasteurEpilogo" });
   b.npc({ id: "i1-investigadora", x: 7, y: 11, sprite: "becario", dir: 3, showIf: "campeon", talk: "Investigadora: Pasteur dice que el Carlos III puede ofrecernos plazas. Plazas de verdad, con fechas." });
   b.npc({ id: "i1-r1", x: 8, y: 3, sprite: "recluta", dir: 3, trainer: {
-    name: "Becario", clase: "Recluta de la Unidad", team: [["pneumonia-k", 38], ["marcescens", 38]], sight: 3, money: 180,
+    name: "", clase: "Becario de la Unidad de Genética", team: [["pneumonia-k", 38], ["marcescens", 38]], sight: 3, money: 180,
     intro: "¡El Instituto es nuestro! ¡Bueno, del Dr. Martínez-Urtaza!", lose: "Me han quitado el acceso al VPN…", after: "Yo solo quería publicar en Nature…" } });
   b.npc({ id: "i1-r2", x: 10, y: 4, sprite: "recluta-b", dir: 0, trainer: {
-    name: "Doctoranda", clase: "Recluta de la Unidad", team: [["pneumonia-k", 38], ["meningitid", 38]], sight: 3, money: 180,
+    name: "", clase: "Doctoranda de la Unidad de Genética", team: [["pneumonia-k", 38], ["meningitid", 38]], sight: 3, money: 180,
     intro: "¿Visitas? ¡Las visitas se anuncian por correo con tres semanas de antelación!", lose: "Tendré que reprogramar el seminario…", after: "Arriba tienen al Dr. Conchillo arreglando scripts que no ha escrito." } });
   b.warp({ x: 5, y: 13, w: 3, to: "parque-biotec", tx: 14, ty: 6, dir: 0 });
   b.warp({ x: 12, y: 2, to: "instituto-5", tx: 12, ty: 3, dir: 0 });
@@ -1036,9 +1044,12 @@ function planta(id: string, name: string) {
   b.npc({ id: "i5-conchillo", x: 6, y: 9, sprite: "conchillo", dir: 0, hideIf: "conchillo-libre", talk: ["Dr. Òscar Conchillo: …10.000 réplicas de bootstrap… cinco días… al 90% de CPU…", "¿Daniel? ¿Eres tú? ¡Sácame de aquí, por favor!"] });
   b.npc({ id: "i5-barbadilla", x: 6, y: 6, sprite: "barbadilla", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
   b.npc({ id: "i5-casillas", x: 7, y: 6, sprite: "casillas", dir: 1, script: "asedioEjecutivos", hideIf: "conchillo-libre", solid: true });
+  // el paso de la escalera a la siguiente va por los lados: al bajar, los dos ejecutivos te salen al encuentro
+  b.trigger({ x: 0, y: 5, w: 3, script: "asedioEjecutivos", once: "conchillo-libre" });
+  b.trigger({ x: 11, y: 5, w: 3, script: "asedioEjecutivos", once: "conchillo-libre" });
   b.npc({ id: "i5-yero", x: 6, y: 9, sprite: "yero", dir: 0, showIf: "conchillo-libre", hideIf: "instituto-libre", talk: ["Dr. Yero: Me quedo con Òscar hasta que se le pase el susto. Le estoy dando un caldito de levadura.", "Dr. Yero: ¡Jaime está en la planta 11! ¡Corre!"] });
   b.npc({ id: "i5-r1", x: 6, y: 12, sprite: "recluta", dir: 2, trainer: {
-    name: "Doctorando", clase: "Recluta de la Unidad", team: [["methanosar", 39], ["prowazekii", 39], ["baumannii", 39]], sight: 3, money: 190,
+    name: "", clase: "Doctorando de la Unidad de Genética", team: [["methanosar", 39], ["prowazekii", 39], ["baumannii", 39]], sight: 3, money: 190,
     intro: "¡No toques los servidores! ¡Llevan cinco días calculando!", lose: "Se ha reiniciado el clúster… ¡Cinco días perdidos!", after: "El jefe está arriba, en la planta 11. Busca algo morado." } });
   b.item(12, 12, "criobola-amarilla", "item:i5-amarilla", 3);
   b.warp({ x: 12, y: 2, to: "instituto-1", tx: 12, ty: 3, dir: 0 });
@@ -1049,10 +1060,10 @@ function planta(id: string, name: string) {
   const b = planta("instituto-11", "Planta 11 · Dirección");
   b.set(1, 12, "E").fill(4, 3, 6, 1, "c").set(4, 2, "P").set(9, 2, "e").set(10, 2, "e").set(0, 2, "n").set(13, 2, "n");
   b.fill(3, 7, 1, 5, "B").fill(10, 7, 1, 5, "B");
-  b.npc({ id: "i11-urtaza", x: 7, y: 5, sprite: "urtaza", dir: 0, script: "urtazaInstituto", hideIf: "urtaza2", solid: true });
+  b.npc({ id: "i11-urtaza", x: 7, y: 5, sprite: "urtaza", dir: 1, script: "urtazaInstituto", hideIf: "urtaza2", solid: true });
   b.npc({ id: "i11-director", x: 6, y: 2, sprite: "profesora", dir: 0, script: "directorInstituto" });
   b.npc({ id: "i11-r1", x: 6, y: 9, sprite: "recluta-b", dir: 2, hideIf: "urtaza2", trainer: {
-    name: "Postdoc", clase: "Recluta de la Unidad", team: [["bacteriovor", 40], ["pneumonia-k", 40]], sight: 3, money: 200,
+    name: "", clase: "Postdoc de la Unidad de Genética", team: [["bacteriovor", 40], ["pneumonia-k", 40]], sight: 3, money: 200,
     intro: "¡El Dr. Martínez-Urtaza está ocupado! ¡Reunión importante con… con la Criobola!", lose: "Bueno… pide cita.", after: "Yo lo dejo. Me voy a hacer un máster en algo con contrato." } });
   b.warp({ x: 1, y: 12, to: "instituto-5", tx: 2, ty: 12, dir: 3 });
   add(b.done({ music: "guarida" }));
@@ -1286,10 +1297,10 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
   b.sign(10, 4, "Diario, 12 de agosto: «La presencia de un elemento asociado a un fago coincide con un cambio extraordinario en el comportamiento de la cepa. Los registros no encajan con nuestras previsiones».");
   b.sign(8, 9, "Diario, 3 de septiembre: «La nueva cepa produce una toxina que altera por completo su perfil. La llamaremos O157:H7».");
   b.npc({ id: "m1-r1", x: 10, y: 2, sprite: "recluta", dir: 3, trainer: {
-    name: "Doctorando", clase: "Recluta de la Unidad", team: [["marburg-v", 48], ["retrovir-x", 50]], sight: 4, money: 230,
+    name: "", clase: "Doctorando de la Unidad de Genética", team: [["marburg-v", 48], ["retrovir-x", 50]], sight: 4, money: 230,
     intro: "No deberías estar aquí. El doctor está a punto de despertar al Microo definitivo.", lose: "Bueno… yo solo hacía los gráficos.", after: "El doctor dice que su modelo lo controlará todo. Yo ya no sé qué pensar." } });
   b.npc({ id: "m1-r2", x: 13, y: 10, sprite: "recluta-b", dir: 2, trainer: {
-    name: "Postdoc", clase: "Recluta de la Unidad", team: [["mimivir", 49], ["pneumonia-k", 49], ["bacteriovor", 49]], sight: 4, money: 230,
+    name: "", clase: "Postdoc de la Unidad de Genética", team: [["mimivir", 49], ["pneumonia-k", 49], ["bacteriovor", 49]], sight: 4, money: 230,
     intro: "No es una investigación más. Esta vez todo va a cambiar.", lose: "Ni eso…", after: "Arriba está el laboratorio profundo. Y el doctor. Y… eso." } });
   b.warp({ x: 6, y: 13, w: 3, to: "isla-conjugada", tx: 23, ty: 8, dir: 0 });
   b.warp({ x: 15, y: 2, to: "mansion-2", tx: 14, ty: 3, dir: 0 });
@@ -1301,7 +1312,7 @@ add(tienda("tienda-conjugada", "Isla Conjugada", { to: "isla-conjugada", x: 20, 
   b.fill(0, 0, 16, 1, "w").fill(0, 1, 16, 1, "W");
   b.set(15, 2, "E").fill(2, 2, 3, 1, "K").fill(11, 2, 3, 1, "D").fill(3, 7, 1, 5, "B").fill(12, 7, 1, 5, "B").set(1, 12, "i").set(14, 12, "i");
   b.npc({ id: "m2-campoy", x: 10, y: 9, sprite: "campoy", dir: 2, hideIf: "campoy-gimnasio", script: "campoyMansion" });
-  b.npc({ id: "m2-urtaza", x: 7, y: 5, sprite: "urtaza", dir: 0, script: "urtazaFinal", hideIf: "urtaza3", solid: true });
+  b.npc({ id: "m2-urtaza", x: 7, y: 5, sprite: "urtaza", dir: 1, script: "urtazaFinal", hideIf: "urtaza3", solid: true });
   b.npc({ id: "o157-legendario", x: 7, y: 3, sprite: "@microo:ecoli-o157", script: "estatico:ecoli-o157|60|o157", showIf: "urtaza3", hideIf: "o157", solid: true });
   b.set(5, 3, "S");
   b.npc({ id: "m2-diario", x: 5, y: 3, sprite: "", script: "diarioJaime", solid: true });

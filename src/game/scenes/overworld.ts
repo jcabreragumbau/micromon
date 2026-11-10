@@ -16,7 +16,10 @@ import { IMG, TILES, PROPS, TERR } from "../assets";
 
 const DX = [0, 0, -1, 1], DY = [1, -1, 0, 0]; // abajo, arriba, izquierda, derecha
 
+/** Burbujas de emoción de las cinemáticas: ! sorpresa, ? duda, … silencio, ira (vena), gota (apuro), ♪ alegría, corazón. */
+export type Emocion = "!" | "?" | "…" | "ira" | "gota" | "nota" | "corazon";
 export interface NpcState { def: NpcDef; x: number; y: number; dir: number; ox: number; oy: number; moving: number; timer: number; home: { x: number; y: number }; emote: number;
+  /** Cinemáticas: tipo de burbuja, salto (fotogramas que le quedan), temblor y velocidad del paso. */ emocion?: Emocion; salto?: number; tiembla?: number; paso2?: number; empuje?: number;
   /** Patrullas: sentido actual, giros pendientes y si acaba de dar un paso. */ paso?: number; mirando?: number[]; trasPaso?: boolean }
 
 export class Overworld implements Scene {
@@ -24,6 +27,10 @@ export class Overworld implements Scene {
   npcs: NpcState[] = [];
   px = 0; py = 0; dir = 0;
   moving = 0; ox = 0; oy = 0; speed = 1; anim = 0; jumping = 0;
+  /** Cinemáticas: burbuja sobre el jugador y temblor de pantalla. */
+  emoteJugador = 0; emocionJugador: Emocion = "!"; temblor = 0;
+  /** Destello de color a pantalla completa (cinemáticas). */
+  destelloColor = "#ffffff"; destelloT = 0; destelloMax = 1;
   busy = false;
   banner = 0;
   stepsInGrass = 0;
@@ -255,10 +262,13 @@ export class Overworld implements Scene {
   // ---------------------------------------------------------------- PNJ
   private updateNpc(n: NpcState) {
     if (n.emote > 0) n.emote--;
+    if (n.salto && n.salto > 0) n.salto--;
+    if (n.tiembla && n.tiembla > 0) n.tiembla--;
     if (n.moving > 0) {
-      n.ox += DX[n.dir]; n.oy += DY[n.dir]; n.moving--;
+      const v = Math.min(n.paso2 ?? 1, n.moving), dd = n.empuje ?? n.dir;
+      n.ox += DX[dd] * v; n.oy += DY[dd] * v; n.moving -= v;
       if (n.moving === 0) {
-        n.x += DX[n.dir]; n.y += DY[n.dir]; n.ox = n.oy = 0;
+        n.x += DX[dd]; n.y += DY[dd]; n.ox = n.oy = 0; n.empuje = undefined;
         if (n.trasPaso) { n.trasPaso = false; if (n.def.trainer && this.moving === 0 && !this.busy && !this.game.overlays.length && !this.game.state.flags[`entrenador:${n.def.id}`]) void this.checkTrainers(); }
       }
       return;
@@ -332,6 +342,96 @@ export class Overworld implements Scene {
       await this.game.wait(16);
     }
   }
+  // ---------------------------------------------------------------- cinemáticas (guiones)
+  /** Burbuja de emoción sobre un PNJ (o sobre el jugador si n = null). */
+  async emocion(n: NpcState | null, e: Emocion = "!", frames = 44) {
+    if (n) { n.emocion = e; n.emote = frames; } else { this.emocionJugador = e; this.emoteJugador = frames; }
+    await this.game.wait(frames);
+  }
+  /** Saltito en el sitio (sorpresa, alegría, rabieta). */
+  async saltar(n: NpcState | null, veces = 1) {
+    for (let i = 0; i < veces; i++) {
+      if (n) n.salto = 16; else this.jumping = 32;
+      await this.game.wait(n ? 16 : 32);
+    }
+  }
+  /** Tiembla (nervios, ira) sin moverse de su casilla. */
+  async temblar(n: NpcState, frames = 30) { n.tiembla = frames; await this.game.wait(frames); }
+  /** Empujón: el PNJ sale despedido una casilla en dirección d sin girarse. */
+  async empujar(n: NpcState, d: number) { n.empuje = d; n.paso2 = 4; n.moving = 16; await this.game.wait(5); n.paso2 = 1; }
+  /** Camina a paso ligero (corriendo). */
+  async correrNpc(n: NpcState, d: number, steps = 1) {
+    for (let i = 0; i < steps; i++) { n.dir = d; n.paso2 = 2; n.moving = 16; await this.game.wait(8); }
+    n.paso2 = 1;
+  }
+  /** Hace caminar a un PNJ por una ruta de pasos [dirección, casillas] y lo quita del mapa (fuera de cámara). */
+  async marcharse(n: NpcState, ruta: [number, number][], prisa = false) {
+    for (const [d, k] of ruta) await (prisa ? this.correrNpc(n, d, k) : this.walkNpc(n, d, k));
+    this.npcs = this.npcs.filter((m) => m !== n);
+  }
+  /** Camino más corto (en pasos [dirección, 1]) desde el PNJ hasta (x, y), esquivando obstáculos, PNJ y jugador.
+   *  Si el destino está fuera del mapa, llega a la casilla de borde y da un paso más hacia fuera. */
+  ruta(n: NpcState, x: number, y: number): [number, number][] {
+    const fuera = x < 0 || y < 0 || x >= this.map.w || y >= this.map.h;
+    const tx = Math.max(0, Math.min(this.map.w - 1, x)), ty = Math.max(0, Math.min(this.map.h - 1, y));
+    const key = (a: number, b: number) => a * 1000 + b, prev = new Map<number, [number, number, number]>();
+    const cola: [number, number][] = [[n.x, n.y]]; prev.set(key(n.x, n.y), [-1, -1, -1]);
+    while (cola.length) {
+      const [cx, cy] = cola.shift()!;
+      if (cx === tx && cy === ty) break;
+      for (let d = 0; d < 4; d++) {
+        const nx = cx + DX[d], ny = cy + DY[d];
+        if (prev.has(key(nx, ny))) continue;
+        if (!(nx === tx && ny === ty && fuera) && this.blocked(nx, ny, n)) continue;
+        if (nx === tx && ny === ty && this.blocked(nx, ny, n) && !fuera) continue;
+        prev.set(key(nx, ny), [cx, cy, d]); cola.push([nx, ny]);
+      }
+    }
+    if (!prev.has(key(tx, ty))) return [];
+    const pasos: [number, number][] = [];
+    for (let c = [tx, ty]; ; ) { const p = prev.get(key(c[0], c[1]))!; if (p[2] < 0) break; pasos.unshift([p[2], 1]); c = [p[0], p[1]]; }
+    if (fuera) pasos.push([x < 0 ? 2 : x >= this.map.w ? 3 : y < 0 ? 1 : 0, 2]);
+    return pasos;
+  }
+  /** Va andando hasta (x, y). */
+  async irA(n: NpcState, x: number, y: number, prisa = false) {
+    for (const [d, k] of this.ruta(n, x, y)) await (prisa ? this.correrNpc(n, d, k) : this.walkNpc(n, d, k));
+  }
+  /** Se va andando hasta (x, y) —o fuera del mapa— y desaparece. */
+  async irseA(n: NpcState, x: number, y: number, prisa = false) { await this.marcharse(n, this.ruta(n, x, y), prisa); }
+  /** Pone en el mapa un PNJ u objeto temporal (cinemáticas). */
+  aparecer(def: NpcDef) {
+    const n: NpcState = { def: { move: "quieto", ...def }, x: def.x, y: def.y, dir: def.dir ?? 0, ox: 0, oy: 0, moving: 0, timer: 60, home: { x: def.x, y: def.y }, emote: 0 };
+    this.npcs.push(n); return n;
+  }
+  /** Quita un PNJ del mapa sin animación. */
+  quitar(n: NpcState | undefined) { if (n) this.npcs = this.npcs.filter((m) => m !== n); }
+  /** Se aleja andando hasta salir de cámara (unas 9 casillas del jugador) y desaparece. Si no hay camino, desaparece. */
+  async alejarse(n: NpcState, prisa = false) {
+    const lejos = (x: number, y: number) => Math.abs(x - this.px) > 8 || Math.abs(y - this.py) > 6;
+    const dirs = [0, 1, 2, 3].sort((a, b) => ((n.x + DX[b] - this.px) ** 2 + (n.y + DY[b] - this.py) ** 2) - ((n.x + DX[a] - this.px) ** 2 + (n.y + DY[a] - this.py) ** 2));
+    let mejor: [number, number][] | null = null;
+    for (const d of dirs) {
+      for (let k = 9; k <= 16 && !mejor; k++) for (const o of [0, 1, -1, 2, -2, 3, -3]) {
+        const x = this.px + DX[d] * k + (DX[d] ? 0 : o), y = this.py + DY[d] * k + (DY[d] ? 0 : o);
+        const fuera = x < 0 || y < 0 || x >= this.map.w || y >= this.map.h;
+        if (!fuera && (this.blocked(x, y, n) || !lejos(x, y))) continue;
+        const r = this.ruta(n, x, y);
+        if (r.length && r.length <= 22) { mejor = r; break; }
+      }
+      if (mejor) break;
+    }
+    if (mejor) await this.marcharse(n, mejor, prisa); else this.quitar(n);
+  }
+  /** Mira hacia el jugador. */
+  mirarJugador(n: NpcState) {
+    const dx = this.px - n.x, dy = this.py - n.y;
+    n.dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 3 : 2) : (dy > 0 ? 0 : 1);
+  }
+  /** Destello de color que se desvanece. */
+  async destello(color = "#ffffff", frames = 30) { this.destelloColor = color; this.destelloT = this.destelloMax = frames; await this.game.wait(frames); }
+  /** Sacudida de pantalla (golpes, explosiones). */
+  async sacudir(frames = 24) { this.temblor = frames; await this.game.wait(frames); }
   async walkPlayer(d: number, steps = 1) {
     for (let i = 0; i < steps; i++) {
       this.dir = d; this.speed = 1; this.seguir(this.px, this.py); this.moving = 16;
@@ -441,6 +541,7 @@ export class Overworld implements Scene {
     let cx = this.map.w * 16 < W ? -(W - this.map.w * 16) / 2 : Math.max(0, Math.min(this.map.w * 16 - W, camX));
     let cy = this.map.h * 16 < H ? -(H - this.map.h * 16) / 2 : Math.max(0, Math.min(this.map.h * 16 - H, camY));
     if (this.debugCam) [cx, cy] = this.debugCam;      // vistas completas del mapa (herramientas)
+    if (this.temblor > 0) { this.temblor--; cx += (this.temblor % 4 < 2 ? 2 : -2); cy += (this.temblor % 6 < 3 ? 1 : -1); }
     g.clear("#000");
     const x0 = Math.floor(cx / 16) - 1, y0 = Math.floor(cy / 16) - 1;
     const hd = !!IMG.props_hd;
@@ -532,7 +633,8 @@ export class Overworld implements Scene {
         continue;
       }
       const fr = n.moving > 0 ? (Math.floor(n.moving / 8) % 2 ? 1 : 2) : 0;
-      ents.push({ y: sy, d: () => { g.character(n.def.sprite, n.dir, fr, sx - 8, sy - 18); if (n.emote > 0) drawEmote(g, sx + 4, sy - 26); } });
+      const hy = n.salto ? -Math.round(Math.sin(((16 - n.salto) / 16) * Math.PI) * 6) : 0, tx = n.tiembla ? (n.tiembla % 4 < 2 ? 1 : -1) : 0;
+      ents.push({ y: sy, d: () => { g.character(n.def.sprite, n.dir, fr, sx - 8 + tx, sy - 18 + hy); if (n.emote > 0) drawEmote(g, sx + 4 + tx, sy - 26 + hy, n.emocion ?? "!", n.emote); } });
     }
     const f = this.seguidor;
     if (f && !(f.x === this.px && f.y === this.py && f.moving === 0)) {
@@ -544,7 +646,8 @@ export class Overworld implements Scene {
     const jy = this.jumping > 0 ? -Math.round(Math.sin(((32 - this.jumping) / 32) * Math.PI) * 8) : 0;
     const heli = this.game.state.avatar === "apache";
     const pf = heli ? Math.floor(this.game.frame / 3) % 3 : pfr;      // el rotor gira siempre
-    if (!this.cine) ents.push({ y: psy, d: () => g.character(AVATAR_SPRITE[this.game.state.avatar], this.dir, pf, psx - 8, psy - 18 + jy) });
+    if (!this.cine) ents.push({ y: psy, d: () => { g.character(AVATAR_SPRITE[this.game.state.avatar], this.dir, pf, psx - 8, psy - 18 + jy); if (this.emoteJugador > 0) drawEmote(g, psx + 4, psy - 26 + jy, this.emocionJugador, this.emoteJugador); } });
+    if (this.emoteJugador > 0) this.emoteJugador--;
     ents.sort((a, b) => a.y - b.y).forEach((e) => e.d());
     // la hierba alta tapa los pies del jugador
     const gt = tileAt(this.map, this.px, this.py);
@@ -566,6 +669,7 @@ export class Overworld implements Scene {
       g.frame(2, 2 + yb, g.measure(this.map.name) + 20, 20, "info");
       g.text(this.map.name, 12, 8 + yb);
     }
+    if (this.destelloT > 0) { const a = this.destelloT / this.destelloMax; this.destelloT--; g.alpha(Math.min(1, a * 1.3), () => g.rect(0, 0, W, H, this.destelloColor)); }
   }
 }
 
@@ -595,9 +699,27 @@ function drawProp(g: Gfx, name: string, x: number, y: number, w: number) {
   c.imageSmoothingEnabled = false;
 }
 
-function drawEmote(g: Gfx, x: number, y: number) {
-  g.frame(x - 2, y, 12, 14, "info");
-  g.text("!", x + 2, y + 2, "red", false);
+/** Burbuja de emoción (con un pequeño «pop» al aparecer). */
+function drawEmote(g: Gfx, x: number, y: number, e: Emocion = "!", t = 99) {
+  const c = g.ctx, pop = t > 40 ? 2 : 0;
+  if (e === "ira") {      // vena de enfado: cruz roja sin bocadillo, palpitando
+    const s = 1 + (Math.floor(t / 6) % 2);
+    c.fillStyle = "#e02828";
+    for (const [dx, dy] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) { c.fillRect(x + 4 + dx * (2 + s), y + 6 + dy * (2 + s) - 1, 3, 3); }
+    c.fillRect(x + 3, y + 5, 3, 3);
+    return;
+  }
+  if (e === "gota") {     // gota de sudor que resbala
+    const d = Math.floor((44 - Math.min(44, t)) / 6);
+    c.fillStyle = "#7ec8f8"; c.fillRect(x + 9, y + 4 + d, 3, 4); c.fillRect(x + 10, y + 2 + d, 1, 2); c.fillStyle = "#ffffff"; c.fillRect(x + 9, y + 5 + d, 1, 1);
+    return;
+  }
+  g.frame(x - 2 - pop / 2, y - pop, 12 + pop, 14 + pop, "info");
+  if (e === "!") g.text("!", x + 2, y + 2 - pop, "red", false);
+  else if (e === "?") g.text("?", x + 1, y + 2 - pop, "blue", false);
+  else if (e === "…") { c.fillStyle = "#404040"; for (let i = 0; i < 3; i++) if (t < 44 - i * 10) c.fillRect(x + 1 + i * 3, y + 9, 2, 2); }
+  else if (e === "nota") { c.fillStyle = "#3868d8"; c.fillRect(x + 5, y + 3, 1, 7); c.fillRect(x + 5, y + 3, 3, 1); c.fillRect(x + 7, y + 3, 1, 3); c.fillRect(x + 3, y + 9, 3, 2); }
+  else if (e === "corazon") { c.fillStyle = "#e84870"; c.fillRect(x + 2, y + 4, 3, 3); c.fillRect(x + 6, y + 4, 3, 3); c.fillRect(x + 2, y + 6, 7, 2); c.fillRect(x + 3, y + 8, 5, 2); c.fillRect(x + 4, y + 10, 3, 1); }
 }
 
 /** Oscuridad con un círculo de luz alrededor del jugador (Túnel Endospórico). */
